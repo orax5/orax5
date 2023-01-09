@@ -5,6 +5,7 @@ import store from "../redux/store";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "../styles/global-style";
 import theme from "../styles/theme";
+import Nav from "./components/Nav";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -12,6 +13,7 @@ export default function App({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Provider store={store}>
+          <Nav />
           <Component {...pageProps} />
         </Provider>
       </ThemeProvider>
