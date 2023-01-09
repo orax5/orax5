@@ -1,8 +1,12 @@
-export default function Home() {
+import React from "react";
+import MainAnimation from "./components/MainAnimation";
+
+const Home = () => {
   return (
-    <>
-      <h1>Home</h1>
-      <p>branch test</p>
-    </>
+    <div>
+      <MainAnimation />
+    </div>
   );
-}
+};
+
+export default Home;
