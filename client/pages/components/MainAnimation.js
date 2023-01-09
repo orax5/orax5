@@ -1,75 +1,84 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-
 const MainAnimation = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    let canvas = canvasRef.current;
-    let ctx = canvas.getContext("2d");
-    let width = (canvas.width = window.innerWidth); // 5216
-    let height = (canvas.height = window.innerHeight); // 3664
-    let cX = width / 2; // 2608
-    let cY = height / 2; // 1832
+    const sin = Math.sin;
+    const cos = Math.cos;
+    const PI = Math.PI;
+    const fov = 150;
 
-    let fl = 3;
-    let shapes = [];
-    let numShapes = 1000;
-
-    // 랜덤 뽑는 함수
-    function rand() {
-      return Math.random() * 10000;
-    }
-
-    for (let i = 0; i < numShapes; i++) {
-      shapes[i] = {
-        x: rand(-1000, 1000),
-        y: rand(-1000, 1000),
-        z: rand(0, 10000),
-      };
-    }
-
-    ctx.translate(cX, cY);
-
-    function resetFrame() {
-      //ctx.clearRect(-cX, -cY, width, height);
-      ctx.fillStyle = "rgba(0,0,0,.5)";
-      ctx.fillRect(-cX, -cY, width, height);
-    }
-
-    function draw() {
-      resetFrame();
-    }
-
-    function update() {
-      ctx.fillStyle = "#ffffff";
-      for (let i = 0; i < numShapes; i++) {
-        let shape = shapes[i],
-          perspective = fl / (fl + shape.z);
-
-        ctx.save();
-        ctx.translate(shape.x * perspective, shape.y * perspective);
-        ctx.scale(perspective, perspective);
-        ctx.fillRect(-3, -3, 6, 6);
-        ctx.restore();
-
-        shape.z += 50;
-        if (shape.z > 10000) {
-          shape.z = 0;
-        }
-        fl += 0.01;
-        if (fl > 5000) {
-          fl = 3;
-        }
+    class Dot {
+      constructor(x, y, z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
       }
     }
 
-    function loop() {
-      draw();
-      update();
-      window.requestAnimationFrame(loop);
+    let canvas;
+    let context;
+    let tempx, tempy, tempz;
+    let dots = [];
+    let dotsLength = (innerWidth + innerHeight) / 20;
+
+    function setSize() {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+      initDots();
+      context.fillStyle = "#ffffff";
+      if (innerWidth < 800) {
+        context.globalAlpha = 0.3;
+      } else {
+        context.globalAlpha = 0.8;
+      }
     }
-    loop();
+
+    function initDots() {
+      dots = [];
+      // 나누는 숫자가 작아질수록 점 개수가 많아짐
+      dotsLength = (innerWidth + innerHeight) / 15;
+      let x, y, z;
+      for (let i = 0; i < dotsLength; i++) {
+        x = Math.random() * innerWidth - innerWidth / 2;
+        y = Math.random() * innerHeight - innerHeight / 2;
+        z = Math.random() * innerWidth - innerWidth / 2;
+        dots.push(new Dot(x, y, z));
+      }
+    }
+
+    function drawDots(dot) {
+      let scale, x2d, y2d;
+      scale = fov / (fov + dot.z);
+      x2d = dot.x * scale + innerWidth / 2;
+      y2d = dot.y * scale + innerHeight / 2;
+      context.fillRect(x2d, y2d, scale * 4, scale * 3);
+    }
+
+    function render() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      let dot;
+      for (let i = 0; i < dots.length; i++) {
+        dot = dots[i];
+        // 숫자가 커질수록 속도가 빨라진다
+        dot.z -= 2;
+        if (dot.z < -fov) {
+          dot.z += (innerWidth + innerHeight) / 2;
+        }
+        drawDots(dot);
+      }
+      requestAnimationFrame(render);
+    }
+
+    function init() {
+      canvas = document.getElementById("canvas");
+      context = canvas.getContext("2d");
+      setSize();
+      render();
+    }
+
+    addEventListener("resize", setSize);
+    init();
   }, []);
 
   return (
@@ -78,27 +87,14 @@ const MainAnimation = () => {
         ref={canvasRef}
         id="canvas"
         style={{
-          backgroundColor: "red",
-          display: "block",
+          backgroundColor: "black",
           position: "absolute",
-          top: "0px",
-          left: "0px",
+          width: "100%",
+          height: "100%",
         }}
       />
     </>
   );
 };
 
-// const BackGround = styled.div`
-//   background-color: #111;
-// `;
-
-// const Canvas = styled.div`
-//   color: white;
-//   background-color: rgba(0, 0, 0, 0);
-//   display: block;
-//   position: absolute;
-//   top: 0px;
-//   left: 0px;
-// `;
 export default MainAnimation;
