@@ -8,20 +8,32 @@ const Nav = () => {
   return (
     <NavContainer>
       <div>
-        <Image src={logo} alt="로고이미지" width={100} height={100} />
+        <a href="/">
+          <Image src={logo} alt="로고이미지" width={100} height={100} />
+        </a>
       </div>
       <div>
         <MenuContainer>
-          <div>NFT</div>
-          <div>GOVERNANACE</div>
-          <div>STREAMING</div>
-          <div>FUNDING</div>
+          <div>
+            <a href="/marketplace">NFT</a>
+          </div>
+          <div>
+            <a href="/governance">GOVERNANACE</a>
+          </div>
+          <div>
+            <a href="/streaming">STREAMING</a>
+          </div>
+          <div>
+            <a href="/funding">FUNDING</a>
+          </div>
         </MenuContainer>
       </div>
       <div>
-        <AccountCircleIcon
-          style={{ color: "white", width: "80", height: "80" }}
-        />
+        <a href="/mypage">
+          <AccountCircleIcon
+            style={{ color: "white", width: "80", height: "80" }}
+          ></AccountCircleIcon>
+        </a>
       </div>
     </NavContainer>
   );
