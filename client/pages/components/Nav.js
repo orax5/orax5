@@ -36,7 +36,7 @@ const NavContainer = styled.div`
   justify-content: space-between;
   position: absolute;
   z-index: 999;
-  padding : 1rem 1rem 0rem 1rem;
+  padding : 2rem 1rem 0rem 2rem;
 `;
 
 const MenuContainer = styled.div`
