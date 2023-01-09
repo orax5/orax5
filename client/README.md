@@ -6,6 +6,7 @@ redux-thunk
 styled-components
 babel-plugin-styled-components
 axios
+@mui/icons-material
 
 ## 출처
 
