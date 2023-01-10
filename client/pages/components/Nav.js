@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import logo from "../public/Img/logoDTP.png";
+import logo from "../../public/Img/logoDTP.png";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Nav = () => {
@@ -48,7 +48,7 @@ const NavContainer = styled.div`
   justify-content: space-between;
   position: absolute;
   z-index: 999;
-  padding: 1rem 1rem 0rem 1rem;
+  padding: 0rem 1rem 0rem 1rem;
 `;
 
 const MenuContainer = styled.div`

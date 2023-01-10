@@ -1,4 +1,8 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
+
+export const PageContainer = styled.div`
+  padding: 8rem 5rem 5rem 5rem;
+`;
 
 export const GlobalStyle = createGlobalStyle`
 * {

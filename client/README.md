@@ -14,6 +14,6 @@ axios
 
 ## 이슈
 
-Prop `className` did not match
-<br>
-babel-plugin-styled-components : 식별자 생성 과정을 정규화해준다
+- 오류 : Prop `className` did not match
+  <br>
+- 해결 : babel-plugin-styled-components : 식별자 생성 과정을 정규화해준다

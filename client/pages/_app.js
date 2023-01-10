@@ -2,10 +2,10 @@
 import { Provider } from "react-redux"; // {} 감싸는거 무슨 차이?
 import store from "../redux/store";
 // 스타일 컴포넌트 관련 모듈
-import { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "../styles/global-style";
 import theme from "../styles/theme";
-import Nav from "./components/Nav";
+import Nav from "../pages/components/Nav";
 
 export default function App({ Component, pageProps }) {
   return (
