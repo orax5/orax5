@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 
 const index = () => {
@@ -5,3 +6,14 @@ const index = () => {
 };
 
 export default index;
+=======
+import React from 'react'
+
+const index = () => {
+  return (
+    <div>index</div>
+  )
+}
+
+export default index
+>>>>>>> bell
