@@ -4,6 +4,13 @@ export const PageContainer = styled.div`
   padding: 8rem 5rem 5rem 5rem;
 `;
 
+export const ListButton = styled.button`
+  border-radius: 0.5rem;
+  border: 1px solid white;
+  background-color: transparent;
+  padding: 0.7rem;
+`;
+
 export const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;

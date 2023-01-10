@@ -3,37 +3,44 @@ import styled from "styled-components";
 import Image from "next/image";
 import logo from "../../public/Img/logoDTP.png";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Link from "next/Link";
 
 const Nav = () => {
   return (
     <NavContainer>
       <div>
-        <a href="/">
-          <Image src={logo} alt="로고이미지" width={100} height={100} />
-        </a>
+        <Link href="/">
+          <Image
+            src={logo}
+            alt="로고이미지"
+            width={100}
+            height={100}
+            priority={true}
+          />
+        </Link>
       </div>
       <div>
         <MenuContainer>
           <div>
-            <a href="/marketplace">NFT</a>
+            <Link href="/marketplace">NFT</Link>
           </div>
           <div>
-            <a href="/governance">GOVERNANACE</a>
+            <Link href="/governance">GOVERNANACE</Link>
           </div>
           <div>
-            <a href="/streaming">STREAMING</a>
+            <Link href="/streaming">STREAMING</Link>
           </div>
           <div>
-            <a href="/funding">FUNDING</a>
+            <Link href="/funding">FUNDING</Link>
           </div>
         </MenuContainer>
       </div>
       <div>
-        <a href="/mypage">
+        <Link href="/mypage">
           <AccountCircleIcon
-            style={{ color: "white", width: "80", height: "80" }}
+            style={{ color: "white", width: "60", height: "60" }}
           ></AccountCircleIcon>
-        </a>
+        </Link>
       </div>
     </NavContainer>
   );

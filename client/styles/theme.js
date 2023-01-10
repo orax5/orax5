@@ -27,10 +27,18 @@ const align = {
   `,
 };
 
+const button = {
+  listButton: `
+    border-radius : 1rem, 
+    border: 1px solid red, 
+    background-color : transparent,
+  `,
+};
 const theme = {
   color,
   fontSize,
   align,
+  button,
 };
 
 export default theme;
