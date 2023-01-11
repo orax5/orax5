@@ -7,6 +7,9 @@ import { PageContainer } from "../../styles/global-style";
 const deatil = () => {
   return (
     <PageContainer>
+      {/* 페이지 윗부분은 사진 | 상세정보는 가로로 정렬되어있고 아래부분의 설명,
+      거래내역, 그래프 등의 정보는 세로로 정렬할 것이므로 크게 DetailWrap InfoWrap
+      두 개 영역으로 나누어 작업함 */}
       <DetailWrap>
         <ImgWrap>
           <Image
@@ -17,7 +20,8 @@ const deatil = () => {
             style={{ border: "10px solid white", borderRadius: "1rem" }}
           />
         </ImgWrap>
-        <InfoWrap>
+        <DetailBox>
+          {/* &gt; : >,  &lt; : < */}
           <div>
             카테고리 &gt;&nbsp;
             <span
@@ -30,6 +34,7 @@ const deatil = () => {
           </div>
           <div>test_title</div>
           <table>
+            {/* 제목과 내용을 정렬하기 쉽게하려고 table사용 */}
             <tbody>
               <tr>
                 <td>작곡가</td>
@@ -71,15 +76,15 @@ const deatil = () => {
               <PageBtn>스트리밍 하러가기</PageBtn>
             </Link>
           </div>
-        </InfoWrap>
+        </DetailBox>
       </DetailWrap>
-      <NewWrap>
+      <InfoWrap>
         <AboutNft>
           <div>음원 설명</div>
           <div>음원 설명 내용</div>
         </AboutNft>
         {/* 거래내역 추가하기 -> 컴포넌트로 만들지? */}
-      </NewWrap>
+      </InfoWrap>
     </PageContainer>
   );
 };
@@ -93,7 +98,7 @@ const ImgWrap = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
 `;
 
-const InfoWrap = styled.div`
+const DetailBox = styled.div`
   display: inherit;
   width: inherit;
   height: inherit;
@@ -135,7 +140,7 @@ const PageBtn = styled.button`
   font-size: 1.2rem;
 `;
 
-const NewWrap = styled.div`
+const InfoWrap = styled.div`
   width: inherit;
   margin: 5rem 9rem;
 `;
@@ -162,12 +167,3 @@ const AboutNft = styled.div`
   }
 `;
 export default deatil;
-
-// export async function getServerSideProps(context) {
-//   const { params } = context;
-//   const id = params.id;
-
-//   console.log(id);
-
-//   return { props: { id } };
-// }
