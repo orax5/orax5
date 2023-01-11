@@ -5,20 +5,6 @@ export const PageContainer = styled.div`
   padding: 8rem 5rem 5rem 5rem;
 `;
 
-// 전역으로 사용 가능한 버튼
-export const UseButton = styled.button`
-  width: 8rem;
-  height: 4rem;
-  border-radius: 0.5rem;
-  border: 1px solid white;
-  background-color: transparent;
-  padding: 0.7rem;
-  &:hover {
-    color: black;
-    background-color: white;
-  }
-`;
-
 export const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;

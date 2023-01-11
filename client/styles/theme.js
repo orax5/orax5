@@ -7,8 +7,8 @@ const color = {
 
 // 글씨 크기
 const fontSize = {
-  title: "2rem",
-  subTitle: "1rem",
+  title: "3rem",
+  subTitle: "1.5rem",
   text: "0.8rem",
 };
 
@@ -32,10 +32,27 @@ const align = {
   `,
 };
 
+// 버튼
+const button = {
+  useButton: `  
+  width: 8rem;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 1px solid white;
+  background-color: transparent;
+  padding: 0.7rem; 
+  font-size : 1.5rem;
+  &:hover {
+    color: black;
+    background-color: white;
+  }
+  `,
+};
 const theme = {
   color,
   fontSize,
   align,
+  button,
 };
 
 export default theme;
