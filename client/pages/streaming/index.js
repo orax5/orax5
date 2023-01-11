@@ -9,6 +9,7 @@ import rain from "../../public/Img/rain.jpg";
 import SummerMagic from "../../public/Img/SummerMagic.jpg";
 import Butter from "../../public/Img/Butter.jpg";
 import SQUAREUP from "../../public/Img/SQUAREUP.jpg";
+import heart_on from "../../public/Img/heart_on.png"
 // 아이콘
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -254,9 +255,11 @@ const index = () => {
               </>
               :
               <>
-              <FavoriteBorderIcon 
-              style={{background:"red"}}
-              onClick={fillLikeHandler}/>
+              <Image 
+                src={heart_on} width={24}
+                height={24} alt="하트채움"
+                onClick={fillLikeHandler}
+                style={{background:"rgba(36, 36, 36, 1)"}}/>
               </>
               }
            
