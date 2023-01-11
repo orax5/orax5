@@ -1,3 +1,4 @@
+import Link from "next/Link";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
@@ -13,7 +14,7 @@ const deatil = () => {
             alt="sampleImg"
             width={700}
             height={700}
-            style={{ border: "20px solid white", borderRadius: "1rem" }}
+            style={{ border: "10px solid white", borderRadius: "1rem" }}
           />
         </ImgWrap>
         <InfoWrap>
@@ -54,11 +55,11 @@ const deatil = () => {
                 <td>수량</td>
                 <td>
                   <NumSelector>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
                   </NumSelector>
                 </td>
               </tr>
@@ -66,10 +67,19 @@ const deatil = () => {
           </table>
           <div>
             <PageBtn>구매하기</PageBtn>
-            <PageBtn>스트리밍 하러가기</PageBtn>
+            <Link href="/streaming">
+              <PageBtn>스트리밍 하러가기</PageBtn>
+            </Link>
           </div>
         </InfoWrap>
       </DetailWrap>
+      <NewWrap>
+        <AboutNft>
+          <div>음원 설명</div>
+          <div>음원 설명 내용</div>
+        </AboutNft>
+        {/* 거래내역 추가하기 -> 컴포넌트로 만들지? */}
+      </NewWrap>
     </PageContainer>
   );
 };
@@ -88,6 +98,10 @@ const InfoWrap = styled.div`
   width: inherit;
   height: inherit;
   font-size: 1.5rem;
+
+  > :first-child {
+    margin-top: 2rem;
+  }
 
   & span:hover {
     cursor: pointer;
@@ -119,6 +133,33 @@ const PageBtn = styled.button`
   background-color: white;
   border-radius: 0.5rem;
   font-size: 1.2rem;
+`;
+
+const NewWrap = styled.div`
+  width: inherit;
+  margin: 5rem 9rem;
+`;
+
+const AboutNft = styled.div`
+  ${(props) => props.theme.align.flexCenterColumn};
+  width: 50rem;
+  height: auto;
+  border: 1px solid gray;
+  border-radius: 1rem;
+
+  > :first-child {
+    ${(props) => props.theme.align.flexCenter};
+    width: inherit;
+    height: 3rem;
+    color: black;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    background-color: white;
+    padding-left: 1rem;
+  }
+  > :last-child {
+    margin: 2rem;
+  }
 `;
 export default deatil;
 
