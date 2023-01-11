@@ -25,21 +25,17 @@ const align = {
     justify-contents: center;
     align-items: center;
   `,
-};
-
-const button = {
-  listButton: `
-    border-radius : 1rem, 
-    border: 1px solid red, 
-    background-color : transparent,
+  flexBetween: `
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   `,
 };
+
 const theme = {
   color,
   fontSize,
   align,
-  button,
 };
 
 export default theme;
-
