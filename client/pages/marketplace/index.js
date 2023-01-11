@@ -1,12 +1,12 @@
 import Image from "next/image";
-// import Link from "next/Link";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
-import { ListButton, PageContainer } from "../../styles/global-style";
+import { PageContainer } from "../../styles/global-style";
 import Search from "../components/Search";
 
 const index = () => {
+  // 페이지 간 이동 시 Link 또는 useRouter 사용
   const router = useRouter();
 
   // 더미 데이터
@@ -25,11 +25,13 @@ const index = () => {
 
   return (
     <PageContainer>
+      {/* 검색창은 다른 곳에서도 사용하므로 컴포넌트화 함 */}
       <Search />
       <ListWrap>
+        {/* 배열 안 객체로 받아온 데이터를 map 돌려서 목록 생성 */}
         {datas?.map((data, idx) => (
           <ItemCard key={data.id}>
-            {/* 좋아요 아이콘, onclick함수 만들어야 됨 */}
+            {/* 좋아요 아이콘 작동하게, onclick함수 만들어야 됨 */}
             <Image
               src="/Img/heart_off.png"
               alt="LikedIcon"
@@ -54,6 +56,7 @@ const index = () => {
             />
             <ItemTitle
               onClick={() => {
+                // 클릭 시 상세보기 페이지 이동
                 router.push(`/marketplace/${data.id}`);
               }}
             >
@@ -68,16 +71,17 @@ const index = () => {
 };
 
 const ListWrap = styled.div`
-  /* ${(props) => props.theme.align.flexCenter};
-  flex-wrap: wrap; */
   width: inherit;
   display: grid;
+  // 카드가 보여지는 목록의 grid를 결정함
+  // 2fr씩 5번 반복, 한 줄에 카드 5개씩 보여주려고
   grid-template-columns: repeat(5, 2fr);
   row-gap: 2rem;
   justify-items: center;
   align-content: center;
 `;
 
+// 카드 안의 내용 정렬
 const ItemCard = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
   width: inherit;
@@ -85,7 +89,7 @@ const ItemCard = styled.div`
   border-radius: 1rem;
   border: 1px solid white;
   &:hover {
-    // 구매하기 버튼 보여지게
+    // 호버했을 때 구매하기 버튼 보여지게 **오픈씨 참고
   }
 `;
 
