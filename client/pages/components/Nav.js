@@ -24,6 +24,7 @@ const Nav = () => {
             width={100}
             height={100}
             priority={true}
+            style
           />
         </Link>
       </div>
@@ -40,6 +41,9 @@ const Nav = () => {
           </div>
           <div>
             <Link href="/funding">FUNDING</Link>
+          </div>
+          <div>
+            <Link href="/admin">ADMIN</Link>
           </div>
         </MenuContainer>
       </div>

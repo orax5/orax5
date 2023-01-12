@@ -33,7 +33,6 @@ time, mark, audio, video{
 	vertical-align: baseline;
   text-decoration: none; 
   max-width: 100vw;
-  overflow-x: hidden;
   -ms-overflow-style: none;
 }
   // 스크롤바 안보이게 설정
