@@ -1,14 +1,15 @@
-// 반응형
+// 반응형 화면사이즈 설정
 const deviceSize = {
   mobile: "425px",
   tablet: "768px",
-  laptop: "1024px",
+  pc: "1024px",
 };
 
+// 기기별 max-width 설정
 const device = {
   mobile: `screen and (max-width: ${deviceSize.mobile})`,
   tablet: `screen and (max-width: ${deviceSize.tablet})`,
-  laptop: `screen and (max-width: ${deviceSize.laptop})`,
+  pc: `screen and (max-width: ${deviceSize.pc})`,
 };
 
 // 색상
@@ -46,18 +47,26 @@ const align = {
 
 // 버튼
 const button = {
-  useButton: `  
+  basicBtn: `  
   width: 8rem;
-  height: 4rem;
+  height: 3rem;
   border-radius: 0.5rem;
   border: 1px solid white;
   background-color: transparent;
-  padding: 0.7rem; 
-  font-size : 1.5rem;
+  font-size : 1rem;
   &:hover {
     color: black;
     background-color: white;
   }
+  `,
+  smallBtn: `  
+  width: 4rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid white;
+  background-color: transparent;
+  font-size : 0.8rem;
+
   `,
 };
 

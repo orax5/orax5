@@ -33,7 +33,6 @@ time, mark, audio, video{
 	vertical-align: baseline;
   text-decoration: none; 
   max-width: 100vw;
-  overflow-x: hidden;
   -ms-overflow-style: none;
 }
   // 스크롤바 안보이게 설정
@@ -46,29 +45,17 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-body {
-	line-height: 1;
-}
 ol, ul,li {
 	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
 }
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-button {
-  color: inherit;  
+button {  
   cursor: pointer;
+  color: inherit;
   background-color: inherit;
-
 }
 input, select, textarea{
   color: inherit;  
