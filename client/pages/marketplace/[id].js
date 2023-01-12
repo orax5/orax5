@@ -14,23 +14,17 @@ const deatil = () => {
         <ImgWrap>
           <Image
             src="/Img/sample.jpg"
-            alt="sampleImg"
+            alt="detail_page_image"
             width={700}
             height={700}
-            style={{ border: "10px solid white", borderRadius: "1rem" }}
           />
         </ImgWrap>
         <DetailBox>
           {/* &gt; : >,  &lt; : < */}
           <div>
             카테고리 &gt;&nbsp;
-            <span
-              onClick={() => {
-                alert("준비중");
-              }}
-            >
-              가요
-            </span>
+            {/* 해당 카테고리만 필터링 된 페이지로 이동 시간 부족하면 따로 이벤트 걸지 않기 */}
+            <span>가요</span>
           </div>
           <div>test_title</div>
           <table>

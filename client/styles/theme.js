@@ -1,8 +1,20 @@
+// 반응형
+const deviceSize = {
+  mobile: "425px",
+  tablet: "768px",
+  laptop: "1024px",
+};
+
+const device = {
+  mobile: `screen and (max-width: ${deviceSize.mobile})`,
+  tablet: `screen and (max-width: ${deviceSize.tablet})`,
+  laptop: `screen and (max-width: ${deviceSize.laptop})`,
+};
+
 // 색상
 const color = {
   mainColor: "#9900FF",
   subColor: "#CC66FF",
-  fontColor: "#9933CC",
 };
 
 // 글씨 크기
@@ -48,11 +60,14 @@ const button = {
   }
   `,
 };
+
 const theme = {
   color,
   fontSize,
   align,
   button,
+  device,
+  deviceSize,
 };
 
 export default theme;

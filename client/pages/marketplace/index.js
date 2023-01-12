@@ -19,8 +19,8 @@ const index = () => {
     { id: 6, title: "test_title", price: "0.234ETH" },
     { id: 7, title: "test_title", price: "0.234ETH" },
     { id: 8, title: "test_title", price: "0.234ETH" },
-    { id: 9, title: "test_title", price: "0.234ETH" },
-    { id: 10, title: "test_title", price: "0.234ETH" },
+    // { id: 9, title: "test_title", price: "0.234ETH" },
+    // { id: 10, title: "test_title", price: "0.234ETH" },
   ];
 
   return (
@@ -31,7 +31,7 @@ const index = () => {
         {/* 배열 안 객체로 받아온 데이터를 map 돌려서 목록 생성 */}
         {datas?.map((data, idx) => (
           <ItemCard key={data.id}>
-            {/* 좋아요 아이콘 작동하게, onclick함수 만들어야 됨 */}
+            {/* 좋아요 아이콘 작동하게, onclick함수 만들어야 됨
             <Image
               src="/Img/heart_off.png"
               alt="LikedIcon"
@@ -43,12 +43,12 @@ const index = () => {
                 backgroundColor: "transparent",
                 cursor: "pointer",
               }}
-            />
+            /> */}
             <Image
               src="/Img/sample.jpg"
-              alt="sampleImg"
-              width={230}
-              height={230}
+              alt="nft_list_image"
+              width={250}
+              height={250}
               style={{
                 borderTopLeftRadius: "1rem",
                 borderTopRightRadius: "1rem",
@@ -63,6 +63,10 @@ const index = () => {
               {data.title}
             </ItemTitle>
             <div>{data.price}</div>
+            <BtnBox>
+              <button>찜하기</button>
+              <button>상세보기</button>
+            </BtnBox>
           </ItemCard>
         ))}
       </ListWrap>
@@ -73,23 +77,30 @@ const index = () => {
 const ListWrap = styled.div`
   width: inherit;
   display: grid;
-  // 카드가 보여지는 목록의 grid를 결정함
-  // 2fr씩 5번 반복, 한 줄에 카드 5개씩 보여주려고
   grid-template-columns: repeat(5, 2fr);
-  row-gap: 2rem;
-  justify-items: center;
-  align-content: center;
+  gap: 2rem;
+  place-items: center;
+  @media ${(props) => props.theme.device.tablet} {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media ${(props) => props.theme.device.mobile} {
+    grid-template-columns: 1fr;
+  }
 `;
 
 // 카드 안의 내용 정렬
 const ItemCard = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
-  width: inherit;
-  height: 21rem;
+  width: 18rem;
+  height: 28rem;
   border-radius: 1rem;
   border: 1px solid white;
-  &:hover {
-    // 호버했을 때 구매하기 버튼 보여지게 **오픈씨 참고
+
+  @media ${(props) => props.theme.device.tablet} {
+    width: inherit;
+  }
+  @media ${(props) => props.theme.device.mobile} {
+    width: inherit;
   }
 `;
 
@@ -98,6 +109,12 @@ const ItemTitle = styled.div`
   font-weight: 800;
   margin: 0.7rem;
   cursor: pointer;
+`;
+const BtnBox = styled.div`
+  /* font-size: 2rem;
+  font-weight: 800;
+  margin: 0.7rem;
+  cursor: pointer; */
 `;
 
 export default index;
