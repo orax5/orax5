@@ -48,7 +48,6 @@ const SearchBar = styled.div`
     width: 5rem;
     height: 3rem;
     cursor: pointer;
-    background-color: transparent;
     border: 1px solid white;
     border-bottom-right-radius: 1rem;
     border-top-right-radius: 1rem;

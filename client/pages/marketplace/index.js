@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
 import { PageContainer } from "../../styles/global-style";
-import Filter from "../components/Filter";
 import Search from "../components/Search";
 
 const index = () => {
