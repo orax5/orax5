@@ -1,10 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import {  PageContainer } from "../../styles/global-style";
 import AdminNav from './../components/AdminNav';
 import styled from "styled-components";
+// 아이콘
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+
 
 
 const index = () => {
+    // 검색필터
+    const [userInput, setUserInput] = useState('');
+    console.log(userInput);
+    // 입력값을 가져와서 소문자로변경
+    const getValue = (e) => {
+    setUserInput(e.target.value.toLowerCase())};
+    
+    const datas = [
+        { name: "사진스힙합", category: "힙합", scale: "0.123ETH", date:"23.01.12",content:"힙합블라" },
+        { name: "나진스댄스", category: "댄스", scale: "0.456ETH", date:"22.12.13",content:"댄스블라" },
+        { name: "다진스RnB", category: "RnB", scale: "0.789ETH", date:"19.12.31",content:"알엔비블라" },
+        { name: "라진스발라드", category: "발라드", scale: "1.24ETH", date:"03.05.07",content:"발라드블라" },
+        { name: "마진스팝", category: "팝", scale: "2.24ETH", date:"18.04.02",content:"팝블라" },
+        { name: "뉴진스락", category: "락", scale: "4.44ETH", date:"21.05.07",content:"락블라" },
+        { name: "큐락비락", category: "락", scale: "1.44ETH", date:"21.12.07",content:"락블라" },
+        { name: "블락비댄스", category: "댄스", scale: "2.44ETH", date:"21.01.07",content:"락블라" },
+        { name: "비락비발라드", category: "발라드", scale: "10.44ETH", date:"22.06.07",content:"락블라" },
+        { name: "블락비힙합", category: "힙합", scale: "0.44ETH", date:"21.07.07",content:"락블라" },
+      ];
+
+    // 정렬
+    const [nameSort, setNameSort] = useState(datas);
+
+
+    
+    const sortNameHandler = () => {
+        const _nameSort = [...nameSort].sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+        setNameSort(_nameSort);
+    }
+
+
+
   return (
     <PageContainer>
         <FlexWrap>
@@ -29,9 +64,41 @@ const index = () => {
                             <label htmlFor="">
                                 {"Search:"}
                             </label>
-                            <input type="text" />
+                            <input type="text" placeholder="Search" onChange={getValue} />
                         </div>
                     </Row>
+                </div>
+                <div>
+                    <Table 
+                        style={{display: "table",
+                        width:"100%"}}>
+                        <thead>
+                            <tr>
+                                <th style={{ display: "flex", justifyContent: "space-between"}}><div>Name</div><div><button onClick={sortNameHandler}><SwapVertIcon/></button></div></th>
+                                <th>Category</th>
+                                <th>Funding scale</th>
+                                <th>Start Date</th>
+                                <th>Content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+
+                            }
+                            {
+                                nameSort.map((data,idx)=>(
+                                <tr key={data.name}>
+                                    <td>{data.name}</td>
+                                    <td>{data.category}</td>
+                                    <td>{data.scale}</td>
+                                    <td>{data.date}</td>
+                                    <td>{data.content}</td>
+                                </tr>
+                                ))
+                            }
+                        </tbody>
+                    </Table>
+                   
                 </div>
             </ContainerBoard>
         </FlexWrap>
@@ -55,6 +122,22 @@ const Row = styled.div`
     }
     >:nth-child(2){
         font-size: 1.5rem;
+    }
+`
+
+const Table = styled.table`
+    margin-top: 1rem;
+    text-align: left;
+    & thead{
+        border-bottom: 2px solid #e3e6f0;
+    }
+    & th {
+        padding:0.75rem;
+        font-size: larger;
+        font-weight: 500;
+    }
+    & td {
+        padding:0.75rem;
     }
 `
 export default index
