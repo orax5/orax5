@@ -16,27 +16,30 @@ const index = () => {
     setUserInput(e.target.value.toLowerCase())};
     
     const datas = [
-        { name: "사진스힙합", category: "힙합", scale: "0.123ETH", date:"23.01.12",content:"힙합블라" },
-        { name: "나진스댄스", category: "댄스", scale: "0.456ETH", date:"22.12.13",content:"댄스블라" },
-        { name: "다진스RnB", category: "RnB", scale: "0.789ETH", date:"19.12.31",content:"알엔비블라" },
-        { name: "라진스발라드", category: "발라드", scale: "1.24ETH", date:"03.05.07",content:"발라드블라" },
-        { name: "마진스팝", category: "팝", scale: "2.24ETH", date:"18.04.02",content:"팝블라" },
-        { name: "뉴진스락", category: "락", scale: "4.44ETH", date:"21.05.07",content:"락블라" },
-        { name: "큐락비락", category: "락", scale: "1.44ETH", date:"21.12.07",content:"락블라" },
-        { name: "블락비댄스", category: "댄스", scale: "2.44ETH", date:"21.01.07",content:"락블라" },
-        { name: "비락비발라드", category: "발라드", scale: "10.44ETH", date:"22.06.07",content:"락블라" },
-        { name: "블락비힙합", category: "힙합", scale: "0.44ETH", date:"21.07.07",content:"락블라" },
+        { name: "사진스힙합", category: "힙합", scale: "0.123", date:"23.01.12",content:"힙합블라" },
+        { name: "나진스댄스", category: "댄스", scale: "0.456", date:"22.12.13",content:"댄스블라" },
+        { name: "다진스RnB", category: "RnB", scale: "0.789", date:"19.12.31",content:"알엔비블라" },
+        { name: "라진스발라드", category: "발라드", scale: "1.24", date:"03.05.07",content:"발라드블라" },
+        { name: "마진스팝", category: "팝", scale: "2.24", date:"18.04.02",content:"팝블라" },
+        { name: "뉴진스락", category: "락", scale: "4.44", date:"21.05.07",content:"락블라" },
+        { name: "큐락비락", category: "락", scale: "1.44", date:"21.12.07",content:"락블라" },
+        { name: "블락비댄스", category: "댄스", scale: "2.44", date:"21.01.07",content:"락블라" },
+        { name: "비락비발라드", category: "발라드", scale: "10.44", date:"22.06.07",content:"락블라" },
+        { name: "블락비힙합", category: "힙합", scale: "0.44", date:"21.07.07",content:"락블라" },
       ];
 
     // 정렬
     const [nameSort, setNameSort] = useState(datas);
-
-
-    
+    // 정렬 핸들러
     const sortNameHandler = () => {
         const _nameSort = [...nameSort].sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
         setNameSort(_nameSort);
     }
+    // 필터
+    const searched = nameSort.filter((data)=>
+        data.name.toLowerCase().includes(userInput)
+    )
+
 
 
 
@@ -86,11 +89,11 @@ const index = () => {
 
                             }
                             {
-                                nameSort.map((data,idx)=>(
+                                searched.map((data,idx)=>(
                                 <tr key={data.name}>
                                     <td>{data.name}</td>
                                     <td>{data.category}</td>
-                                    <td>{data.scale}</td>
+                                    <td>{data.scale}{"ETH"}</td>
                                     <td>{data.date}</td>
                                     <td>{data.content}</td>
                                 </tr>
