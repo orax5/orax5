@@ -7,8 +7,6 @@ import { PageContainer } from "../../styles/global-style";
 import heart_on from "../../public/Img/heart_on.png";
 import chat from "../../public/Img/chat.png";
 
-
-
 const deatil = () => {
   return (
     <PageContainer>
@@ -51,7 +49,7 @@ const deatil = () => {
               </tr>
               <tr>
                 <td>
-                <strong>2065</strong>명의 서포터
+                  <strong>2065</strong>명의 서포터
                 </td>
               </tr>
               <tr>
@@ -65,28 +63,34 @@ const deatil = () => {
               <tr>
                 <td>펀딩금액(ETH)</td>
                 <td>
-                  <input type="number" style={{fontSize:"1.5rem"}}/>
+                  <input type="number" style={{ fontSize: "1.5rem" }} />
                 </td>
               </tr>
             </tbody>
           </table>
-         
-            <PageBtn>펀딩하기</PageBtn>
-           
+
+          <PageBtn>펀딩하기</PageBtn>
+
           <div>
-              <SmallBtn>
-                <Image 
-                  src={heart_on}
-                  width={20} height={20}
-                  style={{background:"transparent"}}/> {3683}
-              </SmallBtn>
-              <SmallBtn>
-                <Image 
-                    src={chat}
-                    width={20} height={20}
-                    style={{background:"transparent"}}/> 문의
-              </SmallBtn>
-              <SmallBtn>공유하기</SmallBtn>
+            <SmallBtn>
+              <Image
+                src={heart_on}
+                width={20}
+                height={20}
+                style={{ background: "transparent" }}
+              />{" "}
+              {3683}
+            </SmallBtn>
+            <SmallBtn>
+              <Image
+                src={chat}
+                width={20}
+                height={20}
+                style={{ background: "transparent" }}
+              />{" "}
+              문의
+            </SmallBtn>
+            <SmallBtn>공유하기</SmallBtn>
           </div>
         </InfoWrap>
       </DetailWrap>
@@ -96,7 +100,10 @@ const deatil = () => {
           <div>
             <p>목표 금액 500ETH</p>
             <p>펀딩 기간 2023.01.06-2023.01.30</p>
-            <p>100% 이상 모이면 펀딩이 성공되며, 펀딩 마감일까지 목표 금액이 100% 모이지 않으면 결제가 진행되지 않습니다.</p>
+            <p>
+              100% 이상 모이면 펀딩이 성공되며, 펀딩 마감일까지 목표 금액이 100%
+              모이지 않으면 결제가 진행되지 않습니다.
+            </p>
           </div>
         </AboutNft>
         <AboutNft>
@@ -154,10 +161,10 @@ const PageBtn = styled.button`
   background-color: white;
   border-radius: 0.5rem;
   font-size: 1.2rem;
-  &:hover{  
-    background-color : black;
-    color : white;
-    border : solid 1px white;
+  &:hover {
+    background-color: black;
+    color: white;
+    border: solid 1px white;
     transition: 0.5s;
   }
 `;
@@ -197,13 +204,12 @@ const SmallBtn = styled.button`
   background-color: white;
   border-radius: 0.5rem;
   font-size: 1.2rem;
-  &:hover{  
-    background-color : black;
-    color : white;
-    border : solid 1px white;
+  &:hover {
+    background-color: black;
+    color: white;
+    border: solid 1px white;
     transition: 0.5s;
   }
-`
+`;
 
 export default deatil;
-

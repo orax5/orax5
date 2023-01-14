@@ -2,11 +2,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
-import { PageContainer } from "../../styles/global-style";
-import Search from "../components/Search";
 
 const index = () => {
-  // 페이지 간 이동 시 Link 또는 useRouter 사용
   const router = useRouter();
 
   // 더미 데이터
@@ -19,67 +16,62 @@ const index = () => {
     { id: 6, title: "test_title", price: "0.234ETH" },
     { id: 7, title: "test_title", price: "0.234ETH" },
     { id: 8, title: "test_title", price: "0.234ETH" },
-    // { id: 9, title: "test_title", price: "0.234ETH" },
-    // { id: 10, title: "test_title", price: "0.234ETH" },
+    { id: 9, title: "test_title", price: "0.234ETH" },
+    { id: 10, title: "test_title", price: "0.234ETH" },
   ];
 
   return (
-    <PageContainer>
-      {/* 검색창은 다른 곳에서도 사용하므로 컴포넌트화 함 */}
-      <Search />
-      <ListWrap>
-        {/* 배열 안 객체로 받아온 데이터를 map 돌려서 목록 생성 */}
-        {datas?.map((data, idx) => (
-          <ItemCard key={data.id}>
-            {/* 좋아요 아이콘 작동하게, onclick함수 만들어야 됨
-            <Image
-              src="/Img/heart_off.png"
-              alt="LikedIcon"
-              width={20}
-              height={20}
-              style={{
-                position: "absolute",
-                margin: "1rem -12rem 0 0",
-                backgroundColor: "transparent",
-                cursor: "pointer",
-              }}
-            /> */}
-            <Image
-              src="/Img/sample.jpg"
-              alt="nft_list_image"
-              width={250}
-              height={250}
-              style={{
-                borderTopLeftRadius: "1rem",
-                borderTopRightRadius: "1rem",
-              }}
-            />
-            <ItemTitle
-              onClick={() => {
-                // 클릭 시 상세보기 페이지 이동
-                router.push(`/marketplace/${data.id}`);
-              }}
-            >
-              {data.title}
-            </ItemTitle>
-            <div>{data.price}</div>
-            <BtnBox>
-              <button>찜하기</button>
-              <button>상세보기</button>
-            </BtnBox>
-          </ItemCard>
-        ))}
-      </ListWrap>
-    </PageContainer>
+    <MainContainer>
+      <MainItems></MainItems>
+      <MainItems>
+        <ListWrap>
+          {datas?.map((data, idx) => (
+            <ItemCard key={data.id}>
+              <Image
+                src="/Img/sample.jpg"
+                alt="nft_list_image"
+                width={268}
+                height={268}
+                style={{
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
+                }}
+              />
+              <ItemTitle>{data.title}</ItemTitle>
+              <ItemPrice>{data.price}</ItemPrice>
+              <BtnBox>
+                <button>찜하기</button>
+                <button
+                  onClick={() => {
+                    router.push(`/marketplace/${data.id}`);
+                  }}
+                >
+                  상세보기
+                </button>
+              </BtnBox>
+            </ItemCard>
+          ))}
+        </ListWrap>
+      </MainItems>
+      <MainItems></MainItems>
+    </MainContainer>
   );
 };
 
+const MainContainer = styled.div`
+  ${(props) => props.theme.gridLayout.mainGrid};
+`;
+const MainItems = styled.div``;
+
 const ListWrap = styled.div`
-  width: inherit;
   display: grid;
-  grid-template-columns: repeat(5, 2fr);
-  gap: 2rem;
+  grid-area: main;
+  grid-template-columns: repeat(4, 2fr);
   place-items: center;
+  grid-gap: 1rem;
+  @media ${(props) => props.theme.device.pc} {
+    grid-template-columns: repeat(3, 2fr);
+  }
   @media ${(props) => props.theme.device.tablet} {
     grid-template-columns: 1fr 1fr;
   }
@@ -87,12 +79,11 @@ const ListWrap = styled.div`
     grid-template-columns: 1fr;
   }
 `;
-
 // 카드 안의 내용 정렬
 const ItemCard = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
   width: 18rem;
-  height: 28rem;
+  height: 30rem;
   border-radius: 1rem;
   border: 1px solid white;
 
@@ -103,18 +94,22 @@ const ItemCard = styled.div`
     width: inherit;
   }
 `;
-
 const ItemTitle = styled.div`
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 800;
   margin: 0.7rem;
-  cursor: pointer;
+`;
+const ItemPrice = styled.div`
+  font-size: 1.5rem;
 `;
 const BtnBox = styled.div`
-  /* font-size: 2rem;
-  font-weight: 800;
-  margin: 0.7rem;
-  cursor: pointer; */
+  width: 15rem;
+  margin-top: 1rem;
+  ${(props) => props.theme.align.flexCenter}
+  > button {
+    ${(props) => props.theme.button.basicBtn}
+    margin: 0.5rem;
+  }
 `;
 
 export default index;

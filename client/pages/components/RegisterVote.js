@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { PageContainer } from "../../styles/global-style";
 
@@ -39,6 +39,7 @@ const RegisterWrap = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
+  z-index: 200;
   > div {
     display: flex;
     justify-content: center;
@@ -94,7 +95,6 @@ const SubmintBtn = styled.button`
   height: 3rem;
   border-radius: 0.5rem;
   border: 1px solid white;
-  background-color: transparent;
   padding: 0.7rem;
   &:hover {
     color: black;

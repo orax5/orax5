@@ -36,3 +36,21 @@ axios
 - 오류 : Error: Failed prop type: The prop `href` expects a `string` or `object` in `<Link>`, but got `undefined` instead.
 <br>
 - 해결 : 
+
+
+## next.js
+React, Express.js, React-Router-Dom, SSR 모아놨다고 할 수 있음  
+Express.js, React-Router-Dom 도구들이 가지고 있는 기능성 개념을 내재화하고 있음. 따라서 이것저것 다운로드할 거 없이 쉽게 이용할 수 있음 
+<br>
+  npx create-next-app@latest . 현재 디렉토리에 세팅
+  npm run dev 개발환경실행
+  npm run build 배포 파일 생성
+  npm run start 서비스 시작 
+<br>
+  시작점은 pages 폴더의 index.js파일이 홈페이지에 대한 내용이다.
+  개발환경을 세팅(코드편집)을 했으면 배포를 진행하는데 
+  npm run build 배포 파일을 생성하고 사용하려면
+  npm run start 를 실행하는데 이것은 개발환경실행하는 것이 아닌 실 서버를 실행하는 것이다. next.js는 서버까지 내장되어 있는 올인원 솔루션이기 때문 
+<br>
+  우리는 애플리케이션을 만들때 꼭 따져봐야하는 것은 Route인데 url에 따라서 ui를 어떻게 응답할 것인가를 결정하는 행위이다.
+
