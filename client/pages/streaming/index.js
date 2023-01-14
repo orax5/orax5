@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { PageContainer } from "../../styles/global-style";
 import Image from "next/image";
 // 이미지들
 import NewJeans1stEP from "../../public/Img/NewJeans1stEP.jpg";
@@ -61,7 +60,7 @@ const index = () => {
   };
 
   return (
-    <PageContainer>
+    <div>
       <Allrange>
         <TodayContentBox>
           <SelectContent>
@@ -348,7 +347,7 @@ const index = () => {
 
         <Player />
       </Allrange>
-    </PageContainer>
+    </div>
   );
 };
 
