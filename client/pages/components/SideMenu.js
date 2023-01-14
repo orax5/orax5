@@ -2,12 +2,12 @@ import Link from "next/Link";
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-const SideMenu = () => {
+const SideMenu = ({ setShowMenu, ShowMenu }) => {
   const ref = useRef();
-  const [CloseMenu, setCloseMenu] = useState(false);
 
   const closeAction = () => {
-    setCloseMenu(CloseMenu);
+    console.log(333);
+    setShowMenu(ShowMenu);
   };
 
   return (
@@ -36,6 +36,7 @@ const SideMenu = () => {
 };
 const MenuWrap = styled.div`
   ${(props) => props.theme.align.flexCenterColumn}
+  /* transform :${(props) => (props.ShowMenu ? tansla : "500px")}; */
   /* transform :${(props) => (props.ShowMenu ? "0" : "500px")};
   transition: ${(props) =>
     props.ShowMenu

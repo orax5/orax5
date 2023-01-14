@@ -12,6 +12,25 @@ const device = {
   pc: `screen and (max-width: ${deviceSize.pc})`,
 };
 
+// 전체 페이지 그리드 레이아웃
+const gridLayout = {
+  navGrid: `
+    width: 100vw;
+    height: 10vh;
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr 8fr 1fr;
+    margin: 1rem 0 1rem 1rem
+  `,
+  mainGrid: `
+    width: 100vw;
+    height: auto;
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr 8fr 1fr;
+  `,
+};
+
 // 색상
 const color = {
   mainColor: "#9900FF",
@@ -29,13 +48,13 @@ const fontSize = {
 const align = {
   flexCenter: `
     display: flex;
-    justify-contents: center;
+    justify-content: center;
     align-items: center;
   `,
   flexCenterColumn: `
     display: flex;
     flex-direction: column;
-    justify-contents: center;
+    justify-content: center;
     align-items: center;
   `,
   flexBetween: `
@@ -53,7 +72,7 @@ const button = {
   border-radius: 0.5rem;
   border: 1px solid white;
   background-color: transparent;
-  font-size : 1rem;
+  font-size : 1.2rem;
   &:hover {
     color: black;
     background-color: white;
@@ -71,12 +90,13 @@ const button = {
 };
 
 const theme = {
+  device,
+  deviceSize,
+  gridLayout,
   color,
   fontSize,
   align,
   button,
-  device,
-  deviceSize,
 };
 
 export default theme;

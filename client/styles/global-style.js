@@ -1,23 +1,8 @@
-import styled, { createGlobalStyle } from "styled-components";
-
-// 전체 화면에 같은 여백을 주기 위한 설정
-export const PageContainer = styled.div`
-  padding: 8rem 5rem 5rem 5rem;
-  /* width: 100vw;
-  height: auto;
-  background-color: red;
-  display: grid;
-  place-items: center;
-  place-content: center;
-  grid-template-columns:
-    "logo     .      menu"
-    "margin  main  margin"
-    "footer footer footer"; */
-`;
+import { createGlobalStyle } from "styled-components";
 
 // reset.css 설정 적용
 export const GlobalStyle = createGlobalStyle`
-
+// 폰트
 @font-face {
     font-family: 'Pretendard-Regular';
     src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
@@ -25,6 +10,7 @@ export const GlobalStyle = createGlobalStyle`
     font-style: normal;
 }
 
+// 색상, 여백 설정
 *, html, body {
 	background-color: black; 
   color: white;

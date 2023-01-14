@@ -2,90 +2,102 @@ import Link from "next/Link";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
-import { PageContainer } from "../../styles/global-style";
 
 const deatil = () => {
   return (
-    <PageContainer>
-      {/* 페이지 윗부분은 사진 | 상세정보는 가로로 정렬되어있고 아래부분의 설명,
-      거래내역, 그래프 등의 정보는 세로로 정렬할 것이므로 크게 DetailWrap InfoWrap
-      두 개 영역으로 나누어 작업함 */}
-      <DetailWrap>
-        <ImgWrap>
-          <Image
-            src="/Img/sample.jpg"
-            alt="detail_page_image"
-            width={700}
-            height={700}
-          />
-        </ImgWrap>
-        <DetailBox>
-          {/* &gt; : >,  &lt; : < */}
-          <div>
-            카테고리 &gt;&nbsp;
-            {/* 해당 카테고리만 필터링 된 페이지로 이동 시간 부족하면 따로 이벤트 걸지 않기 */}
-            <span>가요</span>
-          </div>
-          <div>test_title</div>
-          <table>
-            {/* 제목과 내용을 정렬하기 쉽게하려고 table사용 */}
-            <tbody>
-              <tr>
-                <td>작곡가</td>
-                <td>프로필 확인하기</td>
-              </tr>
-              <tr>
-                <td>작사가</td>
-                <td>프로필 확인하기</td>
-              </tr>
-              <tr>
-                <td>가수</td>
-                <td>프로필 확인하기</td>
-              </tr>
-              <tr>
-                <td>판매시간</td>
-                <td>2023-01-20 ~ 2023-02-20</td>
-              </tr>
-              <tr>
-                <td>남은시간</td>
-                <td>00일 00시 00분</td>
-              </tr>
-              <tr>
-                <td>수량</td>
-                <td>
-                  <NumSelector>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </NumSelector>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div>
-            <PageBtn>구매하기</PageBtn>
-            <Link href="/streaming">
-              <PageBtn>스트리밍 하러가기</PageBtn>
-            </Link>
-          </div>
-        </DetailBox>
-      </DetailWrap>
-      <InfoWrap>
-        <AboutNft>
-          <div>음원 설명</div>
-          <div>음원 설명 내용</div>
-        </AboutNft>
-        {/* 거래내역 추가하기 -> 컴포넌트로 만들지? */}
-      </InfoWrap>
-    </PageContainer>
+    <MainContainer>
+      <div></div>
+      <div>
+        <DetailWrap>
+          <ImgWrap>
+            <Image
+              src="/Img/sample.jpg"
+              alt="detail_page_image"
+              width={500}
+              height={500}
+            />
+          </ImgWrap>
+          <DetailBox>
+            <div>
+              카테고리 &gt;&nbsp;
+              {/* 해당 카테고리만 필터링 된 페이지로 이동 시간 부족하면 따로 이벤트 걸지 않기 */}
+              <span>가요</span>
+            </div>
+            <div>test_title</div>
+            <table>
+              {/* 제목과 내용을 정렬하기 쉽게하려고 table사용 */}
+              <tbody>
+                <tr>
+                  <td>작곡가</td>
+                  <td>프로필 확인하기</td>
+                </tr>
+                <tr>
+                  <td>작사가</td>
+                  <td>프로필 확인하기</td>
+                </tr>
+                <tr>
+                  <td>가수</td>
+                  <td>프로필 확인하기</td>
+                </tr>
+                <tr>
+                  <td>판매시간</td>
+                  <td>2023-01-20 ~ 2023-02-20</td>
+                </tr>
+                <tr>
+                  <td>남은시간</td>
+                  <td>00일 00시 00분</td>
+                </tr>
+                <tr>
+                  <td>수량</td>
+                  <td>
+                    <NumSelector>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </NumSelector>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div>
+              <PageBtn>구매하기</PageBtn>
+              <Link href="/streaming">
+                <PageBtn>스트리밍 하러가기</PageBtn>
+              </Link>
+            </div>
+          </DetailBox>
+        </DetailWrap>
+        <InfoWrap>
+          <AboutNft>
+            <div>음원 설명</div>
+            <div>음원 설명 내용</div>
+          </AboutNft>
+          {/* 거래내역 추가하기 -> 컴포넌트로 만들지? */}
+        </InfoWrap>
+      </div>
+      <div></div>
+    </MainContainer>
   );
 };
+const MainContainer = styled.div`
+  ${(props) => props.theme.gridLayout.mainGrid};
+`;
 
 const DetailWrap = styled.div`
-  display: grid;
-  grid-template-columns: 4fr 3fr;
+  display: flex;
+  justify-content: space-between;
+
+  @media ${(props) => props.theme.device.pc} {
+    ${(props) => props.theme.align.flexCenterColumn};
+  }
+  @media ${(props) => props.theme.device.tablet} {
+    ${(props) => props.theme.align.flexCenterColumn};
+  }
+  @media ${(props) => props.theme.device.mobile} {
+    ${(props) => props.theme.align.flexCenterColumn};
+  }
 `;
 
 const ImgWrap = styled.div`
@@ -93,9 +105,7 @@ const ImgWrap = styled.div`
 `;
 
 const DetailBox = styled.div`
-  display: inherit;
-  width: inherit;
-  height: inherit;
+  ${(props) => props.theme.align.flexCenterColumn};
   font-size: 1.5rem;
 
   > :first-child {

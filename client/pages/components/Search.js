@@ -4,21 +4,12 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const Search = () => {
   return (
-    <SearchWrap>
-      <SearchBar>
-        <input />
-        <SearchIcon />
-      </SearchBar>
-    </SearchWrap>
+    <SearchBar>
+      <input />
+      <SearchIcon />
+    </SearchBar>
   );
 };
-
-const SearchWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
-`;
 
 const SearchBar = styled.div`
   display: flex;
@@ -38,9 +29,10 @@ const SearchBar = styled.div`
   }
   > :first-child {
     width: inherit;
-    height: 2.9rem;
+    height: 3rem;
     font-size: 1.5rem;
     border: 1px solid white;
+    border-right: none;
     border-bottom-left-radius: 1rem;
     border-top-left-radius: 1rem;
   }
@@ -49,6 +41,7 @@ const SearchBar = styled.div`
     height: 3rem;
     cursor: pointer;
     border: 1px solid white;
+    border-left: none;
     border-bottom-right-radius: 1rem;
     border-top-right-radius: 1rem;
     @media ${(props) => props.theme.device.mobile} {

@@ -2,11 +2,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
-import { PageContainer } from "../../styles/global-style";
-import Search from "../components/Search";
 
 const index = () => {
-  // 페이지 간 이동 시 Link 또는 useRouter 사용
   const router = useRouter();
 
   // 더미 데이터
@@ -24,48 +21,54 @@ const index = () => {
   ];
 
   return (
-    <PageContainer>
-      {/* 검색창,필터는 다른 곳에서도 사용하므로 컴포넌트화 함 */}
-      <Search />
-      <ListWrap>
-        {/* 배열 안 객체로 받아온 데이터를 map 돌려서 목록 생성 */}
-        {datas?.map((data, idx) => (
-          <ItemCard key={data.id}>
-            <Image
-              src="/Img/sample.jpg"
-              alt="nft_list_image"
-              width={268}
-              height={268}
-              style={{
-                borderTopLeftRadius: "1rem",
-                borderTopRightRadius: "1rem",
-              }}
-            />
-            <ItemTitle>{data.title}</ItemTitle>
-            <ItemPrice>{data.price}</ItemPrice>
-            <BtnBox>
-              <button>찜하기</button>
-              <button
-                onClick={() => {
-                  router.push(`/marketplace/${data.id}`);
+    <MainContainer>
+      <MainItems></MainItems>
+      <MainItems>
+        <ListWrap>
+          {datas?.map((data, idx) => (
+            <ItemCard key={data.id}>
+              <Image
+                src="/Img/sample.jpg"
+                alt="nft_list_image"
+                width={268}
+                height={268}
+                style={{
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
                 }}
-              >
-                상세보기
-              </button>
-            </BtnBox>
-          </ItemCard>
-        ))}
-      </ListWrap>
-    </PageContainer>
+              />
+              <ItemTitle>{data.title}</ItemTitle>
+              <ItemPrice>{data.price}</ItemPrice>
+              <BtnBox>
+                <button>찜하기</button>
+                <button
+                  onClick={() => {
+                    router.push(`/marketplace/${data.id}`);
+                  }}
+                >
+                  상세보기
+                </button>
+              </BtnBox>
+            </ItemCard>
+          ))}
+        </ListWrap>
+      </MainItems>
+      <MainItems></MainItems>
+    </MainContainer>
   );
 };
 
+const MainContainer = styled.div`
+  ${(props) => props.theme.gridLayout.mainGrid};
+`;
+const MainItems = styled.div``;
+
 const ListWrap = styled.div`
-  width: inherit;
   display: grid;
-  grid-template-columns: repeat(5, 2fr);
-  gap: 2rem;
+  grid-area: main;
+  grid-template-columns: repeat(4, 2fr);
   place-items: center;
+  grid-gap: 1rem;
   @media ${(props) => props.theme.device.pc} {
     grid-template-columns: repeat(3, 2fr);
   }
@@ -99,7 +102,6 @@ const ItemTitle = styled.div`
 const ItemPrice = styled.div`
   font-size: 1.5rem;
 `;
-
 const BtnBox = styled.div`
   width: 15rem;
   margin-top: 1rem;
