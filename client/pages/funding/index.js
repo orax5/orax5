@@ -3,7 +3,6 @@ import Link from "next/Link";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
-import { PageContainer } from "../../styles/global-style";
 import Filter from "../components/Filter";
 import Search from "../components/Search";
 
@@ -25,7 +24,7 @@ const index = () => {
   ];
 
   return (
-    <PageContainer>
+    <MainContainer>
       <Search />
       <Filter />
       <ListWrap>
@@ -57,10 +56,12 @@ const index = () => {
           </ItemCard>
         ))}
       </ListWrap>
-    </PageContainer>
+    </MainContainer>
   );
 };
-
+const MainContainer = styled.div`
+  ${(props) => props.theme.gridLayout.mainGrid};
+`;
 const ListWrap = styled.div`
   width: inherit;
   display: grid;

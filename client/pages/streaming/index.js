@@ -49,11 +49,7 @@ const index = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <MainContainer>
-=======
     <div>
->>>>>>> bell
       <Allrange>
         <TodayContentBox>
           <SelectContent>
@@ -340,11 +336,7 @@ const index = () => {
 
         <Player />
       </Allrange>
-<<<<<<< HEAD
-    </MainContainer>
-=======
     </div>
->>>>>>> bell
   );
 };
 const MainContainer = styled.div`
