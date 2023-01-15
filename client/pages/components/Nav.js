@@ -12,6 +12,7 @@ const Nav = () => {
   const showMenuHandler = () => {
     setShowMenu(!ShowMenu);
   };
+  
   return (
     <NavContainer>
       <NavElement>
