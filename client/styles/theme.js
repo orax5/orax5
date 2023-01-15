@@ -30,7 +30,7 @@ const gridLayout = {
   `,
   sideMenuGrid: `
   display: grid;
-  grid-template-rows : 10vh 70vh 20vh;
+  grid-template-rows : 15vh 75vh;
   place-items: center;
   `,
 };

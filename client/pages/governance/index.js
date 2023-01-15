@@ -83,7 +83,7 @@ const index = () => {
             </thead>
             <tbody>
               {datas.map((data, idx) => (
-                <ItemRow>
+                <tr>
                   <td>{idx + 1}</td>
                   <ItemImage>
                     <Image
@@ -103,7 +103,7 @@ const index = () => {
                   </ItemTitle>
                   <td>{data.ownedNft}</td>
                   <td>{data.dueto}</td>
-                </ItemRow>
+                </tr>
               ))}
             </tbody>
           </table>
@@ -119,7 +119,7 @@ const MainContainer = styled.div`
 `;
 // 목록 감싸는 div
 const VoteListWrap = styled.div`
-  width: 100rem;
+  width: 80rem;
   font-size: 1.5rem;
   // 표 정렬 및 여백
   > table {
@@ -139,12 +139,10 @@ const ListImage = styled.th`
     display: none;
   }
 `;
-const ItemRow = styled.tr`
-  &:first-child {
-    margin-top: 1rem;
-  }
-`;
 const ItemImage = styled.td`
+  > img:first-child {
+    margin: 0 auto;
+  }
   @media ${(props) => props.theme.device.mobile} {
     display: none;
   }

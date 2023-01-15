@@ -18,6 +18,7 @@ const SearchBar = styled.div`
   width: 30rem;
   height: 3rem;
   border-radius: 1rem;
+  margin-bottom: 1rem;
   @media ${(props) => props.theme.device.pc} {
     width: 30rem;
   }

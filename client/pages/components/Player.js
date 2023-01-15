@@ -30,7 +30,7 @@ const Player = () => {
   };
   return (
     <SideStreamingBox>
-      <div style={{ background: "rgba(36, 36, 36, 1)" }}>
+      <div>
         <Image
           src={NewJeansOMG}
           alt={"현재스트리밍곡"}
@@ -137,10 +137,7 @@ const Player = () => {
 // 스트리밍 내용 박스
 const SideStreamingBox = styled.div`
   width: 30rem;
-  height: auto;
-  position: fixed;
-  background-color: rgba(36, 36, 36, 1);
-  right: 0;
+  background: rgba(36, 36, 36, 1);
   @media ${(props) => props.theme.device.pc} {
     width: 30rem;
   }
@@ -160,18 +157,15 @@ const SideStreamingBox = styled.div`
 // 현재 스트리밍 음악 내용 감싸주는 컨테이너
 const CurrentStreamingContent = styled.label`
   display: flex;
-  background-color: rgba(36, 36, 36, 1);
   padding: 2rem 0rem 0rem 2rem;
+  background: rgba(36, 36, 36, 1);
   > div {
-    background-color: rgba(36, 36, 36, 1);
     margin-left: 2rem;
   }
   & :nth-child(1) {
-    background-color: rgba(36, 36, 36, 1);
     font-size: xx-large;
   }
   & :nth-child(2) {
-    background-color: rgba(36, 36, 36, 1);
     color: gray;
     font-size: x-large;
   }
@@ -185,7 +179,6 @@ const StreamingControllBox = styled.div`
     align-items: center;
     justify-content: space-evenly;
     padding-top: 4rem;
-    background-color: rgba(36, 36, 36, 1);
   }
 `;
 

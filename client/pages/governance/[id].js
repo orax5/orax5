@@ -1,69 +1,37 @@
 import React from "react";
 import styled from "styled-components";
-import { PageContainer } from "../../styles/global-style";
-import Graph from "../components/Graph";
-
 const Detail = () => {
   const replies = [
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
-    { name: "닉네임", content: "댓글 내용" },
+    { name: "김치만두", content: "앨범아트 바꾸지 말자" },
+    { name: "만두만두", content: "222" },
+    { name: "고기만두", content: "333" },
   ];
   return (
     <MainContainer>
       <div></div>
       <div>
         <ContentWrap>
-          <div>투표 제목</div>
-          <div>종료까지 10시간 10분 50초 남았습니다</div>
+          <h1>투표 제목</h1>
+          <h2>종료까지 10시간 10분 50초 남았습니다</h2>
           <p>여기에 투표 내용이 들어갈거임</p>
           <div>
             <Btn>찬성</Btn>
             <Btn>반대</Btn>
           </div>
         </ContentWrap>
-        <InfoWrap>
-          <table>
-            <tr>
-              <th>투표현황</th>
-              <th>댓글</th>
-            </tr>
-            <tr>
-              <td>
-                <Graph />
-              </td>
-              <td>
-                <ReplyBox>
-                  <div>
-                    <input />
-                    <button>등록</button>
-                  </div>
-                  <ShowReply>
-                    {replies.map((reply, idx) => (
-                      <div key={idx}>
-                        <div>{reply.name}</div>
-                        <div>{reply.content}</div>
-                      </div>
-                    ))}
-                  </ShowReply>
-                </ReplyBox>
-              </td>
-            </tr>
-          </table>
-        </InfoWrap>
+        <ReplyWrap>
+          <h1>댓글(3)</h1>
+          <WriteReply>
+            <input />
+            <Btn>등록</Btn>
+          </WriteReply>
+          {replies.map((reply, idx) => (
+            <ShowReply key={idx}>
+              <li>{reply.name}</li>
+              <li>↳ {reply.content}</li>
+            </ShowReply>
+          ))}
+        </ReplyWrap>
       </div>
       <div></div>
     </MainContainer>
@@ -72,73 +40,61 @@ const Detail = () => {
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
+// 투표 안건 정보 보여주는 부분
 const ContentWrap = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
-  font-size: ${(props) => props.theme.fontSize.subTitle};
-  > :first-child {
-    font-weight: 800;
-    font-size: ${(props) => props.theme.fontSize.title};
+  align-items: flex-start;
+  font-size: 1.5rem;
+  // 종료까지~ 알려주는 문구
+  > :nth-child(2) {
+    margin: 1rem 0;
   }
+  // 어떤 내용에 대한 투표인지 설명 있는 창
   > :nth-child(3) {
-    margin: 1rem;
-    width: inherit;
-    height: 20rem;
-    background-color: white;
+    width: 80rem;
+    height: 10rem;
+    border: 1px solid white;
   }
 `;
-
+// 버튼
 const Btn = styled.button`
-  margin: 0.5rem;
-  ${(props) => props.theme.button.useButton};
+  margin: 1rem 0;
+  ${(props) => props.theme.button.basicBtn};
 `;
-
-const InfoWrap = styled.div`
-  width: inherit;
-  margin-top: 4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  & tr > th {
-    font-size: 2.5rem;
-    padding-bottom: 2rem;
-  }
-`;
-
-const ReplyBox = styled.div`
+// 댓글 전체박스
+const ReplyWrap = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
-  width: 50rem;
-  height: 30rem;
-  border: 1px solid gray;
+  align-items: flex-start;
+  font-size: 1.5rem;
+  margin: 4rem 0;
+`;
+
+const WriteReply = styled.td`
+  ${(props) => props.theme.align.flexCenter};
+  background-color: rgba(255, 255, 255, 0.3);
   border-radius: 1rem;
-  margin-left: 5rem;
-  > :first-child {
-    ${(props) => props.theme.align.flexCenter};
-  }
-  & input {
-    width: 46rem;
-    height: 6rem;
-    color: black;
-    background-color: white;
-    border-top-left-radius: 1rem;
-  }
-  & button {
-    cursor: pointer;
-    border-top-right-radius: 1rem;
-    width: 4rem;
-    height: 6rem;
-    color: black;
-    background-color: white;
+  padding: 2rem;
+  margin: 1rem 0;
+  width: 80rem;
+  > input {
+    width: 50rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    border: 1px solid white;
   }
 `;
 
-const ShowReply = styled.div`
-  overflow: scroll;
-  width: 48rem;
-  padding: 1rem;
-  font-size: 1.2rem;
-  & div:first-child {
-    font-weight: 800;
-    margin-bottom: 0.2rem;
+const ShowReply = styled.ul`
+  width: 80rem;
+  > :first-child {
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin: 0.5rem 0;
+  }
+  > :last-child {
+    height: auto;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 `;
 export default Detail;

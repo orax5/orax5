@@ -25,48 +25,58 @@ const index = () => {
   ];
 
   return (
-    <PageContainer>
-      <Search />
-      <Filter />
-      <ListWrap>
-        {datas?.map((data, idx) => (
-          <ItemCard key={data.id}>
-            <Image
-              src="/Img/sample.jpg"
-              alt="funding_list_image"
-              width={268}
-              height={268}
-              style={{
-                borderTopLeftRadius: "1rem",
-                borderTopRightRadius: "1rem",
-              }}
-            />
-            <ItemTitle>{data.title}</ItemTitle>
-            <ItemPrice>{data.price}</ItemPrice>
-            <div>가요{"⠂"}R&B</div>
-            <BtnBox>
-              <button>찜하기</button>
-              <button
-                onClick={() => {
-                  router.push(`/funding/${data.id}`);
+    <MainContainer>
+      <MainItems></MainItems>
+      <MainItems>
+        <Search />
+        <Filter />
+        <ListWrap>
+          {datas?.map((data, idx) => (
+            <ItemCard key={data.id}>
+              <Image
+                src="/Img/sample.jpg"
+                alt="funding_list_image"
+                width={268}
+                height={268}
+                style={{
+                  marginTop: "-1rem",
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
                 }}
-              >
-                상세보기
-              </button>
-            </BtnBox>
-          </ItemCard>
-        ))}
-      </ListWrap>
-    </PageContainer>
+              />
+              <ItemTitle>{data.title}</ItemTitle>
+              <ItemPrice>{data.price}</ItemPrice>
+              <div>가요{"⠂"}R&B</div>
+              <BtnBox>
+                <button>찜하기</button>
+                <button
+                  onClick={() => {
+                    router.push(`/funding/${data.id}`);
+                  }}
+                >
+                  상세보기
+                </button>
+              </BtnBox>
+            </ItemCard>
+          ))}
+        </ListWrap>
+      </MainItems>
+      <MainItems></MainItems>
+    </MainContainer>
   );
 };
 
+const MainContainer = styled.div`
+  ${(props) => props.theme.gridLayout.mainGrid};
+`;
+const MainItems = styled.div``;
+
 const ListWrap = styled.div`
-  width: inherit;
   display: grid;
-  grid-template-columns: repeat(5, 2fr);
-  gap: 2rem;
+  grid-area: main;
+  grid-template-columns: repeat(4, 2fr);
   place-items: center;
+  grid-gap: 1rem;
   @media ${(props) => props.theme.device.pc} {
     grid-template-columns: repeat(3, 2fr);
   }
@@ -90,11 +100,11 @@ const ItemCard = styled.div`
   @media ${(props) => props.theme.device.mobile} {
     width: inherit;
   }
-`
+`;
 const ItemTitle = styled.div`
   font-size: 2.5rem;
   font-weight: 800;
-  margin: 0.7rem;
+  margin: 0.5rem;
 `;
 const ItemPrice = styled.div`
   font-size: 1.5rem;

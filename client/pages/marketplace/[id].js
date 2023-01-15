@@ -111,10 +111,14 @@ const DetailWrap = styled.div`
 
 const ImgWrap = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
+  @media ${(props) => props.theme.device.mobile} {
+    margin-left: 1rem;
+  }
 `;
 
 const DetailBox = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
+  align-items: flex-start;
   font-size: 1.5rem;
   margin-left: 4rem;
   @media ${(props) => props.theme.device.mobile} {
@@ -138,17 +142,13 @@ const DetailBox = styled.div`
   > table {
     width: 100%;
     line-height: 2rem;
-    @media ${(props) => props.theme.device.mobile} {
-      text-align: center;
-    }
   }
   // 버튼 div
   > :last-child {
     ${(props) => props.theme.align.flexCenter};
-
     margin-top: 1rem;
     @media ${(props) => props.theme.device.mobile} {
-      ${(props) => props.theme.align.flexCenterColumn};
+      ${(props) => props.theme.align.flexCenter};
     }
   }
 `;
@@ -156,6 +156,7 @@ const DetailBox = styled.div`
 const NumSelector = styled.select`
   width: 10rem;
   height: 2rem;
+  border: 1px solid white;
 `;
 // 구매하기/스트리밍하기 버튼
 const PageBtn = styled.button`
@@ -168,8 +169,10 @@ const InfoWrap = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
   width: inherit;
   margin: 5rem 0;
+  @media ${(props) => props.theme.device.mobile} {
+    margin-left: 1rem;
+  }
 `;
-
 // 음원 설명 박스
 const AboutNft = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};

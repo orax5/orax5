@@ -54,26 +54,26 @@ const index = () => {
       <div>
         <Allrange>
           <TodayContentBox>
-            <SelectContent>
-              {isSelectContent == true ? (
-                <>
-                  <div onClick={todayHandler} style={{ color: "red" }}>
-                    투데이
-                  </div>
-                  <div onClick={lockerHandler}>보관함</div>
-                </>
-              ) : (
-                <>
-                  <div onClick={todayHandler}>투데이</div>
-                  <div onClick={lockerHandler} style={{ color: "red" }}>
-                    보관함
-                  </div>
-                </>
-              )}
-            </SelectContent>
-
             {isSelectContent == true ? (
-              <>
+              <ItemBoxWrap>
+                {" "}
+                <SelectContent>
+                  {isSelectContent == true ? (
+                    <>
+                      <div onClick={todayHandler} style={{ color: "red" }}>
+                        투데이
+                      </div>
+                      <div onClick={lockerHandler}>보관함</div>
+                    </>
+                  ) : (
+                    <>
+                      <div onClick={todayHandler}>투데이</div>
+                      <div onClick={lockerHandler} style={{ color: "red" }}>
+                        보관함
+                      </div>
+                    </>
+                  )}
+                </SelectContent>
                 <ItemBox>
                   <TitleContainer>
                     <div>최근 들은 노래</div>
@@ -124,28 +124,6 @@ const index = () => {
                       <div>Power Up</div>
                       <div>Red Velvet (레드벨벳)</div>
                     </MusicAlbumBox>
-                    {/* <MusicAlbumBox>
-                      <Image
-                        src={Butter}
-                        alt="BTS버터"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Butter</div>
-                      <div>BTS (방탄소년단)</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={SQUAREUP}
-                        alt="블랙핑크"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Forever Young</div>
-                      <div>BLACKPINK</div>
-                    </MusicAlbumBox> */}
                   </AlbumesBox>
                 </ItemBox>
                 <ItemBox>
@@ -197,28 +175,6 @@ const index = () => {
                       />
                       <div>Power Up</div>
                       <div>Red Velvet (레드벨벳)</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={Butter}
-                        alt="BTS버터"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Butter</div>
-                      <div>BTS (방탄소년단)</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={SQUAREUP}
-                        alt="블랙핑크"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Forever Young</div>
-                      <div>BLACKPINK</div>
                     </MusicAlbumBox>
                   </AlbumesBox>
                 </ItemBox>
@@ -272,31 +228,9 @@ const index = () => {
                       <div>Power Up</div>
                       <div>Red Velvet (레드벨벳)</div>
                     </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={Butter}
-                        alt="BTS버터"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Butter</div>
-                      <div>BTS (방탄소년단)</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={SQUAREUP}
-                        alt="블랙핑크"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Forever Young</div>
-                      <div>BLACKPINK</div>
-                    </MusicAlbumBox>
                   </AlbumesBox>
                 </ItemBox>
-              </>
+              </ItemBoxWrap>
             ) : (
               <>
                 <LockerTitleContainer>
@@ -335,8 +269,9 @@ const index = () => {
               </>
             )}
           </TodayContentBox>
-
-          {/* <Player /> */}
+          <div>
+            <Player />
+          </div>
         </Allrange>
       </div>
       <div></div>
@@ -354,7 +289,14 @@ const SelectContent = styled.div`
     margin-right: 1rem;
   }
 `;
-
+const Allrange = styled.div`
+  display: grid;
+  grid-template-columns: 4fr 2fr;
+`;
+const ItemBoxWrap = styled.div`
+  /* display: grid;
+  grid-template-columns: 4fr 2fr; */
+`;
 const ItemBox = styled.div`
   width: 100%;
   padding-top: 4rem;
@@ -395,9 +337,9 @@ const AlbumesBox = styled.div`
 // 투데이 내용 박스 컨테이너
 const TodayContentBox = styled.div``;
 // 전범위 감싸는거
-const Allrange = styled.div`
-  display: flex;
-`;
+// const Allrange = styled.div`
+//   display: flex;
+// `;
 
 // 보관함 내용
 const LockerTitleContainer = styled.div`

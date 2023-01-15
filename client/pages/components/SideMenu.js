@@ -4,6 +4,7 @@ import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 const SideMenu = ({ setShowMenu, ShowMenu }) => {
   const [isLogin, setIsLogin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const toggleHandler = () => {
     setShowMenu(!ShowMenu);
@@ -25,14 +26,27 @@ const SideMenu = ({ setShowMenu, ShowMenu }) => {
       </div>
       <MenuList onClick={toggleHandler}>
         {isLogin ? (
-          <Link href="/mypage">
-            <li>MYPAGE</li>
-          </Link>
+          isAdmin ? (
+            <Link href="/admin">
+              <li>admin</li>
+            </Link>
+          ) : (
+            <Link href="/mypage">
+              <li>MYPAGE</li>
+            </Link>
+          )
         ) : (
           <Link href="/login">
             <li>LOGIN</li>
           </Link>
         )}
+        {/* MYPAGE, ADMIN는 작업 끝나면 접근 권한 제한할건데 지금 페이지 이동하라고 다 꺼내놓음 */}
+        <Link href="/mypage">
+          <li>MYPAGE</li>
+        </Link>
+        <Link href="/admin">
+          <li>ADMIN</li>
+        </Link>
         <Link href="/marketplace">
           <li>MARKET PLACE</li>
         </Link>
@@ -46,7 +60,6 @@ const SideMenu = ({ setShowMenu, ShowMenu }) => {
           <li>FUNDING</li>
         </Link>
       </MenuList>
-      <div>3</div>
     </MenuWrap>
   );
 };

@@ -2,6 +2,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
+import Filter from "../components/Filter";
+import Search from "../components/Search";
 
 const index = () => {
   const router = useRouter();
@@ -24,6 +26,7 @@ const index = () => {
     <MainContainer>
       <MainItems></MainItems>
       <MainItems>
+        <Search />
         <ListWrap>
           {datas?.map((data, idx) => (
             <ItemCard key={data.id}>
@@ -33,7 +36,7 @@ const index = () => {
                 width={268}
                 height={268}
                 style={{
-                  marginTop: "-0.9rem",
+                  marginTop: "-1rem ",
                   borderTopLeftRadius: "1rem",
                   borderTopRightRadius: "1rem",
                 }}
@@ -98,7 +101,7 @@ const ItemCard = styled.div`
 const ItemTitle = styled.div`
   font-size: 2.5rem;
   font-weight: 800;
-  margin: 0.7rem;
+  margin: 0.5rem;
 `;
 const ItemPrice = styled.div`
   font-size: 1.5rem;
