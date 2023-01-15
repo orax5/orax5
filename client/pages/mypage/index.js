@@ -1,5 +1,10 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
+// 마이페이지 컴포넌트
+import LikeNft from "../components/mypage/LikeNft";
+import MyNft from "../components/mypage/MyNft";
+import TransactionDetails from "../components/mypage/TransactionDetails";
+import FundingNft from "../components/mypage/FundingNft";
 // 구글아이콘
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 // 리액트 아이콘  
@@ -8,6 +13,8 @@ import {FaEthereum} from 'react-icons/fa';
 const index = () => {
   // 클립보드 카피 되었다는 표시 알려줄려고 셋타임아웃state 관리용useState
   const [clipAccount, setClipAccount] = useState(false)
+  // 보여줄 페이지의 인덱스
+  const [index, setIndex] = useState(0);
 
   const adress = "0x123"
 
@@ -22,10 +29,26 @@ const index = () => {
     }
   }
 
+  // 탭제목은 배열에 담아줌
+  const menuArr = ["내 NFT", "찜한 NFT", "펀딩한 NFT", "거래내역"];
+  // 클릭시 메뉴[인덱스]에 해당하는 페이지를 보여줌
+  const clickHandler = (idx) => {
+      setIndex(idx);
+    };
+  // 보여줄 페이지는 컴포넌트로 만들어 객체 안에 넣어줌
+  const pages = {
+    0: <MyNft />,
+    1: <LikeNft />,
+    2: <FundingNft/>,
+    3: <TransactionDetails />,
+  };
+
+
 
   return (
     <MainContainer>
       <div></div>
+
       <div>
         <div>
           {
@@ -65,13 +88,33 @@ const index = () => {
            <div><span>LISTED ITEMS</span></div>
            <div><span>0</span></div>
           </AssetsState>
-
-        <div>
-          
-        </div>
-
         </StateBoard>
+      <br />
+      <div>
+        <span>cash : </span><span>{"999"}{"ETH"}</span>
       </div>
+      <br />
+      {
+        menuArr.map((menu, idx) => {
+              return (
+                <span 
+                  key={idx} 
+                  onClick={() => clickHandler(idx)}
+                  style={{marginRight:"1rem"}}>
+                  {menu}
+                </span>
+              );
+            })
+        }
+
+      {/* 해당하는 페이지 보여주는 부분 */}
+      <div>{pages[index]}</div>
+
+
+      {/*⬆에서 작업 이뤄져야함 */}
+      </div>
+
+
       <div></div>
     </MainContainer>
   )

@@ -1,5 +1,4 @@
 import React, { useState, useEffect }  from 'react';
-import {  PageContainer } from "../../styles/global-style";
 import AdminNav from './../components/AdminNav';
 import styled from "styled-components";
 // 아이콘
@@ -44,7 +43,8 @@ const index = () => {
 
 
   return (
-    <PageContainer>
+    <MainContainer>
+        <div></div>
         <FlexWrap>
             <AdminNav/>
             <ContainerBoard>
@@ -77,7 +77,10 @@ const index = () => {
                         width:"100%"}}>
                         <thead>
                             <tr>
-                                <th style={{ display: "flex", justifyContent: "space-between"}}><div>Name</div><div><button onClick={sortNameHandler}><SwapVertIcon/></button></div></th>
+                                <th style={{ display: "flex", justifyContent: "space-between"}}>
+                                    <div>Name</div>
+                                    <div><button onClick={sortNameHandler}><SwapVertIcon/></button></div>
+                                </th>
                                 <th>Category</th>
                                 <th>Funding scale</th>
                                 <th>Start Date</th>
@@ -105,9 +108,13 @@ const index = () => {
                 </div>
             </ContainerBoard>
         </FlexWrap>
-    </PageContainer>
+           <div></div>
+    </MainContainer>
   )
 }
+const MainContainer = styled.div`
+  ${(props) => props.theme.gridLayout.mainGrid};
+`;
 
 const FlexWrap = styled.div`
     display:flex;
