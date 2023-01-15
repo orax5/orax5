@@ -24,10 +24,14 @@ const gridLayout = {
   `,
   mainGrid: `
     width: 100vw;
-    height: auto;
     display: grid;
     place-items: center;
     grid-template-columns: 1fr 8fr 1fr;
+  `,
+  sideMenuGrid: `
+  display: grid;
+  grid-template-rows : 10vh 70vh 20vh;
+  place-items: center;
   `,
 };
 

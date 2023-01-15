@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 // 색상, 여백 설정
-*, html, body {
+*, html, body, div {
 	background-color: black; 
   color: white;
   margin: 0;

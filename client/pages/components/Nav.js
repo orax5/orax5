@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/Link";
@@ -7,10 +7,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SideMenu from "./SideMenu";
 
 const Nav = () => {
-  const ref = useRef();
   const [ShowMenu, setShowMenu] = useState(false);
 
-  const handleShowMenu = () => {
+  const showMenuHandler = () => {
     setShowMenu(!ShowMenu);
   };
   return (
@@ -23,18 +22,16 @@ const Nav = () => {
       <NavElement></NavElement>
       <NavElement>
         <MenuIcon
-          ref={ref}
           style={{
             background: "transparent",
             cursor: "pointer",
             width: "3rem",
             height: "3rem",
-            // position: "fixed",
             zIndex: "222",
           }}
-          onClick={handleShowMenu}
+          onClick={showMenuHandler}
         />
-        {ShowMenu && <SideMenu setShowMenu={setShowMenu} ShowMenu={ShowMenu} />}
+        <SideMenu setShowMenu={setShowMenu} ShowMenu={ShowMenu} />
       </NavElement>
     </NavContainer>
   );
