@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { PageContainer } from "../../styles/global-style";
 
 const RegisterVote = () => {
   return (
@@ -36,10 +35,13 @@ const RegisterVote = () => {
 
 const RegisterWrap = styled.div`
   display: flex;
+  background-color: black;
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
-  z-index: 200;
+  position: absolute;
+  top: 25%;
+  left: 25%;
   > div {
     display: flex;
     justify-content: center;
@@ -59,6 +61,7 @@ const ContentHeader = styled.div`
     ${(props) => props.theme.align.flexCenter};
   }
   & input {
+    border: 1px solid white;
     width: 10rem;
     height: 2rem;
     margin-left: 1rem;
@@ -72,6 +75,7 @@ const ContentBody = styled.div`
     ${(props) => props.theme.align.flexCenter};
   }
   & select {
+    border: 1px solid white;
     width: 20rem;
     height: 2rem;
     margin-left: 1rem;
@@ -81,6 +85,7 @@ const ContentBody = styled.div`
 const ContentBottom = styled.div`
   margin: 0.5rem;
   > textarea {
+    border: 1px solid white;
     width: 45rem;
     height: 6rem;
     resize: none;

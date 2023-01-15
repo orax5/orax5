@@ -13,8 +13,8 @@ const deatil = () => {
             <Image
               src="/Img/sample.jpg"
               alt="detail_page_image"
-              width={500}
-              height={500}
+              width={450}
+              height={450}
             />
           </ImgWrap>
           <DetailBox>
@@ -40,8 +40,8 @@ const deatil = () => {
                   <td>프로필 확인하기</td>
                 </tr>
                 <tr>
-                  <td>판매시간</td>
-                  <td>2023-01-20 ~ 2023-02-20</td>
+                  <td>판매기간</td>
+                  <td>~ 2023-02-20</td>
                 </tr>
                 <tr>
                   <td>남은시간</td>
@@ -74,6 +74,14 @@ const deatil = () => {
             <div>음원 설명</div>
             <div>음원 설명 내용</div>
           </AboutNft>
+          <AboutNft>
+            <div>음원 설명</div>
+            <div>음원 설명 내용</div>
+          </AboutNft>
+          <AboutNft>
+            <div>음원 설명</div>
+            <div>음원 설명 내용</div>
+          </AboutNft>
           {/* 거래내역 추가하기 -> 컴포넌트로 만들지? */}
         </InfoWrap>
       </div>
@@ -81,6 +89,7 @@ const deatil = () => {
     </MainContainer>
   );
 };
+
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
@@ -88,7 +97,7 @@ const MainContainer = styled.div`
 const DetailWrap = styled.div`
   display: flex;
   justify-content: space-between;
-
+  align-items: center;
   @media ${(props) => props.theme.device.pc} {
     ${(props) => props.theme.align.flexCenterColumn};
   }
@@ -107,55 +116,69 @@ const ImgWrap = styled.div`
 const DetailBox = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
   font-size: 1.5rem;
-
+  margin-left: 4rem;
+  @media ${(props) => props.theme.device.mobile} {
+    margin-left: 0;
+  }
+  // 카테고리 부분
   > :first-child {
     margin-top: 2rem;
   }
-
+  // 카테고리 하위메뉴
   & span:hover {
     cursor: pointer;
     color: red;
   }
+  // nft 제목
   > :nth-child(2) {
     font-size: 5rem;
     font-weight: 900;
   }
+  // 상세 정보 테이블
   > table {
     width: 100%;
-    height: inherit;
+    line-height: 2rem;
+    @media ${(props) => props.theme.device.mobile} {
+      text-align: center;
+    }
   }
+  // 버튼 div
   > :last-child {
+    ${(props) => props.theme.align.flexCenter};
+
     margin-top: 1rem;
+    @media ${(props) => props.theme.device.mobile} {
+      ${(props) => props.theme.align.flexCenterColumn};
+    }
   }
 `;
-
+// 수량 선택 박스
 const NumSelector = styled.select`
-  width: 15rem;
+  width: 10rem;
   height: 2rem;
 `;
-
+// 구매하기/스트리밍하기 버튼
 const PageBtn = styled.button`
-  cursor: pointer;
-  color: black;
-  width: 15rem;
-  height: 4rem;
-  background-color: white;
-  border-radius: 0.5rem;
-  font-size: 1.2rem;
+  ${(props) => props.theme.button.basicBtn};
+  margin: 0.5rem;
+  width: 12rem;
 `;
-
+// 음원 설명, 거래기록 등 상세 정보 넣을 부분
 const InfoWrap = styled.div`
+  ${(props) => props.theme.align.flexCenterColumn};
   width: inherit;
-  margin: 5rem 9rem;
+  margin: 5rem 0;
 `;
 
+// 음원 설명 박스
 const AboutNft = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
   width: 50rem;
   height: auto;
   border: 1px solid gray;
   border-radius: 1rem;
-
+  margin: 1rem 0;
+  // 박스 제목
   > :first-child {
     ${(props) => props.theme.align.flexCenter};
     width: inherit;
@@ -166,8 +189,11 @@ const AboutNft = styled.div`
     background-color: white;
     padding-left: 1rem;
   }
+  // 박스 내용
   > :last-child {
-    margin: 2rem;
+    width: inherit;
+    height: auto;
+    padding: 1rem;
   }
 `;
 export default deatil;

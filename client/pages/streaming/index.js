@@ -9,17 +9,6 @@ import rain from "../../public/Img/rain.jpg";
 import SummerMagic from "../../public/Img/SummerMagic.jpg";
 import Butter from "../../public/Img/Butter.jpg";
 import SQUAREUP from "../../public/Img/SQUAREUP.jpg";
-import heart_on from "../../public/Img/heart_on.png";
-// 아이콘
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import ShuffleIcon from "@mui/icons-material/Shuffle";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import RepeatIcon from "@mui/icons-material/Repeat";
-import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import Player from "../components/Player";
 
 const index = () => {
@@ -61,7 +50,7 @@ const index = () => {
   };
 
   return (
-    <PageContainer>
+    <MainContainer>
       <Allrange>
         <TodayContentBox>
           <SelectContent>
@@ -348,10 +337,12 @@ const index = () => {
 
         <Player />
       </Allrange>
-    </PageContainer>
+    </MainContainer>
   );
 };
-
+const MainContainer = styled.div`
+  ${(props) => props.theme.gridLayout.mainGrid};
+`;
 // 투데이, 내 보관함
 const SelectContent = styled.div`
   display: flex;

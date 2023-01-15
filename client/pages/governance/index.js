@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { PageContainer } from "../../styles/global-style";
 import RegisterVote from "../components/RegisterVote";
 
 const index = () => {
@@ -66,116 +65,99 @@ const index = () => {
     setModalOpen(!modalOpen);
   };
   return (
-    <PageContainer>
-      <RegisterBtn onClick={showModal}>등록하기</RegisterBtn>
-      <VoteListWrap>
+    <MainContainer>
+      <div></div>
+      <div>
+        <RegisterBtn onClick={showModal}>등록하기</RegisterBtn>
         {modalOpen && <RegisterVote setModalOpen={setModalOpen} />}
-
-        {datas.map((data, idx) => (
-          <VoteItems key={idx}>
-            <div>
-              <ContentHeader>
-                <div
-                  onClick={() => {
-                    // 클릭 시 상세보기 페이지 이동
-                    router.push(`/governance/${data.id}`);
-                  }}
-                >
-                  {data.title}
-                </div>
-                <div>종료일 : {data.dueto}</div>
-              </ContentHeader>
-              <ContentBody>
-                <div>{data.ownedNft}</div>
-              </ContentBody>
-            </div>
-            <div>
-              <Image
-                src="/Img/NewJeansOMG.jpg"
-                alt="albumArt"
-                width={200}
-                height={200}
-              />
-            </div>
-          </VoteItems>
-        ))}
-      </VoteListWrap>
-    </PageContainer>
+        <VoteListWrap>
+          <table>
+            <thead>
+              <tr>
+                <th>번호</th>
+                <ListImage>이미지</ListImage>
+                <th>제목</th>
+                <th>해당 NFT</th>
+                <th>종료일</th>
+              </tr>
+            </thead>
+            <tbody>
+              {datas.map((data, idx) => (
+                <ItemRow>
+                  <td>{idx + 1}</td>
+                  <ItemImage>
+                    <Image
+                      src="/Img/NewJeansOMG.jpg"
+                      alt="albumArt"
+                      width={50}
+                      height={50}
+                    />
+                  </ItemImage>
+                  <ItemTitle
+                    onClick={() => {
+                      // 클릭 시 상세보기 페이지 이동
+                      router.push(`/governance/${data.id}`);
+                    }}
+                  >
+                    {data.title}
+                  </ItemTitle>
+                  <td>{data.ownedNft}</td>
+                  <td>{data.dueto}</td>
+                </ItemRow>
+              ))}
+            </tbody>
+          </table>
+        </VoteListWrap>
+      </div>
+      <div></div>
+    </MainContainer>
   );
 };
 
+const MainContainer = styled.div`
+  ${(props) => props.theme.gridLayout.mainGrid};
+`;
+// 목록 감싸는 div
+const VoteListWrap = styled.div`
+  width: 100rem;
+  font-size: 1.5rem;
+  // 표 정렬 및 여백
+  > table {
+    width: 100%;
+    line-height: 2rem;
+    text-align: center;
+  }
+  // 항목 row 구분선
+  > table > thead > tr > th {
+    padding: 1rem;
+    border-bottom: 1px solid white;
+  }
+`;
+// 모바일 화면에서는 이미지를 보여주지 않음
+const ListImage = styled.th`
+  @media ${(props) => props.theme.device.mobile} {
+    display: none;
+  }
+`;
+const ItemRow = styled.tr`
+  &:first-child {
+    margin-top: 1rem;
+  }
+`;
+const ItemImage = styled.td`
+  @media ${(props) => props.theme.device.mobile} {
+    display: none;
+  }
+`;
+// 제목 강조
+const ItemTitle = styled.td`
+  cursor: pointer;
+  font-weight: 800;
+  &:hover {
+    color: yellow;
+  }
+`;
 const RegisterBtn = styled.button`
   ${(props) => props.theme.button.basicBtn}
 `;
-const VoteListWrap = styled.div`
-  width: inherit;
-  display: grid;
-  grid-template-columns: repeat(3, 2fr);
-  gap: 2rem;
-  place-items: center;
-  @media ${(props) => props.theme.device.pc} {
-    grid-template-columns: repeat(3, 2fr);
-  }
-  @media ${(props) => props.theme.device.tablet} {
-    grid-template-columns: 1fr 1fr;
-  }
-  @media ${(props) => props.theme.device.mobile} {
-    grid-template-columns: 1fr;
-  }
-`;
-const SubPageTitle = styled.h1`
-  font-size: 3rem;
-  font-weight: 800;
-  margin: 4rem 0 1rem 5rem;
-`;
-
-// const VoteListWrap = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(3, 5fr);
-//   justify-items: center;
-//   row-gap: 1.5rem;
-//   font-size: 1.5rem;
-// `;
-
-const VoteItems = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 38rem;
-  height: 17rem;
-  padding: 2rem;
-  border: 1px solid white;
-  border-radius: 1rem;
-`;
-const ContentHeader = styled.div`
-  margin: 0.5rem;
-  > div {
-    ${(props) => props.theme.align.flexCenter};
-  }
-  > :first-child {
-    cursor: pointer;
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-  }
-  & input {
-    width: 10rem;
-    height: 2rem;
-    margin-left: 1rem;
-  }
-`;
-
-const ContentBody = styled.div`
-  margin: 0.5rem;
-
-  > div {
-    ${(props) => props.theme.align.flexCenter};
-  }
-  & select {
-    width: 20rem;
-    height: 2rem;
-    margin-left: 1rem;
-  }
-`;
-
 export default index;
