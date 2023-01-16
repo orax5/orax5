@@ -12,15 +12,15 @@ const TransactionDetails = () => {
   setUserInput(e.target.value.toLowerCase())};
   
   const datas = [
-    {executionTime:"23.01.15.14:39", nftName:"bell", trade:"매수", tradeAmount:"12.05", unitCost:"0.95", 
+    {executionTime:"23.01.16.14:39", nftName:"bell", trade:"매수", tradeAmount:"12.05", unitCost:"0.95", 
     transactionAmount:"2.5", fees:"0.0021", settlementAmount: "2.4979", orderTime:"23.01.15.14:39"},
-    {executionTime:"23.01.15.14:39", nftName:"bell", trade:"매수", tradeAmount:"12.05", unitCost:"0.95", 
+    {executionTime:"23.02.15.14:40", nftName:"bell", trade:"매수", tradeAmount:"12.05", unitCost:"0.95", 
     transactionAmount:"2.5", fees:"0.0021", settlementAmount: "2.4979", orderTime:"23.01.15.14:39"},
-    {executionTime:"23.01.15.14:39", nftName:"bell", trade:"매수", tradeAmount:"12.05", unitCost:"0.95", 
+    {executionTime:"23.03.13.14:09", nftName:"choi", trade:"매수", tradeAmount:"12.05", unitCost:"0.95", 
     transactionAmount:"2.5", fees:"0.0021", settlementAmount: "2.4979", orderTime:"23.01.15.14:39"},
-    {executionTime:"23.01.15.14:39", nftName:"bell", trade:"매수", tradeAmount:"12.05", unitCost:"0.95", 
+    {executionTime:"23.04.01.04:11", nftName:"mi", trade:"매수", tradeAmount:"12.05", unitCost:"0.95", 
     transactionAmount:"2.5", fees:"0.0021", settlementAmount: "2.4979", orderTime:"23.01.15.14:39"},
-    {executionTime:"23.01.15.14:39", nftName:"bell", trade:"매수", tradeAmount:"12.05", unitCost:"0.95", 
+    {executionTime:"23.09.25.11:32", nftName:"bell", trade:"매수", tradeAmount:"12.05", unitCost:"0.95", 
     transactionAmount:"2.5", fees:"0.0021", settlementAmount: "2.4979", orderTime:"23.01.15.14:39"},
   ];
 
@@ -86,7 +86,7 @@ const TransactionDetails = () => {
             }
             {
                 datas.map((data,idx)=>(
-                <tr key={data.idx}>
+                <tr key={idx}>
                     <td>{data.executionTime}</td>
                     <td>{data.nftName}</td>
                     <td>{data.trade}</td>
