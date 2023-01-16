@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Link from 'next/Link';
 // 마이페이지 컴포넌트
 import LikeNft from "../components/mypage/LikeNft";
 import MyNft from "../components/mypage/MyNft";
@@ -68,7 +69,9 @@ const index = () => {
           )}
           <StateButton>
             <PermIdentityIcon />
-            Edit Profile
+            <Link href ="/mypage/settings">
+              Edit Profile
+            </Link>
           </StateButton>
         </div>
 
@@ -115,6 +118,11 @@ const index = () => {
           </span>
         </div>
         <br />
+        <div>
+          <span>{"Streaming : "} </span>
+          <span> {" 사용하지 않음 "}</span>
+        </div>
+        <br />
         {menuArr.map((menu, idx) => {
           return (
             <span
@@ -156,17 +164,17 @@ const StateBoard = styled.div`
 const AssetsState = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: pink;
+  background-color: black;
   border-radius: 0.5rem;
   // 상대박스 안 span과 div사이 패딩
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  border: palevioletred solid 1px;
+  border: white solid 1px;
 `;
 
 const StateButton = styled.button`
-  background-color: pink;
-  border: palevioletred solid 1px;
+  background-color: black;
+  border: white solid 1px;
   border-radius: 0.5rem;
   margin-right: 3px;
   cursor: pointer;

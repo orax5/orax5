@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Image from "next/image";
+import Link from 'next/Link';
 // 이미지들
 import NewJeans1stEP from "../../public/Img/NewJeans1stEP.jpg";
 import NewJeansOMG from "../../public/Img/NewJeansOMG.jpg";
@@ -53,12 +54,16 @@ const index = () => {
             {isSelectContent == true ? (
               <ItemBoxWrap>
                 <SelectContent>
-                  {isSelectContent == true ? (
+                  {
+                    isSelectContent == true ? (
                     <>
-                      <div onClick={todayHandler} style={{ color: "red" }}>
-                        투데이
-                      </div>
-                      <div onClick={lockerHandler}>보관함</div>
+                      <TitleNav>
+                        <div style={{display:"flex"}}>
+                          <div onClick={todayHandler} style={{ color: "red", marginRight:"1rem"}}>투데이</div>
+                          <div onClick={lockerHandler}>보관함</div>
+                        </div>
+                        <HoverRed><Link href = "/streaming/buyticket">이용권구매</Link></HoverRed>
+                      </TitleNav>
                     </>
                   ) : (
                     <>
@@ -67,7 +72,8 @@ const index = () => {
                         보관함
                       </div>
                     </>
-                  )}
+                  )
+                  }
                 </SelectContent>
                 <ItemBox>
                   <TitleContainer>
@@ -228,6 +234,28 @@ const index = () => {
               </ItemBoxWrap>
             ) : (
               <>
+                <SelectContent>
+                  {
+                    isSelectContent == true ? (
+                    <>
+                      <div onClick={todayHandler} style={{ color: "red" }}>
+                        투데이
+                      </div>
+                      <div onClick={lockerHandler}>보관함</div>
+                    </>
+                  ) : (
+                    <>
+                       <TitleNav>
+                        <div style={{display:"flex"}}>
+                          <div onClick={todayHandler} style={{marginRight:"1rem"}}>투데이</div>
+                          <div onClick={lockerHandler} style={{color:"red"}}>보관함</div>
+                        </div>
+                        <HoverRed><Link href = "/streaming/buyticket">이용권구매</Link></HoverRed>
+                      </TitleNav>
+                    </>
+                  )
+                  }
+                </SelectContent> 
                 <LockerTitleContainer>
                   {like === "Like" ? (
                     <>
@@ -383,5 +411,24 @@ const NoneLikeMusic = styled.p`
     color: gray;
   }
 `;
+
+// title
+const TitleNav = styled.div`
+  width: 100%;
+  justify-content: space-between;
+  display:flex;
+`
+
+// 
+const HoverRed = styled.div`
+ & a {
+    margin-right:1rem;
+    :hover{
+      color: red;
+      transition: 0.5s;
+      cursor : pointer;
+    }
+  }
+`
 
 export default index;

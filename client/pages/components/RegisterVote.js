@@ -108,6 +108,7 @@ const SubmintBtn = styled.button`
   &:hover {
     color: black;
     background-color: white;
+    transition: 0.5s;
   }
 `;
 
