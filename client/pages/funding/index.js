@@ -3,6 +3,7 @@ import Link from "next/Link";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
+import { PageContainer } from "../../styles/global-style";
 import Filter from "../components/Filter";
 import Search from "../components/Search";
 
@@ -25,43 +26,51 @@ const index = () => {
 
   return (
     <MainContainer>
-      <Search />
-      <Filter />
-      <ListWrap>
-        {datas?.map((data, idx) => (
-          <ItemCard key={data.id}>
-            <Image
-              src="/Img/sample.jpg"
-              alt="funding_list_image"
-              width={268}
-              height={268}
-              style={{
-                borderTopLeftRadius: "1rem",
-                borderTopRightRadius: "1rem",
-              }}
-            />
-            <ItemTitle>{data.title}</ItemTitle>
-            <ItemPrice>{data.price}</ItemPrice>
-            <div>가요{"⠂"}R&B</div>
-            <BtnBox>
-              <button>찜하기</button>
-              <button
-                onClick={() => {
-                  router.push(`/funding/${data.id}`);
+      <MainItems></MainItems>
+      <MainItems>
+        <Search />
+        <Filter />
+        <ListWrap>
+          {datas?.map((data, idx) => (
+            <ItemCard key={data.id}>
+              <Image
+                src="/Img/sample.jpg"
+                alt="funding_list_image"
+                width={268}
+                height={268}
+                style={{
+                  marginTop: "-1rem",
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
                 }}
-              >
-                상세보기
-              </button>
-            </BtnBox>
-          </ItemCard>
-        ))}
-      </ListWrap>
+              />
+              <ItemTitle>{data.title}</ItemTitle>
+              <ItemPrice>{data.price}</ItemPrice>
+              <div>가요{"⠂"}R&B</div>
+              <BtnBox>
+                <button>찜하기</button>
+                <button
+                  onClick={() => {
+                    router.push(`/funding/${data.id}`);
+                  }}
+                >
+                  상세보기
+                </button>
+              </BtnBox>
+            </ItemCard>
+          ))}
+        </ListWrap>
+      </MainItems>
+      <MainItems></MainItems>
     </MainContainer>
   );
 };
+
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
+const MainItems = styled.div``;
+
 const ListWrap = styled.div`
   display: grid;
   grid-area: main;

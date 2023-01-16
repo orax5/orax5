@@ -46,292 +46,230 @@ const index = () => {
 
   return (
     <MainContainer>
-      <Allrange>
-        <TodayContentBox>
-          <SelectContent>
+      <div></div>
+      <div>
+        <Allrange>
+          <TodayContentBox>
             {isSelectContent == true ? (
-              <>
-                <div onClick={todayHandler} style={{ color: "red" }}>
-                  투데이
-                </div>
-                <div onClick={lockerHandler}>보관함</div>
-              </>
+              <ItemBoxWrap>
+                <SelectContent>
+                  {isSelectContent == true ? (
+                    <>
+                      <div onClick={todayHandler} style={{ color: "red" }}>
+                        투데이
+                      </div>
+                      <div onClick={lockerHandler}>보관함</div>
+                    </>
+                  ) : (
+                    <>
+                      <div onClick={todayHandler}>투데이</div>
+                      <div onClick={lockerHandler} style={{ color: "red" }}>
+                        보관함
+                      </div>
+                    </>
+                  )}
+                </SelectContent>
+                <ItemBox>
+                  <TitleContainer>
+                    <div>최근 들은 노래</div>
+                    <div>전체보기</div>
+                  </TitleContainer>
+                  <AlbumesBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={NewJeans1stEP}
+                        alt="뉴진스어텐션"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>Attention</div>
+                      <div>NewJeans</div>
+                    </MusicAlbumBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={NewJeansOMG}
+                        alt="뉴진스디토"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>Ditto</div>
+                      <div>NewJeans</div>
+                    </MusicAlbumBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={rain}
+                        alt="폴킴"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>비</div>
+                      <div>폴킴</div>
+                    </MusicAlbumBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={SummerMagic}
+                        alt="레드벨벳써머"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>Power Up</div>
+                      <div>Red Velvet (레드벨벳)</div>
+                    </MusicAlbumBox>
+                  </AlbumesBox>
+                </ItemBox>
+                <ItemBox>
+                  <TitleContainer>
+                    <div>내 취향 플레이리스트</div>
+                    <div>전체보기</div>
+                  </TitleContainer>
+                  <AlbumesBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={NewJeans1stEP}
+                        alt="뉴진스어텐션"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>Attention</div>
+                      <div>NewJeans</div>
+                    </MusicAlbumBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={NewJeansOMG}
+                        alt="뉴진스디토"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>Ditto</div>
+                      <div>NewJeans</div>
+                    </MusicAlbumBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={rain}
+                        alt="폴킴"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>비</div>
+                      <div>폴킴</div>
+                    </MusicAlbumBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={SummerMagic}
+                        alt="레드벨벳써머"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>Power Up</div>
+                      <div>Red Velvet (레드벨벳)</div>
+                    </MusicAlbumBox>
+                  </AlbumesBox>
+                </ItemBox>
+                <ItemBox>
+                  <TitleContainer>
+                    <div>DTS's 추천 곡</div>
+                    <div>전체보기</div>
+                  </TitleContainer>
+                  <AlbumesBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={NewJeans1stEP}
+                        alt="뉴진스어텐션"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>Attention</div>
+                      <div>NewJeans</div>
+                    </MusicAlbumBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={NewJeansOMG}
+                        alt="뉴진스디토"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>Ditto</div>
+                      <div>NewJeans</div>
+                    </MusicAlbumBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={rain}
+                        alt="폴킴"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>비</div>
+                      <div>폴킴</div>
+                    </MusicAlbumBox>
+                    <MusicAlbumBox>
+                      <Image
+                        src={SummerMagic}
+                        alt="레드벨벳써머"
+                        width={200}
+                        height={200}
+                        style={{ paddingTop: "1rem" }}
+                      />
+                      <div>Power Up</div>
+                      <div>Red Velvet (레드벨벳)</div>
+                    </MusicAlbumBox>
+                  </AlbumesBox>
+                </ItemBox>
+              </ItemBoxWrap>
             ) : (
               <>
-                <div onClick={todayHandler}>투데이</div>
-                <div onClick={lockerHandler} style={{ color: "red" }}>
-                  보관함
-                </div>
+                <LockerTitleContainer>
+                  {like === "Like" ? (
+                    <>
+                      <div onClick={likeMusicHandler} style={{ color: "red" }}>
+                        노래
+                      </div>
+                      <div onClick={artistHandler}>아티스트</div>
+                      <div onClick={fundingHandler}>펀딩곡</div>
+
+                      {/* 여기 또 컴포넌트 만들어서 해야함 flex먹고 있어서 블락으로 벗어나서하던가해야하지않나  */}
+                      <NoneLikeMusic>
+                        <div>좋아하는 노래</div>
+                        <div>내가 좋아하는 노래를 모아서 감상해보세요.</div>
+                      </NoneLikeMusic>
+                    </>
+                  ) : artist === "Artist" ? (
+                    <>
+                      <div onClick={likeMusicHandler}>노래</div>
+                      <div onClick={artistHandler} style={{ color: "red" }}>
+                        아티스트
+                      </div>
+                      <div onClick={fundingHandler}>펀딩곡</div>
+                    </>
+                  ) : (
+                    <>
+                      <div onClick={likeMusicHandler}>노래</div>
+                      <div onClick={artistHandler}>아티스트</div>
+                      <div onClick={fundingHandler} style={{ color: "red" }}>
+                        펀딩곡
+                      </div>
+                    </>
+                  )}
+                </LockerTitleContainer>
               </>
             )}
-          </SelectContent>
-
-          {isSelectContent == true ? (
-            <>
-              <ItemBox>
-                <TitleContainer>
-                  <div>최근 들은 노래</div>
-                  <div>전체보기</div>
-                </TitleContainer>
-                <AlbumesBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={NewJeans1stEP}
-                      alt="뉴진스어텐션"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Attention</div>
-                    <div>NewJeans</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={NewJeansOMG}
-                      alt="뉴진스디토"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Ditto</div>
-                    <div>NewJeans</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={rain}
-                      alt="폴킴"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>비</div>
-                    <div>폴킴</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={SummerMagic}
-                      alt="레드벨벳써머"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Power Up</div>
-                    <div>Red Velvet (레드벨벳)</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={Butter}
-                      alt="BTS버터"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Butter</div>
-                    <div>BTS (방탄소년단)</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={SQUAREUP}
-                      alt="블랙핑크"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Forever Young</div>
-                    <div>BLACKPINK</div>
-                  </MusicAlbumBox>
-                </AlbumesBox>
-              </ItemBox>
-              <ItemBox>
-                <TitleContainer>
-                  <div>내 취향 플레이리스트</div>
-                  <div>전체보기</div>
-                </TitleContainer>
-                <AlbumesBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={NewJeans1stEP}
-                      alt="뉴진스어텐션"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Attention</div>
-                    <div>NewJeans</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={NewJeansOMG}
-                      alt="뉴진스디토"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Ditto</div>
-                    <div>NewJeans</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={rain}
-                      alt="폴킴"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>비</div>
-                    <div>폴킴</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={SummerMagic}
-                      alt="레드벨벳써머"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Power Up</div>
-                    <div>Red Velvet (레드벨벳)</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={Butter}
-                      alt="BTS버터"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Butter</div>
-                    <div>BTS (방탄소년단)</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={SQUAREUP}
-                      alt="블랙핑크"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Forever Young</div>
-                    <div>BLACKPINK</div>
-                  </MusicAlbumBox>
-                </AlbumesBox>
-              </ItemBox>
-              <ItemBox>
-                <TitleContainer>
-                  <div>DTS's 추천 곡</div>
-                  <div>전체보기</div>
-                </TitleContainer>
-                <AlbumesBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={NewJeans1stEP}
-                      alt="뉴진스어텐션"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Attention</div>
-                    <div>NewJeans</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={NewJeansOMG}
-                      alt="뉴진스디토"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Ditto</div>
-                    <div>NewJeans</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={rain}
-                      alt="폴킴"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>비</div>
-                    <div>폴킴</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={SummerMagic}
-                      alt="레드벨벳써머"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Power Up</div>
-                    <div>Red Velvet (레드벨벳)</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={Butter}
-                      alt="BTS버터"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Butter</div>
-                    <div>BTS (방탄소년단)</div>
-                  </MusicAlbumBox>
-                  <MusicAlbumBox>
-                    <Image
-                      src={SQUAREUP}
-                      alt="블랙핑크"
-                      width={200}
-                      height={200}
-                      style={{ paddingTop: "1rem" }}
-                    />
-                    <div>Forever Young</div>
-                    <div>BLACKPINK</div>
-                  </MusicAlbumBox>
-                </AlbumesBox>
-              </ItemBox>
-            </>
-          ) : (
-            <>
-              <LockerTitleContainer>
-                {like === "Like" ? (
-                  <>
-                    <div onClick={likeMusicHandler} style={{ color: "red" }}>
-                      노래
-                    </div>
-                    <div onClick={artistHandler}>아티스트</div>
-                    <div onClick={fundingHandler}>펀딩곡</div>
-
-                    {/* 여기 또 컴포넌트 만들어서 해야함 flex먹고 있어서 블락으로 벗어나서하던가해야하지않나  */}
-                    <NoneLikeMusic>
-                      <div>좋아하는 노래</div>
-                      <div>내가 좋아하는 노래를 모아서 감상해보세요.</div>
-                    </NoneLikeMusic>
-                  </>
-                ) : artist === "Artist" ? (
-                  <>
-                    <div onClick={likeMusicHandler}>노래</div>
-                    <div onClick={artistHandler} style={{ color: "red" }}>
-                      아티스트
-                    </div>
-                    <div onClick={fundingHandler}>펀딩곡</div>
-                  </>
-                ) : (
-                  <>
-                    <div onClick={likeMusicHandler}>노래</div>
-                    <div onClick={artistHandler}>아티스트</div>
-                    <div onClick={fundingHandler} style={{ color: "red" }}>
-                      펀딩곡
-                    </div>
-                  </>
-                )}
-              </LockerTitleContainer>
-            </>
-          )}
-        </TodayContentBox>
-
-        <Player />
-      </Allrange>
+          </TodayContentBox>
+          <PlayerBox>
+            <Player />
+          </PlayerBox>
+        </Allrange>
+      </div>
+      <div></div>
     </MainContainer>
   );
 };
