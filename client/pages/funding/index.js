@@ -1,17 +1,54 @@
 import Image from "next/image";
-import Link from "next/Link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { PageContainer } from "../../styles/global-style";
 import Filter from "../components/Filter";
 import Search from "../components/Search";
+import Pagination from "../components/Pagination";
 
 const index = () => {
   const router = useRouter();
 
+  const [datas, setDatas] = useState([]);
+  const [limit, setLimit] = useState(8);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
+
+  useEffect(() => {
+    setDatas(Items);
+  }, []);
   // 더미 데이터
-  const datas = [
+  const Items = [
+    { id: 1, title: "박진영R&B", price: "0.234ETH" },
+    { id: 2, title: "test_title", price: "0.234ETH" },
+    { id: 3, title: "test_title", price: "0.234ETH" },
+    { id: 4, title: "test_title", price: "0.234ETH" },
+    { id: 5, title: "test_title", price: "0.234ETH" },
+    { id: 6, title: "test_title", price: "0.234ETH" },
+    { id: 7, title: "test_title", price: "0.234ETH" },
+    { id: 8, title: "test_title", price: "0.234ETH" },
+    { id: 9, title: "test_title", price: "0.234ETH" },
+    { id: 10, title: "test_title", price: "0.234ETH" },
+    { id: 1, title: "박진영R&B", price: "0.234ETH" },
+    { id: 2, title: "test_title", price: "0.234ETH" },
+    { id: 3, title: "test_title", price: "0.234ETH" },
+    { id: 4, title: "test_title", price: "0.234ETH" },
+    { id: 5, title: "test_title", price: "0.234ETH" },
+    { id: 6, title: "test_title", price: "0.234ETH" },
+    { id: 7, title: "test_title", price: "0.234ETH" },
+    { id: 8, title: "test_title", price: "0.234ETH" },
+    { id: 9, title: "test_title", price: "0.234ETH" },
+    { id: 10, title: "test_title", price: "0.234ETH" },
+    { id: 1, title: "박진영R&B", price: "0.234ETH" },
+    { id: 2, title: "test_title", price: "0.234ETH" },
+    { id: 3, title: "test_title", price: "0.234ETH" },
+    { id: 4, title: "test_title", price: "0.234ETH" },
+    { id: 5, title: "test_title", price: "0.234ETH" },
+    { id: 6, title: "test_title", price: "0.234ETH" },
+    { id: 7, title: "test_title", price: "0.234ETH" },
+    { id: 8, title: "test_title", price: "0.234ETH" },
+    { id: 9, title: "test_title", price: "0.234ETH" },
+    { id: 10, title: "test_title", price: "0.234ETH" },
     { id: 1, title: "박진영R&B", price: "0.234ETH" },
     { id: 2, title: "test_title", price: "0.234ETH" },
     { id: 3, title: "test_title", price: "0.234ETH" },
@@ -31,7 +68,7 @@ const index = () => {
         <Search />
         <Filter />
         <ListWrap>
-          {datas?.map((data, idx) => (
+          {datas.slice(offset, offset + limit).map((data, idx) => (
             <ItemCard key={data.id}>
               <Image
                 src="/Img/sample.jpg"
@@ -60,6 +97,13 @@ const index = () => {
             </ItemCard>
           ))}
         </ListWrap>
+        <Pagination
+          total={datas.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+          shape="rounded"
+        />
       </MainItems>
       <MainItems></MainItems>
     </MainContainer>

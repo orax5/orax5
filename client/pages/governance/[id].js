@@ -6,14 +6,18 @@ const Detail = () => {
     { name: "만두만두", content: "222" },
     { name: "고기만두", content: "333" },
   ];
+
   return (
     <MainContainer>
       <div></div>
       <div>
         <ContentWrap>
           <h1>투표 제목</h1>
-          <h2>종료까지 10시간 10분 50초 남았습니다</h2>
-          <p>여기에 투표 내용이 들어갈거임</p>
+          <h2>
+            종료까지 <span style={{ color: "red" }}>10시간 10분 50초</span>{" "}
+            남았습니다
+          </h2>
+          <p>앨범아트 변경하고 싶어요 </p>
           <div>
             <Btn>찬성</Btn>
             <Btn>반대</Btn>
@@ -23,7 +27,7 @@ const Detail = () => {
           <h1>댓글(3)</h1>
           <WriteReply>
             <input />
-            <Btn>등록</Btn>
+            <button>등록</button>
           </WriteReply>
           {replies.map((reply, idx) => (
             <ShowReply key={idx}>
@@ -42,8 +46,7 @@ const MainContainer = styled.div`
 `;
 // 투표 안건 정보 보여주는 부분
 const ContentWrap = styled.div`
-  ${(props) => props.theme.align.flexCenterColumn};
-  align-items: flex-start;
+  ${(props) => props.theme.align.flexStart};
   font-size: 1.5rem;
   // 종료까지~ 알려주는 문구
   > :nth-child(2) {
@@ -53,22 +56,27 @@ const ContentWrap = styled.div`
   > :nth-child(3) {
     width: 80rem;
     height: 10rem;
+    padding: 1rem;
     border: 1px solid white;
+  }
+  > :last-child {
+    width: 80rem;
+    display: flex;
+    justify-content: space-evenly;
   }
 `;
 // 버튼
 const Btn = styled.button`
   margin: 1rem 0;
   ${(props) => props.theme.button.basicBtn};
+  width: 30rem;
+  height: 4rem;
 `;
 // 댓글 전체박스
 const ReplyWrap = styled.div`
-  ${(props) => props.theme.align.flexCenterColumn};
-  align-items: flex-start;
   font-size: 1.5rem;
   margin: 4rem 0;
 `;
-
 const WriteReply = styled.td`
   ${(props) => props.theme.align.flexCenter};
   background-color: rgba(255, 255, 255, 0.3);
@@ -77,10 +85,22 @@ const WriteReply = styled.td`
   margin: 1rem 0;
   width: 80rem;
   > input {
-    width: 50rem;
+    width: 70rem;
     height: 4rem;
     font-size: 1.5rem;
     border: 1px solid white;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+  }
+  > button {
+    width: 5rem;
+    height: 4rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    border: 1px solid white;
+    border-left: none;
+    border-bottom-right-radius: 1rem;
+    border-top-right-radius: 1rem;
   }
 `;
 

@@ -2,8 +2,15 @@ import Link from "next/Link";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
+//  promise resolve 과정 없이도 변수에 할당할 수 있도록 해준다
+import dynamic from "next/dynamic";
+import Offers from "../components/Offers";
 
 const deatil = () => {
+  // import 를 여기 안에서 한다
+  const LineGraph = dynamic(() => import("../components/LineGraph"), {
+    ssr: false,
+  });
   return (
     <MainContainer>
       <div></div>
@@ -13,8 +20,8 @@ const deatil = () => {
             <Image
               src="/Img/sample.jpg"
               alt="detail_page_image"
-              width={450}
-              height={450}
+              width={500}
+              height={500}
             />
           </ImgWrap>
           <DetailBox>
@@ -70,19 +77,21 @@ const deatil = () => {
           </DetailBox>
         </DetailWrap>
         <InfoWrap>
-          <AboutNft>
+          <InfoBox>
             <div>음원 설명</div>
-            <div>음원 설명 내용</div>
-          </AboutNft>
-          <AboutNft>
-            <div>음원 설명</div>
-            <div>음원 설명 내용</div>
-          </AboutNft>
-          <AboutNft>
-            <div>음원 설명</div>
-            <div>음원 설명 내용</div>
-          </AboutNft>
-          {/* 거래내역 추가하기 -> 컴포넌트로 만들지? */}
+            <AboutNft>
+              <div>음원 설명</div>
+              <div>음원 설명음원 설명음원 설명</div>
+            </AboutNft>
+          </InfoBox>
+          <InfoBox>
+            <div>현재 가격 추이</div>
+            <LineGraph />
+          </InfoBox>
+          <InfoBox>
+            <div>거래 내역</div>
+            <Offers />
+          </InfoBox>
         </InfoWrap>
       </div>
       <div></div>
@@ -93,14 +102,11 @@ const deatil = () => {
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
-
+// 사진이랑 정보있는 div
 const DetailWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media ${(props) => props.theme.device.pc} {
-    ${(props) => props.theme.align.flexCenterColumn};
-  }
   @media ${(props) => props.theme.device.tablet} {
     ${(props) => props.theme.align.flexCenterColumn};
   }
@@ -108,20 +114,23 @@ const DetailWrap = styled.div`
     ${(props) => props.theme.align.flexCenterColumn};
   }
 `;
-
+// 이미지 정렬용 div
 const ImgWrap = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
   @media ${(props) => props.theme.device.mobile} {
-    margin-left: 1rem;
+    > img {
+      width: 22rem;
+      height: 22rem;
+    }
   }
 `;
-
+// nft 상세 정보
 const DetailBox = styled.div`
-  ${(props) => props.theme.align.flexCenterColumn};
-  align-items: flex-start;
+  ${(props) => props.theme.align.flexStart};
   font-size: 1.5rem;
   margin-left: 4rem;
   @media ${(props) => props.theme.device.mobile} {
+    ${(props) => props.theme.align.flexCenterColumn};
     margin-left: 0;
   }
   // 카테고리 부분
@@ -148,7 +157,7 @@ const DetailBox = styled.div`
     ${(props) => props.theme.align.flexCenter};
     margin-top: 1rem;
     @media ${(props) => props.theme.device.mobile} {
-      ${(props) => props.theme.align.flexCenter};
+      ${(props) => props.theme.align.flexCenterColumn};
     }
   }
 `;
@@ -166,17 +175,29 @@ const PageBtn = styled.button`
 `;
 // 음원 설명, 거래기록 등 상세 정보 넣을 부분
 const InfoWrap = styled.div`
-  ${(props) => props.theme.align.flexCenterColumn};
+  ${(props) => props.theme.align.flexStart};
   width: inherit;
-  margin: 5rem 0;
+  margin: 2rem 0;
   @media ${(props) => props.theme.device.mobile} {
     margin-left: 1rem;
+  }
+`;
+// 상세정보 속성 박스
+const InfoBox = styled.div`
+  ${(props) => props.theme.align.flexCenterColumn};
+  margin: 2rem 2rem 2rem 0;
+  width: 60rem;
+  // 상세정보 제목
+  > :first-child {
+    margin: 1rem;
+    font-size: 3rem;
+    font-weight: 900;
   }
 `;
 // 음원 설명 박스
 const AboutNft = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
-  width: 50rem;
+  width: 60rem;
   height: auto;
   border: 1px solid gray;
   border-radius: 1rem;

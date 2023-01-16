@@ -6,9 +6,9 @@ const data = [
   { name: "반대", value: 300 },
 ];
 
-export default function Graph() {
+export default function CircleGraph() {
   return (
-    <PieChart width={400} height={400}>
+    <PieChart width={500} height={500}>
       <Pie
         data={data}
         dataKey="value"

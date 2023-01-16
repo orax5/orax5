@@ -66,6 +66,12 @@ const align = {
     justify-content: space-between;
     align-items: center;
   `,
+  flexStart: `
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: flex-start;
+  `,
 };
 
 // 버튼
