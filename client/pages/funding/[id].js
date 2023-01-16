@@ -16,8 +16,8 @@ const deatil = () => {
             <Image
               src="/Img/sample.jpg"
               alt="detail_page_image"
-              width={450}
-              height={450}
+              width={500}
+              height={500}
             />
           </ImgWrap>
           <DetailBox>
@@ -120,18 +120,12 @@ const deatil = () => {
 
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
-  @media ${(props) => props.theme.device.mobile} {
-    color: red;
-    ${(props) => props.theme.align.flexCenterColumn};
-  }
 `;
 const DetailWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media ${(props) => props.theme.device.pc} {
-    ${(props) => props.theme.align.flexCenterColumn};
-  }
+
   @media ${(props) => props.theme.device.tablet} {
     ${(props) => props.theme.align.flexCenterColumn};
   }
@@ -144,23 +138,27 @@ const ImgWrap = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
   @media ${(props) => props.theme.device.mobile} {
     margin-left: 1rem;
+    > img {
+      width: 22rem;
+      height: 22rem;
+    }
   }
 `;
 
 const DetailBox = styled.div`
-  ${(props) => props.theme.align.flexCenterColumn};
-  align-items: flex-start;
+  ${(props) => props.theme.align.flexStart};
   font-size: 1.5rem;
   margin-left: 4rem;
   @media ${(props) => props.theme.device.tablet} {
     margin-left: 0;
   }
   @media ${(props) => props.theme.device.mobile} {
+    ${(props) => props.theme.align.flexCenterColumn};
     margin-left: 1rem;
   }
   // 카테고리 부분
   > :first-child {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
   // 카테고리 하위메뉴
   & span:hover {
