@@ -12,7 +12,7 @@ const RegisterVote = () => {
           </div>
           <div>
             <label>투표 기간</label>
-            <input type="date" />
+            <SelectDate type="date" />
           </div>
         </ContentHeader>
         <ContentBody>
@@ -66,7 +66,12 @@ const ContentHeader = styled.div`
     margin-left: 1rem;
   }
 `;
-
+const SelectDate = styled.input`
+  border: 1px solid white;
+  width: 1rem;
+  height: 2rem;
+  margin-left: 1rem;
+`;
 const ContentBody = styled.div`
   margin: 0.5rem;
 
