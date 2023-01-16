@@ -1,64 +1,121 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import RegisterVote from "../components/RegisterVote";
+import Pagination from "../components/Pagination";
 
 const index = () => {
   const router = useRouter();
+  const [posts, setPosts] = useState([]);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
+
+  useEffect(() => {
+    setPosts(datas);
+  }, []);
 
   // 더미데이터
   const datas = [
     {
       id: 1,
-      title: "투표 안건 제목",
+      title: "투표 제목",
       dueto: "2023-01-31",
-      ownedNft: "해당하는 nft이름",
+      ownedNft: "해당 nft",
       content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "진행중",
+    },
+    {
+      id: 1,
+      title: "투표 제목",
+      dueto: "2023-01-31",
+      ownedNft: "해당 nft",
+      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "진행중",
+    },
+    {
+      id: 1,
+      title: "투표 제목",
+      dueto: "2023-01-31",
+      ownedNft: "해당 nft",
+      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "진행중",
+    },
+    {
+      id: 1,
+      title: "투표 제목",
+      dueto: "2023-01-31",
+      ownedNft: "해당 nft",
+      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "진행중",
+    },
+    {
+      id: 1,
+      title: "투표 제목",
+      dueto: "2023-01-31",
+      ownedNft: "해당 nft",
+      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "진행중",
+    },
+    {
+      id: 1,
+      title: "투표 제목",
+      dueto: "2023-01-31",
+      ownedNft: "해당 nft",
+      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "진행중",
     },
     {
       id: 2,
-      title: "투표 안건 제목",
+      title: "투표 제목",
       dueto: "2023-01-31",
-      ownedNft: "해당하는 nft이름",
+      ownedNft: "해당 nft",
       content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "종료",
     },
     {
       id: 3,
-      title: "투표 안건 제목",
+      title: "투표 제목",
       dueto: "2023-01-31",
-      ownedNft: "해당하는 nft이름",
+      ownedNft: "해당 nft",
       content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "종료",
     },
     {
       id: 4,
-      title: "투표 안건 제목",
+      title: "투표 제목",
       dueto: "2023-01-31",
-      ownedNft: "해당하는 nft이름",
+      ownedNft: "해당 nft",
       content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "진행중",
     },
     {
       id: 5,
-      title: "투표 안건 제목",
+      title: "투표 제목",
       dueto: "2023-01-31",
-      ownedNft: "해당하는 nft이름",
+      ownedNft: "해당 nft",
       content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "진행중",
     },
     {
       id: 5,
-      title: "투표 안건 제목",
+      title: "투표 제목",
       dueto: "2023-01-31",
-      ownedNft: "해당하는 nft이름",
+      ownedNft: "해당 nft",
       content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "진행중",
     },
     {
       id: 5,
-      title: "투표 안건 제목",
+      title: "투표 제목",
       dueto: "2023-01-31",
-      ownedNft: "해당하는 nft이름",
+      ownedNft: "해당 nft",
       content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+      status: "종료",
     },
   ];
+
   const [modalOpen, setModalOpen] = useState(false);
 
   const showModal = () => {
@@ -79,10 +136,12 @@ const index = () => {
                 <th>제목</th>
                 <th>해당 NFT</th>
                 <th>종료일</th>
+                {/* 종료일이 지나면 '상태 : 종료'로 변경 */}
+                <th>상태</th>
               </tr>
             </thead>
             <tbody>
-              {datas.map((data, idx) => (
+              {datas.slice(offset, offset + limit).map((data, idx) => (
                 <tr>
                   <td>{idx + 1}</td>
                   <ItemImage>
@@ -103,11 +162,18 @@ const index = () => {
                   </ItemTitle>
                   <td>{data.ownedNft}</td>
                   <td>{data.dueto}</td>
+                  <td>{data.status}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </VoteListWrap>
+        <Pagination
+          total={posts.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
       </div>
       <div></div>
     </MainContainer>

@@ -1,15 +1,24 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Filter from "../components/Filter";
+import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 
 const index = () => {
   const router = useRouter();
 
+  const [datas, setDatas] = useState([]);
+  const [limit, setLimit] = useState(8);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
+
+  useEffect(() => {
+    setDatas(Items);
+  }, []);
+
   // 더미 데이터
-  const datas = [
+  const Items = [
     { id: 1, title: "test_title", price: "0.234ETH" },
     { id: 2, title: "test_title", price: "0.234ETH" },
     { id: 3, title: "test_title", price: "0.234ETH" },
@@ -28,7 +37,7 @@ const index = () => {
       <MainItems>
         <Search />
         <ListWrap>
-          {datas?.map((data, idx) => (
+          {datas.slice(offset, offset + limit).map((data, idx) => (
             <ItemCard key={data.id}>
               <Image
                 src="/Img/sample.jpg"
@@ -56,6 +65,12 @@ const index = () => {
             </ItemCard>
           ))}
         </ListWrap>
+        <Pagination
+          total={datas.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
       </MainItems>
       <MainItems></MainItems>
     </MainContainer>
