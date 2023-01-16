@@ -8,7 +8,7 @@ import FundingNft from "../components/mypage/FundingNft";
 // 구글아이콘
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 // // 리액트 아이콘
-// import {FaEthereum} from 'react-icons/fa';
+import { FaEthereum } from "react-icons/fa";
 
 const index = () => {
   // 클립보드 카피 되었다는 표시 알려줄려고 셋타임아웃state 관리용useState

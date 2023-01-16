@@ -36,7 +36,7 @@ const index = () => {
                 width={268}
                 height={268}
                 style={{
-                  marginTop: "-1rem ",
+                  marginTop: "-1.3rem ",
                   borderTopLeftRadius: "1rem",
                   borderTopRightRadius: "1rem",
                 }}

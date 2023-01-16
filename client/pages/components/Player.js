@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { PageContainer } from "../../styles/global-style";
 import Image from "next/image";
 // 이미지들
 import NewJeans1stEP from "../../public/Img/NewJeans1stEP.jpg";
@@ -136,41 +135,32 @@ const Player = () => {
 
 // 스트리밍 내용 박스
 const SideStreamingBox = styled.div`
-  width: 30rem;
-  background: rgba(36, 36, 36, 1);
-  @media ${(props) => props.theme.device.pc} {
-    width: 30rem;
-  }
-  @media ${(props) => props.theme.device.tablet} {
-    width: 100%;
-  }
-  @media ${(props) => props.theme.device.mobile} {
-    width: 100vw;
-  }
-  /* text-align: center; */
   > :nth-child(1) {
-    margin-top: 6rem;
-    margin-left: 9rem;
+    ${(props) => props.theme.align.flexCenter}
+    >img {
+      margin-top: 4rem;
+    }
   }
 `;
 
 // 현재 스트리밍 음악 내용 감싸주는 컨테이너
 const CurrentStreamingContent = styled.label`
   display: flex;
-  padding: 2rem 0rem 0rem 2rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 2rem 0rem 0rem 0;
   background: rgba(36, 36, 36, 1);
   > div {
-    margin-left: 2rem;
+    margin: 1rem;
   }
   & :nth-child(1) {
-    font-size: xx-large;
+    font-size: 1.5rem;
   }
   & :nth-child(2) {
     color: gray;
-    font-size: x-large;
+    font-size: 1rem;
   }
 `;
-
 // 스트리밍 컨트롤러 박스
 const StreamingControllBox = styled.div`
   > div {

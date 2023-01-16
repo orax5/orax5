@@ -43,10 +43,6 @@ const index = () => {
     setLike("");
     setArtist("");
   };
-  // 좋아요 하트 채우기 버튼 핸들러 다시 누르면 하트 비워야해서 하나로만듬
-  const fillLikeHandler = () => {
-    setFillLike((fillLike) => !fillLike); // on,off 개념 boolean
-  };
 
   return (
     <MainContainer>
@@ -56,7 +52,6 @@ const index = () => {
           <TodayContentBox>
             {isSelectContent == true ? (
               <ItemBoxWrap>
-                {" "}
                 <SelectContent>
                   {isSelectContent == true ? (
                     <>
@@ -269,9 +264,9 @@ const index = () => {
               </>
             )}
           </TodayContentBox>
-          <div>
+          <PlayerBox>
             <Player />
-          </div>
+          </PlayerBox>
         </Allrange>
       </div>
       <div></div>
@@ -291,20 +286,23 @@ const SelectContent = styled.div`
 `;
 const Allrange = styled.div`
   display: grid;
-  grid-template-columns: 4fr 2fr;
+  grid-template-columns: 5fr 2fr;
+  @media ${(props) => props.theme.device.pc} {
+    grid-template-columns: 4fr 2fr;
+  }
 `;
-const ItemBoxWrap = styled.div`
-  /* display: grid;
-  grid-template-columns: 4fr 2fr; */
-`;
+const ItemBoxWrap = styled.div``;
+// 가로 행 전체
 const ItemBox = styled.div`
   width: 100%;
-  padding-top: 4rem;
+  padding-top: 3rem;
+  @media ${(props) => props.theme.device.pc} {
+    padding-top: 1rem;
+  }
 `;
-
 // 타이틀, 전체보기 띄어놓는 컨테이너
 const TitleContainer = styled.div`
-  width: 100%;
+  width: 93%;
   display: flex;
   justify-content: space-between;
   > :first-child {
@@ -314,33 +312,57 @@ const TitleContainer = styled.div`
     color: gray;
   }
 `;
-
 // 이미지랑 노래 이름 아티스트 감싼 박스
 const MusicAlbumBox = styled.div`
-  width: 200px;
+  width: 20rem;
   height: 250px;
   margin-right: 1rem;
-  > :nth-child(2) {
+  @media ${(props) => props.theme.device.pc} {
+    margin-right: 0.5rem;
+  }
+  > :first-child {
+    @media ${(props) => props.theme.device.pc} {
+      width: 10rem;
+      height: 10rem;
+    }
   }
   > :last-child {
     color: gray;
   }
 `;
-
 // 앨범들을 감싼 박스
 const AlbumesBox = styled.div`
   display: flex;
   width: 100%;
   overflow: hidden;
 `;
-
 // 투데이 내용 박스 컨테이너
-const TodayContentBox = styled.div``;
-// 전범위 감싸는거
-// const Allrange = styled.div`
-//   display: flex;
-// `;
-
+const TodayContentBox = styled.div`
+  width: 60rem;
+  @media ${(props) => props.theme.device.pc} {
+    width: 30rem;
+  }
+  @media ${(props) => props.theme.device.tablet} {
+    display: none;
+  }
+  @media ${(props) => props.theme.device.mobile} {
+    display: none;
+  }
+`;
+// 플레이어 감싼 div
+const PlayerBox = styled.div`
+  width: 20rem;
+  background: rgba(36, 36, 36, 1);
+  @media ${(props) => props.theme.device.pc} {
+    width: 20rem;
+  }
+  @media ${(props) => props.theme.device.tablet} {
+    width: 100vw;
+  }
+  @media ${(props) => props.theme.device.mobile} {
+    width: 100vw;
+  }
+`;
 // 보관함 내용
 const LockerTitleContainer = styled.div`
   display: flex;
@@ -349,7 +371,6 @@ const LockerTitleContainer = styled.div`
     margin-right: 1rem;
   }
 `;
-
 // 좋아요한 음악이 없었을때 띄울 컴포넌트박스
 const NoneLikeMusic = styled.p`
   display: block;

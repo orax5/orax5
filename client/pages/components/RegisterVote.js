@@ -40,8 +40,7 @@ const RegisterWrap = styled.div`
   align-items: center;
   font-size: 1.5rem;
   position: absolute;
-  top: 25%;
-  left: 25%;
+  margin: 0 auto;
   > div {
     display: flex;
     justify-content: center;
@@ -62,7 +61,7 @@ const ContentHeader = styled.div`
   }
   & input {
     border: 1px solid white;
-    width: 10rem;
+    width: 1rem;
     height: 2rem;
     margin-left: 1rem;
   }
