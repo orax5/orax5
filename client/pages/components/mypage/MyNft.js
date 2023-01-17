@@ -1,33 +1,44 @@
 // 소유 NFT 컴포넌트
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
+import SaleModal from "./SaleModal";
 import Pagination from "../Pagination";
 
 const MyNft = () => {
-  const router = useRouter();
-
   // 더미 데이터
   const Items = [
-    { img: "1", id: 1, title: "test_title", price: "0.234ETH" },
-    { img: "2", id: 2, title: "test_title", price: "0.234ETH" },
-    { img: "3", id: 3, title: "test_title", price: "0.234ETH" },
-    { img: "4", id: 4, title: "test_title", price: "0.234ETH" },
-    { img: "5", id: 5, title: "test_title", price: "0.234ETH" },
-    { img: "6", id: 6, title: "test_title", price: "0.234ETH" },
-    { img: "7", id: 7, title: "test_title", price: "0.234ETH" },
-    { img: "8", id: 8, title: "test_title", price: "0.234ETH" },
-    { img: "9", id: 9, title: "test_title", price: "0.234ETH" },
-    { img: "10", id: 10, title: "test_title", price: "0.234ETH" },
-    { img: "11", id: 10, title: "test_title", price: "0.234ETH" },
-    { img: "12", id: 10, title: "test_title", price: "0.234ETH" },
-    { img: "13", id: 10, title: "test_title", price: "0.234ETH" },
+    { img: "1", id: 1, title: "test_title", price: "0.234ETH", amount: 2 },
+    { img: "2", id: 2, title: "test_title", price: "0.234ETH", amount: 4 },
+    { img: "3", id: 3, title: "test_title", price: "0.234ETH", amount: 11 },
+    { img: "4", id: 4, title: "test_title", price: "0.234ETH", amount: 49 },
+    { img: "5", id: 5, title: "test_title", price: "0.234ETH", amount: 32 },
+    { img: "6", id: 6, title: "test_title", price: "0.234ETH", amount: 77 },
+    { img: "7", id: 7, title: "test_title", price: "0.234ETH", amount: 84 },
+    { img: "8", id: 8, title: "test_title", price: "0.234ETH", amount: 9 },
+    { img: "9", id: 9, title: "test_title", price: "0.234ETH", amount: 33 },
+    { img: "10", id: 10, title: "test_title", price: "0.234ETH", amount: 33 },
+    { img: "11", id: 11, title: "test_title", price: "0.234ETH", amount: 14 },
+    { img: "12", id: 12, title: "test_title", price: "0.234ETH", amount: 33 },
+    { img: "13", id: 13, title: "test_title", price: "0.234ETH", amount: 6 },
   ];
   const [datas, setDatas] = useState([]);
   const [limit, setLimit] = useState(8);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
+
+  const [modalOpen, setModalOpen] = useState(false); // 클릭했을때 트루폴스 반복
+  const [id, setId] = useState(null);
+  const [amount, setAmount] = useState(0);
+  const router = useRouter();
+
+  // onClick 메서드
+  const showModalHandler = (id, amount) => {
+    setId(id);
+    setAmount(amount);
+    setModalOpen(!modalOpen); // 클릭했을때 트루폴스 반복
+  };
 
   useEffect(() => {
     setDatas(Items);
@@ -39,7 +50,7 @@ const MyNft = () => {
           {datas.slice(offset, offset + limit).map((data, idx) => (
             <ItemCard key={idx}>
               <Image
-                src={`/Img/dummy/${data.img}.jpg`}
+                src="/Img/sample.jpg"
                 alt="nft_list_image"
                 width={268}
                 height={268}
@@ -50,9 +61,14 @@ const MyNft = () => {
                 }}
               />
               <ItemTitle>{data.title}</ItemTitle>
-              <ItemPrice>{data.price}</ItemPrice>
+              <ItemPrice>
+                {"보유량 "}
+                {data.amount}
+              </ItemPrice>
               <BtnBox>
-                <button>Sale</button>
+                <button onClick={() => showModalHandler(data.id, data.amount)}>
+                  Sale
+                </button>
                 <button
                   onClick={() => {
                     router.push(`/marketplace/${data.id}`);
@@ -63,6 +79,7 @@ const MyNft = () => {
               </BtnBox>
             </ItemCard>
           ))}
+          {modalOpen && <SaleModal id={id} amount={amount} />}
         </ListWrap>
         <Pagination
           total={datas.length}
