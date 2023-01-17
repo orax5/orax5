@@ -154,7 +154,7 @@ const index = () => {
               <tbody>
                 {}
                 {searched.map((data, idx) => (
-                  <tr key={data.name}>
+                  <tr key={idx}>
                     <td>{data.name}</td>
                     <td>{data.category}</td>
                     <td>
