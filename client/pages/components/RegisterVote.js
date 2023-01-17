@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const RegisterVote = () => {
+  const pickedDateHandler = (e) => {
+    console.log(e.target.value);
+  };
   return (
     <RegisterWrap>
       <ContentWrap>
@@ -11,7 +14,7 @@ const RegisterVote = () => {
           <option>여기에 불러와서 보여줌</option>
         </select>
         <label>투표 기간</label>
-        <input type="date" />
+        <input type="date" onChange={pickedDateHandler} />
         <label>투표 제목</label>
         <input />
         <textarea placeholder="제안할 내용을 입력해주세요" />

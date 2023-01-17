@@ -19,46 +19,19 @@ const index = () => {
   }, []);
   // 더미 데이터
   const Items = [
-    { id: 1, title: "박진영R&B", price: "0.234ETH" },
-    { id: 2, title: "test_title", price: "0.234ETH" },
-    { id: 3, title: "test_title", price: "0.234ETH" },
-    { id: 4, title: "test_title", price: "0.234ETH" },
-    { id: 5, title: "test_title", price: "0.234ETH" },
-    { id: 6, title: "test_title", price: "0.234ETH" },
-    { id: 7, title: "test_title", price: "0.234ETH" },
-    { id: 8, title: "test_title", price: "0.234ETH" },
-    { id: 9, title: "test_title", price: "0.234ETH" },
-    { id: 10, title: "test_title", price: "0.234ETH" },
-    { id: 1, title: "박진영R&B", price: "0.234ETH" },
-    { id: 2, title: "test_title", price: "0.234ETH" },
-    { id: 3, title: "test_title", price: "0.234ETH" },
-    { id: 4, title: "test_title", price: "0.234ETH" },
-    { id: 5, title: "test_title", price: "0.234ETH" },
-    { id: 6, title: "test_title", price: "0.234ETH" },
-    { id: 7, title: "test_title", price: "0.234ETH" },
-    { id: 8, title: "test_title", price: "0.234ETH" },
-    { id: 9, title: "test_title", price: "0.234ETH" },
-    { id: 10, title: "test_title", price: "0.234ETH" },
-    { id: 1, title: "박진영R&B", price: "0.234ETH" },
-    { id: 2, title: "test_title", price: "0.234ETH" },
-    { id: 3, title: "test_title", price: "0.234ETH" },
-    { id: 4, title: "test_title", price: "0.234ETH" },
-    { id: 5, title: "test_title", price: "0.234ETH" },
-    { id: 6, title: "test_title", price: "0.234ETH" },
-    { id: 7, title: "test_title", price: "0.234ETH" },
-    { id: 8, title: "test_title", price: "0.234ETH" },
-    { id: 9, title: "test_title", price: "0.234ETH" },
-    { id: 10, title: "test_title", price: "0.234ETH" },
-    { id: 1, title: "박진영R&B", price: "0.234ETH" },
-    { id: 2, title: "test_title", price: "0.234ETH" },
-    { id: 3, title: "test_title", price: "0.234ETH" },
-    { id: 4, title: "test_title", price: "0.234ETH" },
-    { id: 5, title: "test_title", price: "0.234ETH" },
-    { id: 6, title: "test_title", price: "0.234ETH" },
-    { id: 7, title: "test_title", price: "0.234ETH" },
-    { id: 8, title: "test_title", price: "0.234ETH" },
-    { id: 9, title: "test_title", price: "0.234ETH" },
-    { id: 10, title: "test_title", price: "0.234ETH" },
+    { img: "1", id: 1, title: "test_title", price: "0.234ETH" },
+    { img: "2", id: 2, title: "test_title", price: "0.234ETH" },
+    { img: "3", id: 3, title: "test_title", price: "0.234ETH" },
+    { img: "4", id: 4, title: "test_title", price: "0.234ETH" },
+    { img: "5", id: 5, title: "test_title", price: "0.234ETH" },
+    { img: "6", id: 6, title: "test_title", price: "0.234ETH" },
+    { img: "7", id: 7, title: "test_title", price: "0.234ETH" },
+    { img: "8", id: 8, title: "test_title", price: "0.234ETH" },
+    { img: "9", id: 9, title: "test_title", price: "0.234ETH" },
+    { img: "10", id: 10, title: "test_title", price: "0.234ETH" },
+    { img: "11", id: 10, title: "test_title", price: "0.234ETH" },
+    { img: "12", id: 10, title: "test_title", price: "0.234ETH" },
+    { img: "13", id: 10, title: "test_title", price: "0.234ETH" },
   ];
 
   return (
@@ -69,9 +42,9 @@ const index = () => {
         <Filter />
         <ListWrap>
           {datas.slice(offset, offset + limit).map((data, idx) => (
-            <ItemCard key={data.id}>
+            <ItemCard key={idx}>
               <Image
-                src="/Img/sample.jpg"
+                src={`/Img/dummy/${data.img}.jpg`}
                 alt="funding_list_image"
                 width={268}
                 height={268}
@@ -102,7 +75,6 @@ const index = () => {
           limit={limit}
           page={page}
           setPage={setPage}
-          shape="rounded"
         />
       </MainItems>
       <MainItems></MainItems>

@@ -1,60 +1,76 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
+import Pagination from "../Pagination";
 
 const FundingNft = () => {
-    const router = useRouter();
+  const router = useRouter();
 
-    // 더미 데이터
-    const datas = [
-      { id: 1, title: "test_title", price: "0.234ETH" },
-      { id: 2, title: "test_title", price: "0.234ETH" },
-      { id: 3, title: "test_title", price: "0.234ETH" },
-      { id: 4, title: "test_title", price: "0.234ETH" },
-      { id: 5, title: "test_title", price: "0.234ETH" },
-      { id: 6, title: "test_title", price: "0.234ETH" },
-      { id: 7, title: "test_title", price: "0.234ETH" },
-      { id: 8, title: "test_title", price: "0.234ETH" },
-      { id: 9, title: "test_title", price: "0.234ETH" },
-      { id: 10, title: "test_title", price: "0.234ETH" },
-    ];
-  
-    return (
-      <div>
-         <MainItems>
-          <ListWrap>
-            {datas?.map((data, idx) => (
-              <ItemCard key={data.id}>
-                <Image
-                  src="/Img/sample.jpg"
-                  alt="nft_list_image"
-                  width={268}
-                  height={268}
-                  style={{
-                    marginTop: "-0.9rem",
-                    borderTopLeftRadius: "1rem",
-                    borderTopRightRadius: "1rem",
+  // 더미 데이터
+  const Items = [
+    { img: "1", id: 1, title: "test_title", price: "0.234ETH" },
+    { img: "2", id: 2, title: "test_title", price: "0.234ETH" },
+    { img: "3", id: 3, title: "test_title", price: "0.234ETH" },
+    { img: "4", id: 4, title: "test_title", price: "0.234ETH" },
+    { img: "5", id: 5, title: "test_title", price: "0.234ETH" },
+    { img: "6", id: 6, title: "test_title", price: "0.234ETH" },
+    { img: "7", id: 7, title: "test_title", price: "0.234ETH" },
+    { img: "8", id: 8, title: "test_title", price: "0.234ETH" },
+    { img: "9", id: 9, title: "test_title", price: "0.234ETH" },
+    { img: "10", id: 10, title: "test_title", price: "0.234ETH" },
+    { img: "11", id: 10, title: "test_title", price: "0.234ETH" },
+    { img: "12", id: 10, title: "test_title", price: "0.234ETH" },
+    { img: "13", id: 10, title: "test_title", price: "0.234ETH" },
+  ];
+  const [datas, setDatas] = useState([]);
+  const [limit, setLimit] = useState(8);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
+  useEffect(() => {
+    setDatas(Items);
+  }, []);
+  return (
+    <div>
+      <MainItems>
+        <ListWrap>
+          {datas.slice(offset, offset + limit).map((data, idx) => (
+            <ItemCard key={idx}>
+              <Image
+                src={`/Img/dummy/${data.img}.jpg`}
+                alt="nft_list_image"
+                width={268}
+                height={268}
+                style={{
+                  marginTop: "-0.9rem",
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
+                }}
+              />
+              <ItemTitle>{data.title}</ItemTitle>
+              <ItemPrice>{data.price}</ItemPrice>
+              <BtnBox>
+                <button
+                  onClick={() => {
+                    router.push(`/marketplace/${data.id}`);
                   }}
-                />
-                <ItemTitle>{data.title}</ItemTitle>
-                <ItemPrice>{data.price}</ItemPrice>
-                <BtnBox>
-                  <button
-                    onClick={() => {
-                      router.push(`/marketplace/${data.id}`);
-                    }}
-                  >
-                    Detail
-                  </button>
-                </BtnBox>
-              </ItemCard>
-            ))}
-          </ListWrap>
-        </MainItems>
-      </div>
-    )
-  }
+                >
+                  Detail
+                </button>
+              </BtnBox>
+            </ItemCard>
+          ))}
+        </ListWrap>
+        <Pagination
+          total={datas.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
+      </MainItems>
+    </div>
+  );
+};
 
 const MainItems = styled.div``;
 const ListWrap = styled.div`
@@ -105,4 +121,4 @@ const BtnBox = styled.div`
   }
 `;
 
-export default FundingNft
+export default FundingNft;

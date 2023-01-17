@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import CountDown from "../components/CountDown";
 const Detail = () => {
   const replies = [
     { name: "김치만두", content: "앨범아트 바꾸지 말자" },
@@ -7,17 +8,26 @@ const Detail = () => {
     { name: "고기만두", content: "333" },
   ];
 
+  // 등록하는 곳에서 선택한 날짜로 불러와야함, 지금은 임의로 두고 작업
+  const endDate = new Date("2023-01-31 11:00:00");
+  // const [date, hours, minutes, seconds] = CountDown(endDate);
   return (
     <MainContainer>
       <div></div>
       <div>
         <ContentWrap>
           <h1>투표 제목</h1>
-          <h2>
-            종료까지 <span style={{ color: "red" }}>10시간 10분 50초</span>{" "}
-            남았습니다
-          </h2>
-          <p>앨범아트 변경하고 싶어요 </p>
+          <div>
+            {/* <CountDown
+              endDate={endDate}
+              date={date}
+              hours={hours}
+              minutes={minutes}
+              seconds={seconds}
+            /> */}
+          </div>
+
+          <div>앨범아트 변경하고 싶어요 </div>
           <div>
             <Btn>찬성</Btn>
             <Btn>반대</Btn>
@@ -77,7 +87,7 @@ const ReplyWrap = styled.div`
   font-size: 1.5rem;
   margin: 4rem 0;
 `;
-const WriteReply = styled.td`
+const WriteReply = styled.div`
   ${(props) => props.theme.align.flexCenter};
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 1rem;
