@@ -147,8 +147,8 @@ const SideStreamingBox = styled.div`
 const CurrentStreamingContent = styled.label`
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
-  padding: 2rem 0rem 0rem 0;
+  align-items: center;
+  padding: 2rem 0 0 1rem;
   background: rgba(36, 36, 36, 1);
   > div {
     margin: 1rem;

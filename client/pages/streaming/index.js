@@ -1,15 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import Image from "next/image";
-import Link from 'next/Link';
-// 이미지들
-import NewJeans1stEP from "../../public/Img/NewJeans1stEP.jpg";
-import NewJeansOMG from "../../public/Img/NewJeansOMG.jpg";
-import rain from "../../public/Img/rain.jpg";
-import SummerMagic from "../../public/Img/SummerMagic.jpg";
-import Butter from "../../public/Img/Butter.jpg";
-import SQUAREUP from "../../public/Img/SQUAREUP.jpg";
+import Link from "next/Link";
 import Player from "../components/Player";
+import Slide from "../components/Slide";
 
 const index = () => {
   // 투데이, 보관함 이동하려고 사용
@@ -54,212 +47,88 @@ const index = () => {
             {isSelectContent == true ? (
               <ItemBoxWrap>
                 <SelectContent>
-                  {
-                    isSelectContent == true ? (
+                  {isSelectContent == true ? (
                     <>
                       <TitleNav>
-                        <div style={{display:"flex"}}>
-                          <div onClick={todayHandler} style={{ color: "red", marginRight:"1rem"}}>투데이</div>
+                        <div style={{ display: "flex" }}>
+                          <div
+                            onClick={todayHandler}
+                            style={{ color: "plum", marginRight: "1rem" }}
+                          >
+                            투데이
+                          </div>
                           <div onClick={lockerHandler}>보관함</div>
                         </div>
-                        <HoverRed><Link href = "/streaming/buyticket">이용권구매</Link></HoverRed>
+                        <HoverRed>
+                          <Link href="/streaming/buyticket">이용권구매</Link>
+                        </HoverRed>
                       </TitleNav>
                     </>
                   ) : (
                     <>
                       <div onClick={todayHandler}>투데이</div>
-                      <div onClick={lockerHandler} style={{ color: "red" }}>
+                      <div onClick={lockerHandler} style={{ color: "plum" }}>
                         보관함
                       </div>
                     </>
-                  )
-                  }
+                  )}
                 </SelectContent>
                 <ItemBox>
                   <TitleContainer>
                     <div>최근 들은 노래</div>
                     <div>전체보기</div>
                   </TitleContainer>
-                  <AlbumesBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={NewJeans1stEP}
-                        alt="뉴진스어텐션"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Attention</div>
-                      <div>NewJeans</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={NewJeansOMG}
-                        alt="뉴진스디토"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Ditto</div>
-                      <div>NewJeans</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={rain}
-                        alt="폴킴"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>비</div>
-                      <div>폴킴</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={SummerMagic}
-                        alt="레드벨벳써머"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Power Up</div>
-                      <div>Red Velvet (레드벨벳)</div>
-                    </MusicAlbumBox>
-                  </AlbumesBox>
-                </ItemBox>
-                <ItemBox>
+                  <Slide />
                   <TitleContainer>
-                    <div>내 취향 플레이리스트</div>
+                    <div>내 취향 플레이리스트 </div>
                     <div>전체보기</div>
                   </TitleContainer>
-                  <AlbumesBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={NewJeans1stEP}
-                        alt="뉴진스어텐션"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Attention</div>
-                      <div>NewJeans</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={NewJeansOMG}
-                        alt="뉴진스디토"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Ditto</div>
-                      <div>NewJeans</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={rain}
-                        alt="폴킴"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>비</div>
-                      <div>폴킴</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={SummerMagic}
-                        alt="레드벨벳써머"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Power Up</div>
-                      <div>Red Velvet (레드벨벳)</div>
-                    </MusicAlbumBox>
-                  </AlbumesBox>
-                </ItemBox>
-                <ItemBox>
+                  <Slide />
                   <TitleContainer>
-                    <div>DTS's 추천 곡</div>
+                    <div>DTS's 추천곡 </div>
                     <div>전체보기</div>
                   </TitleContainer>
-                  <AlbumesBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={NewJeans1stEP}
-                        alt="뉴진스어텐션"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Attention</div>
-                      <div>NewJeans</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={NewJeansOMG}
-                        alt="뉴진스디토"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Ditto</div>
-                      <div>NewJeans</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={rain}
-                        alt="폴킴"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>비</div>
-                      <div>폴킴</div>
-                    </MusicAlbumBox>
-                    <MusicAlbumBox>
-                      <Image
-                        src={SummerMagic}
-                        alt="레드벨벳써머"
-                        width={200}
-                        height={200}
-                        style={{ paddingTop: "1rem" }}
-                      />
-                      <div>Power Up</div>
-                      <div>Red Velvet (레드벨벳)</div>
-                    </MusicAlbumBox>
-                  </AlbumesBox>
+                  <Slide />
                 </ItemBox>
               </ItemBoxWrap>
             ) : (
               <>
                 <SelectContent>
-                  {
-                    isSelectContent == true ? (
+                  {isSelectContent == true ? (
                     <>
-                      <div onClick={todayHandler} style={{ color: "red" }}>
+                      <div onClick={todayHandler} style={{ color: "plum" }}>
                         투데이
                       </div>
                       <div onClick={lockerHandler}>보관함</div>
                     </>
                   ) : (
                     <>
-                       <TitleNav>
-                        <div style={{display:"flex"}}>
-                          <div onClick={todayHandler} style={{marginRight:"1rem"}}>투데이</div>
-                          <div onClick={lockerHandler} style={{color:"red"}}>보관함</div>
+                      <TitleNav>
+                        <div style={{ display: "flex" }}>
+                          <div
+                            onClick={todayHandler}
+                            style={{ marginRight: "1rem" }}
+                          >
+                            투데이
+                          </div>
+                          <div
+                            onClick={lockerHandler}
+                            style={{ color: "plum" }}
+                          >
+                            보관함
+                          </div>
                         </div>
-                        <HoverRed><Link href = "/streaming/buyticket">이용권구매</Link></HoverRed>
+                        <HoverRed>
+                          <Link href="/streaming/buyticket">이용권구매</Link>
+                        </HoverRed>
                       </TitleNav>
                     </>
-                  )
-                  }
-                </SelectContent> 
+                  )}
+                </SelectContent>
                 <LockerTitleContainer>
                   {like === "Like" ? (
                     <>
-                      <div onClick={likeMusicHandler} style={{ color: "red" }}>
+                      <div onClick={likeMusicHandler} style={{ color: "plum" }}>
                         노래
                       </div>
                       <div onClick={artistHandler}>아티스트</div>
@@ -274,7 +143,7 @@ const index = () => {
                   ) : artist === "Artist" ? (
                     <>
                       <div onClick={likeMusicHandler}>노래</div>
-                      <div onClick={artistHandler} style={{ color: "red" }}>
+                      <div onClick={artistHandler} style={{ color: "plum" }}>
                         아티스트
                       </div>
                       <div onClick={fundingHandler}>펀딩곡</div>
@@ -283,7 +152,7 @@ const index = () => {
                     <>
                       <div onClick={likeMusicHandler}>노래</div>
                       <div onClick={artistHandler}>아티스트</div>
-                      <div onClick={fundingHandler} style={{ color: "red" }}>
+                      <div onClick={fundingHandler} style={{ color: "plum" }}>
                         펀딩곡
                       </div>
                     </>
@@ -340,30 +209,6 @@ const TitleContainer = styled.div`
     color: gray;
   }
 `;
-// 이미지랑 노래 이름 아티스트 감싼 박스
-const MusicAlbumBox = styled.div`
-  width: 20rem;
-  height: 250px;
-  margin-right: 1rem;
-  @media ${(props) => props.theme.device.pc} {
-    margin-right: 0.5rem;
-  }
-  > :first-child {
-    @media ${(props) => props.theme.device.pc} {
-      width: 10rem;
-      height: 10rem;
-    }
-  }
-  > :last-child {
-    color: gray;
-  }
-`;
-// 앨범들을 감싼 박스
-const AlbumesBox = styled.div`
-  display: flex;
-  width: 100%;
-  overflow: hidden;
-`;
 // 투데이 내용 박스 컨테이너
 const TodayContentBox = styled.div`
   width: 60rem;
@@ -416,19 +261,19 @@ const NoneLikeMusic = styled.p`
 const TitleNav = styled.div`
   width: 100%;
   justify-content: space-between;
-  display:flex;
-`
+  display: flex;
+`;
 
-// 
+//
 const HoverRed = styled.div`
- & a {
-    margin-right:1rem;
-    :hover{
-      color: red;
+  & a {
+    margin-right: 1rem;
+    :hover {
+      color: plum;
       transition: 0.5s;
-      cursor : pointer;
+      cursor: pointer;
     }
   }
-`
+`;
 
 export default index;
