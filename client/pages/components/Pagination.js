@@ -5,67 +5,52 @@ const Pagination = ({ total, limit, page, setPage }) => {
   // (총 게시물 수 / 페이지 당 게시물 수)
   const numPages = Math.ceil(total / limit);
   return (
-    <>
-      <Nav>
-        <Button onClick={() => setPage((page = 1))} disabled={page === 1}>
-          &lt;&lt;
-        </Button>
-        <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
-          &lt;
-        </Button>
-        {Array(numPages)
-          .fill()
-          .map((_, i) => (
-            <Button
-              key={i + 1}
-              onClick={() => setPage(i + 1)}
-              aria-current={page === i + 1 ? "page" : null}
-            >
-              {i + 1}
-            </Button>
-          ))}
-        <Button onClick={() => setPage(page + 1)} disabled={page === numPages}>
-          &gt;
-        </Button>
-        <Button onClick={() => setPage(numPages)} disabled={page === numPages}>
-          &gt; &gt;
-        </Button>
-      </Nav>
-    </>
+    <PagingArea>
+      <Button onClick={() => setPage((page = 1))} disabled={page === 1}>
+        «
+      </Button>
+      <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
+        ‹
+      </Button>
+      {Array(numPages)
+        .fill()
+        .map((_, i) => (
+          <Button
+            key={i + 1}
+            onClick={() => setPage(i + 1)}
+            aria-current={page === i + 1 ? "page" : null}
+          >
+            {i + 1}
+          </Button>
+        ))}
+      <Button onClick={() => setPage(page + 1)} disabled={page === numPages}>
+        ›
+      </Button>
+      <Button onClick={() => setPage(numPages)} disabled={page === numPages}>
+        »
+      </Button>
+    </PagingArea>
   );
 };
-const Nav = styled.nav`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  margin: 16px;
-`;
 
+const PagingArea = styled.div`
+  ${(props) => props.theme.align.flexCenter}
+  gap: 0.5rem;
+  margin: 3rem;
+`;
 const Button = styled.button`
-  border: none;
-  border-radius: 8px;
-  padding: 8px;
-  margin: 0;
   background: black;
   color: white;
-  font-size: 1rem;
-
-  &:hover {
-    background: tomato;
-    cursor: pointer;
-    transform: translateY(-2px);
-  }
-
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
   &[disabled] {
-    background: grey;
-    cursor: revert;
-    transform: revert;
+    display: none;
   }
-
   &[aria-current] {
-    background: deeppink;
-    font-weight: bold;
+    background: white;
+    color: black;
     cursor: revert;
     transform: revert;
   }
