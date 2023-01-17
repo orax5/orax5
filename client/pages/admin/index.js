@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AdminNav from "./../components/AdminNav";
 import styled from "styled-components";
+import Recognize from "./Recognize";
 // 아이콘
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 
@@ -12,6 +13,12 @@ const index = () => {
   const getValue = (e) => {
     setUserInput(e.target.value.toLowerCase());
   };
+
+  const [modalOpen, setModalOpen] = useState(false); // 클릭했을때 트루폴스 반복
+  // onClick 메서드
+  const showModalHandler = (id,amount) => {
+    setModalOpen(!modalOpen); // 클릭했을때 트루폴스 반복
+  }
 
   const datas = [
     {
@@ -149,12 +156,16 @@ const index = () => {
                   <th>Funding scale</th>
                   <th>Start Date</th>
                   <th>Content</th>
+                  {
+                  modalOpen && (
+                    <Recognize />
+                  )
+                 }
                 </tr>
               </thead>
               <tbody>
-                {}
                 {searched.map((data, idx) => (
-                  <tr key={data.name}>
+                  <tr key={data.name} onClick={showModalHandler}>
                     <td>{data.name}</td>
                     <td>{data.category}</td>
                     <td>
@@ -166,6 +177,7 @@ const index = () => {
                   </tr>
                 ))}
               </tbody>
+          
             </Table>
           </div>
         </ContainerBoard>

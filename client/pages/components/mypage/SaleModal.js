@@ -4,22 +4,42 @@ import styled from "styled-components";
 const SaleModal = ({id,amount}) => {
     
     const [salePrice, setSalePrice] = useState(null);
+    const [inputSaleAmount,  setInputSaleAmount] = useState(null);
     const getSalePriceValue = (e) => {
-        setSalePrice(e.target.value);
-        console.log(salePrice);
+      setSalePrice(e.target.value);
     };
-    const totalPrice = amount * salePrice;
+    const getSaleAmountValue = (e) => {
+      setInputSaleAmount(e.target.value);
+    }
+    // 총액
+    const totalPrice = (inputSaleAmount * salePrice);
+    // 수수료 금액
+    const fees = (totalPrice * 0.05)
+    // 진짜총액
+    const realTotalPrice = totalPrice - fees;
 
+    // 등록버튼 핸들러
+    const registerHandler = () => {
+      // 판매수량이 보유량보다 큰 경우 
+      if( inputSaleAmount > amount){
+        alert("판매수량이 보유량보다 많습니다.");
+      } else{
+        alert("등록되었습니다.")
+      }
+    }
+ 
   return (
   <RegisterWrap>
     <ContentWrap>
       <label>판매 수량</label>
-      <input type="number"/>
+      <input type="number" onChange={getSaleAmountValue}/>
       <label>판매 가격 ETH</label>
       <input type="number" onChange={getSalePriceValue} />
+      <label>수수료 (5%)</label>
+      <input  value={fees} readOnly/>
       <label>총액</label>
-      <input value={totalPrice}/>
-      <button>등록</button>
+      <input value={realTotalPrice} readOnly/>
+      <button onClick={registerHandler}>등록</button>
     </ContentWrap>
   </RegisterWrap>
   )
