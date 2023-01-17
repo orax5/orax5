@@ -160,11 +160,6 @@ const DetailBox = styled.div`
   > :first-child {
     margin-top: 1rem;
   }
-  // 카테고리 하위메뉴
-  & span:hover {
-    cursor: pointer;
-    color: red;
-  }
   // nft 제목
   > :nth-child(2) {
     font-size: 5rem;

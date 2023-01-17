@@ -27,7 +27,6 @@ const deatil = () => {
           <DetailBox>
             <div>
               카테고리 &gt;&nbsp;
-              {/* 해당 카테고리만 필터링 된 페이지로 이동 시간 부족하면 따로 이벤트 걸지 않기 */}
               <span>가요</span>
             </div>
             <div>test_title</div>
@@ -57,13 +56,7 @@ const deatil = () => {
                 <tr>
                   <td>수량</td>
                   <td>
-                    <NumSelector>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </NumSelector>
+                    <NumSelector type="number" />
                   </td>
                 </tr>
               </tbody>
@@ -137,11 +130,6 @@ const DetailBox = styled.div`
   > :first-child {
     margin-top: 2rem;
   }
-  // 카테고리 하위메뉴
-  & span:hover {
-    cursor: pointer;
-    color: red;
-  }
   // nft 제목
   > :nth-child(2) {
     font-size: 5rem;
@@ -150,7 +138,7 @@ const DetailBox = styled.div`
   // 상세 정보 테이블
   > table {
     width: 100%;
-    line-height: 2rem;
+    line-height: 2.5rem;
   }
   // 버튼 div
   > :last-child {
@@ -162,7 +150,7 @@ const DetailBox = styled.div`
   }
 `;
 // 수량 선택 박스
-const NumSelector = styled.select`
+const NumSelector = styled.input`
   width: 10rem;
   height: 2rem;
   border: 1px solid white;

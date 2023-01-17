@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Link from 'next/Link';
+import Link from "next/Link";
 // 마이페이지 컴포넌트
 import LikeNft from "../components/mypage/LikeNft";
 import MyNft from "../components/mypage/MyNft";
@@ -69,9 +69,7 @@ const index = () => {
           )}
           <StateButton>
             <PermIdentityIcon />
-            <Link href ="/mypage/settings">
-              Edit Profile
-            </Link>
+            <Link href="/mypage/settings">Edit Profile</Link>
           </StateButton>
         </div>
 

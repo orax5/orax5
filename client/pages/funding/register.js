@@ -9,57 +9,48 @@ const register = () => {
       <div>
         <h1>음원 제작 펀딩 신청</h1>
         <ApplicationBox>
-          
-            <div>카테고리</div>
-            <select
-              style={{ width: "15rem",
-                       height: "1.5rem",
-                       borderRadius: "0.5rem" }}>
-              <option value="">카테고리선택</option>
-              <option value="트로트">트로트</option>
-              <option value="힙합">힙합</option>
-              <option value="발라드">발라드</option> 
-            </select>
-            
-            <div style={{marginTop:"1rem"}}>크리에이터 프로필</div><br/>
-            <div>
-              <div>
-                <DetailContent>작곡가</DetailContent>
-                <InputContainer />
-              </div>
-              <div>
-                <DetailContent>작사가</DetailContent>
-                <InputContainer />
-              </div>
-              <div>
-                <DetailContent>가수</DetailContent>
-                <InputContainer />
-              </div>
-            </div>
-          
-            <div style={{ marginTop: "1rem" }}>펀딩상세</div>
-            <div>
-              <div>
-                <DetailContent>목표펀딩금액</DetailContent>
-                <InputContainer />
-              </div>
-              <div>
-                <DetailContent>펀딩시작일</DetailContent>
-                <InputContainer type="date" />
-              </div>
-              <div>
-                <DetailContent>펀딩종료일</DetailContent>
-                <InputContainer type="date" />
-              </div>
-            </div> 
+          <div>카테고리</div>
+          <select
+            style={{ width: "15rem", height: "2rem", borderRadius: "0.5rem" }}
+          >
+            <option value="">카테고리선택</option>
+            <option value="트로트">트로트</option>
+            <option value="힙합">힙합</option>
+            <option value="발라드">발라드</option>
+          </select>
 
-            <div style={{ marginTop: "1rem" }}>
-              <div>음원상세</div>
-              <div>분위기</div>
-              <InputContainer type="text" />
-              <div>내용</div>
-              <InputContainer type="text" />
+          <div style={{ marginTop: "1rem" }}>크리에이터 프로필</div>
+          <br />
+          <div>
+            <div>
+              <DetailContent>작곡가</DetailContent>
+              <InputContainer />
             </div>
+            <div>
+              <DetailContent>작사가</DetailContent>
+              <InputContainer />
+            </div>
+            <div>
+              <DetailContent>가수</DetailContent>
+              <InputContainer />
+            </div>
+          </div>
+
+          <div style={{ marginTop: "1rem" }}>펀딩상세</div>
+          <div>
+            <div>
+              <DetailContent>목표펀딩금액</DetailContent>
+              <InputContainer />
+            </div>
+          </div>
+
+          <div style={{ marginTop: "1rem" }}>
+            <div>음원상세</div>
+            <div>분위기</div>
+            <InputContainer type="text" />
+            <div>내용</div>
+            <InputContainer type="text" />
+          </div>
         </ApplicationBox>
         <SubmitBtn>등록하기</SubmitBtn>
       </div>
@@ -77,7 +68,7 @@ const ApplicationBox = styled.div`
   border: solid 1px white;
   width: 100%;
   height: 100%;
-  border-radius: 0.5rem;  
+  border-radius: 0.5rem;
   padding: 2rem;
 `;
 
