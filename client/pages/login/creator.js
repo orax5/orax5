@@ -8,14 +8,24 @@ const creator = () => {
     password:"",
     rePassword:"",
     nickname:"",
+    user: null,
+    creator: null,
   })
 
+  
   const viewCreatorHandler = () => {
     setIsCheckType(true);
   }
   const viewUserHandler = () => {
     setIsCheckType(false);
   }
+
+  console.log("유저", form.user);
+  console.log("크리에이터", form.creator);
+  console.log("이메일", form.email);
+  console.log("닉넴" ,form.nickname);
+  console.log("비번" , form.password);
+  console.log("비번확인" ,form.rePassword);
 
   return (
     <MainContainer>
@@ -29,13 +39,15 @@ const creator = () => {
           <div>
             <input 
               type="radio" id="user" 
-              value="user" name="type" 
-              onClick={viewUserHandler}/> &nbsp;
+              defaultValue={form.user} name="type" 
+              onClick={viewUserHandler}
+              onChange={e=>setForm({...form, user:e.target.value})}/> &nbsp;
             <label htmlFor="user">유저</label> &nbsp;
             <input 
               type="radio" id="creator" 
-              value="creator" name="type"
-              onClick={viewCreatorHandler}/> &nbsp;
+              defaultValue={form.creator} name="type"
+              onClick={viewCreatorHandler}
+              onChange={e=>setForm({...form, creator:e.target.value})}/> &nbsp;
             <label htmlFor="creator">크리에이터</label>
           </div>
           {
@@ -43,45 +55,77 @@ const creator = () => {
             ?
             <>
             <InputBox>
-              <input id="username" type="email" name="username" placeholder="이메일" />
+              <input 
+                id="username" type="email" 
+                name="username" placeholder="이메일" 
+                defaultValue={form.email}
+                onChange={e=>setForm({...form, email:e.target.value})}/>
               <label htmlFor="username">이메일</label>
             </InputBox>
             <InputBox>
-              <input id="nickname" type="text" name="nickname" placeholder="닉네임" />
+              <input 
+                id="nickname" type="text" 
+                name="nickname" placeholder="닉네임"
+                defaultValue={form.nickname}
+                onChange={e=>setForm({...form, nickname:e.target.value})} />
               <label htmlFor="username">닉네임</label>
             </InputBox>
             <InputBox>
-              <input id="password" type="password" name="password" placeholder="비밀번호" />
+              <input 
+                id="password" type="password" 
+                name="password" placeholder="비밀번호" 
+                defaultValue={form.password}
+                onChange={e=>setForm({...form, password:e.target.value})} />
               <label htmlFor="password">비밀번호</label>
             </InputBox>
             <InputBox>
-              <input id="password" type="password" name="password" placeholder="비밀번호" />
+              <input 
+                id="password" type="password" 
+                name="password" placeholder="비밀번호확인" 
+                defaultValue={form.rePassword}
+                onChange={e=>setForm({...form, rePassword:e.target.value})} />
               <label htmlFor="password">비밀번호확인</label>
             </InputBox>
             <Submit type="submit" value="회원가입" />
             </>
             :
             <>
-            <InputBox>
-              <input id="username" type="email" name="username" placeholder="이메일" />
+             <InputBox>
+              <input 
+                id="username" type="email" 
+                name="username" placeholder="이메일" 
+                defaultValue={form.email}
+                onChange={e=>setForm({...form, email:e.target.value})}/>
               <label htmlFor="username">이메일</label>
             </InputBox>
             <InputBox>
               <button>이메일 확인</button>
             </InputBox>
             <InputBox>
-              <input id="nickname" type="text" name="nickname" placeholder="닉네임" />
+              <input 
+                id="nickname" type="text" 
+                name="nickname" placeholder="닉네임"
+                defaultValue={form.nickname}
+                onChange={e=>setForm({...form, nickname:e.target.value})} />
               <label htmlFor="username">닉네임</label>
             </InputBox>
             <InputBox>
-              <input id="password" type="password" name="password" placeholder="비밀번호" />
+              <input 
+                id="password" type="password" 
+                name="password" placeholder="비밀번호" 
+                defaultValue={form.password}
+                onChange={e=>setForm({...form, password:e.target.value})} />
               <label htmlFor="password">비밀번호</label>
             </InputBox>
             <InputBox>
-              <input id="password" type="password" name="password" placeholder="비밀번호" />
+              <input 
+                id="password" type="password" 
+                name="password" placeholder="비밀번호확인" 
+                defaultValue={form.rePassword}
+                onChange={e=>setForm({...form, rePassword:e.target.value})} />
               <label htmlFor="password">비밀번호확인</label>
             </InputBox>
-            <Submit type="submit" value="회원가입" />
+            <Submit type="submit" defaultValue="회원가입" />
             </>
           }
 
