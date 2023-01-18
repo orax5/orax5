@@ -6,7 +6,6 @@ import Image from "next/image";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import "../../styles/swiper.module.css";
 // 이미지
 import NewJeans1stEP from "../../public/Img/NewJeans1stEP.jpg";
 import NewJeansOMG from "../../public/Img/NewJeansOMG.jpg";

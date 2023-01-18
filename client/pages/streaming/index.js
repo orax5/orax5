@@ -53,11 +53,20 @@ const index = () => {
                         <div style={{ display: "flex" }}>
                           <div
                             onClick={todayHandler}
-                            style={{ color: "plum", marginRight: "1rem" }}
+                            style={{
+                              color: "plum",
+                              marginRight: "1rem",
+                              cursor: "pointer",
+                            }}
                           >
                             투데이
                           </div>
-                          <div onClick={lockerHandler}>보관함</div>
+                          <div
+                            onClick={lockerHandler}
+                            style={{ cursor: "pointer" }}
+                          >
+                            보관함
+                          </div>
                         </div>
                         <HoverRed>
                           <Link href="/streaming/buyticket">이용권구매</Link>
@@ -66,8 +75,13 @@ const index = () => {
                     </>
                   ) : (
                     <>
-                      <div onClick={todayHandler}>투데이</div>
-                      <div onClick={lockerHandler} style={{ color: "plum" }}>
+                      <div onClick={todayHandler} style={{ cursor: "pointer" }}>
+                        투데이
+                      </div>
+                      <div
+                        onClick={lockerHandler}
+                        style={{ color: "plum", cursor: "pointer" }}
+                      >
                         보관함
                       </div>
                     </>
@@ -96,7 +110,10 @@ const index = () => {
                 <SelectContent>
                   {isSelectContent == true ? (
                     <>
-                      <div onClick={todayHandler} style={{ color: "plum" }}>
+                      <div
+                        onClick={todayHandler}
+                        style={{ color: "plum", cursor: "pointer" }}
+                      >
                         투데이
                       </div>
                       <div onClick={lockerHandler}>보관함</div>
@@ -128,11 +145,24 @@ const index = () => {
                 <LockerTitleContainer>
                   {like === "Like" ? (
                     <>
-                      <div onClick={likeMusicHandler} style={{ color: "plum" }}>
+                      <div
+                        onClick={likeMusicHandler}
+                        style={{ color: "plum", cursor: "pointer" }}
+                      >
                         노래
                       </div>
-                      <div onClick={artistHandler}>아티스트</div>
-                      <div onClick={fundingHandler}>펀딩곡</div>
+                      <div
+                        onClick={artistHandler}
+                        style={{ cursor: "pointer" }}
+                      >
+                        아티스트
+                      </div>
+                      <div
+                        onClick={fundingHandler}
+                        style={{ cursor: "pointer" }}
+                      >
+                        펀딩곡
+                      </div>
 
                       {/* 여기 또 컴포넌트 만들어서 해야함 flex먹고 있어서 블락으로 벗어나서하던가해야하지않나  */}
                       <NoneLikeMusic>
@@ -142,17 +172,43 @@ const index = () => {
                     </>
                   ) : artist === "Artist" ? (
                     <>
-                      <div onClick={likeMusicHandler}>노래</div>
-                      <div onClick={artistHandler} style={{ color: "plum" }}>
+                      <div
+                        onClick={likeMusicHandler}
+                        style={{ cursor: "pointer" }}
+                      >
+                        노래
+                      </div>
+                      <div
+                        onClick={artistHandler}
+                        style={{ color: "plum", cursor: "pointer" }}
+                      >
                         아티스트
                       </div>
-                      <div onClick={fundingHandler}>펀딩곡</div>
+                      <div
+                        onClick={fundingHandler}
+                        style={{ cursor: "pointer" }}
+                      >
+                        펀딩곡
+                      </div>
                     </>
                   ) : (
                     <>
-                      <div onClick={likeMusicHandler}>노래</div>
-                      <div onClick={artistHandler}>아티스트</div>
-                      <div onClick={fundingHandler} style={{ color: "plum" }}>
+                      <div
+                        onClick={likeMusicHandler}
+                        style={{ cursor: "pointer" }}
+                      >
+                        노래
+                      </div>
+                      <div
+                        onClick={artistHandler}
+                        style={{ cursor: "pointer" }}
+                      >
+                        아티스트
+                      </div>
+                      <div
+                        onClick={fundingHandler}
+                        style={{ color: "plum", cursor: "pointer" }}
+                      >
                         펀딩곡
                       </div>
                     </>

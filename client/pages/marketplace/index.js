@@ -108,7 +108,6 @@ const ItemCard = styled.div`
   width: inherit;
   height: inherit;
   border-radius: 1rem;
-  /* background-color: steelblue; */
   box-shadow: 0px 0px 5px 2px rgba(148, 148, 148, 0.26);
   @media ${(props) => props.theme.device.tablet} {
     width: inherit;
@@ -135,10 +134,10 @@ const ItemCard = styled.div`
 const ItemTitle = styled.div`
   font-size: 2.5rem;
   font-weight: 800;
-  margin: 1rem 0 0 1rem;
+  margin-left: 1rem;
 `;
 const ItemPrice = styled.div`
-  margin: 0.5rem 0 0 1rem;
+  margin-left: 1rem;
   font-size: 1.2rem;
 `;
 const BtnBox = styled.div`

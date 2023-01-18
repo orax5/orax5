@@ -145,7 +145,7 @@ const index = () => {
             </thead>
             <tbody>
               {datas.slice(offset, offset + limit).map((data, idx) => (
-                <tr>
+                <tr key={idx}>
                   <td>{idx + 1}</td>
                   <ItemImage>
                     <Image
