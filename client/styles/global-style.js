@@ -4,12 +4,11 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
 // 폰트
 @font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
 }
-
 // 색상, 여백 설정
 *, html, body, div {
 	background-color: black; 
@@ -18,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
 	padding: 0;
 	border: 0;
   box-sizing: border-box;
-  font-family: 'Pretendard-Regular';
+  font-family: 'S-CoreDream-3Light';
   text-decoration: none; 
   max-width: 100vw;
   -ms-overflow-style: none;
@@ -47,6 +46,16 @@ button {
 }
 input, select, textarea{
   background-color: transparent;
+  border: 1px solid white;
   box-shadow: none;
+  font-size: 1.2rem;
+}
+// swiper 설정
+:root {
+  --swiper-theme-color: plum;
+}
+.swiper, 
+.swiper-wrapper {
+  width: 55rem;
 }
 `;

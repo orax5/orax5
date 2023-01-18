@@ -7,7 +7,6 @@ const index = () => {
   const [date, hours, minutes, seconds] = CountDown(endDate);
   return (
     <>
-      <h1>작업중 ... </h1>
       <CountDown
         date={Number(date)}
         hours={Number(hours)}

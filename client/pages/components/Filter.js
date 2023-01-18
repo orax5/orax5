@@ -30,8 +30,8 @@ const Filter = () => {
 const FunctionNav = styled.div`
   display: flex;
   justify-content: flex-end;
-
   padding: 1rem;
+  column-gap: 0.5rem;
   > button {
     ${(props) => props.theme.button.smallBtn}
   }

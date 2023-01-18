@@ -2,15 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import CountDown from "../components/CountDown";
 const Detail = () => {
+  // 등록하는 곳에서 선택한 날짜로 불러와야함, 지금은 임의로 두고 작업
+  const endDate = new Date("2023-01-31 11:00:00");
+  const [date, hours, minutes, seconds] = CountDown(endDate);
+
+  // 댓글 더미데이터
   const replies = [
     { name: "김치만두", content: "앨범아트 바꾸지 말자" },
     { name: "만두만두", content: "222" },
     { name: "고기만두", content: "333" },
   ];
-
-  // 등록하는 곳에서 선택한 날짜로 불러와야함, 지금은 임의로 두고 작업
-  const endDate = new Date("2023-01-31 11:00:00");
-  // const [date, hours, minutes, seconds] = CountDown(endDate);
   return (
     <MainContainer>
       <div></div>
@@ -18,21 +19,17 @@ const Detail = () => {
         <ContentWrap>
           <h1>투표 제목</h1>
           <div>
-            {/* <CountDown
-              endDate={endDate}
-              date={date}
-              hours={hours}
-              minutes={minutes}
-              seconds={seconds}
-            /> */}
+            <Timer>
+              {date}일 {hours}시간 {minutes}분 {seconds}초
+            </Timer>
           </div>
-
           <div>앨범아트 변경하고 싶어요 </div>
           <div>
             <Btn>찬성</Btn>
             <Btn>반대</Btn>
           </div>
         </ContentWrap>
+        {/* 댓글 할지 안할지 몰라요 */}
         <ReplyWrap>
           <h1>댓글(3)</h1>
           <WriteReply>
@@ -113,7 +110,6 @@ const WriteReply = styled.div`
     border-top-right-radius: 1rem;
   }
 `;
-
 const ShowReply = styled.ul`
   width: 80rem;
   > :first-child {
@@ -126,5 +122,10 @@ const ShowReply = styled.ul`
     padding: 1.5rem;
     background-color: rgba(255, 255, 255, 0.1);
   }
+`;
+const Timer = styled.span`
+  color: red;
+  font-size: 2rem;
+  font-weight: 800;
 `;
 export default Detail;

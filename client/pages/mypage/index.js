@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Link from 'next/Link';
+import Link from "next/Link";
 // 마이페이지 컴포넌트
 import LikeNft from "../components/mypage/LikeNft";
 import MyNft from "../components/mypage/MyNft";
@@ -16,7 +16,6 @@ const index = () => {
   const [clipAccount, setClipAccount] = useState(false);
   // 보여줄 페이지의 인덱스
   const [index, setIndex] = useState(0);
-
   const adress = "0x123";
 
   const copyClipBoardHandler = async (text) => {
@@ -49,9 +48,8 @@ const index = () => {
   return (
     <MainContainer>
       <div></div>
-
       <div>
-        <div>
+        <UserStateArea>
           {clipAccount == true ? (
             <>
               <StateButton>
@@ -69,72 +67,46 @@ const index = () => {
           )}
           <StateButton>
             <PermIdentityIcon />
-            <Link href ="/mypage/settings">
-              Edit Profile
-            </Link>
+            <Link href="/mypage/settings">Edit Profile</Link>
           </StateButton>
-        </div>
-
+        </UserStateArea>
+        <UserInfo>
+          <div>
+            cash : {"999"}
+            {"ETH"}
+          </div>
+          <div>
+            {"Streaming : "} {" 사용하지 않음 "}
+          </div>
+        </UserInfo>
         <StateBoard>
           <AssetsState>
-            <div>
-              <span>TOTAL ITEMS</span>
-            </div>
-            <div>
-              <span>0</span>
-            </div>
+            <div>TOTAL ITEMS</div>
+            <div>0</div>
           </AssetsState>
           <AssetsState>
-            <div>
-              <span>UNLISTED ITEMS</span>
-            </div>
-            <div>
-              <span>0</span>
-            </div>
+            <div>UNLISTED ITEMS</div>
+            <div>0</div>
           </AssetsState>
           <AssetsState>
-            <div>
-              <span>ESTIMATED VALUE</span>
-            </div>
-            <div>
-              <span>0</span>
-            </div>
+            <div>ESTIMATED VALUE</div>
+            <div>0</div>
           </AssetsState>
           <AssetsState>
-            <div>
-              <span>LISTED ITEMS</span>
-            </div>
-            <div>
-              <span>0</span>
-            </div>
+            <div>LISTED ITEMS</div>
+            <div>0</div>
           </AssetsState>
         </StateBoard>
         <br />
-        <div>
-          <span>cash : </span>
-          <span>
-            {"999"}
-            {"ETH"}
-          </span>
-        </div>
-        <br />
-        <div>
-          <span>{"Streaming : "} </span>
-          <span> {" 사용하지 않음 "}</span>
-        </div>
-        <br />
-        {menuArr.map((menu, idx) => {
-          return (
-            <span
-              key={idx}
-              onClick={() => clickHandler(idx)}
-              style={{ marginRight: "1rem" }}
-            >
-              {menu}
-            </span>
-          );
-        })}
-
+        <MenuLists>
+          {menuArr.map((menu, idx) => {
+            return (
+              <div key={idx} onClick={() => clickHandler(idx)}>
+                {menu}
+              </div>
+            );
+          })}
+        </MenuLists>
         {/* 해당하는 페이지 보여주는 부분 */}
         <div>{pages[index]}</div>
 
@@ -149,36 +121,56 @@ const index = () => {
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
-
-const StateBoard = styled.div`
-  margin-top: 0.5rem;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 13rem);
-  grid-template-rows: repeat(2, 1.5rem);
-  row-gap: 0.5rem;
-  column-gap: 0.5rem;
-`;
-
-const AssetsState = styled.div`
+const UserStateArea = styled.div`
   display: flex;
-  justify-content: space-between;
-  background-color: black;
-  border-radius: 0.5rem;
-  // 상대박스 안 span과 div사이 패딩
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  border: white solid 1px;
+  flex-direction: column;
+  align-items: flex-start;
 `;
-
 const StateButton = styled.button`
-  background-color: black;
-  border: white solid 1px;
-  border-radius: 0.5rem;
-  margin-right: 3px;
   cursor: pointer;
+  width: auto;
+  height: 3rem;
+  border-radius: 0.5rem;
   font-size: 1.7rem;
 `;
-
+const StateBoard = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+  @media ${(props) => props.theme.device.tablet} {
+    ${(props) => props.theme.align.flexCenterColumn};
+    gap: 0.5rem;
+  }
+  @media ${(props) => props.theme.device.mobile} {
+    ${(props) => props.theme.align.flexCenterColumn};
+  }
+`;
+const AssetsState = styled.div`
+  ${(props) => props.theme.align.flexCenterColumn};
+  width: 15rem;
+  height: 4rem;
+  border: 1px solid plum;
+  border-radius: 0.5rem;
+`;
+const UserInfo = styled.div`
+  ${(props) => props.theme.align.flexStart};
+  font-size: 1.2rem;
+`;
+const MenuLists = styled.div`
+  display: flex;
+  align-items: center;
+  width: 30rem;
+  height: 3rem;
+  > div {
+    align-items: center;
+    cursor: pointer;
+    width: auto;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
+  > div:hover {
+    color: plum;
+  }
+`;
 export default index;

@@ -41,7 +41,6 @@ const ContentWrap = styled.div`
   ${(props) => props.theme.align.flexStart};
   width: 31rem;
   padding: 2rem;
-
   > label {
     font-size: 2rem;
     font-weight: 800;

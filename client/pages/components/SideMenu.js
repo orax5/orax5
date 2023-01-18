@@ -37,7 +37,7 @@ const SideMenu = ({ setShowMenu, ShowMenu }) => {
           )
         ) : (
           <Link href="/login">
-            <li>LOGIN</li>
+            <li>LOGIN/JOIN</li>
           </Link>
         )}
         {/* MYPAGE, ADMIN는 작업 끝나면 접근 권한 제한할건데 지금 페이지 이동하라고 다 꺼내놓음 */}

@@ -125,7 +125,10 @@ const index = () => {
     <MainContainer>
       <div></div>
       <div>
-        <RegisterBtn onClick={showModal}>등록하기</RegisterBtn>
+        <HeadContainer>
+          <h1>GOVERNANCE</h1>
+          <RegisterBtn onClick={showModal}>등록하기</RegisterBtn>
+        </HeadContainer>
         {modalOpen && <RegisterVote setModalOpen={setModalOpen} />}
         <VoteListWrap>
           <table>
@@ -142,7 +145,7 @@ const index = () => {
             </thead>
             <tbody>
               {datas.slice(offset, offset + limit).map((data, idx) => (
-                <tr>
+                <tr key={idx}>
                   <td>{idx + 1}</td>
                   <ItemImage>
                     <Image
@@ -183,6 +186,17 @@ const index = () => {
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
+const HeadContainer = styled.div`
+  ${(props) => props.theme.align.flexBetween}
+  margin-bottom: 1rem;
+  @media ${(props) => props.theme.device.mobile} {
+    ${(props) => props.theme.align.flexCenterColumn}
+  }
+  > h1 {
+    font-weight: 800;
+    font-size: 3rem;
+  }
+`;
 // 목록 감싸는 div
 const VoteListWrap = styled.div`
   width: 80rem;
@@ -218,7 +232,7 @@ const ItemTitle = styled.td`
   cursor: pointer;
   font-weight: 800;
   &:hover {
-    color: yellow;
+    color: plum;
   }
 `;
 const RegisterBtn = styled.button`

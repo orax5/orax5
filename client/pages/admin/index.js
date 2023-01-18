@@ -16,9 +16,9 @@ const index = () => {
 
   const [modalOpen, setModalOpen] = useState(false); // 클릭했을때 트루폴스 반복
   // onClick 메서드
-  const showModalHandler = (id,amount) => {
+  const showModalHandler = (id, amount) => {
     setModalOpen(!modalOpen); // 클릭했을때 트루폴스 반복
-  }
+  };
 
   const datas = [
     {
@@ -156,11 +156,7 @@ const index = () => {
                   <th>Funding scale</th>
                   <th>Start Date</th>
                   <th>Content</th>
-                  {
-                  modalOpen && (
-                    <Recognize />
-                  )
-                 }
+                  {modalOpen && <Recognize />}
                 </tr>
               </thead>
               <tbody>
@@ -177,7 +173,6 @@ const index = () => {
                   </tr>
                 ))}
               </tbody>
-          
             </Table>
           </div>
         </ContainerBoard>
@@ -192,6 +187,7 @@ const MainContainer = styled.div`
 `;
 
 const FlexWrap = styled.div`
+  width: 75rem;
   display: flex;
 `;
 const ContainerBoard = styled.div`
