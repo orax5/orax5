@@ -1,12 +1,16 @@
-import Link from "next/Link";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 // 이미지들
 import heart_on from "../../public/Img/heart_on.png";
 import chat from "../../public/Img/chat.png";
+import CountDown from "../components/CountDown";
 
 const deatil = () => {
+  // endDate는 등록하는 곳에서 선택한 날짜로 불러와야함, 지금은 임의로 두고 작업
+  const endDate = new Date("2023-01-31 11:00:00");
+  const [date, hours, minutes, seconds] = CountDown(endDate);
+  
   return (
     <MainContainer>
       <div></div>
@@ -46,7 +50,9 @@ const deatil = () => {
                 </tr>
                 <tr>
                   <td>남은시간</td>
-                  <td>00일 00시 00분</td>
+                  <Timer>
+                    {date}일 {hours}시간 {minutes}분 {seconds}초
+                  </Timer>
                 </tr>
                 <tr>
                   <td>펀딩금액(ETH)</td>
@@ -70,6 +76,7 @@ const deatil = () => {
             <BtnBox>
               <button>
                 <Image
+                  alt="heart_on"
                   src={heart_on}
                   width={20}
                   height={20}
@@ -79,6 +86,7 @@ const deatil = () => {
               </button>
               <button>
                 <Image
+                  alt="heart_off"
                   src={chat}
                   width={20}
                   height={20}
@@ -236,5 +244,9 @@ const AboutNft = styled.div`
     height: auto;
     padding: 1rem;
   }
+`;
+const Timer = styled.td`
+  color: red;
+  font-weight: 800;
 `;
 export default deatil;
