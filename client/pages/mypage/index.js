@@ -61,12 +61,14 @@ const index = () => {
             <>
               <StateButton onClick={() => copyClipBoardHandler(adress)}>
                 <FaEthereum />
+                &nbsp;
                 {adress}
               </StateButton>
             </>
           )}
           <StateButton>
             <PermIdentityIcon />
+            &nbsp;
             <Link href="/mypage/settings">Edit Profile</Link>
           </StateButton>
         </UserStateArea>

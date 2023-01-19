@@ -6,9 +6,6 @@ const Pagination = ({ total, limit, page, setPage }) => {
   const numPages = Math.ceil(total / limit);
   return (
     <PagingArea>
-      <Button onClick={() => setPage((page = 1))} disabled={page === 1}>
-        «
-      </Button>
       <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
         ‹
       </Button>
@@ -26,9 +23,6 @@ const Pagination = ({ total, limit, page, setPage }) => {
       <Button onClick={() => setPage(page + 1)} disabled={page === numPages}>
         ›
       </Button>
-      <Button onClick={() => setPage(numPages)} disabled={page === numPages}>
-        »
-      </Button>
     </PagingArea>
   );
 };
@@ -39,18 +33,18 @@ const PagingArea = styled.div`
   margin: 3rem;
 `;
 const Button = styled.button`
-  background: black;
-  color: white;
-  border: 1px solid white;
-  border-radius: 0.5rem;
   padding: 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  font-weight: 800;
   &[disabled] {
     display: none;
   }
   &[aria-current] {
-    background: white;
-    color: black;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: white;
+    background: plum;
+    border-radius: 50%;
     cursor: revert;
     transform: revert;
   }

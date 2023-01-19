@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import CountDown from "../components/CountDown";
 
 const index = () => {
@@ -16,10 +15,4 @@ const index = () => {
     </>
   );
 };
-
-const Timer = styled.span`
-  color: red;
-  font-size: 2rem;
-  font-weight: 800;
-`;
 export default index;

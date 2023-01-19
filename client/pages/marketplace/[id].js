@@ -50,10 +50,6 @@ const deatil = () => {
                   <td>~ 2023-02-20</td>
                 </tr>
                 <tr>
-                  <td>남은시간</td>
-                  <td>00일 00시 00분</td>
-                </tr>
-                <tr>
                   <td>수량</td>
                   <td>
                     <NumSelector type="number" />

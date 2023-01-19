@@ -41,10 +41,7 @@ const Player = () => {
         <div>
           {fillLike == false ? (
             <>
-              <FavoriteBorderIcon
-                style={{ background: "rgba(36, 36, 36, 1)" }}
-                onClick={fillLikeHandler}
-              />
+              <FavoriteBorderIcon onClick={fillLikeHandler} />
             </>
           ) : (
             <>
@@ -54,29 +51,24 @@ const Player = () => {
                 height={24}
                 alt="하트채움"
                 onClick={fillLikeHandler}
-                style={{ background: "rgba(36, 36, 36, 1)" }}
               />
             </>
           )}
 
           <div style={{ textAlign: "center" }}>
-            <div style={{ background: "rgba(36, 36, 36, 1)" }}>Ditto</div>
-            <div style={{ background: "rgba(36, 36, 36, 1)", color: "gray" }}>
-              NewJeans
-            </div>
+            <div>Ditto</div>
+            <div style={{ color: "gray" }}>NewJeans</div>
           </div>
-          <MoreHorizIcon style={{ background: "rgba(36, 36, 36, 1)" }} />
+          <MoreHorizIcon />
         </div>
         <div>
-          <VolumeUpIcon style={{ background: "rgba(36, 36, 36, 1)" }} />
-          <ShuffleIcon style={{ background: "rgba(36, 36, 36, 1)" }} />
-          <SkipPreviousIcon style={{ background: "rgba(36, 36, 36, 1)" }} />
-          <PlayArrowIcon
-            style={{ background: "rgba(36, 36, 36, 1)", fontSize: "4rem" }}
-          />
-          <SkipNextIcon style={{ background: "rgba(36, 36, 36, 1)" }} />
-          <RepeatIcon style={{ background: "rgba(36, 36, 36, 1)" }} />
-          <QueueMusicIcon style={{ background: "rgba(36, 36, 36, 1)" }} />
+          <VolumeUpIcon />
+          <ShuffleIcon />
+          <SkipPreviousIcon />
+          <PlayArrowIcon style={{ fontSize: "4rem" }} />
+          <SkipNextIcon />
+          <RepeatIcon />
+          <QueueMusicIcon />
         </div>
 
         <hr style={{ border: "solid 0.25rem black" }} />
