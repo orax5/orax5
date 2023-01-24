@@ -75,7 +75,6 @@ const PhotoSlide = () => {
   );
 };
 const MainContainer = styled.div`
-  background-color: gray;
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
 // 첫번재 슬라이드 박스
@@ -86,7 +85,7 @@ const Firstbox = styled.div`
   height: auto;
   margin: 5rem 0;
   font-size: 1.5rem;
-  transition: all 2s ease-in-out;
+  transition: all 1s ease-in-out;
   transform: ${(props) =>
     props.isActivate ? "translateX(0px)" : "translateX(-2000px)"};
   // 반응형에서는 세로 정렬함
@@ -115,7 +114,7 @@ const Secondbox = styled.div`
   height: auto;
   margin: 5rem 0;
   font-size: 1.5rem;
-  transition: all 2s ease-in-out;
+  transition: all 1s ease-in-out;
   transform: ${(props) =>
     props.isActivate ? "translateX(0px)" : "translateX(2000px)"};
 

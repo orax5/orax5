@@ -96,10 +96,8 @@ const DetailWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media ${(props) => props.theme.device.tablet} {
-    ${(props) => props.theme.align.flexCenterColumn};
-  }
-  @media ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet},
+    ${(props) => props.theme.device.mobile} {
     ${(props) => props.theme.align.flexCenterColumn};
   }
 `;

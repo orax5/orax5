@@ -11,7 +11,7 @@ const deatil = () => {
   const endDate = new Date("2023-01-31 11:00:00");
   // countDown 함수 - 계산해서 받은 값을 배열로 받아옴
   const [date, hours, minutes, seconds] = CountDown(endDate);
-  
+
   return (
     <MainContainer>
       <div></div>
@@ -119,7 +119,6 @@ const deatil = () => {
             <div>음원 설명</div>
             <div>음원 설명 내용</div>
           </AboutNft>
-          {/* 거래내역 추가하기 -> 컴포넌트로 만들지? */}
         </InfoWrap>
       </div>
       <div></div>
@@ -135,10 +134,8 @@ const DetailWrap = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  @media ${(props) => props.theme.device.tablet} {
-    ${(props) => props.theme.align.flexCenterColumn};
-  }
-  @media ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet},
+    ${(props) => props.theme.device.mobile} {
     ${(props) => props.theme.align.flexCenterColumn};
   }
 `;

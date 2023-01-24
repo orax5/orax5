@@ -153,10 +153,8 @@ const ItemCard = styled.div`
   height: inherit;
   border-radius: 1rem;
   box-shadow: 0px 0px 5px 2px rgba(148, 148, 148, 0.26);
-  @media ${(props) => props.theme.device.tablet} {
-    width: inherit;
-  }
-  @media ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet},
+    ${(props) => props.theme.device.mobile} {
     width: inherit;
   }
   > div:first-child {

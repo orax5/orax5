@@ -39,6 +39,7 @@ const Button = styled.button`
   &[disabled] {
     display: none;
   }
+  // 활성화 된 페이지 표시
   &[aria-current] {
     width: 2.5rem;
     height: 2.5rem;
