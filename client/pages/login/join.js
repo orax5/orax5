@@ -11,6 +11,7 @@ const creator = () => {
   const [typeOfUser, setTypeOfUser] = useState(null);
   const [inputs, setInputs] = useState({
     email: "",
+    walletAddress: "",
     nickname: "",
     password: "",
     rePassword: "",
@@ -29,10 +30,20 @@ const creator = () => {
   const inputsHandler = (e) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
+    setUserValidate({
+      ...userValidate,
+      [name]: regChecker(regs[name], value),
+    });
   };
 
   const SignUp = () => {
-    console.log(inputs.email, inputs.nickname, inputs.password, typeOfUser);
+    console.log(
+      inputs.email,
+      inputs.walletAddress,
+      inputs.nickname,
+      inputs.password,
+      typeOfUser
+    );
     if (typeOfUser == null) {
       alert("회원 유형을 선택하세요");
     } else if (typeOfUser == 1) {
@@ -40,9 +51,75 @@ const creator = () => {
         alert("이메일 인증을 진행해주세요");
       }
     }
-    dispatch(
-      signUp(inputs.email, inputs.nickname, inputs.password, typeOfUser)
-    );
+    // dispatch로 전달
+    dispatch(signUp());
+  };
+
+  // 유효한지 검사하기 위해서 기본값을 false로 두고 모두 true일때 넘긴다
+  const [userValidate, setUserValidate] = useState({
+    email: false,
+    nickname: false,
+    password: false,
+  });
+
+  const checkEmail = () => {
+    // 정규식 + test함수
+    const regExp =
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    const regTest = regExp.test(userInputs.email);
+    // 실시간 유효성 알려줌 ref는 document.querySelector와 같은데 current로 받는다
+    // 여기에 안내메세지 걸려있는 classList add/remove 해가지고 onOff인자에 따라 보여줌
+    const onValidate = (onOff) =>
+      onOff
+        ? emailRef.current.classList.remove("hidden")
+        : emailRef.current.classList.add("hidden");
+
+    // 정규식을 만족하면 onValidate가 true라서 remove가 되고 글씨 안보임, f
+    regTest ? onValidate(false) : onValidate(true);
+  };
+
+  const checkName = () => {
+    const regExp = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
+    const regTest = regExp.test(userInputs.nickname);
+    const onValidate = (onOff) =>
+      onOff
+        ? nicknameRef.current.classList.remove("hidden")
+        : nicknameRef.current.classList.add("hidden");
+    regTest ? onValidate(false) : onValidate(true);
+  };
+
+  const checkPwd = () => {
+    const regExp = /^[A-Za-z0-9]{6,12}$/;
+    const regTest = regExp.test(userInputs.password);
+    const onValidate = (onOff) =>
+      onOff
+        ? pwdRef.current.classList.remove("hidden")
+        : pwdRef.current.classList.add("hidden");
+
+    regTest ? onValidate(false) : onValidate(true);
+  };
+
+  // 정규식 모아둠
+  const regs = {
+    email:
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+    nickname: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+    password: /^[A-Za-z0-9]{6,12}$/,
+  };
+
+  // 정규식 체크하는 애
+  const regChecker = (regExp, value) => regExp.test(value);
+  // 모두 true이면 가입시켜준다 every() 메서드 사용(:배열 안의 모든 요소가 판별 함수를 통과하는지 boolean으로 반환)
+  const signUp = () => {
+    const isAllTrue = Object.values(userValidate).every((value) => value); //[true, true, true]
+    // 모두 true이면 dispatch loginAction의 join함수 호출, 액션 실행
+    if (isAllTrue) {
+      dispatch(
+        join(userInputs.email, userInputs.nickname, userInputs.password, nav)
+      );
+    } else {
+      alert("다시 작성해주세요"); 
+    }
   };
   return (
     <MainContainer>
@@ -81,6 +158,15 @@ const creator = () => {
                   onChange={inputsHandler}
                 />
                 <label htmlFor="username">이메일</label>
+              </InputBox>
+              <InputBox>
+                <input
+                  type="walletAddress"
+                  name="walletAddress"
+                  placeholder="지갑주소"
+                  onChange={inputsHandler}
+                />
+                <label htmlFor="username">지갑주소</label>
               </InputBox>
               <InputBox>
                 <input
@@ -131,6 +217,15 @@ const creator = () => {
                 >
                   이메일 확인
                 </button>
+              </InputBox>
+              <InputBox>
+                <input
+                  type="walletAddress"
+                  name="walletAddress"
+                  placeholder="지갑주소"
+                  onChange={inputsHandler}
+                />
+                <label htmlFor="username">지갑주소</label>
               </InputBox>
               <InputBox>
                 <input

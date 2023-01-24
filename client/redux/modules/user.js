@@ -2,14 +2,19 @@
 const JOIN = "user/JOIN";
 
 // 액션 함수
-export const signUp = (email, nickname, password, typeOfUser) => {
+export const signUp = (
+  email,
+  walletAddress,
+  nickname,
+  password,
+  typeOfUser
+) => {
   return async (dispatch, getState) => {
-    const user = await {
+    const user = {
       method: "post",
-      data: { email, nickname, password, typeOfUser },
+      data: { email, walletAddress, nickname, password, typeOfUser },
     };
     const data = user.data;
-    console.log(data); // {email: '123', nickname: '123', password: '123', typeOfUser: '0'}
     dispatch({
       type: "JOIN",
       payload: data,
