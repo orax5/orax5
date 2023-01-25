@@ -8,7 +8,8 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "../styles/global-style";
 import theme from "../styles/theme";
 import Nav from "./components/Nav";
-import Footer from "./components/Footer";
+
+
 
 // props로 받은 Component는 서버에서 요청한 페이지
 // pageProps는 getInitialProps를 통해 내려받은 props(사전 렌더링)
@@ -21,7 +22,7 @@ export default function App({ Component, pageProps }) {
         <Provider store={store}>
           <Component {...pageProps} />
         </Provider>
-        <Footer />
+        
       </ThemeProvider>
     </>
   );

@@ -23,10 +23,10 @@ export const GlobalStyle = createGlobalStyle`
   -ms-overflow-style: none;
   overflow-x: hidden;
 }
-  /* // 스크롤바 안보이게 설정
+  // 스크롤바 안보이게 설정
 ::-webkit-scrollbar {
   display: none;
-} */
+}
 
 // 영역에 배경색 설정되는거 방지
 Image, img, div, span, p, h1, h2, h3, table, thead, tbody, tr, th,td, svg, strong, a, Link {

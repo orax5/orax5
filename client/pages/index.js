@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Developers from "./components/mainpage/Developers";
 import MainText from "./components/mainpage/MainText";
 import RoadMap from "./components/mainpage/RoadMap";
+import NftMarket from "./components/mainpage/NftMarket";
+import Footer from './components/Footer';
 
 const Home = () => {
   return (
@@ -15,7 +17,9 @@ const Home = () => {
       </Box>
       <PhotoSlide />
       <RoadMap />
+      <NftMarket/>
       <Developers />
+      <Footer/>
     </>
   );
 };
