@@ -19,12 +19,12 @@ const MainText = () => {
 
 const MainContainer = styled.div`
   ${(props) => props.theme.align.flexCenter};
-
   > div {
     text-align: center;
     z-index: 100;
     color: white;
     margin-top: 10rem;
+    letter-spacing: -1px;
   }
   & h1 {
     font-size: 7rem;
