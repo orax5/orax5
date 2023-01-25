@@ -1,41 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import MainAnimation from "./components/MainAnimation";
-
+import React from "react";
+import PhotoSlide from "./components/mainpage/PhotoSlide";
+import MainAnimation from "./components/mainpage/MainAnimation";
+import styled from "styled-components";
 const Home = () => {
-  const [scrollY, setScrollY] = useState(0);
-  const ref = useRef();
-
-  const scrollHandler = () => {
-    setScrollY(window.pageYOffset);
-    console.log(scrollY);
-    if (window.pageYOffset > 925) {
-      ref.current.style.backGroundColor = "red";
-    } else {
-      ref.current.style.color = "blue";
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", scrollHandler);
-    return () => {
-      window.removeEventListener("scroll", scrollHandler);
-    };
-  });
   return (
-    <div>
-      <MainAnimation />
-      <div
-        onScroll={scrollHandler}
-        style={{
-          height: "100vh",
-          borderBottom: "1px solid black",
-        }}
-      />
-      <div ref={ref} onScroll={scrollHandler} style={{ height: "100vh" }} />
-      <div ref={ref} onScroll={scrollHandler} style={{ height: "100vh" }} />
-      <div ref={ref} onScroll={scrollHandler} style={{ height: "100vh" }} />
-    </div>
+    <>
+      <Box>
+        <MainAnimation />
+      </Box>
+      <PhotoSlide />
+    </>
   );
 };
 
+const Box = styled.div`
+  width: 100vw;
+  height: 90vh;
+`;
 export default Home;

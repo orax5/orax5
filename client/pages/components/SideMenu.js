@@ -2,6 +2,7 @@ import Link from "next/Link";
 import React, { useState } from "react";
 import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
+
 const SideMenu = ({ setShowMenu, ShowMenu }) => {
   const [isLogin, setIsLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -63,6 +64,7 @@ const SideMenu = ({ setShowMenu, ShowMenu }) => {
     </MenuWrap>
   );
 };
+
 const MenuWrap = styled.div`
   // 사이드 메뉴 전체 사이즈
   ${(props) => props.theme.gridLayout.sideMenuGrid}
@@ -81,10 +83,8 @@ const MenuWrap = styled.div`
   @media ${(props) => props.theme.device.pc} {
     width: 30rem;
   }
-  @media ${(props) => props.theme.device.tablet} {
-    width: 100vw;
-  }
-  @media ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet},
+    ${(props) => props.theme.device.mobile} {
     width: 100vw;
   }
 `;

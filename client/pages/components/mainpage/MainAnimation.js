@@ -90,7 +90,7 @@ const MainAnimation = () => {
           backgroundColor: "black",
           position: "absolute",
           width: "100%",
-          height: "100%",
+          height: "90vh",
         }}
       />
     </>

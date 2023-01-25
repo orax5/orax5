@@ -17,6 +17,9 @@ const index = () => {
     setDatas(Items);
   }, []);
 
+  const pickedNft = () => {
+    alert("찜하기 완.");
+  };
   // 더미 데이터
   const Items = [
     { img: "1", id: 1, title: "test_title", price: "0.234ETH" },
@@ -57,7 +60,7 @@ const index = () => {
               <ItemTitle>{data.title}</ItemTitle>
               <ItemPrice>{data.price}</ItemPrice>
               <BtnBox>
-                <div>찜하기</div>
+                <div onClick={pickedNft}>찜하기</div>
                 <div
                   onClick={() => {
                     router.push(`/marketplace/${data.id}`);
@@ -92,6 +95,7 @@ const ListWrap = styled.div`
   grid-template-columns: repeat(4, 2fr);
   place-items: center;
   grid-gap: 2rem;
+  margin-top: 2.5rem;
   @media ${(props) => props.theme.device.pc} {
     grid-template-columns: repeat(3, 2fr);
   }
@@ -109,10 +113,8 @@ const ItemCard = styled.div`
   height: inherit;
   border-radius: 1rem;
   box-shadow: 0px 0px 5px 2px rgba(148, 148, 148, 0.26);
-  @media ${(props) => props.theme.device.tablet} {
-    width: inherit;
-  }
-  @media ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet},
+    ${(props) => props.theme.device.mobile} {
     width: inherit;
   }
   > div:first-child {

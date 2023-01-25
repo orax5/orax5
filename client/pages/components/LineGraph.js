@@ -6,6 +6,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  PolarAngleAxis,
 } from "recharts";
 
 const data = [
@@ -60,7 +61,10 @@ export default function LineGraph() {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
-        <Tooltip />
+        <Tooltip
+          contentStyle={{ backgroundColor: "#8884d8" }}
+          itemStyle={{ color: "white" }}
+        />
         <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
       </AreaChart>
     </>

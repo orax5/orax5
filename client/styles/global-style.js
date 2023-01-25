@@ -21,6 +21,7 @@ export const GlobalStyle = createGlobalStyle`
   text-decoration: none; 
   max-width: 100vw;
   -ms-overflow-style: none;
+  overflow-x: hidden;
 }
   // 스크롤바 안보이게 설정
 ::-webkit-scrollbar {
