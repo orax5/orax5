@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+// 메인 우주 애니메이션: https://codepen.io/1mincoding/pen/VwYRMrW?editors=1010
+
 const MainAnimation = () => {
   const canvasRef = useRef(null);
 
-  useEffect(() => {
-    const sin = Math.sin;
-    const cos = Math.cos;
-    const PI = Math.PI;
+  useEffect(() => {   
+    // const sin = Math.sin;
+    // const cos = Math.cos;
+    // const PI = Math.PI;
+    // let tempx, tempy, tempz;
     const fov = 150;
 
     class Dot {
@@ -15,18 +18,17 @@ const MainAnimation = () => {
         this.z = z;
       }
     }
-
-    let canvas;
-    let context;
-    let tempx, tempy, tempz;
+    
+    let canvas, context;
     let dots = [];
     let dotsLength = (innerWidth + innerHeight) / 20;
-
+    
     function setSize() {
       canvas.width = innerWidth;
       canvas.height = innerHeight;
       initDots();
-      context.fillStyle = "#ffffff";
+      context.fillStyle = "white";
+      // 투명도 조절하는거임 html 사이즈에 따라 불투명도 조절
       if (innerWidth < 800) {
         context.globalAlpha = 0.3;
       } else {
@@ -79,7 +81,9 @@ const MainAnimation = () => {
 
     addEventListener("resize", setSize);
     init();
+ 
   }, []);
+ 
 
   return (
     <>
