@@ -10,7 +10,7 @@ const PhotoSlide = () => {
   useEffect(() => {
     window.addEventListener("scroll", () => {
       // console.log("window.scrollY", window.scrollY);
-      if (window.scrollY > 400) {
+      if (window.scrollY > 300) {
         setShowImage(true);
       } else {
         setShowImage(false);
@@ -75,6 +75,7 @@ const PhotoSlide = () => {
   );
 };
 const MainContainer = styled.div`
+  width: 100vw;
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
 // 첫번재 슬라이드 박스
@@ -92,7 +93,7 @@ const Firstbox = styled.div`
   @media ${(props) => props.theme.device.pc},
     ${(props) => props.theme.device.tablet},
     ${(props) => props.theme.device.mobile} {
-    ${(props) => props.theme.align.flexCenterColumn};
+    flex-direction: column;
   }
   > img {
     @media ${(props) => props.theme.device.mobile} {
