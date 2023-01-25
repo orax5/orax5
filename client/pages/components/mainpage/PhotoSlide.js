@@ -76,6 +76,8 @@ const PhotoSlide = () => {
 };
 const MainContainer = styled.div`
   width: 100vw;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
 // 첫번재 슬라이드 박스
