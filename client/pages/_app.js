@@ -8,6 +8,15 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "../styles/global-style";
 import theme from "../styles/theme";
 import Nav from "./components/Nav";
+// 메타마스크 연결하려고 사용함 설치한 @web3-react/core에서 제공하는 Web3ReactProvider를 App root의 provider로 제공하고 web3 객체를 인스턴스화 하는 getLibrary 함수를 정의하여 props로 전달.
+import { Web3ReactProvider } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
+
+function getLibrary(provider) {
+  const library = new Web3Provider(provider, "any");
+  return library;
+}
+
 
 
 
@@ -19,10 +28,11 @@ export default function App({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Nav />
-        <Provider store={store}>
-          <Component {...pageProps} />
-        </Provider>
-        
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <Provider store={store}>
+            <Component {...pageProps} />
+          </Provider>
+        </Web3ReactProvider>
       </ThemeProvider>
     </>
   );

@@ -19,12 +19,12 @@ const Slide = () => {
   return (
     <SlideContainer>
       <Swiper
+        direction="horizontal"
         slidesPerView={3}
         spaceBetween={50}
         slidesPerGroup={3}
-        loop={true}
+        loop={false}
         loopFillGroupWithBlank={true}
-        className="mySwiper"
       >
         <SwiperSlide>
           <MusicAlbumBox>

@@ -9,23 +9,17 @@ import "swiper/css/navigation";
 
 const NftMarket = () => {
     SwiperCore.use([Navigation]);
-    const swiperStyle={
-        position:"relative",
-        width: "752px",
-        height: "452px"
-    }    
-
 
   return (
     <MainContainer>
       <TitleContainer>DTS <strong style={{color:"plum"}}>NFT</strong></TitleContainer>
-      <Swiper style={swiperStyle}
-        className="banner"
-        spaceBetween={50}
+      <StyledSwiper 
         slidesPerView={1}
+        spaceBetween={50}
+        slidesPerGroup={3}
         navigation
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 1000 }}	// 추가
+        
+      
       >
         <SwiperSlide>Slide 1</SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>
@@ -37,7 +31,7 @@ const NftMarket = () => {
         <SwiperSlide>Slide 8</SwiperSlide>
         <SwiperSlide>Slide 9</SwiperSlide>
         <SwiperSlide>Slide 10</SwiperSlide>
-      </Swiper>
+      </StyledSwiper>
       <div>
         <div>
           <TitleContainer2><strong style={{color:"plum"}}>Buy</strong> on Market Place</TitleContainer2>
@@ -80,5 +74,11 @@ const StartBtn = styled.button`
     transition: 0.5s;
   }
 `;
+
+const StyledSwiper = styled(Swiper)`
+  position:relative;
+  width: 100%;
+  height: 452px;
+`
 
 export default NftMarket

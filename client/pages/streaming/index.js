@@ -49,41 +49,40 @@ const index = () => {
                 <SelectContent>
                   {isSelectContent == true ? (
                     <>
-                      <TitleNav>
-                        <div style={{ display: "flex" }}>
-                          <div
-                            onClick={todayHandler}
-                            style={{
-                              color: "plum",
-                              marginRight: "1rem",
-                              cursor: "pointer",
-                            }}
-                          >
-                            투데이
-                          </div>
-                          <div
-                            onClick={lockerHandler}
-                            style={{ cursor: "pointer" }}
-                          >
-                            보관함
-                          </div>
+                    <TitleNav>
+                      <div style={{ display: "flex" }}>
+                        <div
+                          onClick={todayHandler}
+                          style={{
+                            color: "plum",
+                            marginRight: "1rem",
+                            cursor: "pointer",
+                          }}>
+                          투데이
                         </div>
-                        <HoverRed>
-                          <Link href="/streaming/buyticket">이용권구매</Link>
-                        </HoverRed>
-                      </TitleNav>
+                        <div
+                          onClick={lockerHandler}
+                          style={{ cursor: "pointer" }}
+                        >
+                          보관함
+                        </div>
+                      </div>
+                      <HoverRed>
+                        <Link href="/streaming/buyticket">이용권구매</Link>
+                      </HoverRed>
+                    </TitleNav>
                     </>
                   ) : (
                     <>
-                      <div onClick={todayHandler} style={{ cursor: "pointer" }}>
-                        투데이
-                      </div>
-                      <div
-                        onClick={lockerHandler}
-                        style={{ color: "plum", cursor: "pointer" }}
-                      >
-                        보관함
-                      </div>
+                    <div onClick={todayHandler} style={{ cursor: "pointer" }}>
+                      투데이
+                    </div>
+                    <div
+                      onClick={lockerHandler}
+                      style={{ color: "plum", cursor: "pointer" }}
+                    >
+                      보관함
+                    </div>
                     </>
                   )}
                 </SelectContent>

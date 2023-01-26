@@ -76,6 +76,7 @@ const PhotoSlide = () => {
 };
 const MainContainer = styled.div`
   width: 100vw;
+  height: 100vh;
   border-top: 1px solid white;
   border-bottom: 1px solid white;
   ${(props) => props.theme.gridLayout.mainGrid};

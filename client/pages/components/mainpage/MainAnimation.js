@@ -9,7 +9,7 @@ const MainAnimation = () => {
     // const cos = Math.cos;
     // const PI = Math.PI;
     // let tempx, tempy, tempz;
-    const fov = 150;
+    const fov = 150; // Field of view = 시야 https://trts1004.tistory.com/12109520
 
     class Dot {
       constructor(x, y, z) {
@@ -69,7 +69,7 @@ const MainAnimation = () => {
         }
         drawDots(dot);
       }
-      requestAnimationFrame(render);
+      requestAnimationFrame(render); // https://simsimjae.tistory.com/402 쓰는 이유 : 사람이 인지하는 프레임 비율에 최적화된 메소드
     }
 
     function init() {

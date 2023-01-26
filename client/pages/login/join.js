@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { signUp } from "../../redux/modules/user";
 
-const creator = () => {
+const join = () => {
   const dispatch = useDispatch();
-
+  // 오류 메세지 상태저장
+  const [pwdMessage, setPwdMessage] = useState("");
   const [isCheckType, setIsCheckType] = useState(false);
   const [isCheckEmail, setIsCheckEmail] = useState(false);
+  // Creator or User
   const [typeOfUser, setTypeOfUser] = useState(null);
   const [inputs, setInputs] = useState({
     email: "",
@@ -17,23 +19,17 @@ const creator = () => {
     rePassword: "",
   });
 
+  // radio 눌렀을때 User 가입폼 보여주기
   const viewUserHandler = (e) => {
     setTypeOfUser(e.target.value);
     setIsCheckType(false);
+    console.log(typeOfUser)
   };
-
+  // radio 눌렀을때 Creator 가입폼 보여주기
   const viewCreatorHandler = (e) => {
     setTypeOfUser(e.target.value);
     setIsCheckType(true);
-  };
-
-  const inputsHandler = (e) => {
-    const { name, value } = e.target;
-    setInputs({ ...inputs, [name]: value });
-    setUserValidate({
-      ...userValidate,
-      [name]: regChecker(regs[name], value),
-    });
+    console.log(typeOfUser)
   };
 
   const SignUp = () => {
@@ -55,75 +51,25 @@ const creator = () => {
     dispatch(signUp());
   };
 
-  // 유효한지 검사하기 위해서 기본값을 false로 두고 모두 true일때 넘긴다
-  const [userValidate, setUserValidate] = useState({
-    email: false,
-    nickname: false,
-    password: false,
-  });
-
-  const checkEmail = () => {
-    // 정규식 + test함수
-    const regExp =
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    const regTest = regExp.test(userInputs.email);
-    // 실시간 유효성 알려줌 ref는 document.querySelector와 같은데 current로 받는다
-    // 여기에 안내메세지 걸려있는 classList add/remove 해가지고 onOff인자에 따라 보여줌
-    const onValidate = (onOff) =>
-      onOff
-        ? emailRef.current.classList.remove("hidden")
-        : emailRef.current.classList.add("hidden");
-
-    // 정규식을 만족하면 onValidate가 true라서 remove가 되고 글씨 안보임, f
-    regTest ? onValidate(false) : onValidate(true);
-  };
-
-  const checkName = () => {
-    const regExp = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
-    const regTest = regExp.test(userInputs.nickname);
-    const onValidate = (onOff) =>
-      onOff
-        ? nicknameRef.current.classList.remove("hidden")
-        : nicknameRef.current.classList.add("hidden");
-    regTest ? onValidate(false) : onValidate(true);
-  };
-
-  const checkPwd = () => {
-    const regExp = /^[A-Za-z0-9]{6,12}$/;
-    const regTest = regExp.test(userInputs.password);
-    const onValidate = (onOff) =>
-      onOff
-        ? pwdRef.current.classList.remove("hidden")
-        : pwdRef.current.classList.add("hidden");
-
-    regTest ? onValidate(false) : onValidate(true);
-  };
-
-  // 정규식 모아둠
-  const regs = {
-    email:
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-    nickname: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
-    password: /^[A-Za-z0-9]{6,12}$/,
-  };
-
-  // 정규식 체크하는 애
-  const regChecker = (regExp, value) => regExp.test(value);
-  // 모두 true이면 가입시켜준다 every() 메서드 사용(:배열 안의 모든 요소가 판별 함수를 통과하는지 boolean으로 반환)
-  const signUp = () => {
-    const isAllTrue = Object.values(userValidate).every((value) => value); //[true, true, true]
-    // 모두 true이면 dispatch loginAction의 join함수 호출, 액션 실행
-    if (isAllTrue) {
-      dispatch(
-        join(userInputs.email, userInputs.nickname, userInputs.password, nav)
-      );
+  useEffect(()=>{
+    if(inputs.password !== inputs.rePassword){
+      setPwdMessage("떼잉~비밀번호가 똑같지 않아요!");
+    } else if(inputs.password == ""){
+      setPwdMessage("비밀번호를 입력하세요");
     } else {
-      alert("다시 작성해주세요"); 
+      setPwdMessage("비밀번호가 일치합니다.")
     }
-  };
+  },[inputs])
+
+  // console.log(inputs.email);
+  // console.log(inputs.nickname);
+  // console.log(inputs.password);
+  // console.log(inputs.rePassword);
+
   return (
     <MainContainer>
       <div></div>
+      <form action="">
       <LoginWrap>
         <div style={{ marginTop: "10rem" }}>
           <header>
@@ -133,7 +79,7 @@ const creator = () => {
           <div>
             <input
               type="radio"
-              value="0"
+              value="1"
               name="type"
               onClick={viewUserHandler}
             />
@@ -141,7 +87,7 @@ const creator = () => {
             <label htmlFor="user">유저</label> &nbsp;
             <input
               type="radio"
-              value="1"
+              value="2"
               name="type"
               onClick={viewCreatorHandler}
             />{" "}
@@ -155,16 +101,17 @@ const creator = () => {
                   type="email"
                   name="email"
                   placeholder="이메일"
-                  onChange={inputsHandler}
+                  onChange={e=> setInputs({...inputs, email:e.target.value})}
                 />
                 <label htmlFor="username">이메일</label>
               </InputBox>
+              <span></span>
               <InputBox>
                 <input
                   type="walletAddress"
                   name="walletAddress"
                   placeholder="지갑주소"
-                  onChange={inputsHandler}
+                  // onChange={}
                 />
                 <label htmlFor="username">지갑주소</label>
               </InputBox>
@@ -173,7 +120,7 @@ const creator = () => {
                   type="text"
                   name="nickname"
                   placeholder="닉네임"
-                  onChange={inputsHandler}
+                  onChange={e=> setInputs({...inputs, nickname:e.target.value})}
                 />
                 <label htmlFor="username">닉네임</label>
               </InputBox>
@@ -182,7 +129,8 @@ const creator = () => {
                   type="password"
                   name="password"
                   placeholder="비밀번호"
-                  onChange={inputsHandler}
+                  autoComplete="off"
+                  onChange={e=> setInputs({...inputs, password:e.target.value})}
                 />
                 <label htmlFor="password">비밀번호</label>
               </InputBox>
@@ -190,11 +138,13 @@ const creator = () => {
                 <input
                   type="password"
                   name="rePassword"
-                  placeholder="비밀번호"
-                  onChange={inputsHandler}
+                  placeholder="비밀번호확인"
+                  autoComplete="off"
+                  onChange={e=> setInputs({...inputs, rePassword:e.target.value})}
                 />
                 <label htmlFor="password">비밀번호확인</label>
               </InputBox>
+              {pwdMessage}
               <Submit type="submit" onClick={SignUp} />
             </>
           ) : (
@@ -204,7 +154,7 @@ const creator = () => {
                   type="email"
                   name="email"
                   placeholder="이메일"
-                  onChange={inputsHandler}
+                  // onChange={}
                 />
                 <label htmlFor="username">이메일</label>
               </InputBox>
@@ -223,7 +173,7 @@ const creator = () => {
                   type="walletAddress"
                   name="walletAddress"
                   placeholder="지갑주소"
-                  onChange={inputsHandler}
+                  // onChange={}
                 />
                 <label htmlFor="username">지갑주소</label>
               </InputBox>
@@ -232,7 +182,7 @@ const creator = () => {
                   type="text"
                   name="nickname"
                   placeholder="닉네임"
-                  onChange={inputsHandler}
+                  // onChange={}
                 />
                 <label htmlFor="username">닉네임</label>
               </InputBox>
@@ -241,7 +191,8 @@ const creator = () => {
                   type="password"
                   name="password"
                   placeholder="비밀번호"
-                  onChange={inputsHandler}
+                  autoComplete="off"
+                  onChange={e=> setInputs({...inputs, password:e.target.value})}
                 />
                 <label htmlFor="password">비밀번호</label>
               </InputBox>
@@ -250,20 +201,25 @@ const creator = () => {
                   type="password"
                   name="rePassword"
                   placeholder="비밀번호확인"
-                  onChange={inputsHandler}
+                  autoComplete="off"
+                  onChange={e=> setInputs({...inputs, rePassword:e.target.value})}
                 />
                 <label htmlFor="password">비밀번호확인</label>
               </InputBox>
+              {pwdMessage}
               <Submit type="submit" onClick={SignUp} />
             </>
           )}
         </div>
       </LoginWrap>
+    </form>
 
       <div></div>
     </MainContainer>
   );
 };
+
+
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
@@ -320,4 +276,4 @@ const Submit = styled.input`
   font-size: 14pt;
   margin-top: 1rem;
 `;
-export default creator;
+export default join;

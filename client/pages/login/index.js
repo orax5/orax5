@@ -1,10 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
+// 지갑연결
+import { useWeb3React } from '@web3-react/core';
+import { injected } from './../../lib/connectors';
+// 
+
 
 const index = () => {
-  const [acount, setAccount] = useState(false);
+  const {
+    connector, // 현재 dapp에 연결된 월렛의 connector 값
+    library, // web3 provider 제공
+    chainId, // dapp에 연결된 account의 chainId
+    account, // dapp에 연결된 account address
+    active, // active: dapp 유저가 로그인 된 상태인지 체크
+    error,
+    activate, // activate: dapp 월렛 연결 기능 수행함수
+    deactivate // deactivate: dapp 월렛 해제 수행함수
+  } = useWeb3React();
 
+
+  // 메타마스크 깔려 있는지 여부 확인 
+  // if (typeof window.ethereum !== 'undefined') {
+  //    console.log('MetaMask is installed!');
+  // }
+
+   // 지갑 연결
+   const onClickActivateHandler = () => {
+    activate(injected, async(error)=>{
+      // 에러 처리 코드 생략
+    })
+  }
+
+  // 연결 해제
+  const onClickDeactivateHandler = () => {
+    deactivate(); // connector._events.Web3ReactDeactivate() 이거랑 같은건데
+  }
+
+  useEffect(()=>{
+    
+  },[]);
+
+  
   return (
     <MainContainer>
       <div></div>
@@ -13,20 +50,19 @@ const index = () => {
           <header>
             <h1>LOGIN</h1>
           </header>
-
-          <form action="" method="POST">
-            {acount ? (
+            {account != null 
+            ? 
+            (
               <AddressBox>
-                <h2>0x00000000</h2>
+                {account}
               </AddressBox>
-            ) : (
+            ) 
+            : 
+            (
               <AddressBox>
                 <h2>지갑을 연결해주세요</h2>
                 <button
-                  onClick={() => {
-                    setAccount(true);
-                  }}
-                >
+                  onClick={onClickActivateHandler}>
                   지갑 연결
                 </button>
               </AddressBox>
@@ -46,7 +82,7 @@ const index = () => {
             <Link href="/login/join">
               <Submit type="submit" value="회원가입" />
             </Link>
-          </form>
+        
         </div>
       </LoginWrap>
 
@@ -54,6 +90,7 @@ const index = () => {
     </MainContainer>
   );
 };
+
 
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
