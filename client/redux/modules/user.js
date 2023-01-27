@@ -12,6 +12,7 @@ export const signUp = (
   return async (dispatch, getState) => {
     const user = {
       method: "post",
+      // url : ""
       data: { email, walletAddress, nickname, password, typeOfUser },
     };
     const data = user.data;

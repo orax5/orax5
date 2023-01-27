@@ -7,6 +7,8 @@ const join = () => {
   const dispatch = useDispatch();
   // 오류 메세지 상태저장
   const [pwdMessage, setPwdMessage] = useState("");
+  const [nickMessage, setNickMessage] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
   const [isCheckType, setIsCheckType] = useState(false);
   const [isCheckEmail, setIsCheckEmail] = useState(false);
   // Creator or User
@@ -32,7 +34,8 @@ const join = () => {
     console.log(typeOfUser)
   };
 
-  const SignUp = () => {
+  const SignUp = (event) => {
+    event.preventDefault();
     console.log(
       inputs.email,
       inputs.walletAddress,
@@ -42,8 +45,8 @@ const join = () => {
     );
     if (typeOfUser == null) {
       alert("회원 유형을 선택하세요");
-    } else if (typeOfUser == 1) {
-      if (isCheckEmail == false) {
+    } else if (typeOfUser == 2) {
+        if (isCheckEmail == false) {
         alert("이메일 인증을 진행해주세요");
       }
     }
@@ -52,13 +55,36 @@ const join = () => {
   };
 
   useEffect(()=>{
+    let pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
     if(inputs.password !== inputs.rePassword){
       setPwdMessage("떼잉~비밀번호가 똑같지 않아요!");
     } else if(inputs.password == ""){
       setPwdMessage("비밀번호를 입력하세요");
     } else {
-      setPwdMessage("비밀번호가 일치합니다.")
+      setPwdMessage("비밀번호가 일치합니다.");
     }
+
+    if(inputs.nickname == ""){
+      setNickMessage("닉네임 입력은 필수입니당");
+    } else if(inputs.nickname.search(/\s/) != -1){
+      setNickMessage("닉네임 공백은 앙대용");
+    } else if(inputs.nickname.length < 2 || inputs.nickname.length >8){
+      setNickMessage("2~8자리 닉네임입력");
+    } else{
+      setNickMessage("사용가능");
+    }
+
+    if(inputs.email==""){
+      setEmailMessage("이메일입력해주세요");
+    } else if(pattern.test(inputs.email) == false){
+      setEmailMessage("이메일형식이 올바르지 않아여");
+    } else{
+      setEmailMessage("사용가능한 이메일");
+    }
+
+
+
   },[inputs])
 
   // console.log(inputs.email);
@@ -104,14 +130,14 @@ const join = () => {
                   onChange={e=> setInputs({...inputs, email:e.target.value})}
                 />
                 <label htmlFor="username">이메일</label>
+                <span>{emailMessage}</span>
               </InputBox>
-              <span></span>
               <InputBox>
                 <input
                   type="walletAddress"
                   name="walletAddress"
                   placeholder="지갑주소"
-                  // onChange={}
+                  onChange={e=> setInputs({...inputs, walletAddress:e.target.value})}
                 />
                 <label htmlFor="username">지갑주소</label>
               </InputBox>
@@ -123,6 +149,7 @@ const join = () => {
                   onChange={e=> setInputs({...inputs, nickname:e.target.value})}
                 />
                 <label htmlFor="username">닉네임</label>
+                <span>{nickMessage}</span>
               </InputBox>
               <InputBox>
                 <input
@@ -143,8 +170,8 @@ const join = () => {
                   onChange={e=> setInputs({...inputs, rePassword:e.target.value})}
                 />
                 <label htmlFor="password">비밀번호확인</label>
+                <span>{pwdMessage}</span>
               </InputBox>
-              {pwdMessage}
               <Submit type="submit" onClick={SignUp} />
             </>
           ) : (
@@ -154,15 +181,17 @@ const join = () => {
                   type="email"
                   name="email"
                   placeholder="이메일"
-                  // onChange={}
+                  onChange={e=> setInputs({...inputs, email:e.target.value})}
                 />
                 <label htmlFor="username">이메일</label>
+                <span>{emailMessage}</span>
               </InputBox>
               <InputBox>
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
                     setIsCheckEmail(true);
                     alert("이메일 인증이 완료되었습니다");
+                    e.preventDefault()
                   }}
                 >
                   이메일 확인
@@ -173,7 +202,7 @@ const join = () => {
                   type="walletAddress"
                   name="walletAddress"
                   placeholder="지갑주소"
-                  // onChange={}
+                  onChange={e=> setInputs({...inputs, walletAddress:e.target.value})}
                 />
                 <label htmlFor="username">지갑주소</label>
               </InputBox>
@@ -182,9 +211,10 @@ const join = () => {
                   type="text"
                   name="nickname"
                   placeholder="닉네임"
-                  // onChange={}
+                  onChange={e=> setInputs({...inputs, nickname:e.target.value})}
                 />
                 <label htmlFor="username">닉네임</label>
+                <span>{nickMessage}</span>
               </InputBox>
               <InputBox>
                 <input
@@ -205,8 +235,8 @@ const join = () => {
                   onChange={e=> setInputs({...inputs, rePassword:e.target.value})}
                 />
                 <label htmlFor="password">비밀번호확인</label>
+                <span>{pwdMessage}</span>
               </InputBox>
-              {pwdMessage}
               <Submit type="submit" onClick={SignUp} />
             </>
           )}
