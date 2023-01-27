@@ -1,13 +1,16 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 import Link from "next/Link";
+import { addLiked } from "../../redux/modules/nft";
 
 const index = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [datas, setDatas] = useState([]);
   const [limit, setLimit] = useState(8);
@@ -82,7 +85,14 @@ const index = () => {
               <ItemPrice>{data.price}</ItemPrice>
 
               <BtnBox>
-                <div>찜하기</div>
+                <div
+                  onClick={() => {
+                    dispatch(addLiked(idx));
+                    console.log(idx);
+                  }}
+                >
+                  찜하기
+                </div>
                 <div
                   onClick={() => {
                     router.push(`/funding/${data.id}`);

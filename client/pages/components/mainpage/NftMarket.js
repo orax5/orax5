@@ -6,15 +6,15 @@ import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper"; // 추가
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import Slide from "../Slide";
 
 const NftMarket = () => {
-
-
   return (
     <MainContainer>
       <TitleContainer>
         DTS <strong style={{ color: "plum" }}>NFT</strong>
       </TitleContainer>
+      <Slide />
       <div>
         <div>
           <TitleContainer2>
