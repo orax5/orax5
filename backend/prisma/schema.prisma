@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User{
+  user_no Int @default(autoincrement()) @id
+  user_email String @unique @db.VarChar(500)
+  user_pwd String @db.VarChar(50)
+  user_nickname String @db.VarChar(30)
+  user_grade Int @default(1)
+  user_wallet String @unique
+  user_email_token String? @unique
+  shopcarts Cart[]
+}
+
+//====  펀딩 관련 테이블
+model Shinchunghada{
+  shin_no Int @default(autoincrement()) @id
+  shin_amount Int
+  shin_nft_totalbalance Int
+  shin_cover String
+  shin_opendate	DateTime
+  shin_description String
+  shin_category String
+  shin_ispermit Boolean
+  shin_creator_address String
+  funding Funding[]
+  singer Singer[]
+  composer Composer[]
+  lyricist Lyricist[]
+}
+
+// fund_state: 1 - 펀딩 중 2-펀딩성공 3-펀딩실패
+model Funding{
+  fund_no Int @default(autoincrement()) @id
+  fund_state Int @default(1)
+  ifFundingOpen Shinchunghada @relation(fields: [shin_no], references: [shin_no])
+  shin_no Int @unique
+}
+ 
+model Singer{
+  sing_no Int @default(autoincrement()) @id
+  sing_name String
+  fundingID Shinchunghada @relation(fields: [shin_no], references: [shin_no])
+  shin_no Int @unique
+}
+
+model Composer{
+  com_no Int @default(autoincrement()) @id
+  com_name String
+  fundingID Shinchunghada @relation(fields: [shin_no], references: [shin_no])
+  shin_no Int @unique
+}
+
+model Lyricist{
+  lyric_no Int @default(autoincrement()) @id
+  lyric_name String
+  fundingID Shinchunghada @relation(fields: [shin_no], references: [shin_no])
+  shin_no Int @unique
+}
+
+/////==== 가수 작곡가 작사가 테이블이랑 스트리밍 테이블이랑 연관성 X ===================
+//==== 스트리밍 관련 테이블
+
+model Music{
+  music_no Int @default(autoincrement()) @id
+  music_title String @db.VarChar(50)
+  music_lyricist String 
+  music_composer String 
+  music_singer String
+  music_category Int
+  music_description String
+  music_isfunding Boolean?
+  musicFilePath MusicFile[]
+}
+
+model MusicFile{
+  mf_no Int @default(autoincrement()) @id
+  mf_path String 
+  musicnumber Music @relation(fields: [music_no], references: [music_no])
+  music_no Int
+}
+
+
+///=====굿즈shop 관련 테이블
+model Product{
+  product_no Int @default(autoincrement()) @id
+  product_price Int 
+  product_descrip String 
+  cartIds Cart[]
+}
+
+model Cart{
+  cart_no Int @default(autoincrement()) @id
+  user_IDnumber User @relation(fields: [user_no], references: [user_no])
+  user_no Int
+  productIds Product @relation(fields: [product_no], references: [product_no])
+  product_no Int
+}
