@@ -13,8 +13,8 @@ const Developers = () => {
             <Image
               src="/Img/sample.jpg"
               alt="profile_1"
-              width={220}
-              height={220}
+              width={230}
+              height={230}
             />
             <ProfileContent>
               <h1>YOUNMI SON</h1>
@@ -25,8 +25,8 @@ const Developers = () => {
             <Image
               src="/Img/sample.jpg"
               alt="profile_2"
-              width={220}
-              height={220}
+              width={230}
+              height={230}
             />
             <ProfileContent>
               <h1>JONGCHAN KIM</h1>
@@ -39,8 +39,8 @@ const Developers = () => {
             <Image
               src="/Img/sample.jpg"
               alt="profile_3"
-              width={220}
-              height={220}
+              width={230}
+              height={230}
             />
             <ProfileContent>
               <h1>JUYOUNG AN</h1>
@@ -51,8 +51,8 @@ const Developers = () => {
             <Image
               src="/Img/sample.jpg"
               alt="profile_4"
-              width={220}
-              height={220}
+              width={230}
+              height={230}
             />
             <ProfileContent>
               <h1>HAJIN CHOI</h1>
@@ -90,7 +90,6 @@ const FirstBox = styled.div`
   > div:nth-child(2),
   div:nth-child(3) {
     ${(props) => props.theme.align.flexCenter};
-
     @media ${(props) => props.theme.device.tablet} {
       flex-direction: row;
     }
@@ -100,6 +99,7 @@ const FirstBox = styled.div`
 const ProfileItems = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
   width: 22rem;
+  margin: 0 1rem;
   @media ${(props) => props.theme.device.pc} {
     width: 20rem;
   }
@@ -108,6 +108,7 @@ const ProfileItems = styled.div`
   }
   @media ${(props) => props.theme.device.mobile} {
     width: 12rem;
+    margin: 0;
   }
   // 사진
   > img {
@@ -130,8 +131,9 @@ const ProfileItems = styled.div`
 // 이름, 설명 있는 부분
 const ProfileContent = styled.div`
   text-align: center;
+  font-size: 0.9rem;
   @media ${(props) => props.theme.device.tablet} {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     margin: 0.5rem;
   }
   @media ${(props) => props.theme.device.mobile} {
