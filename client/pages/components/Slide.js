@@ -1,11 +1,13 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import styled from "styled-components";
 import Image from "next/image";
 // CSS 파일
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 // 이미지
 import NewJeans1stEP from "../../public/Img/NewJeans1stEP.jpg";
 import NewJeansOMG from "../../public/Img/NewJeansOMG.jpg";
@@ -19,12 +21,18 @@ const Slide = () => {
   return (
     <SlideContainer>
       <Swiper
+        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        observer ={true}
+        observeParents= {true}
         direction="horizontal"
-        slidesPerView={3}
-        spaceBetween={50}
+        slidesPerView={3} 
+        spaceBetween={50} // 간격
         slidesPerGroup={3}
-        loop={false}
+        loop={true}
+        scrollbar={{ draggable: true }}
         loopFillGroupWithBlank={true}
+        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => console.log('slide change')}
       >
         <SwiperSlide>
           <MusicAlbumBox>
@@ -34,6 +42,7 @@ const Slide = () => {
               width={200}
               height={200}
               style={{ paddingTop: "1rem" }}
+              loading="lazy"
             />
             <div>Power Up</div>
             <div>Red Velvet (레드벨벳)</div>
@@ -47,6 +56,7 @@ const Slide = () => {
               width={200}
               height={200}
               style={{ paddingTop: "1rem" }}
+              loading="lazy"
             />
             <div>Attention</div>
             <div>NewJeans</div>
@@ -60,6 +70,7 @@ const Slide = () => {
               width={200}
               height={200}
               style={{ paddingTop: "1rem" }}
+              loading="lazy"
             />
             <div>Ditto</div>
             <div>NewJeans</div>
@@ -73,6 +84,7 @@ const Slide = () => {
               width={200}
               height={200}
               style={{ paddingTop: "1rem" }}
+              loading="lazy"
             />
             <div>비</div>
             <div>폴킴</div>
@@ -86,6 +98,7 @@ const Slide = () => {
               width={200}
               height={200}
               style={{ paddingTop: "1rem" }}
+              loading="lazy"
             />
             <div>Butter</div>
             <div>BTS (방탄소년단)</div>
@@ -99,6 +112,7 @@ const Slide = () => {
               width={200}
               height={200}
               style={{ paddingTop: "1rem" }}
+              loading="lazy"
             />
             <div>Forever Young</div>
             <div>BLACKPINK</div>
