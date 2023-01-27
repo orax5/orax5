@@ -9,6 +9,7 @@ const join = () => {
   const [pwdMessage, setPwdMessage] = useState("");
   const [nickMessage, setNickMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
+  //
   const [isCheckType, setIsCheckType] = useState(false);
   const [isCheckEmail, setIsCheckEmail] = useState(false);
   // Creator or User
@@ -51,7 +52,13 @@ const join = () => {
       }
     }
     // dispatch로 전달
-    dispatch(signUp());
+    dispatch(signUp(
+      inputs.email,
+      inputs.walletAddress,
+      inputs.nickname,
+      inputs.password,
+      typeOfUser
+      ));
   };
 
   useEffect(()=>{

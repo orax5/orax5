@@ -16,6 +16,7 @@ export const signUp = (
       data: { email, walletAddress, nickname, password, typeOfUser },
     };
     const data = user.data;
+    console.log(data)
     dispatch({
       type: "JOIN",
       payload: data,
