@@ -45,6 +45,9 @@ const SideMenu = ({ setShowMenu, ShowMenu }) => {
         <Link href="/mypage">
           <li>MYPAGE</li>
         </Link>
+        <Link href="/creator">
+          <li>CREATOR</li>
+        </Link>
         <Link href="/admin">
           <li>ADMIN</li>
         </Link>
