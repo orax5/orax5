@@ -17,9 +17,6 @@ const index = () => {
     setDatas(Items);
   }, []);
 
-  const pickedNft = () => {
-    alert("찜하기 완.");
-  };
   // 더미 데이터
   const Items = [
     { img: "1", id: 1, title: "test_title", price: "0.234ETH" },
@@ -60,7 +57,6 @@ const index = () => {
               <ItemTitle>{data.title}</ItemTitle>
               <ItemPrice>{data.price}</ItemPrice>
               <BtnBox>
-                <div onClick={pickedNft}>찜하기</div>
                 <div
                   onClick={() => {
                     router.push(`/marketplace/${data.id}`);

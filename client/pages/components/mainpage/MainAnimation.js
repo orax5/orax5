@@ -5,10 +5,6 @@ const MainAnimation = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    // const sin = Math.sin;
-    // const cos = Math.cos;
-    // const PI = Math.PI;
-    // let tempx, tempy, tempz;
     const fov = 150; // Field of view = 시야 https://trts1004.tistory.com/12109520
 
     class Dot {
@@ -28,7 +24,7 @@ const MainAnimation = () => {
       canvas.height = innerHeight;
       initDots();
       context.fillStyle = "white";
-      // 투명도 조절하는거임 html 사이즈에 따라 불투명도 조절
+      // 투명도 조절하는거임 html 사이즈에 따라 불투명도 조절 width 넓이가 줄어들면 dots 색이 옅어짐 = 0.3
       if (innerWidth < 800) {
         context.globalAlpha = 0.3;
       } else {
@@ -54,10 +50,12 @@ const MainAnimation = () => {
       scale = fov / (fov + dot.z);
       x2d = dot.x * scale + innerWidth / 2;
       y2d = dot.y * scale + innerHeight / 2;
+      // (x시작좌표,y시작좌표,x길이,y길이) 즉 가로 4 세로 3 비율의 dots이 생김 
       context.fillRect(x2d, y2d, scale * 4, scale * 3);
     }
 
     function render() {
+      // 캔버스 전체 지우기 == 날라오는 점들 초기화 잔상안남게
       context.clearRect(0, 0, canvas.width, canvas.height);
       let dot;
       for (let i = 0; i < dots.length; i++) {
@@ -78,7 +76,7 @@ const MainAnimation = () => {
       setSize();
       render();
     }
-
+    // 브라우저의 크기가 변경될 때 발생
     addEventListener("resize", setSize);
     init();
   }, []);

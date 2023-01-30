@@ -1,15 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-// import Image from "next/image";
-// import { Swiper, SwiperSlide } from "swiper/react";
-// import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper"; // 추가
-// import "swiper/css";
-// import "swiper/css/pagination";
-// import "swiper/css/navigation";
+import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper"; // 추가
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 const NftMarket = () => {
-<<<<<<< HEAD
-    SwiperCore.use([Navigation]);
 
   return (
     <MainContainer>
@@ -33,13 +31,6 @@ const NftMarket = () => {
         <SwiperSlide>Slide 9</SwiperSlide>
         <SwiperSlide>Slide 10</SwiperSlide>
       </StyledSwiper>
-=======
-  return (
-    <MainContainer>
-      <TitleContainer>
-        DTS <strong style={{ color: "plum" }}>NFT</strong>
-      </TitleContainer>
->>>>>>> main
       <div>
         <div>
           <TitleContainer2>
@@ -85,7 +76,6 @@ const StartBtn = styled.button`
   }
 `;
 
-<<<<<<< HEAD
 const StyledSwiper = styled(Swiper)`
   position:relative;
   width: 100%;
@@ -93,6 +83,3 @@ const StyledSwiper = styled(Swiper)`
 `
 
 export default NftMarket
-=======
-export default NftMarket;
->>>>>>> main
