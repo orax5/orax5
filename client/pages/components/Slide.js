@@ -15,13 +15,12 @@ import rain from "../../public/Img/rain.jpg";
 import SummerMagic from "../../public/Img/SummerMagic.jpg";
 import Butter from "../../public/Img/Butter.jpg";
 import SQUAREUP from "../../public/Img/SQUAREUP.jpg";
-// import required modules
+
 
 const Slide = () => {
   return (
     <SlideContainer>
       <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y]}
         observer ={true}
         observeParents= {true}
         direction="horizontal"
@@ -31,8 +30,6 @@ const Slide = () => {
         loop={true}
         scrollbar={{ draggable: true }}
         loopFillGroupWithBlank={true}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log('slide change')}
       >
         <SwiperSlide>
           <MusicAlbumBox>
