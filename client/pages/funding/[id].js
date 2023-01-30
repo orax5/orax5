@@ -1,16 +1,23 @@
 import Image from "next/image";
-import React from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
-// 이미지들
-import heart_on from "../../public/Img/heart_on.png";
-import chat from "../../public/Img/chat.png";
 import CountDown from "../components/CountDown";
 
 const deatil = () => {
-  // endDate는 등록하는 곳에서 선택한 날짜로 불러와야함, 지금은 임의로 두고 작업
-  const endDate = new Date("2023-01-31 11:00:00");
+  // endDate는 선택된 날짜로 불러와야함, 지금은 임의로 두고 작업
+  const endDate = new Date("2023-01-30 14:55:00");
+  // 펀딩이 종료되었을 때 보여지는 태그 처리
+  const [isTimeOver, setIsTimeOver] = useState(false);
   // countDown 함수 - 계산해서 받은 값을 배열로 받아옴
-  const [date, hours, minutes, seconds] = CountDown(endDate);
+  const [date, hours, minutes, seconds] = CountDown(endDate, setIsTimeOver);
+  // 펀딩 기간 이후 버튼 블락 처리
+  const TimeOverAlert = () => {
+    alert("펀딩종료 후에는 펀딩에 참여하실 수 없습니다");
+  };
+
+  // 입력 수량 정확하게 막기 위해서 해당 DOM태그에 직접 처리
+  // 이건 아예 데이터 넘길 때 처리하는게 좋을 수도
+  // const numref = useRef();
 
   return (
     <MainContainer>
@@ -34,7 +41,8 @@ const deatil = () => {
             <div>test_title</div>
             <FundingDetails>
               <div>
-                <strong>123456 </strong> % 달성
+                {/* 100 * (펀딩 된 수량/전체 수량) */}
+                <strong>99 </strong> % 달성
               </div>
               <div>
                 <strong>224,431,400 </strong> ETH 펀딩
@@ -46,59 +54,48 @@ const deatil = () => {
             <table>
               <tbody>
                 <tr>
-                  <td>펀딩시간</td>
+                  <TableTitle>펀딩기간</TableTitle>
                   <td>2023-01-20 ~ 2023-02-20</td>
                 </tr>
                 <tr>
-                  <td>남은시간</td>
-                  <Timer>
-                    {date}일 {hours}시간 {minutes}분 {seconds}초
-                  </Timer>
+                  <TableTitle>남은시간</TableTitle>
+                  {isTimeOver ? (
+                    <td>펀딩이 종료되었습니다</td>
+                  ) : (
+                    <Timer isTimeOver={isTimeOver}>
+                      {date}일 {hours}시간 {minutes}분 {seconds}초
+                    </Timer>
+                  )}
                 </tr>
                 <tr>
-                  <td>펀딩금액(ETH)</td>
+                  <TableTitle>수량</TableTitle>
                   <td>
                     <input
                       type="number"
+                      min="1"
+                      max="3000"
                       style={{
                         fontSize: "1.5rem",
                         border: "1px solid white",
                         width: " 12rem ",
                       }}
                     />
+                    {/*입력 수량/총 개수*/}
+                    &nbsp;/ 3000개
                   </td>
                 </tr>
               </tbody>
             </table>
             <FundingBtn>
-              <button>펀딩하기</button>
+              {/*약간 딜레이가 생겨서 나중에 다른 처리 방법도 고민해보기 */}
+              {isTimeOver ? (
+                <button onClick={TimeOverAlert}>펀딩이 종료되었습니다</button>
+              ) : (
+                <button>펀딩하기</button>
+              )}
             </FundingBtn>
-
-            <BtnBox>
-              <button>
-                <Image
-                  alt="heart_on"
-                  src={heart_on}
-                  width={20}
-                  height={20}
-                  style={{ background: "transparent" }}
-                />
-                {3683}
-              </button>
-              <button>
-                <Image
-                  alt="heart_off"
-                  src={chat}
-                  width={20}
-                  height={20}
-                  style={{ background: "transparent" }}
-                />{" "}
-                문의
-              </button>
-              <button>공유하기</button>
-            </BtnBox>
-          </DetailBox>{" "}
-        </DetailWrap>{" "}
+          </DetailBox>
+        </DetailWrap>
         <InfoWrap>
           <AboutNft>
             <div>Notice</div>
@@ -178,7 +175,9 @@ const DetailBox = styled.div`
     margin-bottom: 2rem;
   }
 `;
-
+const TableTitle = styled.td`
+  font-weight: 800;
+`;
 // 펀딩 관련 정보
 const FundingDetails = styled.div`
   padding: 0.5rem 0;
