@@ -15,7 +15,7 @@ export default function Slider() {
 
   // 현재 슬라이드 번호
   // 복사된 배열에서 첫번째 슬라이드를 보려면 1을 초기값으로 줘야한다
-  const [currentSlide, setCurrentSlide] = useState(1);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   // transform이 발생하는 DOM 요소
   const slideRef = useRef(null);
@@ -66,7 +66,7 @@ export default function Slider() {
           style={{
             // 슬라이드 이미지 개수만큼의 넒이
             width: `${100 * SLIDE_NUM}vw`,
-            transform: `translateX(-${(150 / copied.length) * currentSlide}%)`,
+            transform: `translateX(-${currentSlide * 200}px)`,
             transition: "all 1s ease-in-out",
           }}
         >
@@ -86,7 +86,7 @@ const MainContainer = styled.div`
 `;
 // 슬라이드 전체를 감싸는 div 넘어가면 안보이도록 처리
 const SlideContainer = styled.div`
-  width: 100vw;
+  width: 600px;
   overflow: hidden;
 `;
 // setTimeOut에 맞춰서 움직이는 div
@@ -99,4 +99,7 @@ const SlideBox = styled.div`
   position: relative;
   float: left;
   height: auto;
+  > img {
+    margin: 0 25px;
+  }
 `;
