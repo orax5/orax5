@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 const MainAnimation = () => {
   const canvasRef = useRef(null);
 
-  useEffect(() => {   
+  useEffect(() => {
     // const sin = Math.sin;
     // const cos = Math.cos;
     // const PI = Math.PI;
@@ -18,11 +18,11 @@ const MainAnimation = () => {
         this.z = z;
       }
     }
-    
+
     let canvas, context;
     let dots = [];
     let dotsLength = (innerWidth + innerHeight) / 20;
-    
+
     function setSize() {
       canvas.width = innerWidth;
       canvas.height = innerHeight;
@@ -39,7 +39,7 @@ const MainAnimation = () => {
     function initDots() {
       dots = [];
       // 나누는 숫자가 작아질수록 점 개수가 많아짐
-      dotsLength = (innerWidth + innerHeight) / 15;
+      dotsLength = (innerWidth + innerHeight) / 2;
       let x, y, z;
       for (let i = 0; i < dotsLength; i++) {
         x = Math.random() * innerWidth - innerWidth / 2;
@@ -63,7 +63,7 @@ const MainAnimation = () => {
       for (let i = 0; i < dots.length; i++) {
         dot = dots[i];
         // 숫자가 커질수록 속도가 빨라진다
-        dot.z -= 2;
+        dot.z -= 1;
         if (dot.z < -fov) {
           dot.z += (innerWidth + innerHeight) / 2;
         }
@@ -81,9 +81,7 @@ const MainAnimation = () => {
 
     addEventListener("resize", setSize);
     init();
- 
   }, []);
- 
 
   return (
     <>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
 import Player from "../components/Player";
-import Slide from "../components/Slide";
+// import Slide from "../components/Slide";
 
 const index = () => {
   // 투데이, 보관함 이동하려고 사용
@@ -91,17 +91,17 @@ const index = () => {
                     <div>최근 들은 노래</div>
                     <div>전체보기</div>
                   </TitleContainer>
-                  <Slide />
+                  {/* <Slide /> */}
                   <TitleContainer>
                     <div>내 취향 플레이리스트 </div>
                     <div>전체보기</div>
                   </TitleContainer>
-                  <Slide />
+                  {/* <Slide /> */}
                   <TitleContainer>
                     <div>DTS's 추천곡 </div>
                     <div>전체보기</div>
                   </TitleContainer>
-                  <Slide />
+                  {/* <Slide /> */}
                 </ItemBox>
               </ItemBoxWrap>
             ) : (
