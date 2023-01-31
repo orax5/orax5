@@ -23,16 +23,26 @@ const FundingNft = () => {
     { img: "12", id: 10, title: "test_title", price: "0.234ETH" },
     { img: "13", id: 10, title: "test_title", price: "0.234ETH" },
   ];
+  const [isFailed, setIsFailed] = useState(false);
   const [datas, setDatas] = useState([]);
   const [limit, setLimit] = useState(8);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
+
+  
   useEffect(() => {
     setDatas(Items);
   }, []);
+
+  const failHandler = () => {
+    setIsFailed(!isFailed);
+  };
+
+  const isRefund = () => {};
   return (
     <div>
       <MainItems>
+        <button onClick={failHandler}>환불상태 오이오이</button>
         <ListWrap>
           {datas.slice(offset, offset + limit).map((data, idx) => (
             <ItemCard key={idx}>
@@ -51,13 +61,17 @@ const FundingNft = () => {
               <ItemTitle>{data.title}</ItemTitle>
               <ItemPrice>{data.price}</ItemPrice>
               <BtnBox>
-                <div
-                  onClick={() => {
-                    router.push(`/marketplace/${data.id}`);
-                  }}
-                >
-                  상세보기
-                </div>
+                {isFailed ? (
+                  <div onClick={isRefund}>환불하기</div>
+                ) : (
+                  <div
+                    onClick={() => {
+                      router.push(`/marketplace/${data.id}`);
+                    }}
+                  >
+                    상세보기
+                  </div>
+                )}
               </BtnBox>
             </ItemCard>
           ))}

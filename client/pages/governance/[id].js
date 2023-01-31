@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CountDown from "../components/CountDown";
 const Detail = () => {
+  const [isTimeOver, setIsTimeOver] = useState(false);
+
   // 등록하는 곳에서 선택한 날짜로 불러와야함, 지금은 임의로 두고 작업
-  const endDate = new Date("2023-01-31 11:00:00");
-  const [date, hours, minutes, seconds] = CountDown(endDate);
+  const endDate = new Date("2023-01-30 15:20:10");
+
+  const [date, hours, minutes, seconds] = CountDown(endDate, setIsTimeOver);
 
   // 댓글 더미데이터
   const replies = [
@@ -19,9 +22,13 @@ const Detail = () => {
         <ContentWrap>
           <h1>투표 제목</h1>
           <div>
-            <Timer>
-              {date}일 {hours}시간 {minutes}분 {seconds}초
-            </Timer>
+            {isTimeOver ? (
+              <h2>투표기간이 종료되었습니다</h2>
+            ) : (
+              <Timer isTimeOver={isTimeOver}>
+                {date}일 {hours}시간 {minutes}분 {seconds}초
+              </Timer>
+            )}
           </div>
           <div>앨범아트 변경하고 싶어요 </div>
           <div>
@@ -125,7 +132,7 @@ const ShowReply = styled.ul`
 `;
 const Timer = styled.span`
   color: red;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 800;
 `;
 export default Detail;
