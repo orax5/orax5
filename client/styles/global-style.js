@@ -59,4 +59,17 @@ input, select, textarea{
 .swiper-wrapper {
   width: 55rem;
 }
+// input 태그 안의 달력 아이콘 커스텀
+input[type="date"]::-webkit-calendar-picker-indicator {
+	color: rgba(0, 0, 0, 0);
+	opacity: 1;
+	display: block;
+	background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png)
+		center/80% no-repeat white; // 여기서 중앙정렬과 배경색을 준다.
+	width: 20px;
+	height: 20px;
+	border-width: thin;
+	cursor: pointer;
+  margin-right: 1rem;
+}
 `;
