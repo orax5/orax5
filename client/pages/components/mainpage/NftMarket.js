@@ -1,12 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-// import Image from "next/image";
-// import { Swiper, SwiperSlide } from "swiper/react";
-// import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper"; // 추가
-// import "swiper/css";
-// import "swiper/css/pagination";
-// import "swiper/css/navigation";
-
+import Slide from "../Slide";
 const NftMarket = () => {
   return (
     <MainContainer>
@@ -19,10 +13,11 @@ const NftMarket = () => {
             <strong style={{ color: "plum" }}>Buy</strong> on Market Place
           </TitleContainer2>
         </div>
-        <div style={{ textAlign: "center" }}>
+        <Slide />
+        <BtnContainer>
           <StartBtn>Go Market</StartBtn>
           <StartBtn>Connect Wallet</StartBtn>
-        </div>
+        </BtnContainer>
       </div>
     </MainContainer>
   );
@@ -44,9 +39,14 @@ const TitleContainer2 = styled.h2`
   font-size: 40px;
   margin-bottom: 3rem;
 `;
+const BtnContainer = styled.div`
+  margin-top: 5rem;
+  text-align: center;
+`;
 const StartBtn = styled.button`
   width: 20%;
-  height: 3rem;
+  height: 5rem;
+  font-size: 1.5rem;
   border-radius: 0.5rem;
   border: 1px solid white;
   padding: 0.7rem;
