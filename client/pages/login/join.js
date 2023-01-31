@@ -22,6 +22,7 @@ const join = () => {
     rePassword: "",
   });
 
+
   // radio 눌렀을때 User 가입폼 보여주기
   const viewUserHandler = (e) => {
     setTypeOfUser(e.target.value);
@@ -136,7 +137,7 @@ const join = () => {
                   placeholder="이메일"
                   onChange={e=> setInputs({...inputs, email:e.target.value})}
                 />
-                <label htmlFor="username">이메일</label>
+                <label htmlFor="email">이메일</label>
                 <span>{emailMessage}</span>
               </InputBox>
               <InputBox>
@@ -146,7 +147,7 @@ const join = () => {
                   placeholder="지갑주소"
                   onChange={e=> setInputs({...inputs, walletAddress:e.target.value})}
                 />
-                <label htmlFor="username">지갑주소</label>
+                <label htmlFor="walletAddress">지갑주소</label>
               </InputBox>
               <InputBox>
                 <input
@@ -155,7 +156,7 @@ const join = () => {
                   placeholder="닉네임"
                   onChange={e=> setInputs({...inputs, nickname:e.target.value})}
                 />
-                <label htmlFor="username">닉네임</label>
+                <label htmlFor="nickname">닉네임</label>
                 <span>{nickMessage}</span>
               </InputBox>
               <InputBox>
@@ -176,7 +177,7 @@ const join = () => {
                   autoComplete="off"
                   onChange={e=> setInputs({...inputs, rePassword:e.target.value})}
                 />
-                <label htmlFor="password">비밀번호확인</label>
+                <label htmlFor="rePassword">비밀번호확인</label>
                 <span>{pwdMessage}</span>
               </InputBox>
               <Submit type="submit" onClick={SignUp} />
@@ -190,10 +191,9 @@ const join = () => {
                   placeholder="이메일"
                   onChange={e=> setInputs({...inputs, email:e.target.value})}
                 />
-                <label htmlFor="username">이메일</label>
+                <label htmlFor="email">이메일</label>
                 <span>{emailMessage}</span>
-              </InputBox>
-              <InputBox>
+                <InputBox>
                 <button
                   onClick={(e) => {
                     setIsCheckEmail(true);
@@ -203,6 +203,7 @@ const join = () => {
                 >
                   이메일 확인
                 </button>
+               </InputBox>
               </InputBox>
               <InputBox>
                 <input
@@ -211,7 +212,7 @@ const join = () => {
                   placeholder="지갑주소"
                   onChange={e=> setInputs({...inputs, walletAddress:e.target.value})}
                 />
-                <label htmlFor="username">지갑주소</label>
+                <label htmlFor="walletAddress">지갑주소</label>
               </InputBox>
               <InputBox>
                 <input
@@ -220,7 +221,7 @@ const join = () => {
                   placeholder="닉네임"
                   onChange={e=> setInputs({...inputs, nickname:e.target.value})}
                 />
-                <label htmlFor="username">닉네임</label>
+                <label htmlFor="nickname">닉네임</label>
                 <span>{nickMessage}</span>
               </InputBox>
               <InputBox>
@@ -241,7 +242,7 @@ const join = () => {
                   autoComplete="off"
                   onChange={e=> setInputs({...inputs, rePassword:e.target.value})}
                 />
-                <label htmlFor="password">비밀번호확인</label>
+                <label htmlFor="rePassword">비밀번호확인</label>
                 <span>{pwdMessage}</span>
               </InputBox>
               <Submit type="submit" onClick={SignUp} />
