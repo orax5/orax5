@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+// import { Module } from '@nestjs/common';
+// import { AdminShowfundlistController } from './admin-showfundlist/admin-showfundlist.controller';
+// import { AdminShowfundlistService } from './admin-showfundlist/admin-showfundlist.service';
 
-@Module({})
-export class AdminModule {}
+// @Module({
+//   controllers: [AdminShowfundlistController],
+//   providers: [AdminShowfundlistService]
+// })
+// export class AdminModule {}

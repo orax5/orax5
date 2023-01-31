@@ -5,7 +5,7 @@ import { PrismaService } from '../../prisma.service';
 export class CreatorShinchungService {
     constructor(private readonly prisma: PrismaService){}
 
-    async shinchung(){
+    async shinchungFund(){
         try {
             
             

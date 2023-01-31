@@ -6,6 +6,7 @@ import * as uuid from 'uuid';
 import { PrismaService } from '../prisma.service';
 
 // 리전은 엑세스키가 있다면 알아서 해준다고한다!
+// 리전 설정부분
 // AWS.config.update({
 //     region: process.env.AWS_REGION
 // })
@@ -14,8 +15,8 @@ import { PrismaService } from '../prisma.service';
 export class UploadsService {
     s3 = new AWS.S3();
 
-    constructor(private config: ConfigService, private readonly prisma: PrismaService){}
-
+    constructor(private config: ConfigService,){}
+//  private readonly prisma: PrismaService
     async s3Upload(file: Express.Multer.File){
         try {
             const response = await this.s3.upload({

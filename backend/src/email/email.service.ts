@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import Mail from 'nodemailer/lib/mailer';
 import * as nodemailer from 'nodemailer'
+import { ConfigService } from '@nestjs/config';
 
 interface EmailOptions {
     to: string;
@@ -11,14 +12,14 @@ interface EmailOptions {
 @Injectable()
 export class EmailService {
     private transporter : Mail; // nodemailer에서 import
-    constructor(){
+    constructor(private readonly config: ConfigService){
         // nodemailer에서 제공하는 Transport 객체 생성
         this.transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth:{
                 // 계정 수정예정
-                user: 'j8747j@gamil.com',
-                pass: 'pepper!!09'
+                user: this.config.get('MAILER'),
+                pass: this.config.get('MAILER_PASSWORD')
             }
         });
     }
@@ -37,7 +38,8 @@ export class EmailService {
         const baseURL = 'http://localhost:3000';
 
         // 유저가 누를 버튼이 가질링크 구성, 이 링크로 다시 우리 서비스로 이메일 인증요청이 들어옴
-        const url = `${baseURL}/creator_signup/email_verify?signupVerifyToken=${signupVerifyToken}`;
+        // /creator_signup/email_verify 이 주소로 다시 요청을보냄
+        const url = `${baseURL}/creator-signup/email-verify?signupVerifyToken=${signupVerifyToken}`;
         
         const mailOptions: EmailOptions ={
             to: emailAddress,

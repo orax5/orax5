@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 import dotenv = require('dotenv');
 import path = require('path');
@@ -18,8 +19,9 @@ if(process.env.NODE_ENV === 'local'){
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  console.log('ENV 에서 값 가져옴? : ' + process.env.DB_HOST);
-  await app.listen(3000);
   app.useGlobalPipes(new ValidationPipe()); // validation 전역설정
+  const PORT = process.env.PORT || 3000;
+  await app.listen(PORT);
+  console.log(`PORT NUM : ${PORT}`);
 }
 bootstrap();

@@ -1,6 +1,7 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,11 +19,12 @@ model User{
   user_nickname String @db.VarChar(30)
   user_grade Int @default(1)
   user_wallet String @unique
-  user_email_token String? @unique
+  user_email_token String @default("")
   shopcarts Cart[]
 }
 
 //====  펀딩 관련 테이블
+// shin_ispermit 1: 심사대기 2: 심사완료(승인) 3: 반려
 model Shinchunghada{
   shin_no Int @default(autoincrement()) @id
   shin_amount Int
@@ -31,7 +33,7 @@ model Shinchunghada{
   shin_opendate	DateTime
   shin_description String
   shin_category String
-  shin_ispermit Boolean
+  shin_ispermit Int @default(1)
   shin_creator_address String
   funding Funding[]
   singer Singer[]
