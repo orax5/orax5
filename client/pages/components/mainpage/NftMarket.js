@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Slide from "../Slide";
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+
 const NftMarket = () => {
 
   return (
@@ -11,8 +14,6 @@ const NftMarket = () => {
         spaceBetween={50}
         slidesPerGroup={3}
         navigation
-        
-      
       >
         <SwiperSlide>Slide 1</SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>
