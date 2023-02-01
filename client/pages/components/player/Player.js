@@ -58,10 +58,9 @@ const Player = () => {
       {musics.map((list, idx) => (
         <ListLayout key={idx}>
           <ImgContainer>
-            <Image src={list.cover} alt="cover" width={100} height={100} />
+            <Image src={list.cover} alt="cover" width={80} height={80} />
           </ImgContainer>
           <ContentBox>
-            {list.id}
             <span onClick={playInlistMusic()}>{list.title}</span>
             {list.artists}
           </ContentBox>
@@ -89,11 +88,17 @@ const ListLayout = styled.div`
   grid-template-columns: 1fr 2fr;
   place-items: center;
   margin: 0.5rem;
+  @media ${(props) => props.theme.device.tablet} {
+    display: none;
+  }
+  @media ${(props) => props.theme.device.mobile} {
+    display: none;
+  }
 `;
 const ImgContainer = styled.div``;
 const ContentBox = styled.div`
   position: relative;
-  width: 80%;
+  width: 95%;
   ${(props) => props.theme.align.flexStart};
   @media ${(props) => props.theme.device.tablet} {
     margin-left: 0;

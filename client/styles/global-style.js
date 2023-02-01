@@ -90,13 +90,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 // 재생시간 나타내는 글씨 크기
 .rhap_time ,.rhap_current-time, .rhap_total-time{
   font-size: 0.8rem;
-  padding: 0 1rem;
 }
 // bar를 감싸고 있는 테두리
 .rhap_progress-bar {
   border: 1px solid white;
   border-radius: 1rem;
-  height:0.5rem;
+  height: 0.5rem;
+  margin: 0.3rem;
 }
 // 채워지는 바
 .rhap_progress-filled{
