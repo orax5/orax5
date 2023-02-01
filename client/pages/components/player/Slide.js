@@ -1,6 +1,8 @@
-import styles from "../mainpage/Slider.module.css";
+import styles from "./Slide.module.css";
 import React, { useRef, useEffect, useState } from "react";
-
+import db from "../../../public/db.json";
+import { useDispatch } from "react-redux";
+import { addList } from "../../../redux/modules/streaming";
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
   useEffect(() => {
@@ -32,15 +34,9 @@ function useInterval(callback, delay) {
 }
 
 function Slide() {
+  const items = db.musics;
   const [windowWidth, windowHeight] = useWindowSize();
-  const items = [
-    "/Img/NewJeans1stEP.jpg",
-    "/Img/SQUAREUP.jpg",
-    "/Img/NewJeansOMG.jpg",
-    "/Img/SummerMagic.jpg",
-    "/Img/Butter.jpg",
-    "/Img/rain.jpg",
-  ];
+
   const itemSize = items.length;
   const sliderPadding = 40;
   const sliderPaddingStyle = `0 ${sliderPadding}px`;
@@ -55,7 +51,6 @@ function Slide() {
   const [slideX, setSlideX] = useState(null);
   const [prevSlideX, setPrevSlideX] = useState(false);
   let isResizing = useRef(false);
-
   let slides = setSlides();
   function setSlides() {
     let addedFront = [];
@@ -73,7 +68,7 @@ function Slide() {
   function getNewItemWidth() {
     let itemWidth = windowWidth * 0.9 - sliderPadding * 2;
     itemWidth = itemWidth > 1060 ? 1060 : itemWidth;
-    console.log(itemWidth);
+    // console.log(itemWidth);
     return itemWidth;
   }
 
@@ -135,11 +130,14 @@ function Slide() {
   function handleTouchStart(e) {
     setPrevSlideX((prevSlideX) => getClientX(e));
   }
-
   function handleTouchMove(e) {
     if (prevSlideX) {
       setSlideX((slideX) => getClientX(e) - prevSlideX);
     }
+  }
+  const dispatch = useDispatch();
+  function addPlayList(id, cover, title, artists) {
+    dispatch(addList(id, cover, title, artists));
   }
 
   return (
@@ -160,7 +158,7 @@ function Slide() {
               transition: slideTransition,
             }}
           >
-            {slides.map((slide, slideIndex) => {
+            {slides.map(({ id, cover, title, artists }, slideIndex) => {
               const itemIndex = getItemIndex(slideIndex);
               return (
                 <div
@@ -173,7 +171,17 @@ function Slide() {
                   onTouchMove={handleTouchMove}
                   onMouseMove={handleTouchMove}
                 >
-                  <img src={items[itemIndex]} alt={`banner${itemIndex}`} />
+                  <img src={cover} alt={`banner${itemIndex}`} />
+                  <span
+                    style={{ fontWeight: "900", cursor: "pointer" }}
+                    onClick={(e) => {
+                      addPlayList({ id, cover, title, artists });
+                    }}
+                  >
+                    {title}
+                  </span>
+                  <br />
+                  <span>{artists}</span>
                 </div>
               );
             })}

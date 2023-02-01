@@ -1,0 +1,86 @@
+.sliderArea {
+  position: relative;
+  overflow: hidden;
+  height: auto;
+}
+.slider {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+.sliderList {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  margin: 0;
+}
+
+.sliderTrack {
+  position: relative;
+  left: 50%;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  width: fit-content;
+  height: fit-content;
+  /* 전역으로 max-width : 100vw 한개 있어서 넣음 */
+  max-width: none !important;
+}
+
+.sliderItem {
+  width: 15rem;
+  position: relative;
+  height: 100%;
+  padding: 1rem 2rem 1rem 0;
+  -webkit-filter: brightness(50%);
+  /* 불투명도, 선택되지않은거는 백그라운드명암 어둡게 */
+  filter: brightness(50%);
+  display: inline-block;
+}
+/*반응형 슬라이드 사이즈 조절*/
+@media (max-width: 1024px) {
+  .sliderItem {
+    width: 10rem;
+    padding: 1rem 1rem 1rem 0;
+  }
+}
+@media (max-width: 768px) {
+  .sliderItem {
+    width: 10rem;
+    padding: 0.5rem 1rem 0.5rem 0;
+  }
+}
+@media (max-width: 425px) {
+  .sliderItem {
+    width: 9rem;
+    padding: 0.5rem 1rem 0.5rem 0;
+  }
+}
+.currentSlide {
+  -webkit-filter: none;
+  filter: none;
+}
+
+.sliderItem img {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+  /* max-height: 300px; */
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-select: none;
+}

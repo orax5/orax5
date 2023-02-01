@@ -109,7 +109,7 @@ const Allrange = styled.div`
 `;
 // 투데이 내용 박스 컨테이너
 const TodayContentBox = styled.div`
-  width: 70rem;
+  width: 60rem;
   margin-left: 2rem;
   @media ${(props) => props.theme.device.pc} {
     width: 100vw;
