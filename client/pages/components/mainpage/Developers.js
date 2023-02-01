@@ -18,14 +18,14 @@ const Developers = () => {
           </ProfileItems>
           <ProfileItems>
             <Image
-              src="/Img/sample.jpg"
+              src="/Img/bell.png"
               alt="profile_2"
               width={230}
               height={230}
             />
             <ProfileContent>
               <h1>JONGCHAN KIM</h1>
-              <h2>#FRONTEND</h2>
+              <h2>#CEO</h2>
             </ProfileContent>
           </ProfileItems>
         </div>
@@ -34,7 +34,7 @@ const Developers = () => {
             <Image src="/Img/jy.png" alt="profile_3" width={230} height={230} />
             <ProfileContent>
               <h1>JUYOUNG AN</h1>
-              <h2>#CONTRACT</h2>
+              <h2>#SAWON</h2>
             </ProfileContent>
           </ProfileItems>
           <ProfileItems>
@@ -46,7 +46,7 @@ const Developers = () => {
             />
             <ProfileContent>
               <h1>HAJIN CHOI</h1>
-              <h2>#BACKEND</h2>
+              <h2>#PM</h2>
             </ProfileContent>
           </ProfileItems>
         </div>
