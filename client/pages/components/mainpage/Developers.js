@@ -10,12 +10,7 @@ const Developers = () => {
         <div>DEVELOPERS</div>
         <div>
           <ProfileItems>
-            <Image
-              src="/Img/sample.jpg"
-              alt="profile_1"
-              width={230}
-              height={230}
-            />
+            <Image src="/Img/ym.png" alt="profile_1" width={230} height={230} />
             <ProfileContent>
               <h1>YOUNMI SON</h1>
               <h2>#FRONTEND</h2>
@@ -36,12 +31,7 @@ const Developers = () => {
         </div>
         <div>
           <ProfileItems>
-            <Image
-              src="/Img/sample.jpg"
-              alt="profile_3"
-              width={230}
-              height={230}
-            />
+            <Image src="/Img/jy.png" alt="profile_3" width={230} height={230} />
             <ProfileContent>
               <h1>JUYOUNG AN</h1>
               <h2>#CONTRACT</h2>
