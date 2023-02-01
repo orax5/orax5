@@ -57,7 +57,7 @@ const StartBtn = styled.button`
   margin-right: 1rem;
   &:hover {
     color: black;
-    background-color: white;
+    background-color: plum;
     transition: 0.5s;
   }
 `;
