@@ -148,7 +148,7 @@ function Slider() {
                                 const itemIndex = getItemIndex(slideIndex);
                                 return (
                                     <div key={slideIndex} className={`${styles.sliderItem} ${currentIndex === slideIndex ? styles.currentSlide : ''}`}
-                                        style={{ width: "30rem" }}
+                                        style={{ width: "50rem" }}
                                         onMouseDown={handleTouchStart}
                                         onTouchStart={handleTouchStart}
                                         onTouchMove={handleTouchMove}

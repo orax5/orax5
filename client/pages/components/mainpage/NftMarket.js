@@ -1,41 +1,23 @@
 import React from "react";
 import styled from "styled-components";
-import Slide from "../Slide";
-import { Swiper, SwiperSlide } from 'swiper/react';
-
+import Slider from "./slider";
+import Link from "next/Link";
 
 const NftMarket = () => {
 
   return (
     <MainContainer>
       <TitleContainer>DTS <strong style={{color:"plum"}}>NFT</strong></TitleContainer>
-      <StyledSwiper 
-        slidesPerView={1}
-        spaceBetween={50}
-        slidesPerGroup={3}
-        navigation
-      >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
-        <SwiperSlide>Slide 10</SwiperSlide>
-      </StyledSwiper>
+      <Slider/>
       <div>
         <div>
           <TitleContainer2>
             <strong style={{ color: "plum" }}>Buy</strong> on Market Place
           </TitleContainer2>
         </div>
-        <Slide />
         <BtnContainer>
-          <StartBtn>Go Market</StartBtn>
-          <StartBtn>Connect Wallet</StartBtn>
+          <StartBtn><Link href= "/marketplace">Go Market</Link></StartBtn>
+          <StartBtn><Link href= "/login">Connect Wallet</Link></StartBtn>
         </BtnContainer>
       </div>
     </MainContainer>
@@ -51,15 +33,18 @@ const TitleContainer = styled.h1`
   text-align: center;
   font-weight: 800;
   font-size: 80px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 const TitleContainer2 = styled.h2`
   text-align: center;
   font-weight: 800;
   font-size: 40px;
-  margin-bottom: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 const BtnContainer = styled.div`
-  margin-top: 5rem;
+  margin-top: 2rem;
   text-align: center;
 `;
 const StartBtn = styled.button`
@@ -77,10 +62,6 @@ const StartBtn = styled.button`
   }
 `;
 
-const StyledSwiper = styled(Swiper)`
-  position:relative;
-  width: 100%;
-  height: 452px;
-`
+
 
 export default NftMarket
