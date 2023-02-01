@@ -38,6 +38,7 @@ function Slider() {
     const sliderPadding = 40;
     const sliderPaddingStyle = `0 ${sliderPadding}px`;
     const newItemWidth = getNewItemWidth();
+    // console.log(newItemWidth)
     const transitionTime = 500;
     const transitionStyle = `transform ${transitionTime}ms ease 0s`;
     const 양끝에_추가될_데이터수 = 2;
@@ -147,7 +148,7 @@ function Slider() {
                                 const itemIndex = getItemIndex(slideIndex);
                                 return (
                                     <div key={slideIndex} className={`${styles.sliderItem} ${currentIndex === slideIndex ? styles.currentSlide : ''}`}
-                                        style={{ width: newItemWidth || 'auto' }}
+                                        style={{ width: 500}}
                                         onMouseDown={handleTouchStart}
                                         onTouchStart={handleTouchStart}
                                         onTouchMove={handleTouchMove}
