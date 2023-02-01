@@ -1,5 +1,6 @@
 // 액션 타입
 const JOIN = "user/JOIN";
+const LOGIN = "user/LOGIN";
 
 // 액션 함수
 export const signUp = (
@@ -11,14 +12,29 @@ export const signUp = (
 ) => {
   return async (dispatch, getState) => {
     const user = {
-      method: "post",
       // url : ""
+      method: "post",
       data: { email, walletAddress, nickname, password, typeOfUser },
     };
     const data = user.data;
-    console.log(data)
+    console.log(data);
     dispatch({
-      type: "JOIN",
+      type: JOIN,
+      payload: data,
+    });
+  };
+};
+
+export const login = ({ walletAddress, password, email }) => {
+  return async (dispatch, getState) => {
+    const loginInfo = {
+      // url : ""
+      method: "post",
+      data: { walletAddress, password, email },
+    };
+    const data = loginInfo.data;
+    dispatch({
+      type: LOGIN,
       payload: data,
     });
   };
@@ -37,6 +53,10 @@ export default function user(state = init, action) {
       return {
         ...state,
         users: [...payload],
+      };
+    case LOGIN:
+      return {
+        users: [...state, ...payload],
       };
     default:
       return { ...state };
