@@ -1,0 +1,44 @@
+{
+  "musics": [
+    {
+      "id": 1,
+      "title": "19th Floor",
+      "artists": ["Bobby Richards"],
+      "cover": "/Img/rain.jpg",
+      "src": "https://musicahraplayer.s3.ap-southeast-1.amazonaws.com/musics/19th+Floor+-+Bobby+Richards.mp3",
+      "vote": 3534
+    },
+    {
+      "id": 2,
+      "title": "Sunny Travel",
+      "artists": ["Nico Staf"],
+      "cover": "/Img/NewJeansOMG.jpg",
+      "src": "https://musicahraplayer.s3.ap-southeast-1.amazonaws.com/musics/Sunny+Travel+-+Nico+Staf.mp3",
+      "vote": 123987
+    },
+    {
+      "id": 3,
+      "title": "Where We Wanna Go",
+      "artists": ["Patrick Patrikios"],
+      "cover": "/Img/Butter.jpg",
+      "src": "https://musicahraplayer.s3.ap-southeast-1.amazonaws.com/musics/Where+We+Wanna+Go+-+Patrick+Patrikios.mp3",
+      "vote": 479805
+    },
+    {
+      "id": 4,
+      "title": "All the Fixings",
+      "artists": ["Zachariah Hickman"],
+      "cover": "/Img/SummerMagic.jpg",
+      "src": "https://musicahraplayer.s3.ap-southeast-1.amazonaws.com/musics/All+the+Fixings+-+Zachariah+Hickman.mp3",
+      "vote": 3452
+    },
+    {
+      "id": 5,
+      "title": "Bourree",
+      "artists": ["Joel Cummins"],
+      "cover": "/Img/SQUAREUP.jpg",
+      "src": "https://musicahraplayer.s3.ap-southeast-1.amazonaws.com/musics/Bourree+-+Joel+Cummins.mp3",
+      "vote": 39457
+    }
+  ]
+}
