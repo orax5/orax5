@@ -2,29 +2,18 @@
     position: relative;
     overflow: hidden;
     height: auto;
+    margin-top: 8rem;
 }
 .slider{
     position: relative;
     display: block;
     box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -ms-touch-action: pan-y;
-    touch-action: pan-y;
-    -webkit-tap-highlight-color: transparent;
-
 }
 .sliderList{
     position: relative;
     overflow: hidden;
     display: block;
     margin: 0;
-
 }
 
 .sliderTrack{
@@ -44,14 +33,12 @@
     position: relative;
     height: 100%;
     padding: 0 8rem;
-    -webkit-filter: brightness(50%);
     /* 불투명도, 선택되지않은거는 백그라운드명암 어둡게 */
     filter: brightness(50%);
     display: inline-block;
 }
 
 .currentSlide{
-    -webkit-filter: none;
     filter: none;
 }
 
@@ -60,11 +47,5 @@
     height: 100%;
     border-radius: 4px;
     object-fit: cover;
-    /* max-height: 300px; */
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
     user-select: none;
-    
 }

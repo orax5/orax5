@@ -1,19 +1,6 @@
 import styles from './Slider.module.css'
 import React, { useRef, useEffect, useState } from "react";
 
-function useWindowSize() {
-    const [size, setSize] = useState([0, 0]);
-    useEffect(() => {
-        function updateSize() {
-            setSize([window.innerWidth, window.innerHeight]);
-        }
-        window.addEventListener('resize', updateSize);
-        updateSize();
-        return () => window.removeEventListener('resize', updateSize);
-    }, []);
-    return size;
-}
-
 function useInterval(callback, delay) {
     const savedCallback = useRef();
     useEffect(() => {
@@ -32,13 +19,10 @@ function useInterval(callback, delay) {
 }
 
 function Slider() {
-    const [windowWidth, windowHeight] = useWindowSize();
     const items = ["/Img/NewJeans1stEP.jpg", "/Img/SQUAREUP.jpg", "/Img/NewJeansOMG.jpg", "/Img/SummerMagic.jpg", "/Img/Butter.jpg", "/Img/rain.jpg"]
     const itemSize = items.length;
     const sliderPadding = 40;
     const sliderPaddingStyle = `0 ${sliderPadding}px`;
-    const newItemWidth = getNewItemWidth();
-    // console.log(newItemWidth)
     const transitionTime = 500;
     const transitionStyle = `transform ${transitionTime}ms ease 0s`;
     const 양끝에_추가될_데이터수 = 2;
@@ -47,8 +31,7 @@ function Slider() {
     const [isSwiping, setIsSwiping] = useState(false);
     const [slideX, setSlideX] = useState(null);
     const [prevSlideX, setPrevSlideX] = useState(false);
-    let isResizing = useRef(false);
-
+    
     let slides = setSlides();
     function setSlides() {
         let addedFront = [];
@@ -62,29 +45,10 @@ function Slider() {
         return [...addedFront, ...items, ...addedLast];
     }
 
-    // 반응형, 사이즈에 따라 itemWidth 리턴해주고 newItemWidth에 저장함
-    function getNewItemWidth() {
-        let itemWidth = windowWidth * 0.9 - (sliderPadding * 2)
-        itemWidth = itemWidth > 1060 ? 1060 : itemWidth;
-        console.log(itemWidth)
-        return itemWidth;
-    }
-
-    useEffect(() => {
-        isResizing.current = true;
-        setIsSwiping(true);
-        setTransition('')
-        setTimeout(() => {
-            isResizing.current = false;
-            if (!isResizing.current)
-                setIsSwiping(false)
-        }, 1000);
-    }, [windowWidth])
-
-    // 스피드 영향 미침 2초 한번씩 슬라이드
+    // 스피드 영향 미침 1.2초 한번씩 슬라이드
     useInterval(() => {
         handleSlide(currentIndex + 1)
-    }, !isSwiping && !prevSlideX ? 2000 : null)
+    }, !isSwiping && !prevSlideX ? 1200 : null)
 
     function replaceSlide(index) {
         setTimeout(() => {
@@ -98,8 +62,7 @@ function Slider() {
         if (index - 양끝에_추가될_데이터수 < 0) {
             index += itemSize;
             replaceSlide(index)
-        }
-        else if (index - 양끝에_추가될_데이터수 >= itemSize) {
+        } else if (index - 양끝에_추가될_데이터수 >= itemSize) {
             index -= itemSize;
             replaceSlide(index)
         }
@@ -122,10 +85,7 @@ function Slider() {
             event._reactName === "onTouchMove" || event._reactName === "onTouchEnd" ? event.changedTouches[0].clientX : event.clientX;
     }
 
-    function handleTouchStart(e) {
-        setPrevSlideX(prevSlideX => getClientX(e))
-    }
-
+    // 호버클릭이랑 관련되어있음
     function handleTouchMove(e) {
         if (prevSlideX) {
             setSlideX(slideX => getClientX(e) - prevSlideX);
@@ -148,9 +108,7 @@ function Slider() {
                                 const itemIndex = getItemIndex(slideIndex);
                                 return (
                                     <div key={slideIndex} className={`${styles.sliderItem} ${currentIndex === slideIndex ? styles.currentSlide : ''}`}
-                                        style={{ width: "50rem" }}
-                                        onMouseDown={handleTouchStart}
-                                        onTouchStart={handleTouchStart}
+                                        style={{ width: "35rem" }}
                                         onTouchMove={handleTouchMove}
                                         onMouseMove={handleTouchMove} >
                                             <img src={items[itemIndex]} alt={`banner${itemIndex}`} />
