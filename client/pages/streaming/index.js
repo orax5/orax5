@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
-import Player from "../components/Player";
-// import Slide from "../components/Slide";
+import Player from "../components/player/Player";
 
 const index = () => {
   // 투데이, 보관함 이동하려고 사용
@@ -12,7 +11,7 @@ const index = () => {
   const [artist, setArtist] = useState("");
   const [funding, setFunding] = useState("");
   // 좋아요 누르면 하트 색 차게 만들려고 하는 state
-  const [fillLike, setFillLike] = useState(false);
+  // const [fillLike, setFillLike] = useState(false);
 
   // 투데이 or 보관함 content 볼려는 useState값 함수에 하나의 내용만 담으려고 하나씩 만듬
   const todayHandler = () => {
@@ -49,40 +48,41 @@ const index = () => {
                 <SelectContent>
                   {isSelectContent == true ? (
                     <>
-                    <TitleNav>
-                      <div style={{ display: "flex" }}>
-                        <div
-                          onClick={todayHandler}
-                          style={{
-                            color: "plum",
-                            marginRight: "1rem",
-                            cursor: "pointer",
-                          }}>
-                          투데이
+                      <TitleNav>
+                        <div style={{ display: "flex" }}>
+                          <div
+                            onClick={todayHandler}
+                            style={{
+                              color: "plum",
+                              marginRight: "1rem",
+                              cursor: "pointer",
+                            }}
+                          >
+                            투데이
+                          </div>
+                          <div
+                            onClick={lockerHandler}
+                            style={{ cursor: "pointer" }}
+                          >
+                            보관함
+                          </div>
                         </div>
-                        <div
-                          onClick={lockerHandler}
-                          style={{ cursor: "pointer" }}
-                        >
-                          보관함
-                        </div>
-                      </div>
-                      <HoverRed>
-                        <Link href="/streaming/buyticket">이용권구매</Link>
-                      </HoverRed>
-                    </TitleNav>
+                        <HoverRed>
+                          <Link href="/streaming/buyticket">이용권구매</Link>
+                        </HoverRed>
+                      </TitleNav>
                     </>
                   ) : (
                     <>
-                    <div onClick={todayHandler} style={{ cursor: "pointer" }}>
-                      투데이
-                    </div>
-                    <div
-                      onClick={lockerHandler}
-                      style={{ color: "plum", cursor: "pointer" }}
-                    >
-                      보관함
-                    </div>
+                      <div onClick={todayHandler} style={{ cursor: "pointer" }}>
+                        투데이
+                      </div>
+                      <div
+                        onClick={lockerHandler}
+                        style={{ color: "plum", cursor: "pointer" }}
+                      >
+                        보관함
+                      </div>
                     </>
                   )}
                 </SelectContent>
@@ -91,17 +91,14 @@ const index = () => {
                     <div>최근 들은 노래</div>
                     <div>전체보기</div>
                   </TitleContainer>
-                  {/* <Slide /> */}
                   <TitleContainer>
                     <div>내 취향 플레이리스트 </div>
                     <div>전체보기</div>
                   </TitleContainer>
-                  {/* <Slide /> */}
                   <TitleContainer>
                     <div>DTS's 추천곡 </div>
                     <div>전체보기</div>
                   </TitleContainer>
-                  {/* <Slide /> */}
                 </ItemBox>
               </ItemBoxWrap>
             ) : (
@@ -163,7 +160,6 @@ const index = () => {
                         펀딩곡
                       </div>
 
-                      {/* 여기 또 컴포넌트 만들어서 해야함 flex먹고 있어서 블락으로 벗어나서하던가해야하지않나  */}
                       <NoneLikeMusic>
                         <div>좋아하는 노래</div>
                         <div>내가 좋아하는 노래를 모아서 감상해보세요.</div>
