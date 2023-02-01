@@ -6,12 +6,6 @@ import Player from "../components/player/Player";
 const index = () => {
   // 투데이, 보관함 이동하려고 사용
   const [isSelectContent, setSelectContent] = useState(true);
-  // 보관함 안에 좋아요한 노래, 아티스트, 펀딩 상태값 문자열로 저장하고 일치하면 일치하는 값 뛰울거 처음 좋아요 효시 띄울려고 초기값 Like만 넣어둠
-  const [like, setLike] = useState("Like");
-  const [artist, setArtist] = useState("");
-  const [funding, setFunding] = useState("");
-  // 좋아요 누르면 하트 색 차게 만들려고 하는 state
-  // const [fillLike, setFillLike] = useState(false);
 
   // 투데이 or 보관함 content 볼려는 useState값 함수에 하나의 내용만 담으려고 하나씩 만듬
   const todayHandler = () => {
@@ -20,22 +14,6 @@ const index = () => {
   const lockerHandler = () => {
     setSelectContent(false);
   };
-  // 보관함 안 카테고리 이동 핸들러
-  const likeMusicHandler = () => {
-    setLike("Like");
-    setArtist("");
-    setFunding("");
-  };
-  const artistHandler = () => {
-    setArtist("Artist");
-    setLike("");
-    setFunding("");
-  };
-  const fundingHandler = () => {
-    setFunding("Funding");
-    setLike("");
-    setArtist("");
-  };
 
   return (
     <MainContainer>
@@ -43,174 +21,77 @@ const index = () => {
       <div>
         <Allrange>
           <TodayContentBox>
-            {isSelectContent == true ? (
-              <ItemBoxWrap>
-                <SelectContent>
-                  {isSelectContent == true ? (
-                    <>
-                      <TitleNav>
-                        <div style={{ display: "flex" }}>
-                          <div
-                            onClick={todayHandler}
-                            style={{
-                              color: "plum",
-                              marginRight: "1rem",
-                              cursor: "pointer",
-                            }}
-                          >
-                            투데이
-                          </div>
-                          <div
-                            onClick={lockerHandler}
-                            style={{ cursor: "pointer" }}
-                          >
-                            보관함
-                          </div>
-                        </div>
-                        <HoverRed>
-                          <Link href="/streaming/buyticket">이용권구매</Link>
-                        </HoverRed>
-                      </TitleNav>
-                    </>
-                  ) : (
-                    <>
-                      <div onClick={todayHandler} style={{ cursor: "pointer" }}>
-                        투데이
+            <ItemBoxWrap>
+              {isSelectContent ? (
+                <>
+                  <SelectContent>
+                    <TitleNav>
+                      <div style={{ display: "flex" }}>
+                        <SelectTapBtn
+                          onClick={todayHandler}
+                          style={{
+                            color: "plum",
+                          }}
+                        >
+                          투데이
+                        </SelectTapBtn>
+                        <SelectTapBtn onClick={lockerHandler}>
+                          보관함
+                        </SelectTapBtn>
                       </div>
-                      <div
-                        onClick={lockerHandler}
-                        style={{ color: "plum", cursor: "pointer" }}
-                      >
-                        보관함
+                      <HoverRed>
+                        <Link href="/streaming/buyticket">이용권구매</Link>
+                      </HoverRed>
+                    </TitleNav>
+                  </SelectContent>
+                  <ItemBox>
+                    {/* '투데이'탭에서 보이는 화면 */}
+                    <TitleContainer>
+                      {/* 펀딩에 성공한 음악들 보여줌 */}
+                      <div>펀딩된 음악</div>
+                      <div>전체보기</div>
+                    </TitleContainer>
+                    <TitleContainer>
+                      {/* 재생 횟수 카운트 할 수 있으니까 카운트 순위대로 나열해서 보여주면 될 듯 */}
+                      <div>자주 들은 음악</div>
+                      <div>전체보기</div>
+                    </TitleContainer>
+                    <TitleContainer>
+                      {/* 랜덤으로 몇 개 보여줌 */}
+                      <div>DTS's 추천곡 </div>
+                      <div>전체보기</div>
+                    </TitleContainer>
+                  </ItemBox>
+                </>
+              ) : (
+                <>
+                  <SelectContent>
+                    <TitleNav>
+                      <div style={{ display: "flex" }}>
+                        <SelectTapBtn onClick={todayHandler}>
+                          투데이
+                        </SelectTapBtn>
+                        <SelectTapBtn
+                          onClick={lockerHandler}
+                          style={{ color: "plum" }}
+                        >
+                          보관함
+                        </SelectTapBtn>
                       </div>
-                    </>
-                  )}
-                </SelectContent>
-                <ItemBox>
-                  <TitleContainer>
-                    <div>최근 들은 노래</div>
-                    <div>전체보기</div>
-                  </TitleContainer>
-                  <TitleContainer>
-                    <div>내 취향 플레이리스트 </div>
-                    <div>전체보기</div>
-                  </TitleContainer>
-                  <TitleContainer>
-                    <div>DTS's 추천곡 </div>
-                    <div>전체보기</div>
-                  </TitleContainer>
-                </ItemBox>
-              </ItemBoxWrap>
-            ) : (
-              <>
-                <SelectContent>
-                  {isSelectContent == true ? (
-                    <>
-                      <div
-                        onClick={todayHandler}
-                        style={{ color: "plum", cursor: "pointer" }}
-                      >
-                        투데이
-                      </div>
-                      <div onClick={lockerHandler}>보관함</div>
-                    </>
-                  ) : (
-                    <>
-                      <TitleNav>
-                        <div style={{ display: "flex" }}>
-                          <div
-                            onClick={todayHandler}
-                            style={{ marginRight: "1rem" }}
-                          >
-                            투데이
-                          </div>
-                          <div
-                            onClick={lockerHandler}
-                            style={{ color: "plum" }}
-                          >
-                            보관함
-                          </div>
-                        </div>
-                        <HoverRed>
-                          <Link href="/streaming/buyticket">이용권구매</Link>
-                        </HoverRed>
-                      </TitleNav>
-                    </>
-                  )}
-                </SelectContent>
-                <LockerTitleContainer>
-                  {like === "Like" ? (
-                    <>
-                      <div
-                        onClick={likeMusicHandler}
-                        style={{ color: "plum", cursor: "pointer" }}
-                      >
-                        노래
-                      </div>
-                      <div
-                        onClick={artistHandler}
-                        style={{ cursor: "pointer" }}
-                      >
-                        아티스트
-                      </div>
-                      <div
-                        onClick={fundingHandler}
-                        style={{ cursor: "pointer" }}
-                      >
-                        펀딩곡
-                      </div>
-
-                      <NoneLikeMusic>
-                        <div>좋아하는 노래</div>
-                        <div>내가 좋아하는 노래를 모아서 감상해보세요.</div>
-                      </NoneLikeMusic>
-                    </>
-                  ) : artist === "Artist" ? (
-                    <>
-                      <div
-                        onClick={likeMusicHandler}
-                        style={{ cursor: "pointer" }}
-                      >
-                        노래
-                      </div>
-                      <div
-                        onClick={artistHandler}
-                        style={{ color: "plum", cursor: "pointer" }}
-                      >
-                        아티스트
-                      </div>
-                      <div
-                        onClick={fundingHandler}
-                        style={{ cursor: "pointer" }}
-                      >
-                        펀딩곡
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div
-                        onClick={likeMusicHandler}
-                        style={{ cursor: "pointer" }}
-                      >
-                        노래
-                      </div>
-                      <div
-                        onClick={artistHandler}
-                        style={{ cursor: "pointer" }}
-                      >
-                        아티스트
-                      </div>
-                      <div
-                        onClick={fundingHandler}
-                        style={{ color: "plum", cursor: "pointer" }}
-                      >
-                        펀딩곡
-                      </div>
-                    </>
-                  )}
-                </LockerTitleContainer>
-              </>
-            )}
+                      <HoverRed>
+                        <Link href="/streaming/buyticket">이용권구매</Link>
+                      </HoverRed>
+                    </TitleNav>
+                  </SelectContent>
+                  <ItemBox>
+                    <TitleContainer>
+                      <div>펀딩에 참여한 음악</div>
+                      <div>전체보기</div>
+                    </TitleContainer>
+                  </ItemBox>
+                </>
+              )}
+            </ItemBoxWrap>
           </TodayContentBox>
           <PlayerBox>
             <Player />
@@ -247,6 +128,10 @@ const ItemBox = styled.div`
   @media ${(props) => props.theme.device.pc} {
     padding-top: 1rem;
   }
+`;
+const SelectTapBtn = styled.button`
+  font-size: 1.5rem;
+  margin-right: 2rem;
 `;
 // 타이틀, 전체보기 띄어놓는 컨테이너
 const TitleContainer = styled.div`

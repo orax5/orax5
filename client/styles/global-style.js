@@ -67,9 +67,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 // react-h5-audio-player 설정
 // 현재 재생곡 제목 - 가수
 .rhap_header{
+  width: 450px;
+  height: auto;
+  overflow-x: hidden;
+  animation: infiniteText 8s linear infinite;
   text-align: center;
   font-size: 1.2rem;
   margin: 0.5rem 0;
+}
+@keyframes infiniteText {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
 }
 // 두 섹션 세로 가운데 정렬
 .rhap_progress-section, .rhap_controls-section{

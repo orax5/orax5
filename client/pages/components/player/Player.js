@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import AudioPlayer from "react-h5-audio-player";
@@ -7,7 +7,7 @@ import db from "../../../public/db.json";
 
 const Player = () => {
   const musics = db.musics;
-  const audioRef = useRef();
+  const audioRef = useRef(null);
 
   const [currentTrack, setCurrentTrack] = useState(0);
   const [trackIndex, setTrackIndex] = useState(0);
@@ -22,8 +22,10 @@ const Player = () => {
       currentTrack < musics.length - 1 ? currentTrack + 1 : 0
     );
   };
-  const playListsMusic = () => {
-    console.log(audioRef.current);
+
+  // 재생목록 누르면 재생되는 함수
+  const playInlistMusic = () => {
+    // console.log(audioRef.current);
     // audioRef?.current.audio.current.play();
   };
   return (
@@ -45,9 +47,10 @@ const Player = () => {
             src={musics[trackIndex].src}
             showSkipControls
             onClickNext={handleClickNext}
-            onPlay={(e) => console.log("play")}
+            onPlay={(e) => console.log(e)}
             onEnded={handleEnd}
             hidePlayer={false}
+            loop={true}
           />
         </ControllPlayers>
       </PlayerArea>
@@ -59,7 +62,7 @@ const Player = () => {
           </ImgContainer>
           <ContentBox>
             {list.id}
-            <span onClick={playListsMusic()}>{list.title}</span>
+            <span onClick={playInlistMusic()}>{list.title}</span>
             {list.artists}
           </ContentBox>
         </ListLayout>
@@ -71,10 +74,6 @@ const Player = () => {
 const PlayerArea = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
   padding-top: 4rem;
-
-  @media ${(props) => props.theme.device.mobile} {
-    display: none;
-  }
 `;
 // AudioPlayer 컨트롤러
 const ControllPlayers = styled.div`
@@ -93,16 +92,21 @@ const ListLayout = styled.div`
 `;
 const ImgContainer = styled.div``;
 const ContentBox = styled.div`
-  width: 100%;
-  margin-left: 2rem;
+  position: relative;
+  width: 80%;
   ${(props) => props.theme.align.flexStart};
   @media ${(props) => props.theme.device.tablet} {
     margin-left: 0;
   }
+  padding-left: 1rem;
   > span {
+    width: inherit;
     cursor: pointer;
     font-size: 1rem;
     font-weight: 900;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     @media ${(props) => props.theme.device.tablet},
       ${(props) => props.theme.device.mobile} {
       font-size: 1.5rem;
