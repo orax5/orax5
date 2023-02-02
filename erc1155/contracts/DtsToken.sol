@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
-// import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/ERC1155.sol";
-// import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/ERC1155.sol";
+import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
 // import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+// import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+// import "@openzeppelin/contracts/access/Ownable.sol";
 
 // 상속만 받으면 배포 진행할때 owner 상태변수에 컨트랙트 배포자의 EOA 계정이 담긴다.
 

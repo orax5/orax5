@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
+import { ethers } from "ethers";
 // 지갑연결
-import { useWeb3React } from '@web3-react/core';
-import { injected } from './../../lib/connectors';
-// 
-
+import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
+import { injected } from "./../../lib/connectors";
+import DtsToken from "../../contracts/DtsToken.json";
+import { Provider } from "@ethersproject/providers";
 
 const index = () => {
   const {
@@ -16,32 +17,38 @@ const index = () => {
     active, // active: dapp 유저가 로그인 된 상태인지 체크
     error,
     activate, // activate: dapp 월렛 연결 기능 수행함수
-    deactivate // deactivate: dapp 월렛 해제 수행함수
+    deactivate, // deactivate: dapp 월렛 해제 수행함수
   } = useWeb3React();
 
+  // useEffect(() => {
+  //   account
+  //     ? console.log(
+  //         new ethers.Contract(
+  //           DtsToken.networks[chainId].address,
+  //           DtsToken.abi,
+  //           Provider
+  //         )
+  //       )
+  //     : "";
+  // });
 
-  // 메타마스크 깔려 있는지 여부 확인 
+  // 메타마스크 깔려 있는지 여부 확인
   // if (typeof window.ethereum !== 'undefined') {
   //    console.log('MetaMask is installed!');
   // }
 
-   // 지갑 연결
-   const onClickActivateHandler = () => {
-    activate(injected, async(error)=>{
+  // 지갑 연결
+  const onClickActivateHandler = () => {
+    activate(injected, async (error) => {
       // 에러 처리 코드 생략
-    })
-  }
+    });
+  };
 
   // 연결 해제
   const onClickDeactivateHandler = () => {
     deactivate(); // connector._events.Web3ReactDeactivate() 이거랑 같은건데
-  }
+  };
 
-  useEffect(()=>{
-    
-  },[]);
-
-  
   return (
     <MainContainer>
       <div></div>
@@ -50,39 +57,29 @@ const index = () => {
           <header>
             <h1>LOGIN</h1>
           </header>
-            {account != null 
-            ? 
-            (
-              <AddressBox>
-                {account}
-              </AddressBox>
-            ) 
-            : 
-            (
-              <AddressBox>
-                <h2>지갑을 연결해주세요</h2>
-                <button
-                  onClick={onClickActivateHandler}>
-                  지갑 연결
-                </button>
-              </AddressBox>
-            )}
+          {account != null ? (
+            <AddressBox>{account}</AddressBox>
+          ) : (
+            <AddressBox>
+              <h2>지갑을 연결해주세요</h2>
+              <button onClick={onClickActivateHandler}>지갑 연결</button>
+            </AddressBox>
+          )}
 
-            <InputBox>
-              <input
-                id="password"
-                type="password"
-                name="password"
-                placeholder="비밀번호"
-              />
-              <label htmlFor="password">비밀번호</label>
-            </InputBox>
-            <Forgot>비밀번호 찾기</Forgot>
-            <Submit type="submit" value="로그인" />
-            <Link href="/login/join">
-              <Submit type="submit" value="회원가입" />
-            </Link>
-        
+          <InputBox>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="비밀번호"
+            />
+            <label htmlFor="password">비밀번호</label>
+          </InputBox>
+          <Forgot>비밀번호 찾기</Forgot>
+          <Submit type="submit" value="로그인" />
+          <Link href="/login/join">
+            <Submit type="submit" value="회원가입" />
+          </Link>
         </div>
       </LoginWrap>
 
@@ -90,7 +87,6 @@ const index = () => {
     </MainContainer>
   );
 };
-
 
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};

@@ -67,3 +67,6 @@ npm run build 배포 파일을 생성하고 사용하려면
 npm run start 를 실행하는데 이것은 개발환경실행하는 것이 아닌 실 서버를 실행하는 것이다. next.js는 서버까지 내장되어 있는 올인원 솔루션이기 때문
 <br>
 우리는 애플리케이션을 만들때 꼭 따져봐야하는 것은 Route인데 url에 따라서 ui를 어떻게 응답할 것인가를 결정하는 행위이다.
+
+## 컨트랙트 연결
+리믹스-로컬호스트 연결 : remixd -s . --remix-ide https://remix.ethereum.org
