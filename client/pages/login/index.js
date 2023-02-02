@@ -20,17 +20,18 @@ const index = () => {
     deactivate, // deactivate: dapp 월렛 해제 수행함수
   } = useWeb3React();
 
-  // useEffect(() => {
-  //   account
-  //     ? console.log(
-  //         new ethers.Contract(
-  //           DtsToken.networks[chainId].address,
-  //           DtsToken.abi,
-  //           Provider
-  //         )
-  //       )
-  //     : "";
-  // });
+  const Provider = library;
+  useEffect(() => {
+    account
+      ? console.log(
+          new ethers.Contract(
+            DtsToken.networks[chainId].address,
+            DtsToken.abi,
+            Provider
+          )
+        )
+      : "";
+  });
 
   // 메타마스크 깔려 있는지 여부 확인
   // if (typeof window.ethereum !== 'undefined') {
