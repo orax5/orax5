@@ -7,10 +7,7 @@ import dynamic from "next/dynamic";
 import Offers from "../components/Offers";
 
 const deatil = () => {
-  // import 를 여기 안에서 한다
-  const LineGraph = dynamic(() => import("../components/LineGraph"), {
-    ssr: false,
-  });
+   
   return (
     <MainContainer>
       <div></div>
@@ -260,10 +257,6 @@ const deatil = () => {
                 </PriceBox>
               </div>
             </div>
-          </InfoBox>
-          <InfoBox>
-            <div>현재 가격 추이</div>
-            <LineGraph />
           </InfoBox>
           <InfoBox>
             <div>거래 내역</div>

@@ -39,7 +39,7 @@ const Developers = () => {
           </ProfileItems>
           <ProfileItems>
             <Image
-              src="/Img/sample.jpg"
+              src="/Img/choi.png"
               alt="profile_4"
               width={230}
               height={230}
