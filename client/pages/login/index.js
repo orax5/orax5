@@ -6,7 +6,7 @@ import { ethers } from "ethers"
 import { useWeb3React } from '@web3-react/core';
 import { injected } from './../../lib/connectors';
 // 
-import dtsToken from '../../contract/DtsToken.json';
+import dtsToken from '../../contracts/DtsToken.json';
 
 const index = () => {
   const {
@@ -20,13 +20,27 @@ const index = () => {
     deactivate, // deactivate: dapp 월렛 해제 수행함수
   } = useWeb3React();
 
-   const Provider = library;  
+  const Provider = library;  
+
+  
 
   useEffect(() => {
-    account ? setTimeout(() => {
+    account ? (async() =>{
         const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi);
         console.log(contractInstance)
-      }, 2000) : ""
+        // contractInstance.balanceOf(account, 1)
+        // const count = await contractInstance.current().call()
+
+      })() : ""
+      
+    // account ? setTimeout(() => {
+    //   (async() =>{
+    //     const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi);
+    //     console.log(contractInstance)
+    //     contractInstance.balanceOf(account, 1)
+
+    //   })()
+    //   }, 1000) : ""
     // account ? console.log(dtsToken.abi) : ""
 
     });

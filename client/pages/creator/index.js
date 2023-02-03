@@ -102,6 +102,10 @@ const index = () => {
     } catch (e) {}
   };
 
+  const asd = () => {
+    
+  }
+
   return (
     <MainContainer>
       <div></div>
@@ -154,7 +158,7 @@ const index = () => {
                       {"ETH"}
                     </td>
 
-                    <td>{data.state}</td>
+                    <td onClick={asd}>{data.state}</td>
                   </tr>
                 ))}
               </tbody>

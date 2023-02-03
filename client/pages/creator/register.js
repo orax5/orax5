@@ -17,39 +17,39 @@ const register = () => {
     opendate: "",
   });
 
-  // const {
-  //   connector, // 현재 dapp에 연결된 월렛의 connector 값
-  //   library, // web3 provider 제공
-  //   chainId, // dapp에 연결된 account의 chainId
-  //   account, // dapp에 연결된 account address
-  //   active, // active: dapp 유저가 로그인 된 상태인지 체크
-  //   error,
-  //   activate, // activate: dapp 월렛 연결 기능 수행함수
-  //   deactivate, // deactivate: dapp 월렛 해제 수행함수
-  // } = useWeb3React();
+  const {
+    connector, // 현재 dapp에 연결된 월렛의 connector 값
+    library, // web3 provider 제공
+    chainId, // dapp에 연결된 account의 chainId
+    account, // dapp에 연결된 account address
+    active, // active: dapp 유저가 로그인 된 상태인지 체크
+    error,
+    activate, // activate: dapp 월렛 연결 기능 수행함수
+    deactivate, // deactivate: dapp 월렛 해제 수행함수
+  } = useWeb3React();
 
-  // useEffect(() => {
-  //   const { ethereum } = window;
-  //   const provider = new ethers.providers.Web3Provider(ethereum);
-  //   const singer = provider.getSigner();
-  //   console.log(signer);
-  //   account
-  //     ? console.log(
-  //         new ethers.Contract(
-  //           dtsToken.networks[chainId].address,
-  //           dtsToken.abi,
-  //           singer
-  //         ).mintFundding(
-  //           dtsToken.networks[chainId].address,
-  //           dtsToken.networks[chainId].address,
-  //           1,
-  //           inputs.nftAmount,
-  //           inputs.goalPrice,
-  //           inputs.opendate
-  //         )
-  //       )
-  //     : "";
-  // });
+  useEffect(() => {
+    const { ethereum } = window;
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const singer = provider.getSigner();
+    console.log(singer);
+    account
+      ? console.log(
+          new ethers.Contract(
+            dtsToken.networks[chainId].address,
+            dtsToken.abi,
+            singer
+          ).mintFundding(
+            dtsToken.networks[chainId].address,
+            dtsToken.networks[chainId].address,
+            1,
+            inputs.nftAmount,
+            inputs.goalPrice,
+            inputs.opendate
+          )
+        )
+      : "";
+  });
 
   // 펀딩 시작일은 오늘 이후부터 선택 가능
   const dateRef = useRef();
