@@ -1,107 +1,177 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
-import "../node_modules/openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
-// import "@openzeppelin/contracts/access/Ownable.sol";
-// import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+// import "../node_modules/openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import "./DtsToken.sol";
 
-contract SaleToken is Ownable{
+contract SaleToken is DtsToken{
 
     using SafeMath for uint256;
 
     // DtsToken.sol과 상호작용 하기 위한 상태변수
-    DtsToken public DToken; 
-
-    // 플랫폼 거래 수수료 상태 변수
-    uint256 private Fee = 10;
-    // 솔리디티는 소수점이 안되기 때문에 수수료 소수점을 표기해줄 상태 변수 하나를 설정한다.
-    uint256 private constant decimalPoint = 100;
-
-    // 해당 음원이 현재까지 팔린 양 확인하기 위한 매핑
-    mapping(uint256 => uint256) private totalAmout;
+    DtsToken public DToken;
 
     constructor(address DtsTokenCA){
-        // 생성자에서 배포된 DtsToken CA를 받아서 Token 상태변수에 저장한다.
-        DToken = DtsToken(DtsTokenCA); 
+        // 생성자에서 배포된 DtsToken CA를 받아서 DToken 상태변수에 저장한다.
+        DToken = DtsToken(DtsTokenCA);
     }
 
-    // DtsToken.sol에게 SaleCA를 넘겨주기 위해서 사용하는데 컨트랙트 오너만 사용 가능하다.
-    function changedCA() onlyOwner external{
-        DToken.isChangedCA(address(this));
+    // 판매하는 nft 정보를 담는 구조체
+    struct SaleTokenInfo{
+        // 판매자 계정
+        address account;
+        // 판매 수량
+        uint256 amount;
+        // 판매 가격
+        uint256 price;
+        // 판매 리스트 Id (해당 음원을 판매 등록하면 id가 생성된다.)
+        uint256 listId;
     }
 
-    // 유저가 펀딩하는 함수
-    function userFundding(uint256 tokenId, uint256 amount) public payable{
-        // 해당 음원 크리에이터를 불러온다.
-        address owner = DToken.getTokenOwnerDataCreater(tokenId);
-        // 펀딩마감 시간이 지났는지 체크한다.
-        require(DToken.getTokenOwnerDataEndTime(tokenId) > block.timestamp, "Time Over");
-        // 크리에이터가 자신의 음원 nft 사는지 체크한다.
-        require(msg.sender != owner,"creater can't buy");
-        // 보낸 금액이 0인지 체크한다.
-        require(msg.value != 0, "have no money sent");
-        // 보낸 금액이 유저가 사려고 하는 총 NFT 금액이랑 맞는지 체크한다.
-        require(msg.value == (DToken.getTokenOwnerDataUnitPrice(tokenId) * amount),"The price doesn't match.");
-        // 해당 음원 크리에이터 nft 갯수를 체크한다. (구매하는 양이 보유양보다 많으면 안됨.)1번
-        require(DToken.balanceOf(owner, tokenId) >=  amount, "can't buy things.");
-        // 해당 음원 발행량이랑 지금까지 펀딩된 수랑 비교해서 오버되지 않게 체크한다.(구매하는 양이 발행량을 넘어가면 안됨.)2번
-        require(DToken.getTokenOwnerDataNftAmount(tokenId) - totalAmout[tokenId] >= amount,"be out of stock and unable to buy goods");
-        // 현재 모금액과 해당 음원 목표금액을 비교
-        // require(priceCheck(_tokenId) != DToken.getTokenOwnerDataTotalPrice(_tokenId), "Target amount has already been achieved");
-        // 지금까지 펀딩한 현재 금액을 모아 놓는다.
-        totalAmout[tokenId] = totalAmout[tokenId] + amount;
-        DToken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
+    // 판매 리스트 음원id 기준으로 몇개 등록 되었는지 확인하는 매핑
+    mapping (uint256 => uint256) private _saleNumber;
+
+    // 판매하는 음원Id 기준으로 판매하는 사람의 주소로 판매 정보를 담아놓는 매핑
+    mapping (uint256 => mapping (uint256 => SaleTokenInfo)) private _saleTokenList;
+
+    // // 판매중인 전체 리스트를 담는 배열형태의 상태 변수 
+    // SaleTokenInfo[] private _saleTokenList;
+
+    // 이벤트 선언
+    event SaleEvent(address account, uint256 tokenId, uint256 amount, uint256 price);
+    event CancelEvent(address account, uint256);
+
+    // 판매 등록 함수
+    function salesToken(uint256 tokenId ,uint256 amount, uint256 price) public isSaleError(tokenId){
+        // // 판매하려는 갯수가 본인이 가지고 있는 갯수를 넘지 않는지.
+        // require(DToken.balanceOf(msg.sender, tokenId) >= amount, "Please enter the exact quantity.");
+        // // 판매 가격이 0보다 큰 값인지 확인
+        // require(price > 0,"Please enter the correct price.");
+        // // 판매 물량이 0보다 큰 값인지 확인
+        // require(amount > 0,"Please enter the correct amount.");
+        // // 판매 권한이 있는지 확인한다.
+        // require(DToken.isApprovedForAll(msg.sender,address(this)),"be not approved");
+        // // 펀딩이 성공된 음원인지 확인
+        // require(DToken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
+
+        SaleTokenInfo memory data = _getSalesTokenData(msg.sender, tokenId, amount, price);
+        _saleTokenList[tokenId][_saleNumber[tokenId]] = data;
+        _saleNumber[tokenId] = _saleNumber[tokenId] + 1;
+        emit SaleEvent(msg.sender, tokenId, amount, price);
     }
 
-    // 펀딩이 성공했을 때
-    function isSuccessFundding(uint256 tokenId) public payable {
-        // 펀딩 신청한 크리에이터 본인이 맞는지 확인
-        require(msg.sender == DToken.getTokenOwnerDataCreater(tokenId), "Is that your wallet?");
-        // 펀딩이 성공 했는지 확인
-        require(DToken.getTokenOwnerDataTotalPrice(tokenId) == (DToken.getTokenOwnerDataUnitPrice(tokenId) * totalAmout[tokenId]), "Funding seccess ?");
-        // uint256 Payment = SafeMath.div(DToken.getTokenOwnerDataTotalPrice(tokenId).mul(Fee),decimalPoint);
-        // uint256 reFund = SafeMath.div(Payment.sub(DToken.getTokenOwnerDataTotalPrice(tokenId)),2);
-        // CA에서 크리에이터에게 금액 전달
-        payable(msg.sender).transfer(1 ether);
+    // 판매 정보를 담아주는 함수
+    function _getSalesTokenData(address _account,uint256 tokenId, uint256 _amount, uint256 _price) private view returns(SaleTokenInfo memory){
+        SaleTokenInfo memory data;
+
+        data.account = _account;
+        data.amount = _amount;
+        data.price = _price;
+        data.listId = _saleNumber[tokenId];
+
+        return data;
     }
 
-    function aa(uint256 tokenId) public view returns(uint256){
-        // uint256 Payment = SafeMath.div(DToken.getTokenOwnerDataTotalPrice(tokenId).mul(Fee),decimalPoint);
-        // uint256 reFund = SafeMath.div(DToken.getTokenOwnerDataTotalPrice(tokenId).sub(Payment),2);
-        uint256 reFund = (DToken.balanceOf(msg.sender, tokenId) * DToken.getTokenOwnerDataUnitPrice(tokenId)) / 2;
-        return reFund;
+    // 판매 취소 함수
+    function cancelSalesToken(uint256 tokenId) public {
+        uint256 _saleNumberLength = _saleNumber[tokenId];
+        for(uint256 i = 0; i <= _saleNumberLength; i++){
+            if(_saleTokenList[tokenId][i].account == msg.sender){
+               _saleTokenList[tokenId][i].amount = 0;
+               _saleTokenList[tokenId][i].price = 0;
+            }
+        }
+        emit CancelEvent(msg.sender,tokenId);
     }
 
-    // 펀딩이 실패했을 때
-    function isFuckingFundding(address uWallet, uint256 tokenId) public payable {
-        // 유저 본인이 맞는지 확인
-        require(msg.sender == uWallet, "Is that your wallet?");
-        // 유저가 펀딩을 해서 nft를 가지고 있는지 확인
-        require(DToken.balanceOf(msg.sender, tokenId) > 0, "Is it a buyer ?");
-        // 펀딩 시간이 지났는지 확인
-        // require(DToken.getTokenOwnerDataEndTime(tokenId) < block.timestamp, "Time Over ?");
-        // 펀딩이 실패 했는지 확인
-        require(DToken.getTokenOwnerDataTotalPrice(tokenId) > (DToken.getTokenOwnerDataUnitPrice(tokenId) * totalAmout[tokenId]), "Funding failed ?");
-        // 유저의 총 펀딩 금액
-        // uint256 reFund = DToken.balanceOf(msg.sender, tokenId) * DToken.getTokenOwnerDataUnitPrice(tokenId);
-        uint256 reFund = (DToken.balanceOf(msg.sender, tokenId) * DToken.getTokenOwnerDataUnitPrice(tokenId)) / 2;
-        // CA에서 유저에게 금액 전달
-        payable(msg.sender).transfer(reFund);
-        // 그 후 유저 nft 소각
-        DToken.faildBurn(msg.sender, tokenId, DToken.balanceOf(msg.sender, tokenId));
+    // 음원 판매가 등록된 수 view 함수
+    function saleNumberList(uint256 tokenId) public view returns(uint256){
+        return _saleNumber[tokenId];
     }
 
-    // 현재 모금액 확인 함수
-    function priceCheck(uint256 tokenId) public view returns(uint256){
-        return totalAmout[tokenId];
+    // 해당 음원 판매 정보 view함수
+    function getSalesTokenListAll(uint256 tokenId,uint saleNum) public view returns(SaleTokenInfo memory){
+        return _saleTokenList[tokenId][saleNum];
     }
-    // 앞단에서는 이렇게 유저가 펀딩한 총 금액을 CA에 전송한다.
-    //     await deployed.methods.buyFruit(appleBuy, bananaBuy, melonBuy).send({
-    //     from : account,
-    //     to : CA,
-    //     value : web3.utils.toWei(c, "ether")
-    // })
+
+    // 구매 함수
+    function purchaseToken(address payable owner, uint256 tokenId, uint256 amount, uint256 listId) public payable {
+        // 본인 nft를 못 사게 막는다.
+        require(_saleTokenList[tokenId][listId].account != msg.sender,"I can't buy myself.");
+        // 사려고 하는 갯수가 0보다 크고 판매 등록된 수량을 넘기지 않는지.
+        require(amount > 0 && amount <= _saleTokenList[tokenId][listId].amount,"Check amount");
+        // 보낸 돈이 사려고하는 가격과 일치하는지 확인한다.
+        require(amount * _saleTokenList[tokenId][listId].price == msg.value, "Check the money again.");
+        // 수수료 값 구하기 (10%임)
+        uint256 Payment = SafeMath.div(msg.value.mul(10),100);
+        // 판매자에게 수수료 빼고 판매 금액 전달.
+        owner.transfer(msg.value - Payment);
+
+        // 오너의 판매 정보 수정
+        _saleTokenList[tokenId][listId].amount = _saleTokenList[tokenId][listId].amount - amount;
+
+        // DToken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
+    }
+
+    // 음원에 대한 중복 판매 등록 여부를 확인한다. 한번 등록했으면 amount는 0이 아니므로 다시 등록하려면 취소하고 등록해야 한다.
+    modifier isSaleError(uint256 tokenId) {
+        uint256 _saleNumberLength = _saleNumber[tokenId];
+        for(uint256 i = 0; i <= _saleNumberLength; i++){
+            if(_saleTokenList[tokenId][i].amount != 0 && _saleTokenList[tokenId][i].account == msg.sender){
+               revert("Cancel the sales order.");
+            }
+        }
+        _;
+    }
+
+    // modifier isBuyError(address owner, uint256 tokenId, uint256 listId) {
+    //     uint256 _saleNumberLength = _saleNumber[tokenId];
+    //     for(uint256 i = 0; i <= _saleNumberLength; i++){
+    //         if(_saleTokenList[tokenId][listId].account == msg.sender){
+    //            revert("I can't buy myself.");
+    //         }
+    //     }
+    //     _;
+    // }
+
+    // // 판매 취소 함수 << 수정 전 버전.. 배열로 했던 거
+    // function cancelSalesToken(uint256 tokenId) public {
+    //     for (uint256 i = 0; i < _saleTokenList.length; i++) {
+    //         if(_saleTokenList[i].tokenId == tokenId && _saleTokenList[i].account == msg.sender){
+    //             _saleTokenList[i] = _saleTokenList[_saleTokenList.length -1];
+    //             _saleTokenList.pop();
+    //             delete _saleToken[tokenId][msg.sender];
+    //         }
+    //     }
+    // }
+
+    // // 해당 음원 전체 판매 정보 view함수 << 수정 전 배열로 했던 거
+    // function getSalesTokenListAll(uint256 tokenId) public view returns(SaleTokenInfo[] memory){
+    //     // 새로운 list라는 배열을 만들고 여기에 해당하는 id값을 가진 판매 정보만 담아서 내보낸다.
+    //     SaleTokenInfo[] memory list = new SaleTokenInfo[](_saleTokenList.length);
+    //     uint256 a = 0;
+    //     for (uint256 i = 0; i < _saleTokenList.length; i++) {
+    //         if(_saleTokenList[i].tokenId == tokenId){
+    //             list[a] = (_saleTokenList[i]);
+    //             a++;
+    //         }
+    //     }
+    //     return list;
+    // }
+
+    // // 전체 배열 리스트에서 해당 판매 음원 정보 가져오는 함수 << 수정 전 배열로 했던 거 편하게 함수를 사용해서 판매 정보를 하나만 가져오는 함수였다..
+    // function isSalesTokenList(address owner, uint256 tokenId) private view returns(SaleTokenInfo memory){
+    //     SaleTokenInfo memory data;
+    //     for (uint256 i = 0; i < _saleTokenList.length; i++) {
+    //         if(_saleTokenList[i].tokenId == tokenId && _saleTokenList[i].account == owner){
+    //             data.account = _saleTokenList[i].account;
+    //             data.tokenId = _saleTokenList[i].tokenId;
+    //             data.amount = _saleTokenList[i].amount;
+    //             data.price = _saleTokenList[i].price;
+    //         }
+    //     }
+    //     return data;
+    // }
 }
