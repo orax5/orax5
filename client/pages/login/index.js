@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
-import { ethers } from "ethers";
+import { ethers } from "ethers"
 // 지갑연결
-import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
-import { injected } from "./../../lib/connectors";
-import dtsToken from "../../contracts/DtsToken.json";
+import { useWeb3React } from '@web3-react/core';
+import { injected } from './../../lib/connectors';
+// 
+import dtsToken from '../../contract/DtsToken.json';
 
 const index = () => {
   const {
@@ -19,38 +20,37 @@ const index = () => {
     deactivate, // deactivate: dapp 월렛 해제 수행함수
   } = useWeb3React();
 
+   const Provider = library;  
+
   useEffect(() => {
-    const { ethereum } = window;
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    console.log(provider);
-    account
-      ? console.log(
-          new ethers.Contract(
-            dtsToken.networks[chainId].address,
-            dtsToken.abi,
-            provider
-          )
-        )
-      : "";
-  });
+    account ? setTimeout(() => {
+        const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi);
+        console.log(contractInstance)
+      }, 2000) : ""
+    // account ? console.log(dtsToken.abi) : ""
+
+    });
 
   // 메타마스크 깔려 있는지 여부 확인
   // if (typeof window.ethereum !== 'undefined') {
   //    console.log('MetaMask is installed!');
   // }
 
-  // 지갑 연결
-  const onClickActivateHandler = () => {
-    activate(injected, async (error) => {
-      // 에러 처리 코드 생략
+   // 지갑 연결
+   const onClickActivateHandler = () => {
+    activate(injected, (error) => {
+      if (isNoEthereumObject(error))
+        window.open("https://metamask.io/download.html");
     });
-  };
+  }
 
   // 연결 해제
   const onClickDeactivateHandler = () => {
     deactivate(); // connector._events.Web3ReactDeactivate() 이거랑 같은건데
-  };
+  }
 
+
+  
   return (
     <MainContainer>
       <div></div>
