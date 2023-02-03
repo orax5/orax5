@@ -8,6 +8,9 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import "./DtsToken.sol";
 
+// 1ether
+// 1000000000000000000
+
 contract FunddingToken is Ownable{
 
     using SafeMath for uint256;
