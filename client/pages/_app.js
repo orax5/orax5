@@ -12,7 +12,7 @@ import { Web3Provider } from "@ethersproject/providers";
 // import { PersistGate } from "redux-persist/integration/react";
 function getLibrary(provider) {
   const library = new Web3Provider(provider, "any");
-  
+
   return library;
 }
 
@@ -23,13 +23,12 @@ export default function App({ Component, pageProps }) {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <Nav />
+
         <Web3ReactProvider getLibrary={getLibrary}>
-          {/* <PersistGate persistStore={persistStore}> */}
+          <Nav />
           <Provider store={store}>
             <Component {...pageProps} />
           </Provider>
-          {/* </PersistGate> */}
         </Web3ReactProvider>
       </ThemeProvider>
     </>
