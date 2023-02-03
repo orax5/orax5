@@ -25,6 +25,7 @@ const index = () => {
   useEffect(() => {
     account ? setTimeout(() => {
         const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi);
+        console.log(contractInstance)
       }, 2000) : ""
     // account ? console.log(dtsToken.abi) : ""
 
