@@ -70,3 +70,5 @@ npm run start 를 실행하는데 이것은 개발환경실행하는 것이 아�
 
 ## 컨트랙트 연결
 리믹스-로컬호스트 연결 : remixd -s . --remix-ide https://remix.ethereum.org
+<br>
+가나쉬 npx ganache-cli --chainId 7722 --networkId 7722
