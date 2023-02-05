@@ -3,26 +3,20 @@ import { ethers } from "ethers";
 import dtsToken from "../../contracts/DtsToken.json";
 import saleToken from "../../contracts/SaleToken.json";
 import fundingToken from "../../contracts/FunddingToken.json";
-
-const {
-  connector,
-  library,
-  chainId,
-  account,
-  active,
-  error,
-  activate,
-  deactivate,
-} = useWeb3React();
+// const { chainId } = useWeb3React();
 
 export const getContract = () => {
   return async (dispatch, getState) => {
+    const GET_CONTRACT = contracts / GET_CONTRACT;
+    // useWeb3React 이걸로 가져오니까 call hooks.. 오류나서 하드코딩으로 넣어줌
+    const chainId = 7722;
     const dtsCA = dtsToken.networks[chainId].address;
     const abi = dtsToken.abi;
     console.log(dtsCA, abi);
 
     const { ethereum } = window;
     const provider = new ethers.providers.Web3Provider(ethereum);
+    console.log(provider);
     const signer = provider.getSigner();
     console.log(signer);
 
@@ -30,9 +24,9 @@ export const getContract = () => {
     console.log(web3);
 
     const saleCA = saleToken.networks[chainId].address;
-    console.log({ saleCA });
+    console.log(saleCA);
     const fundingCA = fundingToken.networks[chainId].address;
-    console.log({ fundingCA });
+    console.log(fundingCA);
 
     // if (!getState().contract.eventCheck)
     //   eventSubscribe(dispatch, utils, web3, eggDeployed, saleDeployed);
@@ -53,6 +47,11 @@ export const getContract = () => {
 
 const init = {
   web3: null,
+  dtsCA: null,
+  abi: null,
+  provider: null,
+  saleCA: null,
+  fundingCA: null,
 };
 
 function contracts(state = init, action) {

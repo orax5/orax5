@@ -1,23 +1,39 @@
 import { useWeb3React } from "@web3-react/core";
-
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getContract } from "../../redux/modules/contracts";
+import { ethers } from "ethers";
+import dtsToken from "../../contracts/DtsToken.json";
+import saleToken from "../../contracts/SaleToken.json";
+import fundingToken from "../../contracts/FunddingToken.json";
 function web3() {
-  const {
-    connector, // 현재 dapp에 연결된 월렛의 connector 값
-    library, // web3 provider 제공
-    chainId, // dapp에 연결된 account의 chainId
-    account, // dapp에 연결된 account address
-    active, // active: dapp 유저가 로그인 된 상태인지 체크
-    error,
-    activate, // activate: dapp 월렛 연결 기능 수행함수
-    deactivate, // deactivate: dapp 월렛 해제 수행함수
-  } = useWeb3React();
-  console.log(connector);
-  return (
-    <div className="App">
-      {connector}
-      {active}
-    </div>
-  );
+  useEffect(() => {
+    const chainId = 7722;
+    const dtsCA = dtsToken.networks[chainId].address;
+    const abi = dtsToken.abi;
+    const { ethereum } = window;
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    const web3 = new ethers.Contract(dtsCA, abi, signer);
+    const saleCA = saleToken.networks[chainId].address;
+    const fundingCA = fundingToken.networks[chainId].address;
+    console.log(ethers.utils);
+    // 함수 실행해보려면 tokenId 있어야 되는데 tokenId 어케 구함
+    // const tokenId = dtsToken.networks[chainId].tokenId;
+    // console.log(tokenId);
+    const test = web3.mintFundding(
+      "0x95318241005ea96906801d53a94ab1a212e554ae8e5225275880173745ab964d",
+      fundingCA,
+      1,
+      100,
+      100,
+      "2023 - 02 - 28"
+    );
+
+    console.log(test);
+  });
+
+  // const dispatch = useDispatch();
 }
 
 export default web3;

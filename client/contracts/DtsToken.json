@@ -25519,39 +25519,17 @@
   "ast": {
     "absolutePath": "project:/contracts/DtsToken.sol",
     "exportedSymbols": {
-      "Address": [
-        5411
-      ],
-      "Context": [
-        5433
-      ],
-      "DtsToken": [
-        2653
-      ],
-      "ERC1155": [
-        4869
-      ],
-      "ERC1155Burnable": [
-        5101
-      ],
-      "ERC165": [
-        5457
-      ],
-      "IERC1155": [
-        4991
-      ],
-      "IERC1155MetadataURI": [
-        5116
-      ],
-      "IERC1155Receiver": [
-        5032
-      ],
-      "IERC165": [
-        5469
-      ],
-      "Ownable": [
-        3646
-      ]
+      "Address": [5411],
+      "Context": [5433],
+      "DtsToken": [2653],
+      "ERC1155": [4869],
+      "ERC1155Burnable": [5101],
+      "ERC165": [5457],
+      "IERC1155": [4991],
+      "IERC1155MetadataURI": [5116],
+      "IERC1155Receiver": [5032],
+      "IERC165": [5469],
+      "Ownable": [3646]
     },
     "id": 2654,
     "license": "MIT",
@@ -25559,12 +25537,7 @@
     "nodes": [
       {
         "id": 2308,
-        "literals": [
-          "solidity",
-          "^",
-          "0.8",
-          ".17"
-        ],
+        "literals": ["solidity", "^", "0.8", ".17"],
         "nodeType": "PragmaDirective",
         "src": "33:24:23"
       },
@@ -25611,9 +25584,7 @@
             "baseName": {
               "id": 2312,
               "name": "ERC1155",
-              "nameLocations": [
-                "674:7:23"
-              ],
+              "nameLocations": ["674:7:23"],
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 4869,
               "src": "674:7:23"
@@ -25626,9 +25597,7 @@
             "baseName": {
               "id": 2314,
               "name": "Ownable",
-              "nameLocations": [
-                "683:7:23"
-              ],
+              "nameLocations": ["683:7:23"],
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 3646,
               "src": "683:7:23"
@@ -25644,14 +25613,7 @@
         "fullyImplemented": true,
         "id": 2653,
         "linearizedBaseContracts": [
-          2653,
-          3646,
-          4869,
-          5116,
-          4991,
-          5457,
-          5469,
-          5433
+          2653, 3646, 4869, 5116, 4991, 5457, 5469, 5433
         ],
         "name": "DtsToken",
         "nameLocation": "662:8:23",
@@ -25692,9 +25654,7 @@
                 "modifierName": {
                   "id": 2317,
                   "name": "ERC1155",
-                  "nameLocations": [
-                    "713:7:23"
-                  ],
+                  "nameLocations": ["713:7:23"],
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 4869,
                   "src": "713:7:23"
@@ -26004,9 +25964,7 @@
                 "pathNode": {
                   "id": 2342,
                   "name": "tokenOwnerData",
-                  "nameLocations": [
-                    "1730:14:23"
-                  ],
+                  "nameLocations": ["1730:14:23"],
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 2335,
                   "src": "1730:14:23"
@@ -26207,9 +26165,7 @@
             "src": "1812:124:23"
           },
           {
-            "baseFunctions": [
-              3762
-            ],
+            "baseFunctions": [3762],
             "body": {
               "id": 2375,
               "nodeType": "Block",
@@ -26636,10 +26592,7 @@
                       "id": 2400,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4294967278,
-                        4294967278
-                      ],
+                      "overloadedDeclarations": [4294967278, 4294967278],
                       "referencedDeclaration": 4294967278,
                       "src": "2707:7:23",
                       "typeDescriptions": {
@@ -26758,10 +26711,7 @@
                       "id": 2410,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4294967278,
-                        4294967278
-                      ],
+                      "overloadedDeclarations": [4294967278, 4294967278],
                       "referencedDeclaration": 4294967278,
                       "src": "2859:7:23",
                       "typeDescriptions": {
@@ -26790,9 +26740,7 @@
                   "src": "2859:47:23"
                 },
                 {
-                  "assignments": [
-                    2419
-                  ],
+                  "assignments": [2419],
                   "declarations": [
                     {
                       "constant": false,
@@ -26843,9 +26791,7 @@
                   "src": "2963:44:23"
                 },
                 {
-                  "assignments": [
-                    2424
-                  ],
+                  "assignments": [2424],
                   "declarations": [
                     {
                       "constant": false,
@@ -26868,9 +26814,7 @@
                         "pathNode": {
                           "id": 2422,
                           "name": "tokenOwnerData",
-                          "nameLocations": [
-                            "3094:14:23"
-                          ],
+                          "nameLocations": ["3094:14:23"],
                           "nodeType": "IdentifierPath",
                           "referencedDeclaration": 2335,
                           "src": "3094:14:23"
@@ -27684,9 +27628,7 @@
               "src": "3863:399:23",
               "statements": [
                 {
-                  "assignments": [
-                    2487
-                  ],
+                  "assignments": [2487],
                   "declarations": [
                     {
                       "constant": false,
@@ -27709,9 +27651,7 @@
                         "pathNode": {
                           "id": 2485,
                           "name": "tokenOwnerData",
-                          "nameLocations": [
-                            "3874:14:23"
-                          ],
+                          "nameLocations": ["3874:14:23"],
                           "nodeType": "IdentifierPath",
                           "referencedDeclaration": 2335,
                           "src": "3874:14:23"
@@ -27731,9 +27671,7 @@
                   "src": "3874:26:23"
                 },
                 {
-                  "assignments": [
-                    2490
-                  ],
+                  "assignments": [2490],
                   "declarations": [
                     {
                       "constant": false,
@@ -28614,9 +28552,7 @@
                     "pathNode": {
                       "id": 2481,
                       "name": "tokenOwnerData",
-                      "nameLocations": [
-                        "3841:14:23"
-                      ],
+                      "nameLocations": ["3841:14:23"],
                       "nodeType": "IdentifierPath",
                       "referencedDeclaration": 2335,
                       "src": "3841:14:23"
@@ -28757,9 +28693,7 @@
                     "pathNode": {
                       "id": 2555,
                       "name": "tokenOwnerData",
-                      "nameLocations": [
-                        "4393:14:23"
-                      ],
+                      "nameLocations": ["4393:14:23"],
                       "nodeType": "IdentifierPath",
                       "referencedDeclaration": 2335,
                       "src": "4393:14:23"
@@ -29359,9 +29293,7 @@
                 "modifierName": {
                   "id": 2611,
                   "name": "FunddingOwnerOnly",
-                  "nameLocations": [
-                    "6528:17:23"
-                  ],
+                  "nameLocations": ["6528:17:23"],
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 2652,
                   "src": "6528:17:23"
@@ -29571,10 +29503,7 @@
                       "id": 2628,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4294967278,
-                        4294967278
-                      ],
+                      "overloadedDeclarations": [4294967278, 4294967278],
                       "referencedDeclaration": 4294967278,
                       "src": "6824:7:23",
                       "typeDescriptions": {
@@ -29779,10 +29708,7 @@
                       "id": 2643,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        4294967278,
-                        4294967278
-                      ],
+                      "overloadedDeclarations": [4294967278, 4294967278],
                       "referencedDeclaration": 4294967278,
                       "src": "7023:7:23",
                       "typeDescriptions": {

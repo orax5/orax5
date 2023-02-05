@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Link from "next/Link";
 import { ethers } from "ethers";
 // 지갑연결
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./../../lib/connectors";
-//
 import dtsToken from "../../contracts/DtsToken.json";
+import { getContract } from "../../redux/modules/contracts";
 
 const index = () => {
+  const dispatch = useDispatch();
   const {
     connector, // 현재 dapp에 연결된 월렛의 connector 값
     library, // web3 provider 제공
@@ -23,9 +24,9 @@ const index = () => {
 
   // const web3 = useSelector((state) => state.contract.web3);
 
-  // useEffect(() => {
-  //   account ? console.log(web3) : "";
-  // });
+  useEffect(() => {
+    account ? dispatch(getContract()) : "";
+  });
 
   // 메타마스크 깔려 있는지 여부 확인
   // if (typeof window.ethereum !== 'undefined') {
