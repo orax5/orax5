@@ -260,6 +260,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "Ftoken",
+				"outputs": [
+					{
+						"internalType": "contract FunddingToken",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -397,12 +410,44 @@
 						"type": "uint256"
 					}
 				],
-				"name": "getTokenOwnerDataCreater",
+				"name": "getTokenOwnerData",
 				"outputs": [
 					{
-						"internalType": "address",
+						"components": [
+							{
+								"internalType": "address",
+								"name": "Creater",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "NftAmount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "TotalPrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "UnitPrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "EndTime",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "isSuccess",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct DtsToken.tokenOwnerData",
 						"name": "",
-						"type": "address"
+						"type": "tuple"
 					}
 				],
 				"stateMutability": "view",
@@ -412,68 +457,11 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					}
-				],
-				"name": "getTokenOwnerDataEndTime",
-				"outputs": [
-					{
-						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
 					}
 				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					}
-				],
-				"name": "getTokenOwnerDataNftAmount",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					}
-				],
-				"name": "getTokenOwnerDataTotalPrice",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					}
-				],
-				"name": "getTokenOwnerDataUnitPrice",
+				"name": "ids",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -530,6 +518,19 @@
 					}
 				],
 				"name": "isChangedCA",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "isFunddingSuccess",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -794,6 +795,50 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "tokenOwners",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "Creater",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "NftAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "TotalPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "UnitPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "EndTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "isSuccess",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "newOwner",
 						"type": "address"
@@ -977,19 +1022,27 @@
 			]
 		},
 		"DtsToken.sol": {
-			"keccak256": "0xf0157ce4eb34009afd2c0c4449acd0b2f0e9c46025bb9acff29247320a063382",
+			"keccak256": "0x91357011810099d7147719ecf51145c35b4893e65ab18d5ee100230d04ed5fe4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1cf13bb2044f0682689e2e3bea3c240d240a0a734839538f3e34156cc864ab39",
-				"dweb:/ipfs/QmbBgsg2C6cWR4kaswWVFi74UY5SzxpKT19eqmdnXbikde"
+				"bzz-raw://b7bae7e2b101b901f66b1ba950582d97e10535c38a1a9c932908b0691fe8d1af",
+				"dweb:/ipfs/QmcfQG2h6ZhuEdi2f8MsmV7gsPap7Tkt5onVz168SFzUhL"
+			]
+		},
+		"FunddingToken.sol": {
+			"keccak256": "0x8861b0fd1f5c924a8f2d23c681daf2309c3dfe7d8f8d4da038cd1abb98cf7e22",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://92fdca428fdd1caa8314b1497ccfee6bee9ed9ab14bab068cf880b0ebaa64d7a",
+				"dweb:/ipfs/QmR6w6f7BbnEP4ZBoMBmFoxMb74zEBytCAQEhqN3ZZqGzA"
 			]
 		},
 		"SaleToken.sol": {
-			"keccak256": "0x634f548fad8fe2fb421921643df9e538f52b4c775a0ffd02f50c046333be5936",
+			"keccak256": "0x05e4847101ad27e8c743c67f172b5fb4ae0db01512fba880f8c7395155e336b9",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://dc9038f7b060c279defa11b230e2c8800bb648a3874919e12952564cbbea5a1e",
-				"dweb:/ipfs/QmaZdYpP2TjvFHCErj6iD15BjGzpJW9nK6GLGK37UsFT21"
+				"bzz-raw://63b5dbef3ce5a27047ca499fa44bd18464a98ea641bd386119014a6f4a0231ff",
+				"dweb:/ipfs/QmSfnK1uFxC5JhCZrHwJzkmm2jiMPMYWcj8q8oLv7jWLib"
 			]
 		}
 	},

@@ -1,21 +1,31 @@
 import { Module } from '@nestjs/common';
-import { UserLoginController } from './user-login/user-login.controller';
-import { UserLoginService } from './user-login/user-login.service';
-import { UserSignupController } from './user-signup/user-signup.controller';
-import { UserSignupService } from './user-signup/user-signup.service';
-import { UserMycartController } from './user-mycart/user-mycart.controller';
-import { UserMycartService } from './user-mycart/user-mycart.service';
-import { UserMypageController } from './user-mypage/user-mypage.controller';
-import { UserMypageService } from './user-mypage/user-mypage.service';
-import { EmailModule } from '../email/email.module';
-import { PrismaService } from '../prisma.service';
+import { AuthModule } from '../auth/auth.module';
+import { SignUpModule } from './signup/signup.module';
+import { LoginModule } from './login/login.module';
+import { MypageModule } from './mypage/mypage.module';
+<<<<<<< HEAD
+import { MycartModule } from './mycart/mycart.module';
+                                                                                                                                                                                                          
 
 
+// MypageModule
 @Module({
-  imports:[EmailModule],
-  controllers: [UserLoginController, UserSignupController, UserMycartController, UserMypageController],
-  providers: [UserLoginService, UserSignupService, UserMycartService, UserMypageService, PrismaService],
-  exports: [UserLoginService, UserSignupService]
+  imports:[SignUpModule, LoginModule, AuthModule, MycartModule],
+=======
+                                                                                                                                                                                                          
+
+// @Module({
+//   imports:[AuthModule],
+//   controllers: [UserLoginController, UserSignupController, UserMycartController, UserMypageController, UserLogoutController],
+//   providers: [AuthService ,UserLoginService, UserSignupService, UserMycartService, UserMypageService, PrismaService, UserLogoutService],
+//   exports: [UserLoginService, UserSignupService]
+// })
+@Module({
+  imports:[SignUpModule, LoginModule, AuthModule, MypageModule],
+>>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
+  controllers: [],
+  providers: [],
+  exports: []
 })
 export class UserModule {}
 // service : 유저를 검색하고 비밀번호 확인

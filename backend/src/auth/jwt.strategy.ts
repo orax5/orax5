@@ -4,17 +4,28 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { env } from 'process';
 
+import dotenv = require('dotenv');
+import path = require('path');
+dotenv.config();
+
+const KEY = process.env.JWT_SECRET || 'secretKey';
+        
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy){
-    constructor(private readonly config: ConfigService){
+    constructor(private config: ConfigService){
+<<<<<<< HEAD
+=======
+
+>>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
         super({
             jwtFromRequest : ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: 'secretKey', // 시크릿키 넣어줘
+            secretOrKey: KEY, // 수정!!! 도움!!!
         });
     }
 
     async validate(payload: any){
+        
         return { user_wallet: payload.sub, username: payload.user_wallet}
     }
 

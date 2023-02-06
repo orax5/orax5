@@ -45,16 +45,16 @@ contract SaleToken is DtsToken{
 
     // 판매 등록 함수
     function salesToken(uint256 tokenId ,uint256 amount, uint256 price) public isSaleError(tokenId){
-        // // 판매하려는 갯수가 본인이 가지고 있는 갯수를 넘지 않는지.
-        // require(DToken.balanceOf(msg.sender, tokenId) >= amount, "Please enter the exact quantity.");
-        // // 판매 가격이 0보다 큰 값인지 확인
-        // require(price > 0,"Please enter the correct price.");
-        // // 판매 물량이 0보다 큰 값인지 확인
-        // require(amount > 0,"Please enter the correct amount.");
-        // // 판매 권한이 있는지 확인한다.
-        // require(DToken.isApprovedForAll(msg.sender,address(this)),"be not approved");
-        // // 펀딩이 성공된 음원인지 확인
-        // require(DToken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
+        // 판매하려는 갯수가 본인이 가지고 있는 갯수를 넘지 않는지.
+        require(DToken.balanceOf(msg.sender, tokenId) >= amount, "Please enter the exact quantity.");
+        // 판매 가격이 0보다 큰 값인지 확인
+        require(price > 0,"Please enter the correct price.");
+        // 판매 물량이 0보다 큰 값인지 확인
+        require(amount > 0,"Please enter the correct amount.");
+        // 판매 권한이 있는지 확인한다.
+        require(DToken.isApprovedForAll(msg.sender,address(this)),"be not approved");
+        // 펀딩이 성공된 음원인지 확인
+        require(DToken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
 
         SaleTokenInfo memory data = _getSalesTokenData(msg.sender, tokenId, amount, price);
         _saleTokenList[tokenId][_saleNumber[tokenId]] = data;
@@ -112,7 +112,7 @@ contract SaleToken is DtsToken{
         // 오너의 판매 정보 수정
         _saleTokenList[tokenId][listId].amount = _saleTokenList[tokenId][listId].amount - amount;
 
-        // DToken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
+        DToken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
     }
 
     // 음원에 대한 중복 판매 등록 여부를 확인한다. 한번 등록했으면 amount는 0이 아니므로 다시 등록하려면 취소하고 등록해야 한다.
@@ -125,16 +125,6 @@ contract SaleToken is DtsToken{
         }
         _;
     }
-
-    // modifier isBuyError(address owner, uint256 tokenId, uint256 listId) {
-    //     uint256 _saleNumberLength = _saleNumber[tokenId];
-    //     for(uint256 i = 0; i <= _saleNumberLength; i++){
-    //         if(_saleTokenList[tokenId][listId].account == msg.sender){
-    //            revert("I can't buy myself.");
-    //         }
-    //     }
-    //     _;
-    // }
 
     // // 판매 취소 함수 << 수정 전 버전.. 배열로 했던 거
     // function cancelSalesToken(uint256 tokenId) public {
