@@ -12,10 +12,14 @@ import { Shinchunghada } from '@prisma/client';
 
 @Injectable()
 export class OpenfundingService {
+  // constructor(
+  //   private prisma: PrismaService,
+  //   private readonly config: ConfigService,
+  //   private http: HttpService,
+  // ) {}
   constructor(
     private prisma: PrismaService,
     private readonly config: ConfigService,
-    private http: HttpService,
   ) {}
 
   // 신청아이디 받아서 db에서 추출한다음 JSON으로 변환하기

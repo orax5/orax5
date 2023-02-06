@@ -1,10 +1,11 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { HttpService } from '@nestjs/axios';
+// import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class MypageService {
-  constructor(private prisma: PrismaService, private http: HttpService) {}
+  // constructor(private prisma: PrismaService, private http: HttpService) {}
+  constructor(private prisma: PrismaService) {}
 
   // 상태값이 1인 심사대기중인 목록만 뽑아옴
   // 잘된다!
