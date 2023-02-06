@@ -9,7 +9,10 @@ import { User } from '@prisma/client';
 // 로컬 Passport 로컬 인증 전략
 // 여기가 토큰이 썩었는지 확인해주는 부분, 
 // 로그인 api 호출시 유저가 정상적으로 로그인 할 수 있는 상태인지 확인해준다
+<<<<<<< HEAD
 // 가입할때 가드
+=======
+>>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {

@@ -4,14 +4,22 @@ import { LocalAuthGuard } from '../../auth/local-auth.guard';
 
 
 
+<<<<<<< HEAD
 @Controller('user')
+=======
+@Controller('login')
+>>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
 export class UserLoginController {
     constructor(private authService: AuthService){}
 
     //UseGuards : 경비역할을 하는 미들웨어
     //LocalAuthGuard에 적용한 설정 사용
     @UseGuards(LocalAuthGuard)
+<<<<<<< HEAD
     @Post('login')
+=======
+    @Post()
+>>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
     async login(@Request() req){
         return this.authService.validateUser(req.loginForm); // passport
     }

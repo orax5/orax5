@@ -18,7 +18,11 @@ model User{
   user_pwd String 
   user_nickname String @db.Char(12)
   user_grade Int @default(1)
+<<<<<<< HEAD
   user_wallet String @unique @db.Char(64)
+=======
+  user_wallet String @unique
+>>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
   user_email_token String @default("")
   shopcarts Cart[]
 }
@@ -34,7 +38,11 @@ model Shinchunghada{
   shin_description String
   shin_category String
   shin_ispermit Int @default(1)
+<<<<<<< HEAD
   shin_creator_address String @db.Char(64)
+=======
+  shin_creator_address String
+>>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
   funding Funding[]
   singer Singer[]
   composer Composer[]

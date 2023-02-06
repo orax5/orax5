@@ -1,11 +1,12 @@
 import { Controller, Post } from '@nestjs/common';
+import { CreatorShinchungService } from './creator-shinchung.service';
 
-@Controller('creator_shinchung')
+@Controller('creator-shinchung')
 export class CreatorShinchungController {
-    constructor(){    }
+    constructor(private readonly shinchung: CreatorShinchungService){}
 
     @Post()
     async creatorShinchung(){
-
+        return this.shinchung.shinchungFund()
     }
 }

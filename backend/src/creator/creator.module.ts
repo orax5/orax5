@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+<<<<<<< HEAD
 import { CreatorSignupModule } from './signup/signup.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { CreatorLoginModule } from './login/login.module';
@@ -15,6 +16,16 @@ import { OpenfundingModule } from './openfunding/openfunding.module';
   imports: [CreatorSignupModule, AuthModule, CreatorLoginModule, UserModule, ShinchungModule, HttpModule, OpenfundingModule,UploadsModule
     
   ],
+=======
+import { CreatorSignupModule } from './creator-signup/creator-signup.module';
+import { AuthModule } from 'src/auth/auth.module';
+import { CreatorLoginModule } from './creator-login/creator-login.module';
+import { UserModule } from '../user/user.module';
+
+
+@Module({ 
+  imports: [CreatorSignupModule, AuthModule, CreatorLoginModule, UserModule],
+>>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
   controllers: [],
   providers: []
 })

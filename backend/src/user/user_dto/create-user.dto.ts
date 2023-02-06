@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 //import { Transform } from "class-transformer";
 import { IsEmail, IsString, Matches } from "class-validator"
 // userSignUpDto 였음
 export class CreateUserDto{
    // @Transform(params => params.value.trim()) // 입력값중 공백 제거
+=======
+import { Transform } from "class-transformer";
+import { IsEmail, IsString, Matches } from "class-validator"
+// userSignUpDto 였음
+export class CreateUserDto{
+    @Transform(params => params.value.trim()) // 입력값중 공백 제거
+>>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
     @IsString()
     @IsEmail()
     user_email: string;
