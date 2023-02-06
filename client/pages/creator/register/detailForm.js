@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
-const register = () => {
+const detailForm = () => {
   const [inputs, setInputs] = useState({
     category: "",
     albumArt: "",
@@ -137,4 +137,4 @@ const SubmitBtn = styled.button`
     transition: 0.5s;
   }
 `;
-export default register;
+export default detailForm;
