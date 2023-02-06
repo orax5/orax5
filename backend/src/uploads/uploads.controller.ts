@@ -3,7 +3,6 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { Expr } from "aws-sdk/clients/cloudsearchdomain";
 import { UploadsService } from './uploads.service';
 
-<<<<<<< HEAD
 @Controller('file')
 export class UploadsController {
     constructor(private readonly uploadService: UploadsService){}
@@ -15,20 +14,9 @@ export class UploadsController {
     async s3Upload(@UploadedFile() file:Express.MulterS3.File){ // 주의 : Express.Multer.File 랑 다른객체
         const url = await this.uploadService.s3Upload(file);
         console.log("@@@@ 컨트롤러",url);
-=======
-@Controller('upload')
-export class UploadsController {
-    constructor(){}
-//private readonly awsService: UploadsService
-    @Post()
-    @UseInterceptors(FileInterceptor('file'))
-    uploadFile(@UploadedFile() file) {
-        console.log(file);
->>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
     }
 }
 
-<<<<<<< HEAD
 // 파일 전송 이런식으로 전송
     /*
       {
@@ -41,15 +29,3 @@ export class UploadsController {
       }
 
     */
-=======
-    // @Post('/s3')
-    // @UseInterceptors(FileInterceptor('file'))
-    // async s3Upload(@UploadedFile() file:Express.Multer.File){
-    //     await this.awsService.s3Upload(file);
-    //     return 'Succes';
-    // }
-
-
-
-}
->>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
