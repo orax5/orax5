@@ -5,9 +5,9 @@ import { SignupController } from '../signup/signup.controller';
 import { SignupService } from '../signup/signup.service';
 
 @Module({
-  imports:[],
+  imports: [],
   controllers: [SignupController],
   providers: [SignupService, PrismaService, UserLoginService],
-  exports: []
+  exports: [],
 })
 export class SignUpModule {}

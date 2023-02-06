@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Link from "next/Link";
 import { ethers } from "ethers"
+import { login } from "../../redux/modules/user";
 // 지갑연결
 import { useWeb3React } from '@web3-react/core';
 import { injected } from './../../lib/connectors';
 // 
-import dtsToken from '../../contracts/DtsToken.json';
-
+import dtsToken from "../../contracts/DtsToken.json";
+import fToken from "../../contracts/FunddingToken.json";
+import sToken from "../../contracts/SaleToken.json";
 
 
 const index = () => {
-  const [test, setTest] = useState();
+  const dispatch = useDispatch();
 
+  const [inputs, setInputs] = useState({
+    email : "",
+    password: "",
+  });
 
   const {
     connector, // 현재 dapp에 연결된 월렛의 connector 값
@@ -26,36 +33,6 @@ const index = () => {
   } = useWeb3React();
 
   const Provider = library;  
-
-  async function loadNFTs() {
-    const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi);
-  }
-
-  
-
-  // useEffect(() => {
-  //   account ? (async() =>{
-  //       // const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi);
-  //       // console.log(contractInstance)
-  //       // let view = await contractInstance?.balanceOf(account, 1 )
-  //       // setTest(view);
-  //       loadNFTs()
-
-
-  //     })() : ""
-  
-      
-    // account ? setTimeout(() => {
-    //   (async() =>{
-    //     const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi);
-    //     console.log(contractInstance)
-    //     contractInstance.balanceOf(account, 1)
-
-    //   })()
-    //   }, 1000) : ""
-    // account ? console.log(dtsToken.abi) : ""
-
-    //});
 
   // 메타마스크 깔려 있는지 여부 확인
   // if (typeof window.ethereum !== 'undefined') {
@@ -75,6 +52,24 @@ const index = () => {
     deactivate(); // connector._events.Web3ReactDeactivate() 이거랑 같은건데
   }
 
+  const signin = () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    const tokenData = {
+      Dtoken : new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi, provider.getSigner()),
+      Ftoken : new ethers.Contract(fToken.networks[chainId].address, fToken.abi, provider.getSigner()),
+      Stoken : new ethers.Contract(sToken.networks[chainId].address, sToken.abi, provider.getSigner()),
+      dtokenCA : dtsToken.networks[chainId].address,
+      ftokenCA : fToken.networks[chainId].address,
+      stokenCA : sToken.networks[chainId].address,
+    }
+    dispatch(login( 
+      account,
+      inputs.email,
+      inputs.password,
+      tokenData
+    ));
+  }
 
   
   return (
@@ -96,16 +91,31 @@ const index = () => {
 
           <InputBox>
             <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder="이메일"
+              onChange={e=> setInputs({...inputs, email:e.target.value})}
+            />
+            <label htmlFor="password">이메일</label>
+          </InputBox>
+          <InputBox>
+            <input
               id="password"
               type="password"
               name="password"
               placeholder="비밀번호"
+              onChange={e=> setInputs({...inputs, password:e.target.value})}
             />
             <label htmlFor="password">비밀번호</label>
           </InputBox>
           <Forgot>비밀번호 찾기</Forgot>
+<<<<<<< HEAD
           <Submit type="submit" value="로그인" />
           {test}
+=======
+          <Submit onClick={signin} type="submit" value="로그인" />
+>>>>>>> main
           <Link href="/login/join">
             <Submit type="submit" value="회원가입" />
           </Link>

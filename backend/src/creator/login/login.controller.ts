@@ -1,23 +1,30 @@
-import { Controller, Post, Body, Query, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
-import { VerifyEamilDto } from '../../email/verifyEamil.dto';
+import {
+  Controller,
+  Post,
+  Body,
+  Query,
+  HttpException,
+  HttpStatus,
+  UseGuards,
+} from '@nestjs/common';
+// import { VerifyEamilDto } from '../../email/verifyEamil.dto';
 import { CreatorLoginDto } from '../creator_dto/creator-login.dto';
 import { AuthService } from '../../auth/auth.service';
-import { CreatorLoginService } from './login.service';
-import { LocalAuthGuard } from '../../auth/local-auth.guard';
+// import { CreatorLoginService } from './login.service';
+// import { LocalAuthGuard } from '../../auth/local-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('creator')
 export class CreatorLoginController {
-    constructor(private authService: AuthService){}
+  constructor(private authService: AuthService) {}
 
-    @UseGuards(AuthGuard('local'))
-    @Post('/login')
-    async creatorLogin(@Body() creatorLoginDto: CreatorLoginDto){
-        console.log(creatorLoginDto);
-        // auth 토큰 발급하는 로그인
-        return this.authService.validateUser(creatorLoginDto);
-    }
-
+  @UseGuards(AuthGuard('local'))
+  @Post('/login')
+  async creatorLogin(@Body() creatorLoginDto: CreatorLoginDto) {
+    console.log(creatorLoginDto);
+    // auth 토큰 발급하는 로그인
+    return this.authService.validateUser(creatorLoginDto);
+  }
 }
 
 /*

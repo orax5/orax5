@@ -8,15 +8,12 @@ import "../node_modules/openzeppelin-solidity/contracts/utils/math/SafeMath.sol"
 
 import "./DtsToken.sol";
 
-// 1ether
-// 1000000000000000000
-
 contract FunddingToken is Ownable{
 
     using SafeMath for uint256;
 
     // DtsToken.sol과 상호작용 하기 위한 상태변수
-    DtsToken public Dtoken; 
+    DtsToken public Dtoken;
 
     // 플랫폼 거래 수수료 상태 변수
     uint256 private _Fee = 10;
@@ -32,7 +29,7 @@ contract FunddingToken is Ownable{
 
     constructor(address DtsTokenCA){
         // 생성자에서 배포된 DtsToken CA를 받아서 Dtoken 상태변수에 저장한다.
-        Dtoken = DtsToken(DtsTokenCA); 
+        Dtoken = DtsToken(DtsTokenCA);
     }
 
     // 구독권 구매 함수
@@ -81,7 +78,7 @@ contract FunddingToken is Ownable{
         require(Dtoken.getTokenOwnerData(tokenId).NftAmount - _totalAmout[tokenId] >= amount,"be out of stock and unable to buy goods");
         // 펀딩 신청을 할 때 saleCA에 권환을 넘겼는지 확인한다.
         require(Dtoken.isApprovedForAll(msg.sender,address(this)), "be not approved");
-        // 지금까지 펀딩한 현재 금액을 모아 놓는다.
+        // 지금까지 펀딩한 현재 갯수을 모아 놓는다.
         _totalAmout[tokenId] = _totalAmout[tokenId] + amount;
         Dtoken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
         // 마지막 물량이 다 팔리면 Dtoken._tokenOwners[tokenId].isSuccess를 false에서 true로 바꾼다.

@@ -6,9 +6,13 @@ import { EmailService } from '../../email/email.service';
 import { UserLoginService } from '../../user/login/login.service';
 
 @Module({
-    imports:[],
-    controllers:[CreatorSignupController],
-    providers:[CreatorSignupService, PrismaService, EmailService, UserLoginService]
-    
+  imports: [],
+  controllers: [CreatorSignupController],
+  providers: [
+    CreatorSignupService,
+    PrismaService,
+    EmailService,
+    UserLoginService,
+  ],
 })
 export class CreatorSignupModule {}

@@ -6,16 +6,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { multerOptionsFactory } from './multerOptionsFactory';
 import { PrismaService } from '../prisma.service';
 
-
 @Module({
   imports: [
     MulterModule.registerAsync({
       imports: [ConfigModule],
       useFactory: multerOptionsFactory,
       inject: [ConfigService],
-    })
+    }),
   ],
   controllers: [UploadsController],
-  providers: [UploadsService, PrismaService]
+  providers: [UploadsService, PrismaService],
 })
 export class UploadsModule {}

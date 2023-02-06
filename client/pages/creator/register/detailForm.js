@@ -1,10 +1,7 @@
-import { useWeb3React } from "@web3-react/core";
-import { ethers } from "ethers";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import dtsToken from "../../contracts/DtsToken.json";
 
-const register = () => {
+const detailForm = () => {
   const [inputs, setInputs] = useState({
     category: "",
     albumArt: "",
@@ -17,6 +14,7 @@ const register = () => {
     opendate: "",
   });
 
+<<<<<<< HEAD:client/pages/creator/register.js
   const {
     connector, // 현재 dapp에 연결된 월렛의 connector 값
     library, // web3 provider 제공
@@ -51,6 +49,8 @@ const register = () => {
       : "";
   });
 
+=======
+>>>>>>> main:client/pages/creator/register/detailForm.js
   // 펀딩 시작일은 오늘 이후부터 선택 가능
   const dateRef = useRef();
   const [date, setDate] = useState();
@@ -174,4 +174,4 @@ const SubmitBtn = styled.button`
     transition: 0.5s;
   }
 `;
-export default register;
+export default detailForm;

@@ -5,8 +5,8 @@ import { UserLoginService } from '../../user/login/login.service';
 import { PrismaService } from '../../prisma.service';
 
 @Module({
-    imports:[],
-    controllers:[ CreatorLoginController],
-    providers: [AuthService, UserLoginService, PrismaService]
+  imports: [],
+  controllers: [CreatorLoginController],
+  providers: [AuthService, UserLoginService, PrismaService],
 })
 export class CreatorLoginModule {}
