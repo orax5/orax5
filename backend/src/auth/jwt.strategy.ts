@@ -4,13 +4,19 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { env } from 'process';
 
+import dotenv = require('dotenv');
+import path = require('path');
+dotenv.config();
+
+const KEY = process.env.JWT_SECRET || 'secretKey';
+        
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy){
-    constructor(private readonly config: ConfigService){
+    constructor(private config: ConfigService){
         super({
             jwtFromRequest : ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: 'secretKey', // 시크릿키 넣어줘
+            secretOrKey: KEY, // 수정!!! 도움!!!
         });
     }
 
