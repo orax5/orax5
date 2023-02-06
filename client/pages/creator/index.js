@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
+import { useSelector } from "react-redux";
+
 
 const index = () => {
   const datas = [
@@ -92,6 +94,10 @@ const index = () => {
   const [index, setIndex] = useState(0);
   const adress = "0x123";
 
+  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
+  const account = useSelector((state)=>state.user.users.account);
+
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true);
     setTimeout(() => {
@@ -101,6 +107,23 @@ const index = () => {
       await navigator.clipboard.writeText(text);
     } catch (e) {}
   };
+
+  useEffect(() => {
+    
+  },[])
+
+  
+  const asd = async() =>{
+    console.log(Dtoken)
+    console.log(ftokenCA)
+    const aa = await Dtoken.mintFundding(account,ftokenCA,5,10,10,7);
+    console.log(aa);
+  }
+
+  const qwe = async() => {
+    const bb = await Dtoken.balanceOf(account,5);
+    console.log(bb);
+  }
 
   return (
     <MainContainer>
@@ -149,12 +172,13 @@ const index = () => {
                     <td>{data.name}</td>
                     <td>{data.content}</td>
                     <td>{data.date}</td>
-                    <td>
+                    <td onClick={qwe}>
                       {data.scale}
+                      qwe
                       {"ETH"}
                     </td>
 
-                    <td>{data.state}</td>
+                    <td onClick={asd}>{data.state}</td>
                   </tr>
                 ))}
               </tbody>

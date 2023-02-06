@@ -25,38 +25,36 @@ export const signUp = (
   };
 };
 
-export const login = ({ walletAddress, password, email }) => {
+export const login = (account,email,password,tokenData) => {
   return async (dispatch, getState) => {
     const loginInfo = {
       // url : ""
       method: "post",
-      data: { walletAddress, password, email },
+      data: { account, email, password },
     };
     const data = loginInfo.data;
+    console.log(data);
     dispatch({
       type: LOGIN,
-      payload: data,
-    });
+      payload: {data,tokenData}
+    })//.then((console.log(tokenData)))
   };
 };
 
 // 초기값
 const init = {
-  users: [],
+  users: {},
+  contracts : {}
 };
 
 // 리듀서
 export default function user(state = init, action) {
   const { type, payload } = action;
   switch (type) {
-    case JOIN:
-      return {
-        ...state,
-        users: [...payload],
-      };
     case LOGIN:
       return {
-        users: [...state, ...payload],
+        users : {...payload.data},
+        contracts : {...payload.tokenData}
       };
     default:
       return { ...state };
