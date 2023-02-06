@@ -2,6 +2,21 @@
 const REGISTER_FUNDING = "funding/REGISTER_FUNDING";
 
 // 액션 함수
+export const registerImage = () => {
+  return async (dispatch, getState) => {
+    const albumArt = {
+      url: "http://loaclhost:3001/",
+      method: "post",
+      data: { id },
+    };
+    const data = albumArt.data;
+    console.log(data);
+    dispatch({
+      type: "REGISTER_IMAGE",
+      payload: data,
+    });
+  };
+};
 export const registerFunding = () => {
   return async (dispatch, getState) => {
     const newfunding = {
@@ -11,7 +26,7 @@ export const registerFunding = () => {
     const data = newfunding.data;
     console.log(data);
     dispatch({
-      type: "REGISTER_FUNDING",
+      type: "REGISTER_IMAGE",
       payload: data,
     });
   };
