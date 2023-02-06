@@ -1,9 +1,44 @@
 import React, { useState, useEffect } from "react";
+import { useWeb3React } from "@web3-react/core";
 import styled from "styled-components";
 import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
+import { ethers } from "ethers";
+import dtsToken from '../../contracts/DtsToken.json';
 
 const index = () => {
+  const {
+    connector, // 현재 dapp에 연결된 월렛의 connector 값
+    library, // web3 provider 제공
+    chainId, // dapp에 연결된 account의 chainId
+    account, // dapp에 연결된 account address
+    active, // active: dapp 유저가 로그인 된 상태인지 체크
+    error,
+    activate, // activate: dapp 월렛 연결 기능 수행함수
+    deactivate, // deactivate: dapp 월렛 해제 수행함수
+  } = useWeb3React();
+
+  console.log(account)
+
+  const [is, setIs] = useState(false);
+
+  useEffect(()=>{
+    const { ethereum } = window;
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const singer = provider.getSigner();
+    
+    async function loadNFTs() {
+      const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi, singer);
+      is && (
+        console.log(contractInstance)
+      )
+      
+    }
+
+  },)
+
+
+
   const datas = [
     {
       name: "사진스힙합",
@@ -90,7 +125,7 @@ const index = () => {
   const [clipAccount, setClipAccount] = useState(false);
   // 보여줄 페이지의 인덱스
   const [index, setIndex] = useState(0);
-  const adress = "0x123";
+  const adress = account;
 
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true);
@@ -102,9 +137,7 @@ const index = () => {
     } catch (e) {}
   };
 
-  const asd = () => {
-    
-  }
+
 
   return (
     <MainContainer>
@@ -135,6 +168,7 @@ const index = () => {
                 </CreatorAddress>
               )}
             </div>
+            <button onClick={()=> setIs(true)} >이거하면 민트</button>
             <Table>
               <thead>
                 <tr>
@@ -158,7 +192,7 @@ const index = () => {
                       {"ETH"}
                     </td>
 
-                    <td onClick={asd}>{data.state}</td>
+                    <td>{data.state}</td>
                   </tr>
                 ))}
               </tbody>

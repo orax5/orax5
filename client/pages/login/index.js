@@ -8,7 +8,12 @@ import { injected } from './../../lib/connectors';
 // 
 import dtsToken from '../../contracts/DtsToken.json';
 
+
+
 const index = () => {
+  const [test, setTest] = useState();
+
+
   const {
     connector, // 현재 dapp에 연결된 월렛의 connector 값
     library, // web3 provider 제공
@@ -22,16 +27,23 @@ const index = () => {
 
   const Provider = library;  
 
+  async function loadNFTs() {
+    const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi);
+  }
+
   
 
-  useEffect(() => {
-    account ? (async() =>{
-        const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi);
-        console.log(contractInstance)
-        // contractInstance.balanceOf(account, 1)
-        // const count = await contractInstance.current().call()
+  // useEffect(() => {
+  //   account ? (async() =>{
+  //       // const contractInstance = new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi);
+  //       // console.log(contractInstance)
+  //       // let view = await contractInstance?.balanceOf(account, 1 )
+  //       // setTest(view);
+  //       loadNFTs()
 
-      })() : ""
+
+  //     })() : ""
+  
       
     // account ? setTimeout(() => {
     //   (async() =>{
@@ -43,7 +55,7 @@ const index = () => {
     //   }, 1000) : ""
     // account ? console.log(dtsToken.abi) : ""
 
-    });
+    //});
 
   // 메타마스크 깔려 있는지 여부 확인
   // if (typeof window.ethereum !== 'undefined') {
@@ -93,6 +105,7 @@ const index = () => {
           </InputBox>
           <Forgot>비밀번호 찾기</Forgot>
           <Submit type="submit" value="로그인" />
+          {test}
           <Link href="/login/join">
             <Submit type="submit" value="회원가입" />
           </Link>
