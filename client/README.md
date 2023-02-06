@@ -69,4 +69,19 @@ npm run start 를 실행하는데 이것은 개발환경실행하는 것이 아�
 우리는 애플리케이션을 만들때 꼭 따져봐야하는 것은 Route인데 url에 따라서 ui를 어떻게 응답할 것인가를 결정하는 행위이다.
 
 ## 컨트랙트 연결
+
 리믹스-로컬호스트 연결 : remixd -s . --remix-ide https://remix.ethereum.org
+<br>
+가나쉬 npx ganache-cli --chainId 7722 --networkId 7722
+<br>
+
+## FE/BE실행 명령어
+
+### 프론트
+
+npm run dev
+
+### 백
+
+npm run start:dev
+<br> > 이걸로 실행해야 .env에서 변수 호출할수있음

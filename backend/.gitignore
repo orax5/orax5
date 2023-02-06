@@ -27,10 +27,14 @@ lerna-debug.log*
 .settings/
 *.sublime-workspace
 .env
-
+.local.env
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+#AUTH 관련해서 일단 올리지말자ㅠ
+auth.module.ts
+creator.module.ts

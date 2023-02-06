@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 import db from "../../../public/db.json";
 import { useDispatch } from "react-redux";
 import { addList } from "../../../redux/modules/streaming";
+
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
   useEffect(() => {

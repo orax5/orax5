@@ -1,6 +1,7 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,26 +14,28 @@ datasource db {
 
 model User{
   user_no Int @default(autoincrement()) @id
-  user_email String @unique @db.VarChar(500)
-  user_pwd String @db.VarChar(50)
-  user_nickname String @db.VarChar(30)
+  user_email String @unique @db.Char(20)
+  user_pwd String 
+  user_nickname String @db.Char(12)
   user_grade Int @default(1)
-  user_wallet String @unique
-  user_email_token String? @unique
+  user_wallet String @unique @db.Char(64)
+  user_email_token String @default("")
   shopcarts Cart[]
 }
 
 //====  펀딩 관련 테이블
+// shin_ispermit 1: 심사대기 2: 심사완료(승인) 3: 반려
 model Shinchunghada{
   shin_no Int @default(autoincrement()) @id
+  shin_title String @db.Char(20)
   shin_amount Int
   shin_nft_totalbalance Int
   shin_cover String
-  shin_opendate	DateTime
+  shin_opendate	String
   shin_description String
   shin_category String
-  shin_ispermit Boolean
-  shin_creator_address String
+  shin_ispermit Int @default(1)
+  shin_creator_address String @db.Char(64)
   funding Funding[]
   singer Singer[]
   composer Composer[]
@@ -74,10 +77,10 @@ model Lyricist{
 model Music{
   music_no Int @default(autoincrement()) @id
   music_title String @db.VarChar(50)
-  music_lyricist String 
-  music_composer String 
-  music_singer String
-  music_category Int
+  music_lyricist String @db.Char(20)
+  music_composer String @db.Char(20)
+  music_singer String @db.Char(20)
+  music_category String @db.Char(20) 
   music_description String
   music_isfunding Boolean?
   musicFilePath MusicFile[]
@@ -94,7 +97,7 @@ model MusicFile{
 ///=====굿즈shop 관련 테이블
 model Product{
   product_no Int @default(autoincrement()) @id
-  product_price Int 
+  product_price Int @db.Int()
   product_descrip String 
   cartIds Cart[]
 }
