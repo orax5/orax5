@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
 // 마이페이지 컴포넌트
-import LikeNft from "../components/mypage/LikeNft";
 import MyNft from "../components/mypage/MyNft";
 import TransactionDetails from "../components/mypage/TransactionDetails";
 import FundingNft from "../components/mypage/FundingNft";
@@ -32,7 +31,7 @@ const index = () => {
   };
 
   // 탭제목은 배열에 담아줌
-  const menuArr = ["내 NFT", "찜한 NFT", "펀딩한 NFT", "거래내역"];
+  const menuArr = ["내 NFT", "펀딩한 NFT", "거래내역"];
   // 클릭시 메뉴[인덱스]에 해당하는 페이지를 보여줌
   const clickHandler = (idx) => {
     setIndex(idx);
@@ -40,9 +39,8 @@ const index = () => {
   // 보여줄 페이지는 컴포넌트로 만들어 객체 안에 넣어줌
   const pages = {
     0: <MyNft />,
-    1: <LikeNft />,
-    2: <FundingNft />,
-    3: <TransactionDetails />,
+    1: <FundingNft />,
+    2: <TransactionDetails />,
   };
 
   return (

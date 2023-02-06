@@ -41,14 +41,6 @@ const index = () => {
       <MainItems>
         <Search />
         <FunctionNav>
-          <button>
-            <Link
-              href="/funding/register"
-              style={{ background: "transparent" }}
-            >
-              펀딩등록
-            </Link>
-          </button>
           <SelectorFrame>
             <option value="전체">전체</option>
             <option value="진행">진행</option>
@@ -82,7 +74,7 @@ const index = () => {
               <ItemPrice>{data.price}</ItemPrice>
 
               <BtnBox>
-                <div>찜하기</div>
+                
                 <div
                   onClick={() => {
                     router.push(`/funding/${data.id}`);

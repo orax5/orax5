@@ -19,7 +19,7 @@ const gridLayout = {
     height: 10vh;
     display: grid;
     place-items: center;
-    grid-template-columns: 1fr 8fr 1fr;
+    grid-template-columns: 1fr 8fr 1fr 1fr;
     margin: 1rem 0 1rem 1rem
   `,
   mainGrid: `

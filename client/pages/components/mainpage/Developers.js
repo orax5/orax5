@@ -10,12 +10,7 @@ const Developers = () => {
         <div>DEVELOPERS</div>
         <div>
           <ProfileItems>
-            <Image
-              src="/Img/sample.jpg"
-              alt="profile_1"
-              width={220}
-              height={220}
-            />
+            <Image src="/Img/ym.png" alt="profile_1" width={230} height={230} />
             <ProfileContent>
               <h1>YOUNMI SON</h1>
               <h2>#FRONTEND</h2>
@@ -23,40 +18,35 @@ const Developers = () => {
           </ProfileItems>
           <ProfileItems>
             <Image
-              src="/Img/sample.jpg"
+              src="/Img/bell.png"
               alt="profile_2"
-              width={220}
-              height={220}
+              width={230}
+              height={230}
             />
             <ProfileContent>
               <h1>JONGCHAN KIM</h1>
-              <h2>#FRONTEND</h2>
+              <h2>#CEO</h2>
             </ProfileContent>
           </ProfileItems>
         </div>
         <div>
           <ProfileItems>
-            <Image
-              src="/Img/sample.jpg"
-              alt="profile_3"
-              width={220}
-              height={220}
-            />
+            <Image src="/Img/jy.png" alt="profile_3" width={230} height={230} />
             <ProfileContent>
               <h1>JUYOUNG AN</h1>
-              <h2>#CONTRACT</h2>
+              <h2>#SAWON</h2>
             </ProfileContent>
           </ProfileItems>
           <ProfileItems>
             <Image
-              src="/Img/sample.jpg"
+              src="/Img/choi.png"
               alt="profile_4"
-              width={220}
-              height={220}
+              width={230}
+              height={230}
             />
             <ProfileContent>
               <h1>HAJIN CHOI</h1>
-              <h2>#BACKEND</h2>
+              <h2>#PM</h2>
             </ProfileContent>
           </ProfileItems>
         </div>
@@ -90,7 +80,6 @@ const FirstBox = styled.div`
   > div:nth-child(2),
   div:nth-child(3) {
     ${(props) => props.theme.align.flexCenter};
-
     @media ${(props) => props.theme.device.tablet} {
       flex-direction: row;
     }
@@ -100,6 +89,7 @@ const FirstBox = styled.div`
 const ProfileItems = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
   width: 22rem;
+  margin: 0 1rem;
   @media ${(props) => props.theme.device.pc} {
     width: 20rem;
   }
@@ -108,6 +98,7 @@ const ProfileItems = styled.div`
   }
   @media ${(props) => props.theme.device.mobile} {
     width: 12rem;
+    margin: 0;
   }
   // 사진
   > img {
@@ -130,8 +121,9 @@ const ProfileItems = styled.div`
 // 이름, 설명 있는 부분
 const ProfileContent = styled.div`
   text-align: center;
+  font-size: 0.9rem;
   @media ${(props) => props.theme.device.tablet} {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     margin: 0.5rem;
   }
   @media ${(props) => props.theme.device.mobile} {

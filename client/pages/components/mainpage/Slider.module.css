@@ -1,0 +1,51 @@
+.sliderArea{
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    margin-top: 8rem;
+}
+.slider{
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+}
+.sliderList{
+    position: relative;
+    overflow: hidden;
+    display: block;
+    margin: 0;
+}
+
+.sliderTrack {
+  position: relative;
+  left: 50%;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  width: fit-content;
+  height: fit-content;
+  /* 전역으로 max-width : 100vw 한개 있어서 넣음 */
+  max-width: none !important;
+}
+
+.sliderItem{
+    position: relative;
+    height: 100%;
+    padding: 0 8rem;
+    /* 불투명도, 선택되지않은거는 백그라운드명암 어둡게 */
+    filter: brightness(50%);
+    display: inline-block;
+}
+
+.currentSlide{
+    filter: none;
+}
+
+.sliderItem img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    object-fit: cover;
+    user-select: none;
+}

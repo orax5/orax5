@@ -1,0 +1,73 @@
+.sliderArea{
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    /* 전역으로 max-width : 100vw 한개 있어서 넣음 */
+    max-width: none !important; 
+}
+.slider{
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+    max-width: none !important;
+}
+.sliderList{
+    position: relative;
+    overflow: hidden;
+    display: block;
+    margin: 0;
+    max-width: none !important;
+}
+
+.sliderTrack{
+    position: relative;
+    left: 50%;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    width: fit-content;
+    height: fit-content;
+    max-width: none !important;
+}
+
+.sliderItem{
+    position: relative;
+    height: 100%;
+    padding: 0 12px;
+    -webkit-filter: brightness(50%);
+    /* 불투명도, 선택되지않은거는 백그라운드명암 어둡게 */
+    filter: brightness(50%);
+    display: inline-block;
+    max-width: none !important;
+}
+
+.currentSlide{
+    -webkit-filter: none;
+    filter: none;
+    max-width: none !important;
+}
+
+.sliderItem img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    object-fit: cover;
+    /* max-height: 300px; */
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-select: none;
+    max-width: none !important;
+}

@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
-import SaleModal from "./SaleModal";
 import Pagination from "../Pagination";
 
 const MyNft = () => {
+  
+
   // 더미 데이터
   const Items = [
     { img: "1", id: 1, title: "test_title", price: "0.234ETH", amount: 2 },
@@ -28,18 +29,8 @@ const MyNft = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
-  const [modalOpen, setModalOpen] = useState(false); // 클릭했을때 트루폴스 반복
-  const [id, setId] = useState(null);
-  const [amount, setAmount] = useState(0);
   const router = useRouter();
-
-  // onClick 메서드
-  const showModalHandler = (id, amount) => {
-    setId(id);
-    setAmount(amount);
-    setModalOpen(!modalOpen); // 클릭했을때 트루폴스 반복
-  };
-
+ 
   useEffect(() => {
     setDatas(Items);
   }, []);
@@ -67,20 +58,19 @@ const MyNft = () => {
                 <span>{data.amount}</span>
               </OwnedNumber>
               <BtnBox>
-                <div onClick={() => showModalHandler(data.id, data.amount)}>
+                <div onClick={() => {router.push({
+                  pathname: `/mypage/${data.id}`,
+                  query:{amount: data.amount}
+                })}}>
+                {/* <div onClick={() => {router.push(`/mypage/${data.id}`);}}> */}
                   판매하기
                 </div>
-                <div
-                  onClick={() => {
-                    router.push(`/marketplace/${data.id}`);
-                  }}
-                >
+                <div onClick={() => {router.push(`/marketplace/${data.id}`);}}>
                   상세보기
                 </div>
               </BtnBox>
             </ItemCard>
           ))}
-          {modalOpen && <SaleModal id={id} amount={amount} />}
         </ListWrap>
         <Pagination
           total={datas.length}
