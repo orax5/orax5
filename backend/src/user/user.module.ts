@@ -3,7 +3,6 @@ import { AuthModule } from '../auth/auth.module';
 import { SignUpModule } from './signup/signup.module';
 import { LoginModule } from './login/login.module';
 import { MypageModule } from './mypage/mypage.module';
-<<<<<<< HEAD
 import { MycartModule } from './mycart/mycart.module';
                                                                                                                                                                                                           
 
@@ -11,18 +10,6 @@ import { MycartModule } from './mycart/mycart.module';
 // MypageModule
 @Module({
   imports:[SignUpModule, LoginModule, AuthModule, MycartModule],
-=======
-                                                                                                                                                                                                          
-
-// @Module({
-//   imports:[AuthModule],
-//   controllers: [UserLoginController, UserSignupController, UserMycartController, UserMypageController, UserLogoutController],
-//   providers: [AuthService ,UserLoginService, UserSignupService, UserMycartService, UserMypageService, PrismaService, UserLogoutService],
-//   exports: [UserLoginService, UserSignupService]
-// })
-@Module({
-  imports:[SignUpModule, LoginModule, AuthModule, MypageModule],
->>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
   controllers: [],
   providers: [],
   exports: []

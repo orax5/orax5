@@ -7,10 +7,7 @@ import * as jwt from 'jsonwebtoken'
 import { ConfigService } from '@nestjs/config';
 import { CreatorLoginDto } from '../creator/creator_dto/creator-login.dto';
 import { User } from '@prisma/client';
-<<<<<<< HEAD
 // 지갑 바꿨을때 토큰초기화
-=======
->>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
 
 // 여기서 비밀번호 해시화 해줘야함
 @Injectable()
@@ -44,11 +41,6 @@ export class AuthService {
         })
         // 로그인 토큰 발급
         // return {access_token: this.jwtService.sign(payload)} 
-<<<<<<< HEAD
-=======
-
-        // expiresIn : 토큰 살아있는 시간
->>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
     }
 
     // 토큰이 우리서버에서 발급한게 맞는지 확인

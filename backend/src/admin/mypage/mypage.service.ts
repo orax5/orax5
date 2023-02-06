@@ -1,9 +1,10 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class MypageService {
-    constructor(private prisma: PrismaService){}
+    constructor(private prisma: PrismaService, private http: HttpService){}
 
     // 상태값이 1인 심사대기중인 목록만 뽑아옴
     // 잘된다!
@@ -49,7 +50,8 @@ export class MypageService {
         }
     }
 
-    // admin이 승인 OK 해줬을때 해줌
+    // admin이 승인거절 했을때 실행할 함수
+    // 여기서 s3에 저장한 이미지 삭제하기
     async updateReject(fundingID: number){
         if(fundingID)console.log('아이디값 잘받아옴', fundingID);
         
@@ -61,6 +63,8 @@ export class MypageService {
                 shin_ispermit : 3,
             }
         })
+
+
         if(result){
             console.log('승인 반려처리 성공');
             return result;

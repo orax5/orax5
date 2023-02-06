@@ -14,7 +14,6 @@ export class SignupService {
     constructor(private prisma: PrismaService, private userLoginService : UserLoginService){}
 
     async signUP(signupform: CreateUserDto): Promise<User>{
-<<<<<<< HEAD
             const userwallet = signupform.user_wallet;// 회원가입창에서 지갑주소만 추출
             const enterPWD = signupform.user_pwd;
             const newsignupForm = {...signupform}
@@ -24,15 +23,6 @@ export class SignupService {
             const existNickName = this.isExistNickName(signupform.user_nickname);
 
             if(exist && existNickName){ // 이미 존재하는 계정이 아니라면 가입시켜주기
-=======
-        try {
-            const userwallet = signupform.user_wallet;// 회원가입창에서 지갑주소만 추출
-            const enterPWD = signupform.user_pwd;
-            const newsignupForm = {...signupform}
-            // 이미 존재하는 유저인지 확인
-            const exist = this.userLoginService.findOne(userwallet); // boolean
-            if(!exist){ // 이미 존재하는 계정이 아니라면
->>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
                 bcrypt.hash(enterPWD, 10, (err, encryptedPw: string): any =>{
                     newsignupForm.user_pwd = encryptedPw;
                 });
@@ -40,7 +30,6 @@ export class SignupService {
                     data: newsignupForm // 이미 객체 라서 그래도 넣어도 된다
                 })
             }
-<<<<<<< HEAD
     }
 
     
@@ -70,12 +59,6 @@ export class SignupService {
             return true;
         } catch (error) {
             throw new HttpException('중복된 아이디입니다.', HttpStatus.BAD_REQUEST);
-=======
-            console.log('회원가입 완료');
-        } catch (e) {
-            console.log('회원가입 오류');
-            throw new Error(e)
->>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
         }
     }
 }

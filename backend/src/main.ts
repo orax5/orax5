@@ -19,7 +19,6 @@ if(process.env.NODE_ENV === 'local'){
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-<<<<<<< HEAD
   dotenv.config({path: path.join(__dirname, './.env-local')});
   app.useGlobalPipes(
     new ValidationPipe({ 
@@ -31,11 +30,5 @@ async function bootstrap() {
   console.log(`PORT NUM : ${PORT}`);
   console.log(process.env.NODE_ENV);
   console.log(process.env.DATABASE_URL);
-=======
-  app.useGlobalPipes(new ValidationPipe()); // validation 전역설정
-  const PORT = process.env.PORT || 3000;
-  await app.listen(PORT);
-  console.log(`PORT NUM : ${PORT}`);
->>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
 }
 bootstrap();

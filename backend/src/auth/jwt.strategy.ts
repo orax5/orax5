@@ -13,10 +13,6 @@ const KEY = process.env.JWT_SECRET || 'secretKey';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy){
     constructor(private config: ConfigService){
-<<<<<<< HEAD
-=======
-
->>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
         super({
             jwtFromRequest : ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
@@ -25,7 +21,6 @@ export class JwtStrategy extends PassportStrategy(Strategy){
     }
 
     async validate(payload: any){
-        
         return { user_wallet: payload.sub, username: payload.user_wallet}
     }
 

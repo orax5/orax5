@@ -12,7 +12,6 @@ export class UserLoginService {
 
     // 지갑주소로 유저 찾기(가입한 유저인지 확인)
     // 특정유저 찾아서 결과 return
-<<<<<<< HEAD
     findOne(userwallet: string): Promise<User|null>{
         try {
             const result = this.prisma.user.findUnique({ where :{
@@ -28,11 +27,6 @@ export class UserLoginService {
     getUser(userwallet: string): Promise<User>{
         try {
             const result = this.prisma.user.findUnique({ where :{
-=======
-    async findOne(userwallet: string): Promise<User>{
-        try {
-            const result = await this.prisma.user.findUnique({ where :{
->>>>>>> ab1d76c77237eed433f294d227fdef86b43930f2
                 user_wallet : userwallet,
                 },
             });
