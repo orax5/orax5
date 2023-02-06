@@ -8,6 +8,8 @@ import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
 // import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 // import "@openzeppelin/contracts/access/Ownable.sol";
 
+import "./FunddingToken.sol";
+
 // 상속만 받으면 배포 진행할때 owner 상태변수에 컨트랙트 배포자의 EOA 계정이 담긴다.
 
 contract DtsToken is ERC1155, Ownable{
@@ -41,6 +43,8 @@ contract DtsToken is ERC1155, Ownable{
 
     // FunddingTokenCA를 담는 상태변수
     address private _funddingCA;
+
+    FunddingToken public Ftoken;
 
     // 해당 음원의 최초발행자인 크리에이터 주소, 목표 금액, 발행량, NFT펀딩 가격, 펀딩 기간을 구조체로 담아 놓는 매핑
     mapping(uint256 => tokenOwnerData) public tokenOwners;
@@ -125,6 +129,8 @@ contract DtsToken is ERC1155, Ownable{
 
     // 유저가 펀딩 신청하고 펀딩이 성공했으면 성공 여부를 true;
     function isFunddingSuccess(uint256 tokenId) external{
+        require(ERC1155.balanceOf(tokenOwners[tokenId].Creater, tokenId) == 0, "Is it sold out?");
+        require(Ftoken.priceCheck(tokenId) == tokenOwners[tokenId].NftAmount);
         tokenOwners[tokenId].isSuccess = true;
     }
 
@@ -146,6 +152,8 @@ contract DtsToken is ERC1155, Ownable{
     function isChangedCA(address account) external {
         require(account == msg.sender,"????");
         _funddingCA = account;
+        // 생성자에서 배포된 FunddingToken CA를 받아서 Ftoken 상태변수에 저장한다.
+        Ftoken = FunddingToken(account); 
     }
 
     // 실행시킨 주체가 SaleCA인지 확인하는 함수 제어자
