@@ -1,27 +1,27 @@
 //import { Transform } from "class-transformer";
-import { IsEmail, IsString, Matches } from "class-validator"
+import { IsEmail, IsString, Matches } from 'class-validator';
 // userSignUpDto 였음
-export class CreateUserDto{
-   // @Transform(params => params.value.trim()) // 입력값중 공백 제거
-    @IsString()
-    @IsEmail()
-    user_email: string;
+export class CreateUserDto {
+  // @Transform(params => params.value.trim()) // 입력값중 공백 제거
+  @IsString()
+  @IsEmail()
+  user_email: string;
 
-    @IsString()
-    @Matches(/^[A-Za-z\d!@#$%^&*()]{8,30}$/) // 정규식적용
-    user_pwd: string
+  @IsString()
+  @Matches(/^[A-Za-z\d!@#$%^&*()]{8,30}$/) // 정규식적용
+  user_pwd: string;
 
-    @IsString()
-    user_wallet: string
+  @IsString()
+  user_wallet: string;
 
-    @IsString()
-    user_nickname: string
+  @IsString()
+  user_nickname: string;
 
-    user_grade?: number
-    
-    user_streaming?: number
+  user_grade?: number;
 
-    user_email_token?: string
+  user_streaming?: number;
+
+  user_email_token?: string;
 }
 // user_email_token 크리에이터 이메일 인증할때 담아보내줄 무작위 문자열
 // user_grade :  1- 일반유저 2- crator 3-admin

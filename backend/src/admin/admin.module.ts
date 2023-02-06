@@ -3,8 +3,8 @@ import { MypageModule } from './mypage/mypage.module';
 import { AddmusicModule } from './addmusic/addmusic.module';
 
 @Module({
-    imports: [MypageModule, AddmusicModule],
-    controllers: [],
-    providers: []
+  imports: [MypageModule, AddmusicModule],
+  controllers: [],
+  providers: [],
 })
 export class AdminModule {}

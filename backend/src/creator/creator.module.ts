@@ -11,12 +11,19 @@ import { UploadsModule } from '../uploads/uploads.module';
 import { OpenfundingModule } from './openfunding/openfunding.module';
 
 // OpenfundingModule
-@Module({ 
-  imports: [CreatorSignupModule, AuthModule, CreatorLoginModule, UserModule, ShinchungModule, HttpModule, OpenfundingModule,UploadsModule
-    
+@Module({
+  imports: [
+    CreatorSignupModule,
+    AuthModule,
+    CreatorLoginModule,
+    UserModule,
+    ShinchungModule,
+    HttpModule,
+    OpenfundingModule,
+    UploadsModule,
   ],
   controllers: [],
-  providers: []
+  providers: [],
 })
 export class CreatorModule {}
 

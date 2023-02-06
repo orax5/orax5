@@ -1,24 +1,30 @@
-import { Controller, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { Expr } from "aws-sdk/clients/cloudsearchdomain";
+import {
+  Controller,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+// import { Expr } from 'aws-sdk/clients/cloudsearchdomain';
 import { UploadsService } from './uploads.service';
 
 @Controller('file')
 export class UploadsController {
-    constructor(private readonly uploadService: UploadsService){}
+  constructor(private readonly uploadService: UploadsService) {}
 
-    // 앞단에서 이미지는 따로 등록하도록한다음 url리턴하는거 받아오자
-    // 업로드 완성
-    @Post('/upload')
-    @UseInterceptors(FileInterceptor('file'))
-    async s3Upload(@UploadedFile() file:Express.MulterS3.File){ // 주의 : Express.Multer.File 랑 다른객체
-        const url = await this.uploadService.s3Upload(file);
-        console.log("@@@@ 컨트롤러",url);
-    }
+  // 앞단에서 이미지는 따로 등록하도록한다음 url리턴하는거 받아오자
+  // 업로드 완성
+  @Post('/upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async s3Upload(@UploadedFile() file: Express.MulterS3.File) {
+    // 주의 : Express.Multer.File 랑 다른객체
+    const url = await this.uploadService.s3Upload(file);
+    console.log('@@@@ 컨트롤러', url);
+  }
 }
 
 // 파일 전송 이런식으로 전송
-    /*
+/*
       {
         fieldname: 'file',
         originalname: 'sample.png',
