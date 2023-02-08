@@ -7,11 +7,11 @@ import { LocalStrategy } from '../../auth/local.strategy';
 
 @Controller('user')
 export class SignupController {
-  constructor(private readonly signupService: SignupService) {}
+    constructor(private readonly signupService: SignupService){ }
 
-  // 회원가입
-  @Post('/signup')
-  async createUser(@Body() userSignUpData: CreateUserDto): Promise<User> {
-    return await this.signupService.signUP(userSignUpData);
-  }
+    // 회원가입
+    @Post('/signup')
+    async createUser(@Body() userSignUpData: CreateUserDto):Promise<User>{
+        return await this.signupService.signUP(userSignUpData);
+    }
 }

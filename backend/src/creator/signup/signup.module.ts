@@ -7,20 +7,9 @@ import { UserLoginService } from '../../user/login/login.service';
 import { CacheService } from '../../cache/cache.service';
 
 @Module({
-<<<<<<< HEAD
     imports:[],
     controllers:[CreatorSignupController],
     providers:[CreatorSignupService, PrismaService, EmailService, UserLoginService, CacheService]
     
-=======
-  imports: [],
-  controllers: [CreatorSignupController],
-  providers: [
-    CreatorSignupService,
-    PrismaService,
-    EmailService,
-    UserLoginService,
-  ],
->>>>>>> main
 })
 export class CreatorSignupModule {}

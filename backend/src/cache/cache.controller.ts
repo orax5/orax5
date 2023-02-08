@@ -1,5 +1,5 @@
 import { CACHE_MANAGER, Controller, Inject, Get } from '@nestjs/common';
-import {Cache } from 'cache-manager'
+import { Cache } from 'cache-manager'
 
 @Controller('/cache')
 export class CacheController {

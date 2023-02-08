@@ -1,9 +1,10 @@
 import { Injectable, Inject, CACHE_MANAGER } from '@nestjs/common';
-import {Cache } from 'cache-manager'
+import { forwardRef } from '@nestjs/common/utils';
+import { Cache } from 'cache-manager'
 
 @Injectable()
 export class CacheService {
-    constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache){}
+    constructor(@Inject(forwardRef(() => CACHE_MANAGER)) private readonly cache: Cache){}
 
     // 캐시에서 항목을 검색할때 사용
     async get(key: string): Promise<any>{
