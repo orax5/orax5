@@ -1,30 +1,30 @@
 -- CreateTable
 CREATE TABLE `User` (
     `user_no` INTEGER NOT NULL AUTO_INCREMENT,
-    `user_email` VARCHAR(500) NOT NULL,
-    `user_pwd` VARCHAR(50) NOT NULL,
-    `user_nickname` VARCHAR(30) NOT NULL,
+    `user_email` CHAR(20) NOT NULL,
+    `user_pwd` VARCHAR(191) NOT NULL,
+    `user_nickname` CHAR(12) NOT NULL,
     `user_grade` INTEGER NOT NULL DEFAULT 1,
-    `user_wallet` VARCHAR(191) NOT NULL,
-    `user_email_token` VARCHAR(191) NULL,
+    `user_wallet` CHAR(64) NOT NULL,
+    `user_email_token` VARCHAR(191) NOT NULL DEFAULT '',
 
     UNIQUE INDEX `User_user_email_key`(`user_email`),
     UNIQUE INDEX `User_user_wallet_key`(`user_wallet`),
-    UNIQUE INDEX `User_user_email_token_key`(`user_email_token`),
     PRIMARY KEY (`user_no`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Shinchunghada` (
     `shin_no` INTEGER NOT NULL AUTO_INCREMENT,
+    `shin_title` CHAR(20) NOT NULL,
     `shin_amount` INTEGER NOT NULL,
     `shin_nft_totalbalance` INTEGER NOT NULL,
     `shin_cover` VARCHAR(191) NOT NULL,
-    `shin_opendate` DATETIME(3) NOT NULL,
+    `shin_opendate` VARCHAR(191) NOT NULL,
     `shin_description` VARCHAR(191) NOT NULL,
     `shin_category` VARCHAR(191) NOT NULL,
     `shin_ispermit` INTEGER NOT NULL DEFAULT 1,
-    `shin_creator_address` VARCHAR(191) NOT NULL,
+    `shin_creator_address` CHAR(64) NOT NULL,
 
     PRIMARY KEY (`shin_no`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -73,10 +73,10 @@ CREATE TABLE `Lyricist` (
 CREATE TABLE `Music` (
     `music_no` INTEGER NOT NULL AUTO_INCREMENT,
     `music_title` VARCHAR(50) NOT NULL,
-    `music_lyricist` VARCHAR(191) NOT NULL,
-    `music_composer` VARCHAR(191) NOT NULL,
-    `music_singer` VARCHAR(191) NOT NULL,
-    `music_category` INTEGER NOT NULL,
+    `music_lyricist` CHAR(20) NOT NULL,
+    `music_composer` CHAR(20) NOT NULL,
+    `music_singer` CHAR(20) NOT NULL,
+    `music_category` CHAR(20) NOT NULL,
     `music_description` VARCHAR(191) NOT NULL,
     `music_isfunding` BOOLEAN NULL,
 

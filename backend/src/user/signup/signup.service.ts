@@ -39,7 +39,7 @@ export class SignupService {
             const userwallet = user_wallet;
             // 이미 존재하는 유저인지 확인
             const exist = this.userLoginService.findOne(userwallet);
-            if(exist){
+            if(exist == null||undefined){
                 return false;
             } 
             return true;
@@ -53,7 +53,7 @@ export class SignupService {
         try {
             const exist = this.userLoginService.findOne(user_nickname);
             // 값이 존재하면
-            if(exist){
+            if(exist == null||undefined){
                 return false;
             }
             return true;

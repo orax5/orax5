@@ -3,7 +3,7 @@ import { CreatorShinchungService } from './shinchung.service';
 import { JwtAuthGuard } from '../../auth/jwt-auth';
 import { CreatorShinChungDto } from '../creator_dto/shinchung.dto';
 import { Shinchunghada } from '@prisma/client';
-import { UploadsService } from '../../uploads/uploads.service';
+import { UploadsService } from '../../file-s3/uploads/uploads.service';
 
 @Controller('creator')
 export class CreatorShinchungController {

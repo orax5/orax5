@@ -11,6 +11,7 @@ export class CreatorShinchungService {
         try {
             const result = this.prisma.shinchunghada.create({
                 data: {
+                    shin_title: shinchungData.shin_title,
                     shin_amount: shinchungData.shin_amount,
                     shin_nft_totalbalance: shinchungData.shin_nft_totalbalance,
                     shin_cover: shinchungData.shin_cover,

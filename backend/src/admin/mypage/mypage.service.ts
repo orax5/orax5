@@ -4,7 +4,7 @@ import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class MypageService {
-    constructor(private prisma: PrismaService, private http: HttpService){}
+    constructor(private prisma: PrismaService, private readonly http: HttpService){}
 
     // 상태값이 1인 심사대기중인 목록만 뽑아옴
     // 잘된다!
@@ -63,6 +63,16 @@ export class MypageService {
                 shin_ispermit : 3,
             }
         })
+
+        const deleteImag = await this.prisma.shinchunghada.findFirst({
+            where: {
+                shin_no : fundingID
+            }
+        })
+        const title =  deleteImag.shin_title;
+
+        // post 요청보내기
+        // this.http.post(`http://localhost:3001/deleteS3/${title}`)
 
 
         if(result){

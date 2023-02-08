@@ -26,6 +26,8 @@ export class EmailService {
 
     async sendCreatorJoinVerification(emailAddress: string, signupVerifyToken: string){
         // nodemailer 연결이 잘 됐는지 확인
+        console.log("메일전송 했다");
+        
         this.transporter.verify(function (error, success) {
             if (error) {
               console.log(error);
@@ -34,7 +36,7 @@ export class EmailService {
             }
           });
 
-        const baseURL = 'http://localhost:3000';
+        const baseURL = 'http://localhost:3001';
 
         // 유저가 누를 버튼이 가질링크 구성, 이 링크로 다시 우리 서비스로 이메일 인증요청이 들어옴
         // /creator_signup/email_verify 이 주소로 다시 요청을보냄
