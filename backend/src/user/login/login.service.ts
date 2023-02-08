@@ -14,39 +14,21 @@ export class UserLoginService {
   // PrismaService 이걸 지정해야하는게 아닌감 // PrismaClient 이었음 처음에
   constructor(private readonly prisma: PrismaService) {}
 
-<<<<<<< HEAD
-    // 지갑주소로 유저 찾기(가입한 유저인지 확인)
-    // 특정유저 찾아서 결과 return
-   async findOne(userwallet: string): Promise<any>{
-            const result = await this.prisma.user.findUnique({ 
-                where :
-                {
-                    user_wallet : userwallet,
-                },
-            });
-            if(result == null || undefined ){
-                throw new HttpException('아이디가 존재하지 않습니다.', HttpStatus.BAD_REQUEST); // 오류번호 수정예정
-            }
-            return result;
-    
-=======
   // 지갑주소로 유저 찾기(가입한 유저인지 확인)
   // 특정유저 찾아서 결과 return
-  findOne(userwallet: string): Promise<User | null> {
-    try {
-      const result = this.prisma.user.findUnique({
-        where: {
-          user_wallet: userwallet,
-        },
-      });
-      return result;
-    } catch (error) {
+  async findOne(userwallet: string): Promise<any> {
+    const result = await this.prisma.user.findUnique({
+      where: {
+        user_wallet: userwallet,
+      },
+    });
+    if (result == null || undefined) {
       throw new HttpException(
         '아이디가 존재하지 않습니다.',
         HttpStatus.BAD_REQUEST,
       ); // 오류번호 수정예정
->>>>>>> main
     }
+    return result;
   }
 
   getUser(userwallet: string): Promise<User> {
@@ -65,7 +47,6 @@ export class UserLoginService {
     }
   }
 }
-
 //====== AUTH에 로그인 새로 만듬
 // async login(loginForm: userLoginDto): Promise<User | undefined>{
 //     try {

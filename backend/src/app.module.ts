@@ -4,23 +4,15 @@ import { CreatorModule } from './creator/creator.module';
 // import { AdminModule } from './admin/admin.module';
 
 import { APP_PIPE } from '@nestjs/core';
-<<<<<<< HEAD
 import { ValidationPipe, CacheModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UploadsModule } from './file-s3/uploads/uploads.module';
-=======
-import { ValidationPipe } from '@nestjs/common';
-import { EmailService } from './email/email.service';
-import { ConfigModule } from '@nestjs/config';
-import { UploadsModule } from './uploads/uploads.module';
->>>>>>> main
 import { LoggerMiddleware } from './middlewears/logger.middleware';
 import { EmailModule } from './email/email.module';
 import { PrismaService } from './prisma.service';
 import { AdminModule } from './admin/admin.module';
 import { DownloadModule } from './file-s3/download/download.module';
 import { FileS3Module } from './file-s3/file-s3.module';
-
 
 //import { AppController } from './app.controller';
 import * as redisStore from 'cache-manager-ioredis';
@@ -29,24 +21,17 @@ import * as redisStore from 'cache-manager-ioredis';
 // @Global()
 @Module({
   //DownloadModule,
-<<<<<<< HEAD
-  imports: [UserModule, CreatorModule, AdminModule, EmailModule, UploadsModule, FileS3Module,
-=======
   imports: [
     UserModule,
     CreatorModule,
     AdminModule,
     EmailModule,
     UploadsModule,
->>>>>>> main
+    FileS3Module,
     ConfigModule.forRoot({
       isGlobal: true, // 전체적으로 사용하기 위해
       envFilePath: `${process.env.NODE_ENV}.env`,
     }),
-<<<<<<< HEAD
-
-=======
->>>>>>> main
   ],
   controllers: [],
   providers: [
@@ -66,7 +51,6 @@ export class AppModule implements NestModule {
     consumer.apply(LoggerMiddleware).forRoutes('/user_*');
   }
 }
-
 
 /*
       CacheModule.register({

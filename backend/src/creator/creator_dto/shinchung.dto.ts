@@ -1,14 +1,7 @@
 import { IsString } from 'class-validator';
 
-<<<<<<< HEAD
-export class CreatorShinChungDto{
-    shin_title: string;
-    
-    shin_amount: any;
-=======
 export class CreatorShinChungDto {
   shin_title: string;
->>>>>>> main
 
   shin_amount: any;
 

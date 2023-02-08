@@ -8,12 +8,7 @@ import { AuthService } from '../../auth/auth.service';
 @Module({
   imports: [],
   controllers: [SignupController],
-<<<<<<< HEAD
   providers: [SignupService, PrismaService, UserLoginService, AuthService],
-  exports: []
-=======
-  providers: [SignupService, PrismaService, UserLoginService],
   exports: [],
->>>>>>> main
 })
 export class SignUpModule {}

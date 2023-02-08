@@ -12,11 +12,6 @@ import { UploadsModule } from '../file-s3/uploads/uploads.module';
 import { OpenfundingModule } from './openfunding/openfunding.module';
 
 // OpenfundingModule
-<<<<<<< HEAD
-@Module({ 
-  imports: [CreatorSignupModule, AuthModule, CreatorLoginModule, UserModule, ShinchungModule, HttpModule, OpenfundingModule, UploadsModule,
-    RedisCacheModule    
-=======
 @Module({
   imports: [
     CreatorSignupModule,
@@ -27,7 +22,7 @@ import { OpenfundingModule } from './openfunding/openfunding.module';
     HttpModule,
     OpenfundingModule,
     UploadsModule,
->>>>>>> main
+    RedisCacheModule,
   ],
   controllers: [],
   providers: [],

@@ -1,15 +1,13 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-// import { HttpService } from '@nestjs/axios';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class MypageService {
-<<<<<<< HEAD
-    constructor(private prisma: PrismaService, private readonly http: HttpService){}
-=======
-  // constructor(private prisma: PrismaService, private http: HttpService) {}
-  constructor(private prisma: PrismaService) {}
->>>>>>> main
+  constructor(
+    private prisma: PrismaService,
+    private readonly http: HttpService,
+  ) {}
 
   // 상태값이 1인 심사대기중인 목록만 뽑아옴
   // 잘된다!
@@ -61,27 +59,15 @@ export class MypageService {
   async updateReject(fundingID: number) {
     if (fundingID) console.log('아이디값 잘받아옴', fundingID);
 
-<<<<<<< HEAD
-        const deleteImag = await this.prisma.shinchunghada.findFirst({
-            where: {
-                shin_no : fundingID
-            }
-        })
-        const title =  deleteImag.shin_title;
-
-        // post 요청보내기
-        // this.http.post(`http://localhost:3001/deleteS3/${title}`)
-
-=======
-    const result = await this.prisma.shinchunghada.update({
+    const result = await this.prisma.shinchunghada.findFirst({
       where: {
         shin_no: fundingID,
       },
-      data: {
-        shin_ispermit: 3,
-      },
     });
->>>>>>> main
+    const title = result.shin_title;
+
+    // post 요청보내기
+    // this.http.post(`http://localhost:3001/deleteS3/${title}`)
 
     if (result) {
       console.log('승인 반려처리 성공');
