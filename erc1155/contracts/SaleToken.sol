@@ -2,8 +2,6 @@
 pragma solidity ^0.8.17;
 
 import "../node_modules/openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
-//import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "../node_modules/openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
 // import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import "./DtsToken.sol";
@@ -41,22 +39,25 @@ contract SaleToken is DtsToken{
     // // 판매중인 전체 리스트를 담는 배열형태의 상태 변수 
     // SaleTokenInfo[] private _saleTokenList;
 
-    // 이벤트 선언
+    // 판매 등록 이벤트 
     event SaleEvent(address account, uint256 tokenId, uint256 amount, uint256 price);
+    // 판매 취소 이벤트
     event CancelEvent(address account, uint256);
+    // 구매 이벤트
+    event purchaseTokenEvnet(address owner, address account, uint256 tokenId, uint256 amount, uint256 price);
 
     // 판매 등록 함수
     function salesToken(uint256 tokenId ,uint256 amount, uint256 price) public isSaleError(tokenId){
         // 판매하려는 갯수가 본인이 가지고 있는 갯수를 넘지 않는지.
-        require(DToken.balanceOf(msg.sender, tokenId) >= amount, "Please enter the exact quantity.");
-        // 판매 가격이 0보다 큰 값인지 확인
-        require(price > 0,"Please enter the correct price.");
-        // 판매 물량이 0보다 큰 값인지 확인
-        require(amount > 0,"Please enter the correct amount.");
-        // 판매 권한이 있는지 확인한다.
-        require(DToken.isApprovedForAll(msg.sender,address(this)),"be not approved");
-        // 펀딩이 성공된 음원인지 확인
-        require(DToken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
+        // require(DToken.balanceOf(msg.sender, tokenId) >= amount, "Please enter the exact quantity.");
+        // // 판매 가격이 0보다 큰 값인지 확인
+        // require(price > 0,"Please enter the correct price.");
+        // // 판매 물량이 0보다 큰 값인지 확인
+        // require(amount > 0,"Please enter the correct amount.");
+        // // 판매 권한이 있는지 확인한다.
+        // require(DToken.isApprovedForAll(msg.sender,address(this)),"be not approved");
+        // // 펀딩이 성공된 음원인지 확인
+        // require(DToken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
 
         SaleTokenInfo memory data = _getSalesTokenData(msg.sender, tokenId, amount, price);
         _saleTokenList[tokenId][_saleNumber[tokenId]] = data;
@@ -115,6 +116,8 @@ contract SaleToken is DtsToken{
         _saleTokenList[tokenId][listId].amount = _saleTokenList[tokenId][listId].amount - amount;
 
         DToken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
+        // 구매 함수 이벤트
+        emit purchaseTokenEvnet(owner, msg.sender, tokenId, amount, msg.value);
     }
 
     // 음원에 대한 중복 판매 등록 여부를 확인한다. 한번 등록했으면 amount는 0이 아니므로 다시 등록하려면 취소하고 등록해야 한다.

@@ -5,6 +5,7 @@ import styled from "styled-components";
 //  promise resolve 과정 없이도 변수에 할당할 수 있도록 해준다
 import dynamic from "next/dynamic";
 import Offers from "../components/Offers";
+import Offers2 from "../components/Offers2";
 
 const deatil = () => {
    
@@ -42,10 +43,7 @@ const deatil = () => {
                   <td>가수</td>
                   <td>프로필 확인하기</td>
                 </tr>
-                <tr>
-                  <td>판매기간</td>
-                  <td>~ 2023-02-20</td>
-                </tr>
+                {/* 이부분 마켓플레이스에서 판매기간삭제함 */}
                 <tr>
                   <td>수량</td>
                   <td>
@@ -76,187 +74,14 @@ const deatil = () => {
               <div>음원 설명음원 설명음원 설명</div>
             </AboutNft>
           </InfoBox>
-          <InfoBox>   
-            <div style={{width:"100%", textAlign:"center"}}>
-              호가창
-            </div>
-            <div>
-              <AskingPriceUI> 
-                <li>판매 수량</li>
-                <li>가격</li>
-                <li>구매 수량</li>
-              </AskingPriceUI>
-              {/* 구매상태창 */}
-              <div className="Sell" style={{display:"flex"}}>
-                <PriceBox>
-                  <PriceRow>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                    <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                    <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                    <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                    <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                    <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units>
-                  </PriceRow>
-                </PriceBox>
-                <ExtraBox>
-                  <div>
-                    <span>상한가</span>
-                    <strong style={{color:"red"}}>23,100</strong>
-                  </div>
-                  <div>
-                    <span>하한가</span>
-                    <strong style={{color:"blue"}}>23,100</strong>
-                  </div>
-                  <div>
-                    <span>전일종가</span>
-                    <strong style={{color:"white"}}>23,100</strong>
-                  </div>
-                  <div>
-                    <span>최근1주일</span>
-                  </div>
-                  <div>
-                    <span>최고가</span>
-                    <strong style={{color:"red"}}>23,100</strong>
-                  </div>
-                  <div>
-                    <span>최저가</span>
-                    <strong style={{color:"blue"}}>23,100</strong>
-                  </div>
-                </ExtraBox>
-              </div>
-              {/* 판매상태창 */}
-              <div className="Buy" style={{display:"flex"}}>
-                <ExtraBox>
-                    <div>
-                      <span>상한가</span>
-                      <strong style={{color:"red"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>하한가</span>
-                      <strong style={{color:"blue"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>전일종가</span>
-                      <strong style={{color:"white"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>최근1주일</span>
-                    </div>
-                    <div>
-                      <span>최고가</span>
-                      <strong style={{color:"red"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>최저가</span>
-                      <strong style={{color:"blue"}}>23,100</strong>
-                    </div>
-                </ExtraBox>
-                <PriceBox>
-                  <PriceRow>
-                    <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units_buy>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units_buy>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units_buy>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units_buy>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units_buy>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                  </PriceRow>
-                </PriceBox>
-              </div>
-            </div>
+          <InfoBox>
+            <div>Offer</div>
+            <Offers2
+                // 이것도 전역으로 관리해야할삘인데 
+                // offerAmount={offerAmount} 
+                // offerPrice ={offerPrice} 
+                // offerAccount={offerAccount}
+            />
           </InfoBox>
           <InfoBox>
             <div>거래 내역</div>

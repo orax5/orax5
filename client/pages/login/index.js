@@ -2,22 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Link from "next/Link";
-import { ethers } from "ethers"
+import { ethers } from "ethers";
 import { login } from "../../redux/modules/user";
 // 지갑연결
-import { useWeb3React } from '@web3-react/core';
-import { injected } from './../../lib/connectors';
-// 
+import { useWeb3React } from "@web3-react/core";
+import { injected } from "./../../lib/connectors";
+//
 import dtsToken from "../../contracts/DtsToken.json";
 import fToken from "../../contracts/FunddingToken.json";
 import sToken from "../../contracts/SaleToken.json";
-
 
 const index = () => {
   const dispatch = useDispatch();
 
   const [inputs, setInputs] = useState({
-    email : "",
+    email: "",
     password: "",
   });
 
@@ -32,46 +31,60 @@ const index = () => {
     deactivate, // deactivate: dapp 월렛 해제 수행함수
   } = useWeb3React();
 
-  const Provider = library;  
+  const Provider = library;
 
   // 메타마스크 깔려 있는지 여부 확인
   // if (typeof window.ethereum !== 'undefined') {
   //    console.log('MetaMask is installed!');
   // }
 
-   // 지갑 연결
-   const onClickActivateHandler = () => {
+  // 지갑 연결
+  const onClickActivateHandler = () => {
     activate(injected, (error) => {
       if (isNoEthereumObject(error))
         window.open("https://metamask.io/download.html");
     });
-  }
+  };
 
   // 연결 해제
   const onClickDeactivateHandler = () => {
     deactivate(); // connector._events.Web3ReactDeactivate() 이거랑 같은건데
-  }
+  };
 
   const signin = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-    const tokenData = {
-      Dtoken : new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi, provider.getSigner()),
-      Ftoken : new ethers.Contract(fToken.networks[chainId].address, fToken.abi, provider.getSigner()),
-      Stoken : new ethers.Contract(sToken.networks[chainId].address, sToken.abi, provider.getSigner()),
-      dtokenCA : dtsToken.networks[chainId].address,
-      ftokenCA : fToken.networks[chainId].address,
-      stokenCA : sToken.networks[chainId].address,
-    }
-    dispatch(login( 
-      account,
-      inputs.email,
-      inputs.password,
-      tokenData
-    ));
-  }
+    // console.log("check Stoken @@@@",
+    //   new ethers.Contract(
+    //     sToken.networks[chainId].address,
+    //     sToken.abi,
+    //     provider.getSigner()
+    //   )
+    // );
 
-  
+    const tokenData = {
+      Dtoken: new ethers.Contract(
+        dtsToken.networks[chainId].address,
+        dtsToken.abi,
+        provider.getSigner()
+      ),
+      Ftoken: new ethers.Contract(
+        fToken.networks[chainId].address,
+        fToken.abi,
+        provider.getSigner()
+      ),
+      Stoken: new ethers.Contract(
+        sToken.networks[chainId].address,
+        sToken.abi,
+        provider.getSigner()
+      ),
+      dtokenCA: dtsToken.networks[chainId].address,
+      ftokenCA: fToken.networks[chainId].address,
+      stokenCA: sToken.networks[chainId].address,
+    };
+    dispatch(login(account, inputs.email, inputs.password, tokenData));
+  };
+
   return (
     <MainContainer>
       <div></div>
@@ -95,7 +108,7 @@ const index = () => {
               type="email"
               name="email"
               placeholder="이메일"
-              onChange={e=> setInputs({...inputs, email:e.target.value})}
+              onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
             />
             <label htmlFor="password">이메일</label>
           </InputBox>
@@ -105,17 +118,14 @@ const index = () => {
               type="password"
               name="password"
               placeholder="비밀번호"
-              onChange={e=> setInputs({...inputs, password:e.target.value})}
+              onChange={(e) =>
+                setInputs({ ...inputs, password: e.target.value })
+              }
             />
             <label htmlFor="password">비밀번호</label>
           </InputBox>
           <Forgot>비밀번호 찾기</Forgot>
-<<<<<<< HEAD
-          <Submit type="submit" value="로그인" />
-          {test}
-=======
           <Submit onClick={signin} type="submit" value="로그인" />
->>>>>>> main
           <Link href="/login/join">
             <Submit type="submit" value="회원가입" />
           </Link>

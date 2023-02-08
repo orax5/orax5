@@ -1,6 +1,7 @@
 // 액션 타입
 const JOIN = "user/JOIN";
 const LOGIN = "user/LOGIN";
+// const SALEREG = "user/SALEREG"
 
 // 액션 함수
 export const signUp = (
@@ -33,6 +34,8 @@ export const login = (account,email,password,tokenData) => {
       data: { account, email, password },
     };
     const data = loginInfo.data;
+
+   // console.log("data : tokenData",tokenData);
     console.log(data);
     dispatch({
       type: LOGIN,
@@ -41,10 +44,25 @@ export const login = (account,email,password,tokenData) => {
   };
 };
 
+export const SaleReg = (offerAccount,offerAmount,offerPrice) => {
+  return async (dispatch, getState) => {
+    const SaleInfgo = {
+      data: {offerAccount,offerAmount,offerPrice},
+    };
+    const data = SaleInfgo.data;
+    console.log(data)
+    dispatch({
+      type: SALEREG,
+      payload: data
+    })
+  }
+}
+
 // 초기값
 const init = {
   users: {},
-  contracts : {}
+  contracts : {},
+  // saleInfo : {}
 };
 
 // 리듀서
@@ -56,6 +74,10 @@ export default function user(state = init, action) {
         users : {...payload.data},
         contracts : {...payload.tokenData}
       };
+    // case SALEREG:
+    //   return {
+    //     saleInfo : {...payload.data}
+    // }
     default:
       return { ...state };
   }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
+import { useSelector } from "react-redux";
 // 마이페이지 컴포넌트
 import MyNft from "../components/mypage/MyNft";
 import TransactionDetails from "../components/mypage/TransactionDetails";
@@ -15,7 +16,9 @@ const index = () => {
   const [clipAccount, setClipAccount] = useState(false);
   // 보여줄 페이지의 인덱스
   const [index, setIndex] = useState(0);
-  const adress = "0x123";
+  const account = useSelector((state)=>state.user.users.account);
+
+  const adress = account;
 
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true); // 트루 값 먼저주고
@@ -42,6 +45,8 @@ const index = () => {
     1: <FundingNft />,
     2: <TransactionDetails />,
   };
+
+  
 
   return (
     <MainContainer>
@@ -71,10 +76,11 @@ const index = () => {
           </StateButton>
         </UserStateArea>
         <UserInfo>
-          <div>
+          {/* 이더값 안받아도댐 필요하면 ethers에서 찾아봐야함 */}
+          {/* <div>
             cash : {"999"}
             {"ETH"}
-          </div>
+          </div> */}
           <div>
             {"Streaming : "} {" 사용하지 않음 "}
           </div>
