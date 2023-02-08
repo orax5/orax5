@@ -1,10 +1,10 @@
-// 액션 타입
-const JOIN = "user/JOIN";
+import axios from "axios";
+
 const LOGIN = "user/LOGIN";
 // const SALEREG = "user/SALEREG"
 
-// 액션 함수
-export const signUp = (
+// 유저 회원가입
+export const signUpUser = (
   email,
   walletAddress,
   nickname,
@@ -12,26 +12,63 @@ export const signUp = (
   typeOfUser
 ) => {
   return async (dispatch, getState) => {
-    const user = {
-      // url : ""
+    const user = await axios({
+      url: "http://localhost:3001/user/signup",
       method: "post",
-      data: { email, walletAddress, nickname, password, typeOfUser },
-    };
-    const data = user.data;
-    console.log(data);
-    dispatch({
-      type: JOIN,
-      payload: data,
+      data: {
+        user_email: email,
+        user_wallet: walletAddress,
+        user_nickname: nickname,
+        user_pwd: password,
+        user_grade: typeOfUser,
+      },
     });
+    // const data = user.data;
+    // console.log(data);
   };
 };
-
-export const login = (account,email,password,tokenData) => {
+// 크리에이터 회원가입
+export const signUpCreator = (
+  email,
+  walletAddress,
+  nickname,
+  password,
+  typeOfUser
+) => {
+  return async (dispatch, getState) => {
+    const creator = await axios({
+      url: "http://localhost:3001/creator/signup",
+      method: "post",
+      data: {
+        user_email: email,
+        user_wallet: walletAddress,
+        user_nickname: nickname,
+        user_pwd: password,
+        user_grade: typeOfUser,
+      },
+    });
+    // const data = creator.data;
+    // console.log(data);
+  };
+};
+// 크리에이터 이메일 인증
+export const checkEmail = () => {
+  return async (dispatch, getState) => {
+    const isChecked = await axios({
+      url: "http://localhost:3001/creator/email-verify",
+      method: "post",
+    });
+    const data = isChecked;
+    console.log(data);
+  };
+};
+// 로그인
+export const login = (account, email, password, tokenData) => {
   return async (dispatch, getState) => {
     const loginInfo = {
-      // url : ""
+      url: "http://localhost:3001/user/login",
       method: "post",
-      data: { account, email, password },
+      data: { user_wallet: account, user_pwd: password, user_email: email },
     };
     const data = loginInfo.data;
 
@@ -39,8 +76,8 @@ export const login = (account,email,password,tokenData) => {
     console.log(data);
     dispatch({
       type: LOGIN,
-      payload: {data,tokenData}
-    })//.then((console.log(tokenData)))
+      payload: { data, tokenData },
+    });
   };
 };
 
@@ -61,8 +98,8 @@ export const SaleReg = (offerAccount,offerAmount,offerPrice) => {
 // 초기값
 const init = {
   users: {},
-  contracts : {},
-  // saleInfo : {}
+  contracts: {},
+  // saleInfo : {},
 };
 
 // 리듀서
@@ -71,13 +108,14 @@ export default function user(state = init, action) {
   switch (type) {
     case LOGIN:
       return {
-        users : {...payload.data},
-        contracts : {...payload.tokenData}
+        users: { ...payload.data },
+        contracts: { ...payload.tokenData },
       };
     // case SALEREG:
     //   return {
     //     saleInfo : {...payload.data}
     // }
+
     default:
       return { ...state };
   }

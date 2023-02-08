@@ -124,12 +124,12 @@ const index = () => {
     console.log(ftokenCA)
     const aa = await Dtoken.mintFundding(account,ftokenCA,5,10,10,7);
     console.log(aa);
-  }
+  };
 
-  const qwe = async() => {
-    const bb = await Dtoken.balanceOf(account,5);
+  const qwe = async () => {
+    const bb = await Dtoken.balanceOf(account, 5);
     console.log(bb);
-  }
+  };
 
   return (
     <MainContainer>
@@ -140,7 +140,7 @@ const index = () => {
             <h1>
               환영합니다!
               <br />
-              크리에이터 OOO님
+              크리에이터 {}님
             </h1>
             <Link href="/creator/register">펀딩 신청</Link>
           </TitleArea>

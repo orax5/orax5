@@ -10,15 +10,16 @@ import FundingNft from "../components/mypage/FundingNft";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 // // 리액트 아이콘
 import { FaEthereum } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { ethers } from "ethers";
 
 const index = () => {
   // 클립보드 카피 되었다는 표시 알려줄려고 셋타임아웃state 관리용useState
   const [clipAccount, setClipAccount] = useState(false);
   // 보여줄 페이지의 인덱스
   const [index, setIndex] = useState(0);
-  const account = useSelector((state)=>state.user.users.account);
 
-  const adress = account;
+
 
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true); // 트루 값 먼저주고
@@ -45,9 +46,35 @@ const index = () => {
     1: <FundingNft />,
     2: <TransactionDetails />,
   };
+  // 구독권 확인
+  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
+  const account = useSelector((state) => state.user.users.account);
+  const [result, setResult] = useState(null);
 
-  
 
+  useEffect(() => {
+    async function checkTicket() {
+      const result = await Ftoken.streamingView();
+      const leftTime = result.toString();
+      // const today = Date.now();
+      const today = new Date().getTime();
+      console.log(today);
+      console.log(leftTime);
+      // 스트리밍권 + 오늘날짜
+      setResult(Math.floor((leftTime - today) / (1000 * 60 * 60 * 24)));
+    }
+    checkTicket();
+  }, [result]);
+
+  // const endDate = new Date("2023-01-30 14:55:00");
+  // // 펀딩이 종료되었을 때 보여지는 태그 처리
+  // const [isTimeOver, setIsTimeOver] = useState(false);
+  // // countDown 함수 - 계산해서 받은 값을 배열로 받아옴
+  // const [date, hours, minutes, seconds] = CountDown(endDate, setIsTimeOver);
+  // // 펀딩 기간 이후 버튼 블락 처리
+  // const TimeOverAlert = () => {
+  //   alert("펀딩종료 후에는 펀딩에 참여하실 수 없습니다");
+  // };
   return (
     <MainContainer>
       <div></div>
@@ -62,10 +89,10 @@ const index = () => {
             </>
           ) : (
             <>
-              <StateButton onClick={() => copyClipBoardHandler(adress)}>
+              <StateButton onClick={() => copyClipBoardHandler(account)}>
                 <FaEthereum />
                 &nbsp;
-                {adress}
+                {account}
               </StateButton>
             </>
           )}
@@ -76,14 +103,11 @@ const index = () => {
           </StateButton>
         </UserStateArea>
         <UserInfo>
-          {/* 이더값 안받아도댐 필요하면 ethers에서 찾아봐야함 */}
-          {/* <div>
+          <div>
             cash : {"999"}
             {"ETH"}
-          </div> */}
-          <div>
-            {"Streaming : "} {" 사용하지 않음 "}
           </div>
+          <div>{result ? result : "여기 남은 스트리밍 시간"}</div>
         </UserInfo>
         <StateBoard>
           <AssetsState>
@@ -122,7 +146,7 @@ const index = () => {
       <div></div>
     </MainContainer>
   );
-};
+}
 
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
@@ -179,4 +203,5 @@ const MenuLists = styled.div`
     color: plum;
   }
 `;
+
 export default index;

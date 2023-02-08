@@ -6,9 +6,16 @@ import styled from "styled-components";
 import dynamic from "next/dynamic";
 import Offers from "../components/Offers";
 import Offers2 from "../components/Offers2";
+import { useSelector } from "react-redux";
 
 const deatil = () => {
-   
+  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
+  const account = useSelector((state) => state.user.users.account);
+
+  const buyNft = () => {
+    console.log("살래욥");
+  };
   return (
     <MainContainer>
       <div></div>
@@ -59,7 +66,7 @@ const deatil = () => {
               </tbody>
             </table>
             <div>
-              <PageBtn>구매하기</PageBtn>
+              <PageBtn onClick={buyNft}>구매하기</PageBtn>
               <Link href="/streaming">
                 <PageBtn>스트리밍 하러가기</PageBtn>
               </Link>
@@ -209,73 +216,5 @@ const AboutNft = styled.div`
   }
 `;
 
-const AskingPriceUI = styled.ul`
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #eaeaea;
-  > li {
-    width: 10rem;
-    text-align:center;
-  }
-`
-const ExtraBox = styled.div`
-  flex: 0 0 10rem;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  color: #999;
-  font-size: 14px;
-  > div{
-    margin-bottom: 4px;
-    display: flex;
-    justify-content: space-between;
-  }
-`
-const PriceBox = styled.div`
-  flex: 2 0 0;
-  display: flex;
-  flex-direction: column;
-`
 
-const PriceRow = styled.div`
-  flex: 1 0 0;
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-bottom: 1px;
-`
-
-const Cnt_units = styled.div`
-  border-right: 1px solid #eaeaea;
-  flex: 0 0 10rem;
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  color: #3449ba;
-`
-
-const Cnt_txt = styled.div`
-  z-index: 1;
-  padding: 0 4px;
-  width: 100%;
-  text-align: center;
-`
-const Amount_units = styled.div`
-  flex: 1 0 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: blue;
-`
-
-const Amount_units_buy = styled.div`
-  flex: 1 0 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: red;
-`
 export default deatil;

@@ -60,10 +60,9 @@ contract FunddingToken is Ownable{
     }
 
     // 유저가 구독권을 가지고 있는지 확인하는 함수
-    function streamingView() public view returns(uint256) {
-        return _timeOwner[msg.sender];
+    function streamingView(address account) public view returns(uint256) {
+        return _timeOwner[account];
     }
-
     // ㅜ 펀딩 실패시 유저가 환불 받기 전에 컨트랙트 오너가 실행 시켜줘야 한다.
     // DtsToken.sol에게 SaleCA를 넘겨주기 위해서 사용하는데 컨트랙트 오너만 사용 가능하다.
     function changedCA() onlyOwner external{
