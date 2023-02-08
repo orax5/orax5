@@ -1,30 +1,95 @@
 import Link from "next/Link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React,{ useState } from "react";
+import { useSelector } from "react-redux";
+import React,{ useState, useEffect } from "react";
 import styled from "styled-components";
-//  promise resolve 과정 없이도 변수에 할당할 수 있도록 해준다
-import Offers from "../components/Offers";
+import Offers2 from "../components/Offers2";
+
 
 const deatil = () => {
-  const router = useRouter();
-  // console.log(router.query.amount)        
+  const router = useRouter();    
   const amount = router.query.amount; // props로 전달받는 amount
 
   const [unsigned, setUnsigned] = useState(false);
   const [inputSaleAmount,  setInputSaleAmount] = useState(null);
+  const [price, setPrice] = useState(null)
+  // const [ array, setArray ] = useState([]);
+ 
+  const [ offerAccount, setOfferAccount ] = useState();
+  const [ offerAmount, setOfferAmount ] = useState();
+  const [ offerPrice, setOfferPrice ] = useState();
 
+  const Stoken = useSelector((state) => state.user.contracts.Stoken);
+
+  useEffect(()=>{
+    const ViewOneHandler = async() => {
+
+      // 거래 등록 내용 보기 (from 주소, 판매수량, 가격)
+      const aa = await Stoken.saleNumberList(2);
+      console.log(aa.toString()) // 3 트랜잭션ID안 발생 횟수 길이 
+
+      for(let i = 0; i <= parseInt(aa-1); i++){
+        const ViewOne = await Stoken.getSalesTokenListAll(2,i); // 이거 왜 하나 남는지 모르겠는데 빡쳐서 -1 해서 포문 돌림 
+        const SellAmount =  ViewOne.amount.toString();
+        const SellPrice = ViewOne.price.toString();
+        const SellAccount  = ViewOne.account;
+         //원래배열에 있던 데이터를 스트레드연산자로 쓰고, 새로운데이터를 SellAccount을 앞에 추가
+         // setOfferAccount([SellAccount, ...offerAccount])
+         // setOfferAmount([SellAmount, ...offerAmount])
+         // setOfferPrice([SellPrice, ...offerPrice])
+         setOfferAccount([...offerAccount, SellAccount ])
+         setOfferAmount([...offerAmount, SellAmount ])
+         setOfferPrice([...offerPrice, SellPrice])
+         console.log(offerAccount)
+         console.log(offerAmount)
+         console.log(offerPrice)
+      }
+      // const items = {
+      //   offerAccount,
+      //   offerAmount,
+      //   offerPrice, 
+      // }
+      // setArray([...array,items])
+
+      // console.log(items);
+    
+      // console.log(ViewOne)
+      // console.log(ViewOne.toString())
+      // console.log(ViewOne.account)
+      // console.log(ViewOne.amount.toString())
+      // console.log(ViewOne.price.toString())
+      // console.log(ViewOne.listId.toString())  
+      // const SellAmount =  ViewOne.amount.toString();
+      // const SellPrice = ViewOne.price.toString();
+      // const SellAccount  = ViewOne.account;
+      // setOfferAccount(SellAccount)
+      // setOfferAmount(SellAmount)
+      // setOfferPrice(SellPrice)
+    }
+    ViewOneHandler()
+  },[])  
+
+  console.log(offerAccount)
+  console.log(offerAmount)
+  console.log(offerPrice)
+ 
+
+  // onChage 값들 판매수량, 판매가격
   const getSaleAmountValue = (e) => {
     setInputSaleAmount(e.target.value);
   }
-
+  const getSalePriceValue = (e) => {
+    setPrice(e.target.value);
+  }
   const unsignedToggleHandler = () => {
     setUnsigned(!unsigned)
   }
 
+  let totalPrice = price * inputSaleAmount;
   
-
-  const SaleHandler = () => {
+  // 판매 
+  const SaleHandler = async() => {
     if(inputSaleAmount == 0 || inputSaleAmount== null){
       alert("0과 공백은 입력 불가능합니다.")
     } else if(inputSaleAmount <= amount ){
@@ -32,8 +97,20 @@ const deatil = () => {
     }  else {
       alert("판매수량이 보유량보다 높습니다.")
     }
+    // console.log(inputSaleAmount)
+    // console.log(totalPrice)
+    const SaleReg = await Stoken.salesToken(2, inputSaleAmount, totalPrice);
+    console.log(SaleReg)
+    console.log(SaleReg.toString())
   }
   
+  
+    
+  // 판매 취소 버튼 핸들러
+  const SaleCancleHandler = async() => {
+    const SaleCancle = await Stoken.cancelSalesToken(2);
+    console.log(SaleCancle)
+  }
 
 
   return (
@@ -79,7 +156,7 @@ const deatil = () => {
                 <tr>
                   <td>가격</td>
                   <td>
-                    <NumSelector type="number" />
+                    <NumSelector type="number" onChange={getSalePriceValue}/>
                   </td>
                 </tr>
               </tbody>
@@ -106,21 +183,25 @@ const deatil = () => {
                 <div style={{display:"flex", justifyContent: "space-around", alignItems: "center"}}>
                   <div style={{minWidth:"2rem", textAlign:"center"}}>1</div>
                   <div>100</div>
-                  <CancleBtn>취소</CancleBtn>
+                  <CancleBtn onClick={SaleCancleHandler}>취소</CancleBtn>
                 </div>
               </AboutNft>
             </InfoBox>
           )}
           <InfoBox>
-            <div>음원 설명</div>
+            <div></div>
             <AboutNft>
               <div>음원 설명</div>
               <div>음원 설명음원 설명음원 설명</div>
             </AboutNft>
           </InfoBox>
           <InfoBox>
-            <div>거래 내역</div>
-            <Offers />
+            <div>Offer</div>
+            <Offers2
+                offerAmount={offerAmount} 
+                offerPrice ={offerPrice} 
+                offerAccount={offerAccount}
+            />
           </InfoBox>
         </InfoWrap>
       </div>

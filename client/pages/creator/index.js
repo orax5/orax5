@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useWeb3React } from "@web3-react/core";
 import styled from "styled-components";
 import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
+import { ethers } from "ethers";
+import dtsToken from '../../contracts/DtsToken.json';
+import { useSelector } from "react-redux";
 
 const index = () => {
   const datas = [
@@ -90,7 +94,19 @@ const index = () => {
   const [clipAccount, setClipAccount] = useState(false);
   // 보여줄 페이지의 인덱스
   const [index, setIndex] = useState(0);
-  const adress = "0x123";
+
+  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  const Stoken = useSelector((state) => state.user.contracts.Stoken);
+  const Ftoken = useSelector((state) => state.user.contracts.ftoken);
+
+  // console.log(Dtoken)
+  // console.log(Stoken)
+  // console.log(Ftoken)
+
+  const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
+  const account = useSelector((state)=>state.user.users.account);
+
+  const adress = account;
 
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true);
@@ -102,6 +118,19 @@ const index = () => {
     } catch (e) {}
   };
 
+
+  const asd = async() =>{
+    console.log(Dtoken)
+    console.log(ftokenCA)
+    const aa = await Dtoken.mintFundding(account,ftokenCA,5,10,10,7);
+    console.log(aa);
+  };
+
+  const qwe = async () => {
+    const bb = await Dtoken.balanceOf(account, 5);
+    console.log(bb);
+  };
+
   return (
     <MainContainer>
       <div></div>
@@ -111,7 +140,7 @@ const index = () => {
             <h1>
               환영합니다!
               <br />
-              크리에이터 OOO님
+              크리에이터 {}님
             </h1>
             <Link href="/creator/register">펀딩 신청</Link>
           </TitleArea>
@@ -149,12 +178,13 @@ const index = () => {
                     <td>{data.name}</td>
                     <td>{data.content}</td>
                     <td>{data.date}</td>
-                    <td>
+                    <td onClick={qwe}>
                       {data.scale}
+                      qwe
                       {"ETH"}
                     </td>
 
-                    <td>{data.state}</td>
+                    <td onClick={asd}>{data.state}</td>
                   </tr>
                 ))}
               </tbody>

@@ -1,9 +1,10 @@
-// 액션 타입
-const JOIN = "user/JOIN";
-const LOGIN = "user/LOGIN";
+import axios from "axios";
 
-// 액션 함수
-export const signUp = (
+const LOGIN = "user/LOGIN";
+// const SALEREG = "user/SALEREG"
+
+// 유저 회원가입
+export const signUpUser = (
   email,
   walletAddress,
   nickname,
@@ -11,53 +12,110 @@ export const signUp = (
   typeOfUser
 ) => {
   return async (dispatch, getState) => {
-    const user = {
-      // url : ""
+    const user = await axios({
+      url: "http://localhost:3001/user/signup",
       method: "post",
-      data: { email, walletAddress, nickname, password, typeOfUser },
+      data: {
+        user_email: email,
+        user_wallet: walletAddress,
+        user_nickname: nickname,
+        user_pwd: password,
+        user_grade: typeOfUser,
+      },
+    });
+    // const data = user.data;
+    // console.log(data);
+  };
+};
+// 크리에이터 회원가입
+export const signUpCreator = (
+  email,
+  walletAddress,
+  nickname,
+  password,
+  typeOfUser
+) => {
+  return async (dispatch, getState) => {
+    const creator = await axios({
+      url: "http://localhost:3001/creator/signup",
+      method: "post",
+      data: {
+        user_email: email,
+        user_wallet: walletAddress,
+        user_nickname: nickname,
+        user_pwd: password,
+        user_grade: typeOfUser,
+      },
+    });
+    // const data = creator.data;
+    // console.log(data);
+  };
+};
+// 크리에이터 이메일 인증
+export const checkEmail = () => {
+  return async (dispatch, getState) => {
+    const isChecked = await axios({
+      url: "http://localhost:3001/creator/email-verify",
+      method: "post",
+    });
+    const data = isChecked;
+    console.log(data);
+  };
+};
+// 로그인
+export const login = (account, email, password, tokenData) => {
+  return async (dispatch, getState) => {
+    const loginInfo = {
+      url: "http://localhost:3001/user/login",
+      method: "post",
+      data: { user_wallet: account, user_pwd: password, user_email: email },
     };
-    const data = user.data;
+    const data = loginInfo.data;
+
+   // console.log("data : tokenData",tokenData);
     console.log(data);
     dispatch({
-      type: JOIN,
-      payload: data,
+      type: LOGIN,
+      payload: { data, tokenData },
     });
   };
 };
 
-export const login = ({ walletAddress, password, email }) => {
+export const SaleReg = (offerAccount,offerAmount,offerPrice) => {
   return async (dispatch, getState) => {
-    const loginInfo = {
-      // url : ""
-      method: "post",
-      data: { walletAddress, password, email },
+    const SaleInfgo = {
+      data: {offerAccount,offerAmount,offerPrice},
     };
-    const data = loginInfo.data;
+    const data = SaleInfgo.data;
+    console.log(data)
     dispatch({
-      type: LOGIN,
-      payload: data,
-    });
-  };
-};
+      type: SALEREG,
+      payload: data
+    })
+  }
+}
 
 // 초기값
 const init = {
-  users: [],
+  users: {},
+  contracts: {},
+  // saleInfo : {},
 };
 
 // 리듀서
 export default function user(state = init, action) {
   const { type, payload } = action;
   switch (type) {
-    case JOIN:
-      return {
-        ...state,
-        users: [...payload],
-      };
     case LOGIN:
       return {
-        users: [...state, ...payload],
+        users: { ...payload.data },
+        contracts: { ...payload.tokenData },
       };
+    // case SALEREG:
+    //   return {
+    //     saleInfo : {...payload.data}
+    // }
+
     default:
       return { ...state };
   }

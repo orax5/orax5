@@ -12,12 +12,25 @@ import { UploadsModule } from '../file-s3/uploads/uploads.module';
 import { OpenfundingModule } from './openfunding/openfunding.module';
 
 // OpenfundingModule
+<<<<<<< HEAD
 @Module({ 
   imports: [CreatorSignupModule, AuthModule, CreatorLoginModule, UserModule, ShinchungModule, HttpModule, OpenfundingModule, UploadsModule,
     RedisCacheModule    
+=======
+@Module({
+  imports: [
+    CreatorSignupModule,
+    AuthModule,
+    CreatorLoginModule,
+    UserModule,
+    ShinchungModule,
+    HttpModule,
+    OpenfundingModule,
+    UploadsModule,
+>>>>>>> main
   ],
   controllers: [],
-  providers: []
+  providers: [],
 })
 export class CreatorModule {}
 

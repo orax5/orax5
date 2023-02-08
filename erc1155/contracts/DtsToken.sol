@@ -2,11 +2,11 @@
 pragma solidity ^0.8.17;
 
 // import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
-// import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/ERC1155.sol";
-// import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/ERC1155.sol";
+import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
 // import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+// import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+// import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "./FunddingToken.sol";
 
@@ -37,6 +37,15 @@ contract DtsToken is ERC1155, Ownable{
         bool isSuccess;
     }
 
+    struct votindata{
+        // 투표한 사람
+        address account;
+        // 투표수
+        uint256 votinAmount;
+        // 찬성 반대
+        // bool chan
+    }
+
     // 유저가 보유하고 있는 nft 확인 방법
     // ids[] 값 민팅할 때마다 저장. 배열에 저장한 값을 가지고 앞단에서 알아서 balance체크한다. 
     uint256[] public ids;
@@ -49,6 +58,12 @@ contract DtsToken is ERC1155, Ownable{
     // 해당 음원의 최초발행자인 크리에이터 주소, 목표 금액, 발행량, NFT펀딩 가격, 펀딩 기간을 구조체로 담아 놓는 매핑
     mapping(uint256 => tokenOwnerData) public tokenOwners;
 
+    // 거버넌스 투표자 확인
+    mapping(uint => mapping(address => bool)) public voting;
+
+    // 거버넌스 투표 기간
+    mapping (uint => uint) public votingTime;
+
     // 펀딩 성공 이벤트 선언
     event seccessFundding(address account, uint256 tokenId, uint256 amount, uint256 totalPrice, uint256 getTime, string result);
 
@@ -57,7 +72,7 @@ contract DtsToken is ERC1155, Ownable{
         return ERC1155.balanceOf(account, tokenId);
     }
 
-    // 지금까지 펀딩 된 nft tokenId 저장한 거 보여주는 함수
+    // 지금까지 펀딩신청 된 nft tokenId 저장한 거 보여주는 함수
     function idsView() public view returns(uint256[] memory){
         return ids;
     }
@@ -98,34 +113,16 @@ contract DtsToken is ERC1155, Ownable{
         
         return data;
     }
+
+    // 거버넌스 투표 참여 함수
+    function getvoting(uint256 tokenId, bool ) public {
+
+    }
     
     // 음원 초기정보 전체 조회하는 함수
     function getTokenOwnerData(uint256 tokenId) public view returns(tokenOwnerData memory){
         return tokenOwners[tokenId];
     }
-
-    // // 해당음원의 creater를 조회하는 함수
-    // function getTokenOwnerDataCreater(uint256 tokenId) public view returns (address) {
-    //     return tokenOwners[tokenId].Creater;
-    // }
-    // // 해당음원의 발행량를 조회하는 함수
-    // function getTokenOwnerDataNftAmount(uint256 tokenId) public view returns (uint256) {
-    //     return tokenOwners[tokenId].NftAmount;
-    // }
-    // // 해당음원의 목표 금액을 조회하는 함수
-    // function getTokenOwnerDataTotalPrice(uint256 tokenId) public view returns (uint256) {
-    //     return tokenOwners[tokenId].TotalPrice;
-    // }
-    // // 해당음원의 개당 펀딩 가격을 조회하는 함수
-    // function getTokenOwnerDataUnitPrice(uint256 tokenId) public view returns (uint256) {
-    //     return tokenOwners[tokenId].UnitPrice;
-    // }
-    // // 해당음원의 펀딩 기간을 조회하는 함수
-    // function getTokenOwnerDataEndTime(uint256 tokenId) public view returns (uint256) {
-    //     // ㅜ 나중에 거버넌스 토큰 투표로 상태를 바꿀 때 사용할 거
-    //     // tokenOwners[tokenId].EndtTime = tokenOwners[tokenId].EndtTime + 3000;
-    //     return tokenOwners[tokenId].EndTime;
-    // }
 
     // 유저가 펀딩 신청하고 펀딩이 성공했으면 성공 여부를 true;
     function isFunddingSuccess(uint256 tokenId) external{

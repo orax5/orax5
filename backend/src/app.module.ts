@@ -4,9 +4,16 @@ import { CreatorModule } from './creator/creator.module';
 // import { AdminModule } from './admin/admin.module';
 
 import { APP_PIPE } from '@nestjs/core';
+<<<<<<< HEAD
 import { ValidationPipe, CacheModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UploadsModule } from './file-s3/uploads/uploads.module';
+=======
+import { ValidationPipe } from '@nestjs/common';
+import { EmailService } from './email/email.service';
+import { ConfigModule } from '@nestjs/config';
+import { UploadsModule } from './uploads/uploads.module';
+>>>>>>> main
 import { LoggerMiddleware } from './middlewears/logger.middleware';
 import { EmailModule } from './email/email.module';
 import { PrismaService } from './prisma.service';
@@ -18,23 +25,34 @@ import { FileS3Module } from './file-s3/file-s3.module';
 //import { AppController } from './app.controller';
 import * as redisStore from 'cache-manager-ioredis';
 
-
 // AdminModule,
 // @Global()
 @Module({
   //DownloadModule,
+<<<<<<< HEAD
   imports: [UserModule, CreatorModule, AdminModule, EmailModule, UploadsModule, FileS3Module,
+=======
+  imports: [
+    UserModule,
+    CreatorModule,
+    AdminModule,
+    EmailModule,
+    UploadsModule,
+>>>>>>> main
     ConfigModule.forRoot({
       isGlobal: true, // 전체적으로 사용하기 위해
-      envFilePath: `${process.env.NODE_ENV}.env`
+      envFilePath: `${process.env.NODE_ENV}.env`,
     }),
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
   ],
   controllers: [],
   providers: [
     {
       // validationPipe 전역 설정
-      provide : APP_PIPE,
+      provide: APP_PIPE,
       useClass: ValidationPipe,
     },
     PrismaService,
@@ -44,9 +62,9 @@ import * as redisStore from 'cache-manager-ioredis';
 
 // 미들웨어 설정
 export class AppModule implements NestModule {
-    configure(consumer: MiddlewareConsumer):any{
-      consumer.apply(LoggerMiddleware).forRoutes('/user_*');
-    }
+  configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(LoggerMiddleware).forRoutes('/user_*');
+  }
 }
 
 

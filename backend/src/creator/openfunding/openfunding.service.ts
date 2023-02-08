@@ -12,127 +12,122 @@ import { Shinchunghada } from '@prisma/client';
 
 @Injectable()
 export class OpenfundingService {
-    constructor(private prisma: PrismaService, private readonly config: ConfigService, private http: HttpService){}
+  // constructor(
+  //   private prisma: PrismaService,
+  //   private readonly config: ConfigService,
+  //   private http: HttpService,
+  // ) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly config: ConfigService,
+  ) {}
 
-    // 신청아이디 받아서 db에서 추출한다음 JSON으로 변환하기
-    // 아이디만 받아서 db에서 꺼내자 //, openData: CreatorShinChungDto
-    async openFunding(shinNo: number):Promise<any>{
-        // result => object 일거임
-        // fund 테이블 state값 바꿔주기
-        await this.prisma.funding.update({
-            where: {
-                shin_no : shinNo,
-            },
-            data: {
-                fund_state: 2,
-            }
-        })
+  // 신청아이디 받아서 db에서 추출한다음 JSON으로 변환하기
+  // 아이디만 받아서 db에서 꺼내자 //, openData: CreatorShinChungDto
+  async openFunding(shinNo: number): Promise<any> {
+    // result => object 일거임
+    // fund 테이블 state값 바꿔주기
+    await this.prisma.funding.update({
+      where: {
+        shin_no: shinNo,
+      },
+      data: {
+        fund_state: 2,
+      },
+    });
 
-        // 신청테이블에서 데이터 값뽑아오기
-        const fundingData = await this.prisma.shinchunghada.findMany({
-            where: {
-                shin_no: shinNo
-            },
-            include:{
-                singer: {
-                    select: {
-                        sing_name: true,
-                    }
-                },
-                composer: {
-                    select:{
-                        com_name: true,
-                    }
-                },
-                lyricist: {
-                    select: {
-                        lyric_name: true,
-                    }
-                },
-            }
-        })
+    // 신청테이블에서 데이터 값뽑아오기
+    const fundingData = await this.prisma.shinchunghada.findMany({
+      where: {
+        shin_no: shinNo,
+      },
+      include: {
+        singer: {
+          select: {
+            sing_name: true,
+          },
+        },
+        composer: {
+          select: {
+            com_name: true,
+          },
+        },
+        lyricist: {
+          select: {
+            lyric_name: true,
+          },
+        },
+      },
+    });
 
-        const [temp] = fundingData; // 결과값이 배열이라 구조분해 할당으로 객체로 바꿔줌
-        const {shin_cover} = temp; // 이미지 주소값만 빼옴
+    const [temp] = fundingData; // 결과값이 배열이라 구조분해 할당으로 객체로 바꿔줌
+    const { shin_cover } = temp; // 이미지 주소값만 빼옴
 
+    // 이미지 url 잘 뽑아온다
+    const imgURL = shin_cover;
 
-        // 이미지 url 잘 뽑아온다
-        const imgURL = shin_cover;
+    return imgURL;
+  }
 
+  // 이미지 경로 ipfs:// 로 바꾼다음에 저장해여함!!!
+  // 커버사진 IPFS로 올리고 CID 받기
+  // name : db에 저장한 id: 숫자 값이지만 string d으로 저장되어야 하기때문에 string
+  async getMetaData(shinchungForm: CreatorShinChungDto, shinNo: number) {
+    const name = shinNo.toString(); // db에서 뽑은 값이 숫자인데 문자열을 넣어줘야함
+    const description = shinchungForm.shin_description;
+    const totalbalance = shinchungForm.shin_nft_totalbalance;
+    const category = shinchungForm.shin_category;
 
+    const imgURL = shinchungForm.shin_cover;
+    const image = await this.fileFromPath(imgURL);
+    const API_KEY = this.config.get('NFT_Storage');
+    const nftstorage = new NFTStorage({ token: API_KEY });
 
+    //  nft storage에 저장
+    return nftstorage.store({
+      image,
+      name,
+      description,
+      totalbalance,
+      category,
+    });
+  }
 
-         return imgURL;
-    }
+  // 이미지 파일 올리고 CID얻어오는 함수
+  // 리턴으로 IPFS에 올린 이미지 주소 받아오기
+  async fileFromPath(imgURL: string) {
+    const content = await fs.promises.readFile(imgURL);
+    const type = mime.getType(imgURL);
+    return new File([content], path.basename(imgURL), { type });
+  }
 
-        
-    // 이미지 경로 ipfs:// 로 바꾼다음에 저장해여함!!!
-    // 커버사진 IPFS로 올리고 CID 받기
-    // name : db에 저장한 id: 숫자 값이지만 string d으로 저장되어야 하기때문에 string
-    async getMetaData(shinchungForm: CreatorShinChungDto, shinNo: number){
-        const name = shinNo.toString(); // db에서 뽑은 값이 숫자인데 문자열을 넣어줘야함
-        const description = shinchungForm.shin_description;
-        const totalbalance = shinchungForm.shin_nft_totalbalance;
-        const category = shinchungForm.shin_category;
-        
-        const imgURL = shinchungForm.shin_cover;
-        const image = await this.fileFromPath(imgURL);
-        const API_KEY = this.config.get('NFT_Storage');
-        const nftstorage = new NFTStorage({ token : API_KEY });
-
-        //  nft storage에 저장
-        return nftstorage.store({
-            image,
-            name,
-            description,
-            totalbalance,
-            category,
-        })
-    }
-
-    // 이미지 파일 올리고 CID얻어오는 함수
-    // 리턴으로 IPFS에 올린 이미지 주소 받아오기
-    async fileFromPath(imgURL: string) {
-        const content = await fs.promises.readFile(imgURL);
-        const type = mime.getType(imgURL);
-        return new File([content], path.basename(imgURL), {type})
-    }
-
-
-
-
-
-
-
-    // 로컬에 파일저장해주기 // writeFileSync는 예외를 try{} catch{} 로 처리해줘야함
-    // metaData: string 맞음 JSON.stringify() 가 우리가 보기엔 json 같지만 string타입임
-    private saveMetaData(metaData: string, shinNo: number){
-        if(metaData){
-            // 파일저장할 경로, 기록될 데이터, 옵션함수
-            fs.writeFile( `${shinNo}`, metaData, 
-                (err)=> {
-                    if(err){
-                        console.log(err);
-                        throw new Error('META 데이터 파일저장 실패');
-                    }else{
-                        console.log(' META 데이터 파일저장 성공! ');
-                    } 
-                });
-            }
+  // 로컬에 파일저장해주기 // writeFileSync는 예외를 try{} catch{} 로 처리해줘야함
+  // metaData: string 맞음 JSON.stringify() 가 우리가 보기엔 json 같지만 string타입임
+  private saveMetaData(metaData: string, shinNo: number) {
+    if (metaData) {
+      // 파일저장할 경로, 기록될 데이터, 옵션함수
+      fs.writeFile(`${shinNo}`, metaData, (err) => {
+        if (err) {
+          console.log(err);
+          throw new Error('META 데이터 파일저장 실패');
+        } else {
+          console.log(' META 데이터 파일저장 성공! ');
         }
-
-    // 메타데이터 저장한 json 파일 확인/ 읽어오기
-    private readMetaJson(shinNo: number){
-        fs.readFile(`${shinNo}.json`,"utf-8", (err, data)=>{
-            if (err) {
-                console.error(err);
-              } else {
-                console.log('잘 저장했다');
-                console.log(data);
-              }
-         })
+      });
     }
+  }
 
+  // 메타데이터 저장한 json 파일 확인/ 읽어오기
+  private readMetaJson(shinNo: number) {
+    fs.readFile(`${shinNo}.json`, 'utf-8', (err, data) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('잘 저장했다');
+        console.log(data);
+      }
+    });
+  }
 }
 
 /*
