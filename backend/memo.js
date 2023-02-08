@@ -56,6 +56,7 @@
  
 */
 
+
 /*
     PASSPORT 사용하는 이유
     
@@ -66,9 +67,4 @@
     데이터가 정상적으로 넘어왔는지 확인도하고, 토큰도 쏴줌
     물론 로직은 내가 써야함
 
-    SQL 테이블 생성
-    npx prisma migrate dev
-    
-    SQL 테이블 리셋
-    npx prisma migrate reset
 */

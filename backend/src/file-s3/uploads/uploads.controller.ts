@@ -1,43 +1,37 @@
-import {
-  Controller,
-  Post,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { Expr } from 'aws-sdk/clients/cloudsearchdomain';
+import { Controller, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { Expr } from "aws-sdk/clients/cloudsearchdomain";
 import { UploadsService } from './uploads.service';
 
 @Controller('uploadS3')
 export class UploadsController {
-  constructor(private readonly uploadService: UploadsService) {}
+    constructor(private readonly uploadService: UploadsService){}
 
-  // 앞단에서 이미지는 따로 등록하도록한다음 url리턴하는거 받아오자
-  // 업로드 완성
-  @Post('/image')
-  @UseInterceptors(FileInterceptor('file'))
-  async postS3Image(@UploadedFile() file: Express.MulterS3.File) {
-    // 주의 : Express.Multer.File 랑 다른객체
-    const url = await this.uploadService.s3Uploadimage(file);
-    console.log('@@@@ 컨트롤러', url);
+    // 앞단에서 이미지는 따로 등록하도록한다음 url리턴하는거 받아오자
+    // 업로드 완성
+    @Post('/image')
+    @UseInterceptors(FileInterceptor('file'))
+    async postS3Image(@UploadedFile() file:Express.MulterS3.File){ // 주의 : Express.Multer.File 랑 다른객체
+        const url = await this.uploadService.s3Uploadimage(file);
+        console.log("@@@@ 컨트롤러", url);
+    }
+
+    @Post('/:id')
+    @UseInterceptors(FileInterceptor('file'))
+    async postS3Music(@UploadedFile() file: Express.MulterS3.File){
+      const url = await this.uploadService.s3UploadMusic(file)
+    }
+
   }
-
-  @Post('/:id')
-  @UseInterceptors(FileInterceptor('file'))
-  async postS3Music(@UploadedFile() file: Express.MulterS3.File) {
-    const url = await this.uploadService.s3UploadMusic(file);
-  }
-}
-
-// @Post('/upload')
-// @UseInterceptors(FileInterceptor('file'))
-// async postS3Music(@UploadedFile() file:Express.MulterS3.File){ // 주의 : Express.Multer.File 랑 다른객체
-//     const url = await this.uploadService.s3UploadMusic(file);
-//     console.log("@@@@ 컨트롤러", url);
-// }
+  // @Post('/upload')
+  // @UseInterceptors(FileInterceptor('file'))
+  // async postS3Music(@UploadedFile() file:Express.MulterS3.File){ // 주의 : Express.Multer.File 랑 다른객체
+  //     const url = await this.uploadService.s3UploadMusic(file);
+  //     console.log("@@@@ 컨트롤러", url);
+  // }
 
 // 파일 전송 이런식으로 전송
-/*
+    /*
       {
         fieldname: 'file',
         originalname: 'sample.png',

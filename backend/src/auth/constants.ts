@@ -11,7 +11,8 @@
 //   }else if(process.env.NODE_ENV === 'dev'){
 //     dotenv.config({path: path.join(__dirname, '../.env-dev')});
 //   }
-
+  
 export const jwtConstants = {
-  secret: 'secretKey',
-};
+    secret: 'secretKey'
+}
+

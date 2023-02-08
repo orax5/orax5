@@ -16,6 +16,7 @@ import { FileS3Module } from './file-s3/file-s3.module';
 
 //import { AppController } from './app.controller';
 import * as redisStore from 'cache-manager-ioredis';
+import { CacheService } from './cache/cache.service';
 
 // AdminModule,
 // @Global()
@@ -27,7 +28,6 @@ import * as redisStore from 'cache-manager-ioredis';
     AdminModule,
     EmailModule,
     UploadsModule,
-    FileS3Module,
     ConfigModule.forRoot({
       isGlobal: true, // 전체적으로 사용하기 위해
       envFilePath: `${process.env.NODE_ENV}.env`,
@@ -40,7 +40,6 @@ import * as redisStore from 'cache-manager-ioredis';
       provide: APP_PIPE,
       useClass: ValidationPipe,
     },
-    PrismaService,
   ],
 })
 //AppController

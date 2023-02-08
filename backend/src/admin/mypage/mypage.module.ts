@@ -5,6 +5,8 @@ import { PrismaService } from '../../prisma.service';
 import { UploadsService } from '../../file-s3/uploads/uploads.service';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
+import { CacheService } from '../../cache/cache.service';
+import { EmailService } from '../../email/email.service';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import { ConfigService } from '@nestjs/config';
     }),
   ],
   controllers: [MypageController],
-  providers: [MypageService, PrismaService, UploadsService],
+  providers: [MypageService, PrismaService, UploadsService, CacheService, EmailService],
 })
 export class MypageModule {}
 
