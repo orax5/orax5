@@ -4,7 +4,6 @@ import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
-
 const index = () => {
   const datas = [
     {
@@ -94,9 +93,9 @@ const index = () => {
   const [index, setIndex] = useState(0);
   const adress = "0x123";
 
-  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
-  const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
-  const account = useSelector((state)=>state.user.users.account);
+  // const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  // const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
+  // const account = useSelector((state) => state.user.users.account);
 
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true);
@@ -108,22 +107,17 @@ const index = () => {
     } catch (e) {}
   };
 
-  useEffect(() => {
-    
-  },[])
-
-  
-  const asd = async() =>{
-    console.log(Dtoken)
-    console.log(ftokenCA)
-    const aa = await Dtoken.mintFundding(account,ftokenCA,5,10,10,7);
+  const asd = async () => {
+    console.log(Dtoken);
+    console.log(ftokenCA);
+    const aa = await Dtoken.mintFundding(account, ftokenCA, 5, 10, 10, 7);
     console.log(aa);
-  }
+  };
 
-  const qwe = async() => {
-    const bb = await Dtoken.balanceOf(account,5);
+  const qwe = async () => {
+    const bb = await Dtoken.balanceOf(account, 5);
     console.log(bb);
-  }
+  };
 
   return (
     <MainContainer>
@@ -134,7 +128,7 @@ const index = () => {
             <h1>
               환영합니다!
               <br />
-              크리에이터 OOO님
+              크리에이터 {}님
             </h1>
             <Link href="/creator/register">펀딩 신청</Link>
           </TitleArea>

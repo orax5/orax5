@@ -5,9 +5,16 @@ import styled from "styled-components";
 //  promise resolve 과정 없이도 변수에 할당할 수 있도록 해준다
 import dynamic from "next/dynamic";
 import Offers from "../components/Offers";
+import { useSelector } from "react-redux";
 
 const deatil = () => {
-   
+  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
+  const account = useSelector((state) => state.user.users.account);
+
+  const buyNft = () => {
+    console.log("살래욥");
+  };
   return (
     <MainContainer>
       <div></div>
@@ -61,7 +68,7 @@ const deatil = () => {
               </tbody>
             </table>
             <div>
-              <PageBtn>구매하기</PageBtn>
+              <PageBtn onClick={buyNft}>구매하기</PageBtn>
               <Link href="/streaming">
                 <PageBtn>스트리밍 하러가기</PageBtn>
               </Link>
@@ -76,18 +83,16 @@ const deatil = () => {
               <div>음원 설명음원 설명음원 설명</div>
             </AboutNft>
           </InfoBox>
-          <InfoBox>   
-            <div style={{width:"100%", textAlign:"center"}}>
-              호가창
-            </div>
+          <InfoBox>
+            <div style={{ width: "100%", textAlign: "center" }}>호가창</div>
             <div>
-              <AskingPriceUI> 
+              <AskingPriceUI>
                 <li>판매 수량</li>
                 <li>가격</li>
                 <li>구매 수량</li>
               </AskingPriceUI>
               {/* 구매상태창 */}
-              <div className="Sell" style={{display:"flex"}}>
+              <div className="Sell" style={{ display: "flex" }}>
                 <PriceBox>
                   <PriceRow>
                     <Cnt_units>
@@ -96,8 +101,10 @@ const deatil = () => {
                       </Cnt_txt>
                     </Cnt_units>
                     <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
+                      <strong style={{ margin: "0 6px", color: "red" }}>
+                        18,500
+                      </strong>
+                      <small style={{ background: "transparent" }}>13.4%</small>
                     </Amount_units>
                   </PriceRow>
                   <PriceRow>
@@ -107,8 +114,10 @@ const deatil = () => {
                       </Cnt_txt>
                     </Cnt_units>
                     <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
+                      <strong style={{ margin: "0 6px", color: "red" }}>
+                        18,500
+                      </strong>
+                      <small style={{ background: "transparent" }}>13.4%</small>
                     </Amount_units>
                   </PriceRow>
                   <PriceRow>
@@ -118,8 +127,10 @@ const deatil = () => {
                       </Cnt_txt>
                     </Cnt_units>
                     <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
+                      <strong style={{ margin: "0 6px", color: "red" }}>
+                        18,500
+                      </strong>
+                      <small style={{ background: "transparent" }}>13.4%</small>
                     </Amount_units>
                   </PriceRow>
                   <PriceRow>
@@ -129,8 +140,10 @@ const deatil = () => {
                       </Cnt_txt>
                     </Cnt_units>
                     <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
+                      <strong style={{ margin: "0 6px", color: "red" }}>
+                        18,500
+                      </strong>
+                      <small style={{ background: "transparent" }}>13.4%</small>
                     </Amount_units>
                   </PriceRow>
                   <PriceRow>
@@ -140,69 +153,73 @@ const deatil = () => {
                       </Cnt_txt>
                     </Cnt_units>
                     <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
+                      <strong style={{ margin: "0 6px", color: "red" }}>
+                        18,500
+                      </strong>
+                      <small style={{ background: "transparent" }}>13.4%</small>
                     </Amount_units>
                   </PriceRow>
                 </PriceBox>
                 <ExtraBox>
                   <div>
                     <span>상한가</span>
-                    <strong style={{color:"red"}}>23,100</strong>
+                    <strong style={{ color: "red" }}>23,100</strong>
                   </div>
                   <div>
                     <span>하한가</span>
-                    <strong style={{color:"blue"}}>23,100</strong>
+                    <strong style={{ color: "blue" }}>23,100</strong>
                   </div>
                   <div>
                     <span>전일종가</span>
-                    <strong style={{color:"white"}}>23,100</strong>
+                    <strong style={{ color: "white" }}>23,100</strong>
                   </div>
                   <div>
                     <span>최근1주일</span>
                   </div>
                   <div>
                     <span>최고가</span>
-                    <strong style={{color:"red"}}>23,100</strong>
+                    <strong style={{ color: "red" }}>23,100</strong>
                   </div>
                   <div>
                     <span>최저가</span>
-                    <strong style={{color:"blue"}}>23,100</strong>
+                    <strong style={{ color: "blue" }}>23,100</strong>
                   </div>
                 </ExtraBox>
               </div>
               {/* 판매상태창 */}
-              <div className="Buy" style={{display:"flex"}}>
+              <div className="Buy" style={{ display: "flex" }}>
                 <ExtraBox>
-                    <div>
-                      <span>상한가</span>
-                      <strong style={{color:"red"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>하한가</span>
-                      <strong style={{color:"blue"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>전일종가</span>
-                      <strong style={{color:"white"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>최근1주일</span>
-                    </div>
-                    <div>
-                      <span>최고가</span>
-                      <strong style={{color:"red"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>최저가</span>
-                      <strong style={{color:"blue"}}>23,100</strong>
-                    </div>
+                  <div>
+                    <span>상한가</span>
+                    <strong style={{ color: "red" }}>23,100</strong>
+                  </div>
+                  <div>
+                    <span>하한가</span>
+                    <strong style={{ color: "blue" }}>23,100</strong>
+                  </div>
+                  <div>
+                    <span>전일종가</span>
+                    <strong style={{ color: "white" }}>23,100</strong>
+                  </div>
+                  <div>
+                    <span>최근1주일</span>
+                  </div>
+                  <div>
+                    <span>최고가</span>
+                    <strong style={{ color: "red" }}>23,100</strong>
+                  </div>
+                  <div>
+                    <span>최저가</span>
+                    <strong style={{ color: "blue" }}>23,100</strong>
+                  </div>
                 </ExtraBox>
                 <PriceBox>
                   <PriceRow>
                     <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
+                      <strong style={{ margin: "0 6px", color: "blue" }}>
+                        18,500
+                      </strong>
+                      <small style={{ background: "transparent" }}>13.4%</small>
                     </Amount_units_buy>
                     <Cnt_units>
                       <Cnt_txt>
@@ -212,8 +229,10 @@ const deatil = () => {
                   </PriceRow>
                   <PriceRow>
                     <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
+                      <strong style={{ margin: "0 6px", color: "blue" }}>
+                        18,500
+                      </strong>
+                      <small style={{ background: "transparent" }}>13.4%</small>
                     </Amount_units_buy>
                     <Cnt_units>
                       <Cnt_txt>
@@ -223,8 +242,10 @@ const deatil = () => {
                   </PriceRow>
                   <PriceRow>
                     <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
+                      <strong style={{ margin: "0 6px", color: "blue" }}>
+                        18,500
+                      </strong>
+                      <small style={{ background: "transparent" }}>13.4%</small>
                     </Amount_units_buy>
                     <Cnt_units>
                       <Cnt_txt>
@@ -234,8 +255,10 @@ const deatil = () => {
                   </PriceRow>
                   <PriceRow>
                     <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
+                      <strong style={{ margin: "0 6px", color: "blue" }}>
+                        18,500
+                      </strong>
+                      <small style={{ background: "transparent" }}>13.4%</small>
                     </Amount_units_buy>
                     <Cnt_units>
                       <Cnt_txt>
@@ -245,8 +268,10 @@ const deatil = () => {
                   </PriceRow>
                   <PriceRow>
                     <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
+                      <strong style={{ margin: "0 6px", color: "blue" }}>
+                        18,500
+                      </strong>
+                      <small style={{ background: "transparent" }}>13.4%</small>
                     </Amount_units_buy>
                     <Cnt_units>
                       <Cnt_txt>
@@ -390,9 +415,9 @@ const AskingPriceUI = styled.ul`
   border-bottom: 1px solid #eaeaea;
   > li {
     width: 10rem;
-    text-align:center;
+    text-align: center;
   }
-`
+`;
 const ExtraBox = styled.div`
   flex: 0 0 10rem;
   display: flex;
@@ -400,17 +425,17 @@ const ExtraBox = styled.div`
   padding: 1rem;
   color: #999;
   font-size: 14px;
-  > div{
+  > div {
     margin-bottom: 4px;
     display: flex;
     justify-content: space-between;
   }
-`
+`;
 const PriceBox = styled.div`
   flex: 2 0 0;
   display: flex;
   flex-direction: column;
-`
+`;
 
 const PriceRow = styled.div`
   flex: 1 0 0;
@@ -418,7 +443,7 @@ const PriceRow = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 1px;
-`
+`;
 
 const Cnt_units = styled.div`
   border-right: 1px solid #eaeaea;
@@ -428,14 +453,14 @@ const Cnt_units = styled.div`
   align-items: center;
   height: 100%;
   color: #3449ba;
-`
+`;
 
 const Cnt_txt = styled.div`
   z-index: 1;
   padding: 0 4px;
   width: 100%;
   text-align: center;
-`
+`;
 const Amount_units = styled.div`
   flex: 1 0 0;
   display: flex;
@@ -443,7 +468,7 @@ const Amount_units = styled.div`
   align-items: center;
   height: 100%;
   background-color: blue;
-`
+`;
 
 const Amount_units_buy = styled.div`
   flex: 1 0 0;
@@ -452,5 +477,5 @@ const Amount_units_buy = styled.div`
   align-items: center;
   height: 100%;
   background-color: red;
-`
+`;
 export default deatil;

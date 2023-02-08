@@ -21,7 +21,9 @@ export class SignupService {
 
     // 이미 존재하는 유저인지 확인
     const exist = this.isExistUser(userwallet);
+    console.log('@@ 이그지', exist);
     const existNickName = this.isExistNickName(signupform.user_nickname);
+    console.log('@@ 닉네임', existNickName);
 
     if (exist && existNickName) {
       // 이미 존재하는 계정이 아니라면 가입시켜주기
@@ -40,7 +42,8 @@ export class SignupService {
       const userwallet = user_wallet;
       // 이미 존재하는 유저인지 확인
       const exist = this.userLoginService.findOne(userwallet);
-      if (exist) {
+      console.log('@@ 이그지 함수: ', exist);
+      if (exist == null || undefined) {
         return false;
       }
       return true;
@@ -56,8 +59,9 @@ export class SignupService {
   private isExistNickName(user_nickname: string): boolean {
     try {
       const exist = this.userLoginService.findOne(user_nickname);
+      console.log('@@ 닉네임 함수 : ', exist);
       // 값이 존재하면
-      if (exist) {
+      if (exist == null || undefined) {
         return false;
       }
       return true;
