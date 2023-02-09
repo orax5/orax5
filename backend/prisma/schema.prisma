@@ -27,7 +27,7 @@ model User{
 // shin_ispermit 1: 심사대기 2: 심사완료(승인) 3: 반려
 model Shinchunghada{
   shin_no Int @default(autoincrement()) @id
-  shin_title String @db.Char(20)
+  shin_title String @unique @db.Char(20)
   shin_amount Int
   shin_nft_totalbalance Int
   shin_cover String

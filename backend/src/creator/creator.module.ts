@@ -7,23 +7,17 @@ import { ShinchungModule } from './shinchung/shinchung.module';
 //import { OpenfundingModule } from './openfunding/openfunding.module';
 import { HttpModule } from '@nestjs/axios';
 import { HttpService } from '@nestjs/axios';
-import { UploadsModule } from '../uploads/uploads.module';
+import { UploadsModule } from '../file-s3/uploads/uploads.module';
 import { OpenfundingModule } from './openfunding/openfunding.module';
+import { RedisCacheModule } from 'src/cache/cache.module';
 
 // OpenfundingModule
-@Module({
-  imports: [
-    CreatorSignupModule,
-    AuthModule,
-    CreatorLoginModule,
-    UserModule,
-    ShinchungModule,
-    HttpModule,
-    OpenfundingModule,
-    UploadsModule,
+@Module({ 
+  imports: [CreatorSignupModule, AuthModule, CreatorLoginModule, UserModule, ShinchungModule, HttpModule, OpenfundingModule, UploadsModule,RedisCacheModule
+        
   ],
   controllers: [],
-  providers: [],
+  providers: []
 })
 export class CreatorModule {}
 

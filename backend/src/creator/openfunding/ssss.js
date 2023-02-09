@@ -1,5 +1,6 @@
 // 타협안
 
+
 // import { Injectable } from '@nestjs/common';
 // import { PrismaService } from '../../prisma.service';
 // import { ConfigService } from '@nestjs/config';
@@ -26,19 +27,22 @@
 
 //         // db에서 뽑은 객체 JSON으로 변환하기
 //         // stringify json 문자열로 바꿔줌
-
+  
 //         const metaData = JSON.stringify(result);
 
 //         // db에서 뽑은 객체값 그대로 넣음
 //         this.getMetaData(await result, shinNo);
 
+
 //         console.log('@@@@@');
 //         console.log(metaData);
 //          // JSON으로 변환한 메타데이터 파일로 저장하기
-//          this.saveMetaData(metaData, shinNo);
+//          this.saveMetaData(metaData, shinNo); 
 
 //          // metaDATA 잘 저장됐는지 확인하기
 //          this.readMetaJson(shinNo);
+
+
 
 //     }
 
@@ -47,14 +51,14 @@
 //     private saveMetaData(metaData: string, shinNo: number){
 //         if(metaData){
 //             // 파일저장할 경로, 기록될 데이터, 옵션함수
-//             fs.writeFile( `${shinNo}`, metaData,
+//             fs.writeFile( `${shinNo}`, metaData, 
 //                 (err)=> {
 //                     if(err){
 //                         console.log(err);
 //                         throw new Error('META 데이터 파일저장 실패');
 //                     }else{
 //                         console.log(' META 데이터 파일저장 성공! ');
-//                     }
+//                     } 
 //                 });
 //             }
 //         }
@@ -72,7 +76,7 @@
 //     }
 
 //     // 이미지 경로 ipfs:// 로 바꾼다음에 저장해여함!!!
-
+    
 //         // 커버사진 IPFS로 올리고 CID 받기
 //         // name : db에 저장한 id: 숫자 값이지만 string d으로 저장되어야 하기때문에 string
 //         async getMetaData(shinchungForm: CreatorShinChungDto, shinNo: number){
@@ -80,7 +84,8 @@
 //             const description = shinchungForm.shin_description;
 //             const totalbalance = shinchungForm.shin_nft_totalbalance;
 //             const category = shinchungForm.shin_category;
-
+            
+             
 //             const imgURL = shinchungForm.shin_cover;
 //             const image = await this.fileFromPath(imgURL);
 //             const API_KEY = this.config.get('NFT_Storage');
@@ -103,17 +108,22 @@
 //             return new File([content], path.basename(imgURL), {type})
 //         }
 
+    
 // }
+
+
+
 
 // /*
 //     getImageCID()
 //                const PINATA_TOKEN = this.config.get('PINATA_JWT_TOKEN');
 //             //const axiosInstance = axios.create()
-
+     
 //                 const SRC = imgURL; // 이미지 url
 
 //                 const axiosInstance = axios.create();
 //                 const formData = new FormData();
+                
 
 //                 // axiosRef == AxiosInstance
 //                 const response = await this.http.axiosRef(SRC, {
@@ -139,13 +149,13 @@
 // */
 
 // /*
-
+                
 //     // 피나타 api로 json 보내고 url 받아오기
 //     // npm install --save @pinata/sdk
 //     private postPinata(metaData: string){
 //         const PINATA_API_KEY = this.config.get('PINATA_API_KEY');
 //         const PINATA_SCRETKET = this.config.get('PINATA_SECRET_KEY');
-
+   
 //         // API키로 피나타 연결
 //         const pinata = new pinataSDK({  pinataApiKey : PINATA_API_KEY ,  pinataSecretApiKey : PINATA_SCRETKET } )
 //             // 피나타 연결됐는지 확인
@@ -154,13 +164,14 @@
 //                 // 연결 성공했다면 메타데이터 json 그대로 보내기
 //                 // response 데이터 형태 밑에있음
 //                 const response = pinata.pinJSONToIPFS(metaData);
-
+          
 //             }).catch((err)=>{
 //                 console.log(err);
 //                 throw new Error(' 피나타 연결 실패')
 //             })
 //         }
 
+        
 //          response 형태
 
 //         {
@@ -168,5 +179,6 @@
 //             PinSize: This is how large (in bytes) the content you just pinned is,
 //             Timestamp: This is the timestamp for your content pinning (represented in ISO 8601 format)
 //         }
+        
 
 // */

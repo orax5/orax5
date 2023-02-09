@@ -3,7 +3,7 @@ import { DownloadService } from './download.service';
 import { DownloadController } from './download.controller';
 
 @Module({
-  providers: [DownloadService],
   controllers: [DownloadController],
+  providers: [DownloadService],
 })
 export class DownloadModule {}
