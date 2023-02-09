@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Link from "next/Link";
 import Player from "../components/player/Player";
@@ -14,6 +15,9 @@ const index = () => {
   const lockerHandler = () => {
     setSelectContent(false);
   };
+
+  
+
 
   return (
     <MainContainer>

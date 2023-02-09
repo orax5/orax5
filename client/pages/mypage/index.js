@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
+import { useSelector, useDispatch } from "react-redux";
+import { ticket } from "../../redux/modules/user";
 // 마이페이지 컴포넌트
 import MyNft from "../components/mypage/MyNft";
 import TransactionDetails from "../components/mypage/TransactionDetails";
 import FundingNft from "../components/mypage/FundingNft";
 // 구글아이콘
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-// // 리액트 아이콘
+// 리액트 아이콘
 import { FaEthereum } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { ethers } from "ethers";
 
 const index = () => {
   // 클립보드 카피 되었다는 표시 알려줄려고 셋타임아웃state 관리용useState
   const [clipAccount, setClipAccount] = useState(false);
   // 보여줄 페이지의 인덱스
   const [index, setIndex] = useState(0);
+
+  const dispatch = useDispatch();
 
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true); // 트루 값 먼저주고
@@ -42,34 +46,39 @@ const index = () => {
     1: <FundingNft />,
     2: <TransactionDetails />,
   };
+
   // 구독권 확인
   const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
-  const account = useSelector((state) => state.user.users.account);
+  console.log(Ftoken)
+  const account = useSelector((state) => state.user.users.user_wallet);
+
   const [result, setResult] = useState(null);
+  console.log(result)
+
 
   useEffect(() => {
     async function checkTicket() {
       const result = await Ftoken.streamingView();
+      // 남은 스트리밍 시간
       const leftTime = result.toString();
-      // const today = Date.now();
-      const today = new Date().getTime();
-      console.log(today);
-      console.log(leftTime);
-      // 스트리밍권 + 오늘날짜
-      setResult(Math.floor((leftTime - today) / (1000 * 60 * 60 * 24)));
+      // 남은 스트리밍 시간 숫자로
+      const lleftTime = parseInt(leftTime)
+      // 밀리초로 나눔
+      const today = new Date().getTime() / 1000
+      // 소수점 내린 최종 현재시간 초
+      const ttoday = Math.floor(today)
+      console.log("트랜잭션발생시간+30일초",lleftTime);
+      console.log("가공한후현재시간초:",ttoday);
+      // 남은날짜를 수정 
+      setResult(Math.floor((lleftTime - ttoday) * 1000 / 86400000 ));
+      console.log("여기결과값",result.toString())
+      dispatch(ticket(result,ttoday))
     }
     checkTicket();
+    
   }, [result]);
+  
 
-  // const endDate = new Date("2023-01-30 14:55:00");
-  // // 펀딩이 종료되었을 때 보여지는 태그 처리
-  // const [isTimeOver, setIsTimeOver] = useState(false);
-  // // countDown 함수 - 계산해서 받은 값을 배열로 받아옴
-  // const [date, hours, minutes, seconds] = CountDown(endDate, setIsTimeOver);
-  // // 펀딩 기간 이후 버튼 블락 처리
-  // const TimeOverAlert = () => {
-  //   alert("펀딩종료 후에는 펀딩에 참여하실 수 없습니다");
-  // };
   return (
     <MainContainer>
       <div></div>
@@ -98,11 +107,10 @@ const index = () => {
           </StateButton>
         </UserStateArea>
         <UserInfo>
-          <div>
-            cash : {"999"}
-            {"ETH"}
-          </div>
-          <div>{result ? result : "여기 남은 스트리밍 시간"}</div>
+          {/* <div>
+            cash : {"999"}{"ETH"}
+          </div> */}
+          <div>{result ? ("스트리밍 잔여기한 —̳͟͞͞💁🏻ᩚ "+result+" 일") : "여기 남은 스트리밍 시간"}</div>
         </UserInfo>
         <StateBoard>
           <AssetsState>

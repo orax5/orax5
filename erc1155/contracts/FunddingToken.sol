@@ -53,11 +53,11 @@ contract FunddingToken is Ownable{
         // 보낸 돈을 체크해준다. 1개월 3개월 6개월 중 하나여야지 통과
         require(msg.value == 0.5 ether || msg.value == 1 ether || msg.value == 2 ether);
         if(msg.value == 0.5 ether){
-            _timeOwner[msg.sender] = block.timestamp + (8640 * 30);
+            _timeOwner[msg.sender] = block.timestamp + (86400 * 30);
         } else if(msg.value == 1 ether){
-            _timeOwner[msg.sender] = block.timestamp + (8640 * 90);
+            _timeOwner[msg.sender] = block.timestamp + (86400 * 90);
         } else if(msg.value == 2 ether){
-            _timeOwner[msg.sender] = block.timestamp + (8640 * 180);
+            _timeOwner[msg.sender] = block.timestamp + (86400 * 180);
         }
         emit subscriptionBuyEvent(msg.sender, msg.value);
     }

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const LOGIN = "user/LOGIN";
+const TICKET = "user/TICKET"
 // const SALEREG = "user/SALEREG"
 
 // 유저 회원가입
@@ -72,7 +73,7 @@ export const login = (account, email, password, tokenData) => {
     };
     const data = loginInfo.data;
 
-   // console.log("data : tokenData",tokenData);
+    console.log("data : tokenData",tokenData);
     console.log(data);
     dispatch({
       type: LOGIN,
@@ -81,25 +82,37 @@ export const login = (account, email, password, tokenData) => {
   };
 };
 
-export const SaleReg = (offerAccount,offerAmount,offerPrice) => {
+// 스트리밍권
+export const ticket = (leftTicket,ttoday) => {
   return async (dispatch, getState) => {
-    const SaleInfgo = {
-      data: {offerAccount,offerAmount,offerPrice},
-    };
-    const data = SaleInfgo.data;
-    console.log(data)
-    dispatch({
-      type: SALEREG,
-      payload: data
-    })
-  }
+    const data = {leftTicket,ttoday}
+    console.log(leftTicket)
+   dispatch({
+      type: TICKET,
+      payload: {data}
+   }) 
 }
+}
+
+// export const SaleReg = (offerAccount,offerAmount,offerPrice) => {
+//   return async (dispatch, getState) => {
+//     const SaleInfgo = {
+//       data: {offerAccount,offerAmount,offerPrice},
+//     };
+//     const data = SaleInfgo.data;
+//     console.log(data)
+//     dispatch({
+//       type: SALEREG,
+//       payload: data
+//     })
+//   }
+// }
 
 // 초기값
 const init = {
   users: {},
   contracts: {},
-  // saleInfo : {},
+  tickets: {}
 };
 
 // 리듀서
@@ -107,15 +120,9 @@ export default function user(state = init, action) {
   const { type, payload } = action;
   switch (type) {
     case LOGIN:
-      return {
-        users: { ...payload.data },
-        contracts: { ...payload.tokenData },
-      };
-    // case SALEREG:
-    //   return {
-    //     saleInfo : {...payload.data}
-    // }
-
+      return {...state, users : payload.data, contracts : payload.tokenData };
+    case TICKET:
+      return {...state, tickets : payload.data }
     default:
       return { ...state };
   }

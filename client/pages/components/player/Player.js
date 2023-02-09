@@ -5,11 +5,24 @@ import AudioPlayer from "react-h5-audio-player";
 import { useSelector } from "react-redux";
 import db from "../../../public/db.json";
 const Player = () => {
+
+  const leftStreaming = useSelector((state) => state.user.tickets.leftTicket);
+  const intLeftStreaming = parseInt(leftStreaming);
+  const ttoday = useSelector((state) => state.user.tickets.ttoday);
+  const leftDay = (Math.floor((intLeftStreaming - ttoday) * 1000 / 86400000));
+  console.log(intLeftStreaming);
+  console.log(ttoday);
+  console.log(isNaN(leftDay));
+
+  const alamTest = () => {
+  
+  }
+
   const musics = db.musics;
   // 이건 오른쪽 슬라이드에서 선택하면 재생목록에 추가되고 이걸 최종적으로
   // 플레이어 부분에서 보여줄건데, 로컬 스토리지에 넣어놓고 사용할 예정
   // 아니면 백에 말해서 재생목록 DB를 만들던지
-  const addedSings = useSelector((state) => state.streaming.playList);
+  // const addedSings = useSelector((state) => state.streaming.playList);
   // console.log(addedSings);
   const audioRef = useRef(null);
 
@@ -29,6 +42,11 @@ const Player = () => {
   };
   // 재생목록 누르면 재생되는 함수
   const playInmusicMusic = (id) => {
+    // 로그인안하거나 그냥 접근하면 selector가 NaN를 표기하는데 이 값이 나오면~
+    if( isNaN(leftDay) === true || 0 >= leftDay ){
+      alert("스트리밍권을 구매해주세요");
+      return
+    }
     // console.log(audioRef.current);
     // DB 전체 노래 목록에서 list에서 클릭된 음악의 id와 일치하는 곡을 찾음
     const findId = musics.filter((el) => el.id == id);
