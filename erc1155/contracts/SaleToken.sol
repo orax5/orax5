@@ -49,15 +49,15 @@ contract SaleToken is DtsToken{
     // 판매 등록 함수
     function salesToken(uint256 tokenId ,uint256 amount, uint256 price) public isSaleError(tokenId){
         // 판매하려는 갯수가 본인이 가지고 있는 갯수를 넘지 않는지.
-        // require(DToken.balanceOf(msg.sender, tokenId) >= amount, "Please enter the exact quantity.");
-        // // 판매 가격이 0보다 큰 값인지 확인
-        // require(price > 0,"Please enter the correct price.");
-        // // 판매 물량이 0보다 큰 값인지 확인
-        // require(amount > 0,"Please enter the correct amount.");
-        // // 판매 권한이 있는지 확인한다.
-        // require(DToken.isApprovedForAll(msg.sender,address(this)),"be not approved");
-        // // 펀딩이 성공된 음원인지 확인
-        // require(DToken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
+        require(DToken.balanceOf(msg.sender, tokenId) >= amount, "Please enter the exact quantity.");
+        // 판매 가격이 0보다 큰 값인지 확인
+        require(price > 0,"Please enter the correct price.");
+        // 판매 물량이 0보다 큰 값인지 확인
+        require(amount > 0,"Please enter the correct amount.");
+        // 판매 권한이 있는지 확인한다.
+        require(DToken.isApprovedForAll(msg.sender,address(this)),"be not approved");
+        // 펀딩이 성공된 음원인지 확인
+        require(DToken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
 
         SaleTokenInfo memory data = _getSalesTokenData(msg.sender, tokenId, amount, price);
         _saleTokenList[tokenId][_saleNumber[tokenId]] = data;

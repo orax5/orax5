@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/ERC1155.sol";
 import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
 // import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
@@ -108,7 +108,7 @@ contract DtsToken is ERC1155, Ownable{
         data.NftAmount = _amount;
         data.TotalPrice = _totalPrice *(10 ** 18);
         data.UnitPrice = _unitPrice;
-        data.EndTime = block.timestamp + (8640 * _getTime);
+        data.EndTime = block.timestamp + (60 * _getTime);
         data.isSuccess = false;
         
         return data;
@@ -129,6 +129,12 @@ contract DtsToken is ERC1155, Ownable{
         require(ERC1155.balanceOf(tokenOwners[tokenId].Creater, tokenId) == 0, "Is it sold out?");
         require(Ftoken.priceCheck(tokenId) == tokenOwners[tokenId].NftAmount);
         tokenOwners[tokenId].isSuccess = true;
+    }   
+    // 유저가 펀딩 신청하고 펀딩이 아직 성공 안 했으면 성공 여부를 false;
+    function isFunddingFalsed(uint256 tokenId) external{
+        require(ERC1155.balanceOf(tokenOwners[tokenId].Creater, tokenId) > 0, "Is it not sold out?");
+        require(Ftoken.priceCheck(tokenId) != tokenOwners[tokenId].NftAmount);
+        tokenOwners[tokenId].isSuccess = false;
     }
 
     // 유저는 판매하기전에 이 함수를 통해서 saleToken에게 판매 권한을 부여한다.
@@ -148,9 +154,10 @@ contract DtsToken is ERC1155, Ownable{
     // 컨트랙트 오너가 사용하면 FunddingTokenCA를 받아와 담아준다. (FunddingOwnerOnly 함수 제어자를 사용하기 위해서 씀.)
     function isChangedCA(address account) external {
         require(account == msg.sender,"????");
+        require(_funddingCA == address(0),"Run once only in the beginning");
         _funddingCA = account;
         // 생성자에서 배포된 FunddingToken CA를 받아서 Ftoken 상태변수에 저장한다.
-        Ftoken = FunddingToken(account); 
+        Ftoken = FunddingToken(account);
     }
 
     // 실행시킨 주체가 SaleCA인지 확인하는 함수 제어자
@@ -162,5 +169,9 @@ contract DtsToken is ERC1155, Ownable{
     // // URI 변경할 수 있는데 컨트랙트 오너만 가능하다.
     // function setURI(string memory newuri) public onlyOwner {
     //     _setURI(newuri);
+    // }
+    // // nft json 설정
+    // function tokenURI(uint _tokenId) public override view returns (string memory) {
+    //     return string(abi.encodePacked(metadataURI, '/', Strings.toString(_tokenId), '.json'));
     // }
 }

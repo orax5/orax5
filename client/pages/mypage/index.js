@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
-import { useSelector } from "react-redux";
 // 마이페이지 컴포넌트
 import MyNft from "../components/mypage/MyNft";
 import TransactionDetails from "../components/mypage/TransactionDetails";
@@ -11,15 +10,12 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 // // 리액트 아이콘
 import { FaEthereum } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { ethers } from "ethers";
 
 const index = () => {
   // 클립보드 카피 되었다는 표시 알려줄려고 셋타임아웃state 관리용useState
   const [clipAccount, setClipAccount] = useState(false);
   // 보여줄 페이지의 인덱스
   const [index, setIndex] = useState(0);
-
-
 
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true); // 트루 값 먼저주고
@@ -50,7 +46,6 @@ const index = () => {
   const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
   const account = useSelector((state) => state.user.users.account);
   const [result, setResult] = useState(null);
-
 
   useEffect(() => {
     async function checkTicket() {
@@ -146,7 +141,7 @@ const index = () => {
       <div></div>
     </MainContainer>
   );
-}
+};
 
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
