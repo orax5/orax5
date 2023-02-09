@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import user from "./user";
 import streaming from "./streaming";
+import funding from "./funding";
 import { HYDRATE } from "next-redux-wrapper";
 
 const rootReducer = (state, action) => {
@@ -8,9 +9,8 @@ const rootReducer = (state, action) => {
     case HYDRATE:
       return action.payload;
 
-
     default:
-      return combineReducers({ user,streaming })(state, action);
+      return combineReducers({ user, streaming, funding })(state, action);
   }
 };
 

@@ -10,7 +10,7 @@ const index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [uploadedImg, setUploadedImg] = useState("/Img/sample.jpg");
+  const [uploadedImg, setUploadedImg] = useState("/transparent.png");
   const [sendImg, setSendImg] = useState();
 
   // 이미지 올리고 미리보기
@@ -28,23 +28,66 @@ const index = () => {
   const uploadBtn = () => {
     const formData = new FormData();
     formData.append("uploadedImg", sendImg);
-    dispatch(uploadImage(formData));
-    console.log(sendImg);
-    // s3에 dispatch가 성공하면? 보내지도록처리
-    // router.push("/creator/register/detailform");
+    if (sendImg == null) {
+      alert("이미지를 등록해주세요");
+    } else {
+      const imageName = sendImg.name;
+      const singTitle = imageName.substring(0, imageName.length - 4);
+      // 제목 맞는지 한 번 더 확인
+      if (
+        !confirm(
+          `신청하실 곡의 제목은 <${singTitle}> 입니다. 추후 변경이 불가능하니 반드시 확인해주세요.`
+        )
+      ) {
+        alert("취소되었습니다");
+      } else {
+        console.log("이미지 확인 완료");
+        console.log(sendImg);
+        dispatch(uploadImage(sendImg));
+        router.push("/creator/register/detailForm");
+      }
+      // s3에 dispatch가 성공하면? 보내지도록처리
+    }
   };
 
   return (
     <MainContainer>
       <div></div>
       <MainArea>
-        <Image
-          src={uploadedImg}
-          width={400}
-          height={400}
-          alt="uploadedImg"
-          style={{ borderRadius: "50%" }}
+        <h1>크리에이터 펀딩 신청폼</h1>
+        <hr
+          style={{
+            height: "1px",
+            width: "60vw",
+            background: "white",
+            margin: "0.5rem 0",
+          }}
         />
+        <h2>1. 앨범아트를 등록해주세요</h2>
+        <Preview>
+          <Image
+            src={uploadedImg}
+            width={450}
+            height={450}
+            alt="uploadedImg"
+            style={{
+              position: "relative",
+              top: "1.4rem",
+              left: "4rem",
+            }}
+          />
+          <Image
+            src="/cover.png"
+            width={530}
+            height={487}
+            alt="uploadedImg"
+            style={{
+              position: "relative",
+              bottom: "30rem",
+            }}
+          />
+        </Preview>
+
         <input
           type="file"
           name="image_URL"
@@ -52,6 +95,22 @@ const index = () => {
           accept="image/*"
           onChange={handleImage}
         />
+        <Warning>
+          <p>
+            ※ 파일명이 제목으로 등록됩니다 반드시{" "}
+            <b>파일명을 제목으로 설정 후</b>
+            업로드 해주세요.
+          </p>
+          <p>
+            ※ 등록한 이미지는 해당 곡의 앨범 아트와 NFT 이미지로 사용되며,
+            <b>추후 수정이 절대 불가합니다</b>.
+          </p>
+          <p>
+            ※ jpg/png 형식의 파일만 업로드 가능하며, 이미지 가로/세로 차이가 클
+            경우 이미지가 깨질 수 있습니다.
+          </p>
+        </Warning>
+
         <button onClick={uploadBtn}>제출 및 다음 단계로 이동</button>
       </MainArea>
       <div></div>
@@ -61,7 +120,60 @@ const index = () => {
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
+const Preview = styled.div`
+  width: 36rem;
+  height: 33rem;
+  overflow-y: hidden;
+  @media ${(props) => props.theme.device.mobile} {
+    width: 26rem;
+    height: 23rem;
+  }
+  > img:first-child {
+    @media ${(props) => props.theme.device.mobile} {
+      width: 20.2rem;
+      height: 20.2rem;
+      position: relative;
+      top: 2rem;
+      left: 2.2rem;
+    }
+  }
+  > img:last-child {
+    @media ${(props) => props.theme.device.mobile} {
+      width: 23rem;
+      height: 21.8rem;
+      position: relative;
+      bottom: 0;
+      top: -19.8rem;
+      left: 2rem;
+    }
+  }
+`;
+const Warning = styled.div`
+  font-size: 1.2rem;
+  margin: 1.5rem 0;
+  @media ${(props) => props.theme.device.mobile} {
+    width: 22rem;
+  }
+`;
 const MainArea = styled.div`
   ${(props) => props.theme.align.flexCenterColumn};
+
+  > input {
+    border: none;
+    margin-left: 2rem;
+  }
+  > button {
+    border: 1px solid white;
+    width: 40rem;
+    height: 3rem;
+    font-size: 1.2rem;
+    @media ${(props) => props.theme.device.mobile} {
+      width: 22rem;
+    }
+  }
+  > button:hover {
+    background-color: white;
+    color: black;
+  }
 `;
 export default index;

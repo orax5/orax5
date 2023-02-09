@@ -11,9 +11,21 @@ const detailForm = () => {
   // const creatorCA = useSelector((state)=> state.user.users.acount)
   const creatorCA = "0x123131231231313231312";
 
-  // 이전 페이지에서 업로드하고 받아온 이미지 주소
-  // const returnedUrl = useSelector((state) => state.funding.imgURL);
-  const returnedUrl = "img/32323.jpg";
+  // 이전 페이지에서 업로드하고 받아온 이미지/제목
+  const returnedUrl = useSelector((state) => state.funding.imgURL);
+
+  const [uploadedImg, setUploadedImg] = useState("transparent.png");
+  const [uploadedTitle, setUploadedTitle] = useState("");
+
+  useEffect(() => {
+    const preUploadedImg = returnedUrl.name;
+    const preUploadedTitle = preUploadedImg.substring(
+      0,
+      preUploadedImg.length - 4
+    );
+    setUploadedImg(preUploadedImg);
+    setUploadedTitle(preUploadedTitle);
+  });
 
   // 카테고리 숫자로 받음
   const [category, setCategory] = useState(1);
@@ -23,7 +35,6 @@ const detailForm = () => {
   };
 
   const [inputs, setInputs] = useState({
-    title: "",
     composer: "",
     lyricist: "",
     singer: "",
@@ -52,31 +63,34 @@ const detailForm = () => {
 
   // input데이터를 모은 배열에다가 카테고리, 크리에이터 CA, 이미지 주소 전달
   // 새로운 객체를 만들어서 보낸다
-  const setSendData = { ...inputs, category, creatorCA, returnedUrl };
-  console.log(setSendData);
+  const data = { ...inputs, uploadedTitle, category, creatorCA, returnedUrl };
+  console.log(data);
+
   // 백에 보내는 곳
-  const shinFunding = async (setSendData) => {
+  const shinFunding = async (data) => {
     try {
-      const imageRes = await axios({
-        url: "http://localhost:3001/creator/shinchung",
+      const imageRes = await {
+        // const imageRes = await axios({
+        // url: "http://localhost:3001/creator/shinchung",
         method: "post",
         data: {
-          shin_title: title,
-          com_name: composer,
-          lyric_name: lyricist,
-          sing_name: singer,
-          shin_amount: nftAmount,
-          shin_nft_totalbalance: totalBalance,
-          shin_cover: albumArt,
-          shin_opendate: opendate,
-          shin_description: description,
-          shin_category: category,
-          shin_creator_address: creatorCA,
-          shin_cover: returnedUrl,
+          shin_title: data.uploadedTitle,
+          com_name: data.composer,
+          lyric_name: data.lyricist,
+          sing_name: data.singer,
+          shin_amount: data.nftAmount,
+          shin_nft_totalbalance: data.totalBalance,
+          shin_cover: data.albumArt,
+          shin_opendate: data.opendate,
+          shin_description: data.description,
+          shin_category: data.category,
+          shin_creator_address: data.creatorCA,
+          shin_cover: data.returnedUrl,
         },
-      });
+      };
       const imageURL = imageRes.data;
       console.log(imageURL);
+      router.push("/creator")
     } catch (e) {
       console.error(e);
     }
@@ -90,15 +104,45 @@ const detailForm = () => {
     <MainContainer>
       <div></div>
       <RegisterWrap>
-        <Image
-          src="/Img/sample.jpg"
-          width={400}
-          height={400}
-          alt="uploadedImg"
-          style={{ borderRadius: "50%" }}
+        <h1>크리에이터 펀딩 신청폼</h1>
+        <hr
+          style={{
+            height: "1px",
+            width: "80vw",
+            background: "white",
+            margin: "0.5rem 0",
+          }}
         />
-        <div>
-          <RegistserForm>
+        <RegistserForm>
+          <Preview>
+            <Image
+              src={`/Img/${uploadedImg}`}
+              // src={`/Img/Butter.jpg`}
+              width={450}
+              height={450}
+              alt="uploadedImg"
+              style={{
+                position: "relative",
+                top: "1.4rem",
+                left: "4rem",
+              }}
+            />
+            <Image
+              src={"/cover.png"}
+              width={530}
+              height={487}
+              alt="uploadedImg"
+              style={{
+                position: "relative",
+                bottom: "30rem",
+              }}
+            />
+          </Preview>
+          <div>
+            <div>
+              <DetailContent>제목</DetailContent>
+              <InputBox readOnly name="title" value={uploadedTitle} />
+            </div>
             <div>
               <DetailContent>카테고리</DetailContent>
               <SelectOption
@@ -118,10 +162,6 @@ const detailForm = () => {
               </SelectOption>
             </div>
             <div>
-              <DetailContent>제목</DetailContent>
-              <InputBox onChange={inputsHandler} name="title" />
-            </div>
-            <div>
               <DetailContent>작곡가</DetailContent>
               <InputBox onChange={inputsHandler} name="composer" />
             </div>
@@ -132,37 +172,39 @@ const detailForm = () => {
             <div>
               <DetailContent>가수</DetailContent>
               <InputBox onChange={inputsHandler} name="singer" />
-            </div>
-          </RegistserForm>
-          <RegistserForm>
+            </div>{" "}
             <div>
               <DetailContent>설명</DetailContent>
               <InputBox onChange={inputsHandler} name="description" />
             </div>
-            <div>
-              <DetailContent>발행량</DetailContent>
-              <InputBox onChange={inputsHandler} name="nftAmount" />
-            </div>
-            <div>
-              <DetailContent>목표 금액</DetailContent>
-              <InputBox onChange={inputsHandler} name="totalBalance" />
-            </div>
-            <div>
-              <DetailContent>펀딩 시작 날짜</DetailContent>
-              <InputBox
-                type="date"
-                onChange={inputsHandler}
-                name="opendate"
-                ref={dateRef}
-                date={date}
-              />
-            </div>
-          </RegistserForm>
-        </div>
-        <div>
-          <SubmitBtn onClick={shinCancel}>취소하기</SubmitBtn>
-          <SubmitBtn onClick={shinFunding}>등록하기</SubmitBtn>
-        </div>
+          </div>
+        </RegistserForm>
+
+        <RegistserForm>
+          <div>
+            <DetailContent>발행량</DetailContent>
+            <InputBox onChange={inputsHandler} name="nftAmount" />
+          </div>
+
+          <div>
+            <DetailContent>펀딩 시작 날짜</DetailContent>
+            <InputBox
+              type="date"
+              onChange={inputsHandler}
+              name="opendate"
+              ref={dateRef}
+              date={date}
+            />
+          </div>
+          <div>
+            <DetailContent>목표 금액</DetailContent>
+            <InputBox onChange={inputsHandler} name="totalBalance" />
+          </div>
+          <BtnBox>
+            <SubmitBtn onClick={shinCancel}>취소하기</SubmitBtn>
+            <SubmitBtn onClick={shinFunding}>등록하기</SubmitBtn>
+          </BtnBox>
+        </RegistserForm>
       </RegisterWrap>
 
       <div></div>
@@ -173,38 +215,99 @@ const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
 const RegisterWrap = styled.div`
-  ${(props) => props.theme.align.flexCenterColumn};
-  width: 50rem;
-  > div {
-    ${(props) => props.theme.align.flexCenter};
-  }
-  // 버튼 박스
-  > div:last-child {
-    width: 45rem;
-    justify-content: space-evenly;
+  width: 60vw;
+  @media ${(props) => props.theme.device.pc},
+    ${(props) => props.theme.device.tablet},
+    ${(props) => props.theme.device.moblie} {
+    width: 80vw;
   }
 `;
 const RegistserForm = styled.div`
-  margin: 2rem;
-  > h1 {
-    text-align: center;
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  place-items: center;
+  @media ${(props) => props.theme.device.pc} {
+    ${(props) => props.theme.align.flexCenterColumn}
+  }
+`;
+// 이미지 미리보기
+const Preview = styled.div`
+  width: inherit;
+  height: 35rem;
+  overflow-y: hidden;
+  margin-left: 3rem;
+
+  @media ${(props) => props.theme.device.pc} {
+    margin-left: 10rem;
+  }
+  @media ${(props) => props.theme.device.tablet} {
+    width: inherit;
+    height: 35rem;
+    margin-right: 10rem;
+  }
+  @media ${(props) => props.theme.device.mobile} {
+    width: 26rem;
+    height: 23rem;
+  }
+  // 앨범 아트
+  > img:first-child {
+    @media ${(props) => props.theme.device.pc} {
+      left: -4rem;
+    }
+    @media ${(props) => props.theme.device.mobile} {
+      width: 20.2rem;
+      height: 20.2rem;
+      position: relative;
+      top: 2rem;
+      left: 2.2rem;
+    }
+  }
+  // CD 케이스 이미지
+  > img:last-child {
+    @media ${(props) => props.theme.device.mobile} {
+      width: 23rem;
+      height: 21.8rem;
+      position: relative;
+      bottom: 0;
+      top: -19.8rem;
+      left: 2rem;
+    }
   }
 `;
 const SelectOption = styled.select`
-  width: 15rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
+  width: 35rem;
+  height: 3rem;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  @media ${(props) => props.theme.device.tablet} {
+    width: 30rem;
+  }
+  @media ${(props) => props.theme.device.mobile} {
+    width: 20rem;
+  }
 `;
 const InputBox = styled.input`
-  width: 15rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
-  font-size: 1.5rem;
-  border: solid 1px white;
+  width: 35rem;
+  height: 3rem;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  @media ${(props) => props.theme.device.tablet} {
+    width: 30rem;
+  }
+  @media ${(props) => props.theme.device.mobile} {
+    width: 20rem;
+  }
 `;
-
 const DetailContent = styled.div`
-  margin: 0.3rem 0;
+  margin: 0.5rem 0;
+`;
+const BtnBox = styled.div`
+  width: 35rem;
+  display: flex;
+  justify-content: space-evenly;
+  @media ${(props) => props.theme.device.mobile} {
+    width: 20rem;
+  }
 `;
 const SubmitBtn = styled.button`
   cursor: pointer;
@@ -215,11 +318,15 @@ const SubmitBtn = styled.button`
   border-radius: 0.5rem;
   font-size: 1.2rem;
   margin-top: 1rem;
+  @media ${(props) => props.theme.device.mobile} {
+    width: 8rem;
+  }
   &:hover {
-    background-color: black;
+    background-color: rgba(255, 255, 255, 0.1);
     color: white;
     border: solid 1px white;
     transition: 0.5s;
   }
 `;
+
 export default detailForm;
