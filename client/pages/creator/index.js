@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useWeb3React } from "@web3-react/core";
 import styled from "styled-components";
 import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
-import { ethers } from "ethers";
-import dtsToken from '../../contracts/DtsToken.json';
 import { useSelector } from "react-redux";
+
 
 const index = () => {
   const datas = [
@@ -14,7 +12,8 @@ const index = () => {
       category: "힙합",
       scale: "0.123",
       date: "23.01.12",
-      content: "100개",
+      targetPrice: "1000",
+      amount: "100개",
       state: "실패",
     },
     {
@@ -22,16 +21,18 @@ const index = () => {
       category: "댄스",
       scale: "0.456",
       date: "22.12.13",
+      targetPrice: "1000",
       state: "진행 중",
-      content: "100개",
+      amount: "100개",
     },
     {
       name: "다진스RnB",
       category: "RnB",
       scale: "0.789",
       date: "19.12.31",
+      targetPrice: "1000",
       state: "실패",
-      content: "100개",
+      amount: "100개",
     },
     {
       name: "라진스발라드",
@@ -39,7 +40,8 @@ const index = () => {
       scale: "1.24",
       state: "진행 중",
       date: "03.05.07",
-      content: "100개",
+      targetPrice: "1000",
+      amount: "100개",
     },
     {
       name: "마진스팝",
@@ -47,7 +49,8 @@ const index = () => {
       scale: "2.24",
       state: "진행 중",
       date: "18.04.02",
-      content: "100개",
+      targetPrice: "1000",
+      amount: "100개",
     },
     {
       name: "뉴진스락",
@@ -55,7 +58,8 @@ const index = () => {
       scale: "4.44",
       state: "완료",
       date: "21.05.07",
-      content: "100개",
+      targetPrice: "1000",
+      amount: "100개",
     },
     {
       name: "큐락비락",
@@ -63,7 +67,8 @@ const index = () => {
       scale: "1.44",
       state: "진행 중",
       date: "21.12.07",
-      content: "100개",
+      targetPrice: "1000",
+      amount: "100개",
     },
     {
       name: "블락비댄스",
@@ -71,7 +76,8 @@ const index = () => {
       scale: "2.44",
       state: "완료",
       date: "21.01.07",
-      content: "100개",
+      targetPrice: "1000",
+      amount: "100개",
     },
     {
       name: "비락비발라드",
@@ -79,7 +85,8 @@ const index = () => {
       scale: "10.44",
       state: "진행 중",
       date: "22.06.07",
-      content: "100개",
+      targetPrice: "1000",
+      amount: "100개",
     },
     {
       name: "블락비힙합",
@@ -87,27 +94,21 @@ const index = () => {
       scale: "0.44",
       state: "실패",
       date: "21.07.07",
-      content: "100개",
+      targetPrice: "1000",
+      amount: "100개",
     },
   ];
 
   const [clipAccount, setClipAccount] = useState(false);
   // 보여줄 페이지의 인덱스
   const [index, setIndex] = useState(0);
-
+  
   const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
-  const Stoken = useSelector((state) => state.user.contracts.Stoken);
-  const Ftoken = useSelector((state) => state.user.contracts.ftoken);
-
-  // console.log(Dtoken)
-  // console.log(Stoken)
-  // console.log(Ftoken)
-
+  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
   const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
-  const account = useSelector((state)=>state.user.users.account);
+  const account = useSelector((state)=>state.user.users.user_wallet);
 
-  const adress = account;
-
+  // 클립보트 핸들러
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true);
     setTimeout(() => {
@@ -118,18 +119,50 @@ const index = () => {
     } catch (e) {}
   };
 
+  useEffect(() => {
+    
+  },[])
 
+  
+  // 펀딩 신청
   const asd = async() =>{
-    console.log(Dtoken)
-    console.log(ftokenCA)
-    const aa = await Dtoken.mintFundding(account,ftokenCA,5,10,10,7);
+    const aa = await Dtoken.mintFundding(account,ftokenCA,1,10,10,2);
     console.log(aa);
-  };
+    Dtoken.on("seccessFundding", (account,tokenId,amount,totalPrice,getTime,result)  => {
+      console.log(account);
+      console.log(tokenId);
+      console.log(amount);
+      console.log(totalPrice);
+      console.log(getTime);
+      console.log(result);
+    })
+  }
 
-  const qwe = async () => {
-    const bb = await Dtoken.balanceOf(account, 5);
-    console.log(bb);
-  };
+  // nft 갯수 확인 ? 해야함? 크리에이터가? 유저는 확인해서 myPageNFT 현황보여줘야하는데
+  const qwe = async() => {
+    const bb = await Dtoken.balanceOf(account,1);
+    console.log(bb.toString());
+  }
+
+  // 펀딩 성공시 크리에이터가 돈 받는 함수
+  const bvbvbvb = async() => {
+    await Ftoken.isSuccessFundding(1);
+    Ftoken.on("isSuccessFunddingEvent",(account, tokenId, value) => {
+      console.log(account.toString());
+      console.log(tokenId.toString());
+      console.log(value.toString());
+    })
+  }
+
+  // 펀딩 실패시 유저가 환불하는 함수
+  const zxc = async() => {
+    await Ftoken.isfalsedFundding(account,1);
+    Ftoken.on("isfalsedFunddingEvnet",(account, tokenId, value) => {
+      console.log(account.toString());
+      console.log(tokenId.toString());
+      console.log(value.toString());
+    })
+  }
 
   return (
     <MainContainer>
@@ -140,7 +173,7 @@ const index = () => {
             <h1>
               환영합니다!
               <br />
-              크리에이터 {}님
+              크리에이터 OOO님
             </h1>
             <Link href="/creator/register">펀딩 신청</Link>
           </TitleArea>
@@ -153,10 +186,10 @@ const index = () => {
                   Copied!
                 </CreatorAddress>
               ) : (
-                <CreatorAddress onClick={() => copyClipBoardHandler(adress)}>
+                <CreatorAddress onClick={() => copyClipBoardHandler(account)}>
                   <FaEthereum />
                   &nbsp;
-                  {adress}
+                  {account}
                 </CreatorAddress>
               )}
             </div>
@@ -176,14 +209,11 @@ const index = () => {
                   <tr key={idx}>
                     <td>{data.category}</td>
                     <td>{data.name}</td>
-                    <td>{data.content}</td>
-                    <td>{data.date}</td>
+                    <td onClick={zxc}>{data.amount}</td>
+                    <td onClick={bvbvbvb}>{data.targetPrice}{"ETH"}</td>
                     <td onClick={qwe}>
-                      {data.scale}
-                      qwe
-                      {"ETH"}
+                      {data.date}                      
                     </td>
-
                     <td onClick={asd}>{data.state}</td>
                   </tr>
                 ))}
