@@ -86,7 +86,8 @@ export const login = (account, email, password, tokenData) => {
 export const ticket = (leftTicket,ttoday) => {
   return async (dispatch, getState) => {
     const data = {leftTicket,ttoday}
-    console.log(leftTicket)
+    console.log(parseInt(leftTicket))
+    console.log(parseInt(ttoday))
    dispatch({
       type: TICKET,
       payload: {data}

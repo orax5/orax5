@@ -14,10 +14,6 @@ const Player = () => {
   console.log(ttoday);
   console.log(isNaN(leftDay));
 
-  const alamTest = () => {
-  
-  }
-
   const musics = db.musics;
   // 이건 오른쪽 슬라이드에서 선택하면 재생목록에 추가되고 이걸 최종적으로
   // 플레이어 부분에서 보여줄건데, 로컬 스토리지에 넣어놓고 사용할 예정
