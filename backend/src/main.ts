@@ -25,6 +25,7 @@ async function bootstrap() {
       transform: true 
     })
   ); // validation 전역설정
+  app.enableCors()
   const PORT = process.env.PORT // .env에서 불러온다!
   await app.listen(PORT);
   console.log(`PORT NUM : ${PORT}`);

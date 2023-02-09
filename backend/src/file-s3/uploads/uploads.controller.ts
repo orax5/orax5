@@ -1,5 +1,6 @@
-import { Controller, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
-import { FileInterceptor } from "@nestjs/platform-express";
+import { Body, Controller, Post, UploadedFile, UseInterceptors, Get } from '@nestjs/common';
+import { UploadedFiles } from "@nestjs/common/decorators";
+import { FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
 import { Expr } from "aws-sdk/clients/cloudsearchdomain";
 import { UploadsService } from './uploads.service';
 
@@ -10,10 +11,11 @@ export class UploadsController {
     // 앞단에서 이미지는 따로 등록하도록한다음 url리턴하는거 받아오자
     // 업로드 완성
     @Post('/image')
-    @UseInterceptors(FileInterceptor('file'))
-    async postS3Image(@UploadedFile() file:Express.MulterS3.File){ // 주의 : Express.Multer.File 랑 다른객체
-        const url = await this.uploadService.s3Uploadimage(file);
-        console.log("@@@@ 컨트롤러", url);
+    @UseInterceptors(FileFieldsInterceptor([{name:"uploadedImg"}])) // (FileInterceptor('') - '' 을 앞단에서 보내주는 파일 키값이랑 같게 써줘야함
+    async postS3Image(@UploadedFiles() file:Express.MulterS3.File, @Body() files){ // 주의 : Express.Multer.File 랑 다른객체
+
+      const url = await this.uploadService.s3Uploadimage(file); // 파일이름 이상하게 저장됨
+      console.log("@@@@ 컨트롤러", url);
     }
 
     @Post('/:id')

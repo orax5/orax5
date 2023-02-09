@@ -28,7 +28,7 @@ export class AuthService {
                 }
             })
         } catch (error) {
-            throw new HttpException('로그인 실패, 가입하지 않은 사람임', HttpStatus.BAD_REQUEST); // 일치하는 유저가 없으면 오류
+            throw new UnauthorizedException('로그인 실패, 가입하지 않은 사람임'); // 일치하는 유저가 없으면 오류
         }
     }
 
@@ -49,7 +49,6 @@ export class AuthService {
         try {
             const payload = jwt.verify(jwtString, this.config.get('JWT_SECRET')) as (jwt.JwtPayload | string) & User;
             const {user_wallet, user_email} = payload;
-
             return { user_wallet: user_wallet, user_email: user_email}
 
         } catch (error) {

@@ -26,6 +26,7 @@ CREATE TABLE `Shinchunghada` (
     `shin_ispermit` INTEGER NOT NULL DEFAULT 1,
     `shin_creator_address` CHAR(64) NOT NULL,
 
+    UNIQUE INDEX `Shinchunghada_shin_title_key`(`shin_title`),
     PRIMARY KEY (`shin_no`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -33,6 +34,7 @@ CREATE TABLE `Shinchunghada` (
 CREATE TABLE `Funding` (
     `fund_no` INTEGER NOT NULL AUTO_INCREMENT,
     `fund_state` INTEGER NOT NULL DEFAULT 1,
+    `fund_pinurl` VARCHAR(191) NOT NULL,
     `shin_no` INTEGER NOT NULL,
 
     UNIQUE INDEX `Funding_shin_no_key`(`shin_no`),

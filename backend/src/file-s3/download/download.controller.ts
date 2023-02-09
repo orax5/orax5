@@ -1,5 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
-import { Header } from '@nestjs/common/decorators';
+import { Controller, Get, Header, Param } from '@nestjs/common';
 import { DownloadService } from './download.service';
 
 @Controller('downloadS3')
@@ -10,8 +9,8 @@ export class DownloadController {
         'Content-Diposition',
         'attachment; filename=s3_download_test.txt',
     )
-    @Get()
-    downloadFileS3(){
-        return this.downService.downloadFileS3();
+    @Get('/:id')
+    downloadFileS3(@Param('id') musictitle: string){
+        return this.downService.downloadFileS3(musictitle);
     }
 }

@@ -46,6 +46,7 @@ model Shinchunghada{
 model Funding{
   fund_no Int @default(autoincrement()) @id
   fund_state Int @default(1)
+  fund_pinurl String?
   ifFundingOpen Shinchunghada @relation(fields: [shin_no], references: [shin_no])
   shin_no Int @unique
 }
