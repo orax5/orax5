@@ -1,22 +1,22 @@
-import { Global, Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { UserModule } from './user/user.module';
-import { CreatorModule } from './creator/creator.module';
+import { Global, Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
+import { UserModule } from "./user/user.module";
+import { CreatorModule } from "./creator/creator.module";
 // import { AdminModule } from './admin/admin.module';
 
-import { APP_PIPE } from '@nestjs/core';
-import { ValidationPipe, CacheModule } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UploadsModule } from './file-s3/uploads/uploads.module';
-import { LoggerMiddleware } from './middlewears/logger.middleware';
-import { EmailModule } from './email/email.module';
-import { PrismaService } from './prisma.service';
-import { AdminModule } from './admin/admin.module';
-import { DownloadModule } from './file-s3/download/download.module';
-import { FileS3Module } from './file-s3/file-s3.module';
+import { APP_PIPE } from "@nestjs/core";
+import { ValidationPipe, CacheModule } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { UploadsModule } from "./file-s3/uploads/uploads.module";
+import { LoggerMiddleware } from "./middlewears/logger.middleware";
+import { EmailModule } from "./email/email.module";
+import { PrismaService } from "./prisma.service";
+import { AdminModule } from "./admin/admin.module";
+import { DownloadModule } from "./file-s3/download/download.module";
+import { FileS3Module } from "./file-s3/file-s3.module";
 
 //import { AppController } from './app.controller';
-import * as redisStore from 'cache-manager-ioredis';
-import { CacheService } from './cache/cache.service';
+import * as redisStore from "cache-manager-ioredis";
+import { CacheService } from "./cache/cache.service";
 
 // AdminModule,
 // @Global()
@@ -28,6 +28,7 @@ import { CacheService } from './cache/cache.service';
     AdminModule,
     EmailModule,
     UploadsModule,
+    FileS3Module,
     ConfigModule.forRoot({
       isGlobal: true, // 전체적으로 사용하기 위해
       envFilePath: `${process.env.NODE_ENV}.env`,
@@ -47,7 +48,7 @@ import { CacheService } from './cache/cache.service';
 // 미들웨어 설정
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
-    consumer.apply(LoggerMiddleware).forRoutes('/user_*');
+    consumer.apply(LoggerMiddleware).forRoutes("/user_*");
   }
 }
 

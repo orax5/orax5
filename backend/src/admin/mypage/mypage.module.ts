@@ -1,12 +1,12 @@
-import { Module } from '@nestjs/common';
-import { MypageService } from './mypage.service';
-import { MypageController } from './mypage.controller';
-import { PrismaService } from '../../prisma.service';
-import { UploadsService } from '../../file-s3/uploads/uploads.service';
-import { HttpModule } from '@nestjs/axios';
-import { ConfigService } from '@nestjs/config';
-import { CacheService } from '../../cache/cache.service';
-import { EmailService } from '../../email/email.service';
+import { Module } from "@nestjs/common";
+import { MypageService } from "./mypage.service";
+import { MypageController } from "./mypage.controller";
+import { PrismaService } from "../../prisma.service";
+import { UploadsService } from "../../file-s3/uploads/uploads.service";
+import { HttpModule } from "@nestjs/axios";
+import { ConfigService } from "@nestjs/config";
+import { CacheService } from "../../cache/cache.service";
+import { EmailService } from "../../email/email.service";
 
 @Module({
   imports: [

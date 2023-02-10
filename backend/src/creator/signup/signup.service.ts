@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { EmailService } from 'src/email/email.service';
 import * as uuid from 'uuid'; 
 import { ConfigService } from '@nestjs/config';
-import { CacheService } from '../../cache/cache.service';
+import { CacheService } from '../../cache/cache.service'
 import { async } from 'rxjs';
 
 
