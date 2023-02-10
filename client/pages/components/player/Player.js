@@ -5,18 +5,15 @@ import AudioPlayer from "react-h5-audio-player";
 import { useSelector } from "react-redux";
 import db from "../../../public/db.json";
 const Player = () => {
-
   const leftStreaming = useSelector((state) => state.user.tickets.leftTicket);
   const intLeftStreaming = parseInt(leftStreaming);
   const ttoday = useSelector((state) => state.user.tickets.ttoday);
-  const leftDay = (Math.floor((intLeftStreaming - ttoday) * 1000 / 86400000));
+  const leftDay = Math.floor(((intLeftStreaming - ttoday) * 1000) / 86400000);
   console.log(intLeftStreaming);
   console.log(ttoday);
   console.log(isNaN(leftDay));
 
-  const alamTest = () => {
-  
-  }
+  const alamTest = () => {};
 
   const musics = db.musics;
   // 이건 오른쪽 슬라이드에서 선택하면 재생목록에 추가되고 이걸 최종적으로
@@ -31,21 +28,17 @@ const Player = () => {
 
   // 다음곡, 이전곡
   const handleClickNext = () => {
-    setTrackIndex((currentTrack) =>
-      currentTrack < musics.length - 1 ? currentTrack + 1 : 0
-    );
+    setTrackIndex((currentTrack) => (currentTrack < musics.length - 1 ? currentTrack + 1 : 0));
   };
   const handleClickPrev = () => {
-    setTrackIndex((currentTrack) =>
-      currentTrack == 0 ? musics.length - 1 : currentTrack - 1
-    );
+    setTrackIndex((currentTrack) => (currentTrack == 0 ? musics.length - 1 : currentTrack - 1));
   };
   // 재생목록 누르면 재생되는 함수
   const playInmusicMusic = (id) => {
     // 로그인안하거나 그냥 접근하면 selector가 NaN를 표기하는데 이 값이 나오면~
-    if( isNaN(leftDay) === true || 0 >= leftDay ){
+    if (isNaN(leftDay) === true || 0 >= leftDay) {
       alert("스트리밍권을 구매해주세요");
-      return
+      return;
     }
     // console.log(audioRef.current);
     // DB 전체 노래 목록에서 list에서 클릭된 음악의 id와 일치하는 곡을 찾음
@@ -58,19 +51,12 @@ const Player = () => {
   return (
     <>
       <PlayerArea>
-        <Image
-          src={musics[trackIndex].cover}
-          alt={"현재스트리밍곡"}
-          width={200}
-          height={200}
-        />
+        <Image src={musics[trackIndex].cover} alt={"현재스트리밍곡"} width={200} height={200} />
         <ControllPlayers>
           <AudioPlayer
-            header={`${
-              musics[trackIndex].title + " - " + musics[trackIndex].artists
-            }`}
+            header={`${musics[trackIndex].title + " - " + musics[trackIndex].artists}`}
             volume="0.5"
-            src={musics[trackIndex].src}
+            src={musics[trackIndex].src} // 여기서 바로 링크 전달안하고 제목.mp3 이런 파일을 플레이버튼 클릭 시에 넘겨준다 그래서 null 일때와 데이터가 들어왔을 때로 구분해서 음악이 플레이되게 하기로 함
             showSkipControls
             onClickPrevious={handleClickPrev}
             onClickNext={handleClickNext}
@@ -144,8 +130,7 @@ const ContentBox = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    @media ${(props) => props.theme.device.tablet},
-      ${(props) => props.theme.device.mobile} {
+    @media ${(props) => props.theme.device.tablet}, ${(props) => props.theme.device.mobile} {
       font-size: 1.5rem;
       font-weight: 900;
     }

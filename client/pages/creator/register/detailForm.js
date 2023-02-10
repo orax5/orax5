@@ -19,10 +19,7 @@ const detailForm = () => {
 
   useEffect(() => {
     const preUploadedImg = returnedUrl.name;
-    const preUploadedTitle = preUploadedImg.substring(
-      0,
-      preUploadedImg.length - 4
-    );
+    const preUploadedTitle = preUploadedImg.substring(0, preUploadedImg.length - 4);
     setUploadedImg(preUploadedImg);
     setUploadedTitle(preUploadedTitle);
   });
@@ -33,16 +30,6 @@ const detailForm = () => {
     const value = parseInt(e.target.value);
     setCategory(value);
   };
-
-  const [inputs, setInputs] = useState({
-    composer: "",
-    lyricist: "",
-    singer: "",
-    description: "",
-    nftAmount: "",
-    totalBalance: "",
-    opendate: "",
-  });
 
   // 펀딩 시작일은 오늘 이후부터 선택 가능하게 설정
   const dateRef = useRef();
@@ -55,23 +42,31 @@ const detailForm = () => {
   }, [date]);
 
   // input 데이터 처리
+  const [inputs, setInputs] = useState({
+    composer: "",
+    lyricist: "",
+    singer: "",
+    description: "",
+    nftAmount: "",
+    totalBalance: "",
+    opendate: "",
+  });
   const inputsHandler = (e) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
-    // console.log({ ...inputs });
   };
-
+  console.log(inputs);
   // input데이터를 모은 배열에다가 카테고리, 크리에이터 CA, 이미지 주소 전달
   // 새로운 객체를 만들어서 보낸다
-  const data = { ...inputs, uploadedTitle, category, creatorCA, returnedUrl };
+  // inputs.composer, inputs.lyricist, inputs.singer, inputs.descripton, inputs.nftAmount, inputs.totalBalance, inputs.opendate,
+  const data = { uploadedTitle, category, creatorCA, returnedUrl };
   console.log(data);
 
   // 백에 보내는 곳
   const shinFunding = async (data) => {
     try {
-      const imageRes = await {
-        // const imageRes = await axios({
-        // url: "http://localhost:3001/creator/shinchung",
+      const imageRes = await axios({
+        url: "http://localhost:3001/creator/shinchung",
         method: "post",
         data: {
           shin_title: data.uploadedTitle,
@@ -87,10 +82,10 @@ const detailForm = () => {
           shin_creator_address: data.creatorCA,
           shin_cover: data.returnedUrl,
         },
-      };
+      });
       const imageURL = imageRes.data;
       console.log(imageURL);
-      router.push("/creator")
+      router.push("/creator");
     } catch (e) {
       console.error(e);
     }
@@ -145,11 +140,7 @@ const detailForm = () => {
             </div>
             <div>
               <DetailContent>카테고리</DetailContent>
-              <SelectOption
-                onChange={inputsHandler}
-                category={category}
-                name="category"
-              >
+              <SelectOption onChange={inputsHandler} category={category} name="category">
                 <option onClick={selectCategory} value={1}>
                   발라드
                 </option>
@@ -188,13 +179,7 @@ const detailForm = () => {
 
           <div>
             <DetailContent>펀딩 시작 날짜</DetailContent>
-            <InputBox
-              type="date"
-              onChange={inputsHandler}
-              name="opendate"
-              ref={dateRef}
-              date={date}
-            />
+            <InputBox type="date" onChange={inputsHandler} name="opendate" ref={dateRef} date={date} />
           </div>
           <div>
             <DetailContent>목표 금액</DetailContent>
