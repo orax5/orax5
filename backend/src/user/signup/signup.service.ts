@@ -43,7 +43,7 @@ export class SignupService {
     if (exist == null || undefined) {
       return true;
     } else {
-      throw new HttpException("이미 존재하는 회원입니다.", HttpStatus.BAD_REQUEST);
+      return new HttpException("이미 존재하는 회원입니다.", HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -58,6 +58,6 @@ export class SignupService {
     if (exist == null || undefined) {
       return true;
     }
-    throw new HttpException("중복된 아이디입니다.", HttpStatus.BAD_REQUEST);
+    return new HttpException("중복된 아이디입니다.", HttpStatus.BAD_REQUEST);
   }
 }

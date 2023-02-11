@@ -55,7 +55,6 @@ export class EmailService {
                 `,
       };
       return await this.transporter.sendMail(mailOptions); //transporter 객체로 메일전송
-      
     } else if (option == "permit") {
       // 여기에 permit 2로 바꿔주는 라우터로 연결해주면 될듯
       const url = `${baseURL}/creator/result?fundingTitle=${signupVerifyToken}`;

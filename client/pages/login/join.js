@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { checkEmail, signUpCreator, signUpUser } from "../../redux/modules/user";
+import { useWeb3React } from "@web3-react/core";
 
 const join = () => {
   const router = useRouter();
@@ -11,11 +12,17 @@ const join = () => {
   const [pwdMessage, setPwdMessage] = useState("");
   const [nickMessage, setNickMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
-  //
-  const [isCheckType, setIsCheckType] = useState(false);
-  const [isCheckEmail, setIsCheckEmail] = useState(false);
+  const [accountMessage, setAccountMessage] = useState("");
+  // 유효성 검사 완료 시
+  const [checkedPwd, setCheckedPwd] = useState(false);
+  const [checkedNick, setCheckedNick] = useState(false);
+  const [checkedMail, setCheckedMail] = useState(false);
+  const [checkedAddress, setCheckedAddress] = useState(false);
   // Creator or User
+  const [isCheckType, setIsCheckType] = useState(false);
   const [typeOfUser, setTypeOfUser] = useState(null);
+  // 크리에이터 이메일 인증여부
+  const [isVerifiedEmail, setIsVerifiedEmail] = useState(true);
   const [inputs, setInputs] = useState({
     email: "",
     walletAddress: "",
@@ -23,6 +30,7 @@ const join = () => {
     password: "",
     rePassword: "",
   });
+  const { active, account } = useWeb3React();
 
   // radio 눌렀을때 User 가입폼 보여주기
   const viewUserHandler = (e) => {
@@ -38,58 +46,110 @@ const join = () => {
   };
   // 회원가입 이메일 발송
   const sendMailVerifier = () => {
-    dispatch(checkEmail());
-  };
-
-  const SignUp = (event) => {
-    event.preventDefault();
-    if (typeOfUser == null) {
-      alert("회원 유형을 선택하세요");
-    } else if (typeOfUser == 2) {
-      // 크리에이터로 가입 진행 시
-      if (isCheckEmail == false) {
-        alert("이메일 인증을 진행해주세요");
-      } else {
-        dispatch(signUpCreator(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser));
-      }
-    }
-    dispatch(signUpUser(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser, router));
+    dispatch(checkEmail(inputs.email))
+      .then((res) => {
+        console.log(res);
+        setIsVerifiedEmail(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("이메일 인증에 실패하였습니다");
+        setIsVerifiedEmail(false);
+      });
   };
 
   useEffect(() => {
     let pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
     if (inputs.password !== inputs.rePassword) {
-      setPwdMessage("떼잉~비밀번호가 똑같지 않아요!");
+      setPwdMessage("비밀번호가 일치하지 않습니다");
+      setCheckedPwd(false);
     } else if (inputs.password == "") {
       setPwdMessage("비밀번호를 입력하세요");
+      setCheckedPwd(false);
     } else {
-      setPwdMessage("비밀번호가 일치합니다.");
+      setPwdMessage("비밀번호가 일치합니다");
+      setCheckedPwd(true);
     }
 
     if (inputs.nickname == "") {
-      setNickMessage("닉네임 입력은 필수입니당");
+      setNickMessage("닉네임 입력은 필수입니다");
+      setCheckedNick(false);
     } else if (inputs.nickname.search(/\s/) != -1) {
-      setNickMessage("닉네임 공백은 앙대용");
+      setNickMessage("공백은 불가능합니다");
+      setCheckedNick(false);
     } else if (inputs.nickname.length < 2 || inputs.nickname.length > 8) {
-      setNickMessage("2~8자리 닉네임입력");
+      setNickMessage("2~8자리 닉네임을 입력해주세요");
+      setCheckedNick(false);
     } else {
       setNickMessage("사용가능");
+      setCheckedNick(true);
     }
 
     if (inputs.email == "") {
-      setEmailMessage("이메일입력해주세요");
+      setEmailMessage("이메일을 입력해주세요");
+      setCheckedMail(false);
     } else if (pattern.test(inputs.email) == false) {
-      setEmailMessage("이메일형식이 올바르지 않아여");
+      setEmailMessage("이메일형식이 올바르지 않습니다");
+      setCheckedMail(false);
     } else {
       setEmailMessage("사용가능한 이메일");
+      setCheckedMail(true);
+    }
+
+    if (inputs.walletAddress == "") {
+      setAccountMessage("지갑주소를 입력해주세요");
+      setCheckedAddress(false);
+    } else if (account !== inputs.walletAddress) {
+      setAccountMessage("연결된 지갑주소와 일치하지 않습니다");
+      setCheckedAddress(false);
+    } else if (account == inputs.walletAddress) {
+      setAccountMessage("사용가능한 지갑주소");
+      setCheckedAddress(true);
     }
   }, [inputs]);
 
-  // console.log(inputs.email);
-  // console.log(inputs.nickname);
-  // console.log(inputs.password);
-  // console.log(inputs.rePassword);
+  const SignUp = (event) => {
+    event.preventDefault();
+    if (typeOfUser == undefined) {
+      alert("회원 유형을 선택하세요");
+    } else if (typeOfUser == 1) {
+      // 1) 일반유저 가입 시
+      if (
+        checkedPwd == true &&
+        checkedMail == true &&
+        checkedNick == true &&
+        checkedAddress == true &&
+        active == true
+      ) {
+        dispatch(signUpUser(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser, router))
+          .then((res) => console.log(res))
+          .catch((res) => console.log(res));
+      } else if (active == false) {
+        alert("지갑을 연결해주세요");
+      } else {
+        alert("올바른 정보를 입력해주세요");
+      }
+    } else {
+      // 2) 크리에이터 가입 시
+      if (
+        checkedPwd == true &&
+        checkedMail == true &&
+        checkedNick == true &&
+        checkedAddress == true &&
+        active == true &&
+        isVerifiedEmail == true
+      ) {
+        dispatch(
+          signUpCreator(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser, router)
+        );
+      } else if (active == false) {
+        alert("지갑을 연결해주세요");
+      } else if (isVerifiedEmail == false) {
+        alert("이메일 인증을 진행해주세요");
+      }
+    }
+  };
 
   return (
     <MainContainer>
@@ -128,6 +188,7 @@ const join = () => {
                     onChange={(e) => setInputs({ ...inputs, walletAddress: e.target.value })}
                   />
                   <label htmlFor="walletAddress">지갑주소</label>
+                  <span>{accountMessage}</span>
                 </InputBox>
                 <InputBox>
                   <input
@@ -185,6 +246,7 @@ const join = () => {
                     onChange={(e) => setInputs({ ...inputs, walletAddress: e.target.value })}
                   />
                   <label htmlFor="walletAddress">지갑주소</label>
+                  <span>{accountMessage}</span>
                 </InputBox>
                 <InputBox>
                   <input

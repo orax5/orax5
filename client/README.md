@@ -51,6 +51,9 @@ const LineGraph = dynamic(() => import("../components/LineGraph"), {
 
 이런식으로 함수 안에서 불러온다
 
+- dhfb : Can't resolve 'fs'
+- 원인 : fs 모듈은 nodejs의 기본 파일 시스템 모듈, 클라이언트 측에서 nodejs 라이브러리를 사용하려고 할 때 발생
+- 해결 : 
 ## next.js
 
 React, Express.js, React-Router-Dom, SSR 모아놨다고 할 수 있음  
@@ -87,25 +90,41 @@ redis 설치 및 실행
 https://gerger.tistory.com/143 -> 이거만 해서 성공하는게 베스트
 
 안되면 우분투에서 돌리자
+
 1. 우분투 키고 제일 루트 cd ~/로 이동해서 내가 설치한 곳으로 감 C:\Redis-x64-3.2.100
 2. sudo su 명령어로 관리자모드(아마 계정없으면 만들으라하고 있으면 password치면됨)
-3. sudo apt install redis-server  -> redis설치
+3. sudo apt install redis-server -> redis설치
 4. redis-server -> 잘됐다면 그림이 나옴, 그러면 한번 ctrl+c 나와서 아래 명령어 입력
-5. sudo service redis-server status 
-  5-1. 잘되면 redis-server is running
-  5-2. 안되면  redis-server is not running 이런 오류가 뜬다, 그럼 redis-server 한 번 더 입력해보기 
-  5-3. 나머지는 구글링
-  5-4. 우분투 안되면 우분투 설치? 업데이트? apt-get update이런거 해주면 됨 
-https://stackoverflow.com/questions/8754304/redis-connection-to-127-0-0-16379-failed-connect-econnrefused
-<br />
-SQL 테이블 생성
-npx prisma migrate dev
-<br />
-SQL 테이블 리셋
-npx prisma migrate reset
-<br />
-실행 명령어
-npm run start:dev
-<br />
-프리티어 설정 맞추기
-npx prettier -w src/**/**.service.ts
+5. sudo service redis-server status
+   5-1. 잘되면 redis-server is running
+   5-2. 안되면 redis-server is not running 이런 오류가 뜬다, 그럼 redis-server 한 번 더 입력해보기
+   5-3. 나머지는 구글링
+   5-4. 우분투 안되면 우분투 설치? 업데이트? apt-get update이런거 해주면 됨
+   https://stackoverflow.com/questions/8754304/redis-connection-to-127-0-0-16379-failed-connect-econnrefused
+   <br />
+   SQL 테이블 생성
+   npx prisma migrate dev
+   <br />
+   SQL 테이블 리셋
+   npx prisma migrate reset
+   <br />
+   실행 명령어
+   npm run start:dev
+   <br />
+   프리티어 설정 맞추기
+   npx prettier -w src/**/**.service.ts
+
+## ethers
+
+```
+const {
+connector, // 현재 dapp에 연결된 월렛의 connector 값
+library, // web3 provider 제공
+chainId, // dapp에 연결된 account의 chainId
+account, // dapp에 연결된 account address
+active, // active: dapp 유저가 로그인 된 상태인지 체크
+error,
+activate, // activate: dapp 월렛 연결 기능 수행함수
+deactivate, // deactivate: dapp 월렛 해제 수행함수 help
+} = useWeb3React();
+```
