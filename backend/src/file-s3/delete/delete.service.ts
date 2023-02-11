@@ -1,11 +1,8 @@
-import { Injectable, Param, Post } from '@nestjs/common';
+import { Injectable, Param, Post } from "@nestjs/common";
 
 @Injectable()
 export class DeleteService {
-    constructor(){}
+  constructor() {}
 
-   
-    deleteFile(s3filename: string){
-        
-    }
+  deleteFile(s3filename: string) {}
 }

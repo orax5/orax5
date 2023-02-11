@@ -38,3 +38,6 @@ lerna-debug.log*
 #AUTH 관련해서 일단 올리지말자ㅠ
 auth.module.ts
 creator.module.ts
+
+# 메모파일들
+구조분해할당.js

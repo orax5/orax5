@@ -1,36 +1,36 @@
-import { IsString } from 'class-validator';
+import { IsString } from "class-validator";
 
-export class CreatorShinChungDto{
-    shin_title: string;
-    
-    shin_amount: any;
+export class CreatorShinChungDto {
+  shin_title: string;
 
-    shin_nft_totalbalance: any;
+  shin_amount: any;
 
-    @IsString()
-    shin_cover: string;
+  shin_nft_totalbalance: any;
 
-    shin_opendate: any;
-    
-    @IsString()
-    shin_description : string;
+  @IsString()
+  shin_cover: string;
 
-    @IsString()
-    shin_category: string;
-    
-    shin_ispermit? : number; // 입력안하면 자동으로 1: 심사대기중
+  shin_opendate: any;
 
-    @IsString()
-    shin_creator_address: string;
+  @IsString()
+  shin_description: string;
 
-    @IsString()
-    com_name: string;
+  @IsString()
+  shin_category: string;
 
-    @IsString()
-    lyric_name: string;
+  shin_ispermit?: number; // 입력안하면 자동으로 1: 심사대기중
 
-    @IsString()
-    sing_name: string;
+  @IsString()
+  shin_creator_address: string;
 
-    fund_state?: number;
+  @IsString()
+  com_name: string;
+
+  @IsString()
+  lyric_name: string;
+
+  @IsString()
+  sing_name: string;
+
+  fund_state?: number;
 }
