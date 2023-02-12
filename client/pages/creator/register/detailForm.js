@@ -18,7 +18,8 @@ const detailForm = () => {
   const [uploadedTitle, setUploadedTitle] = useState("");
 
   useEffect(() => {
-    const preUploadedImg = returnedUrl.name;
+    // const preUploadedImg = returnedUrl.name;
+    const preUploadedImg = "NewJeans1stEP.jpg";
     const preUploadedTitle = preUploadedImg.substring(0, preUploadedImg.length - 4);
     setUploadedImg(preUploadedImg);
     setUploadedTitle(preUploadedTitle);

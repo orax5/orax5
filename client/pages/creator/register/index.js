@@ -12,17 +12,34 @@ const index = () => {
 
   const [uploadedImg, setUploadedImg] = useState("/transparent.png");
   const [sendImg, setSendImg] = useState();
+  const [rejectCase, setRejectCase] = useState(true);
 
   // 이미지 올리고 미리보기
   const handleImage = (e) => {
     e.preventDefault();
     const file = e.target.files[0];
-    setSendImg(file);
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = (e) => {
-      setUploadedImg(e.target.result);
-    };
+    const filename = file.name;
+    const filesize = file.size;
+
+    console.log(filename);
+    console.log(filesize);
+    if (!/\.(jpg|png)$/i.test(filename)) {
+      alert(`확장자가 jpg, png인 파일만 업로드 가능합니다. 현재 파일 : ${file.name}`);
+      setRejectCase(true);
+    } else if (filesize > 10 * 1024 * 1024) {
+      alert(
+        `10MB 이하 파일만 등록할 수 있습니다 현재파일 용량 : ${Math.round((filesize / 1024 / 1024) * 100) / 100 + "MB"}`
+      );
+      setRejectCase(true);
+    } else {
+      setRejectCase(false);
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = (e) => {
+        setUploadedImg(e.target.result);
+      };
+      setSendImg(file);
+    }
   };
 
   const uploadBtn = () => {
@@ -34,17 +51,19 @@ const index = () => {
       const imageName = sendImg.name;
       const singTitle = imageName.substring(0, imageName.length - 4);
       // 제목 맞는지 한 번 더 확인
-      if (
-        !confirm(
-          `신청하실 곡의 제목은 <${singTitle}> 입니다. 추후 변경이 불가능하니 반드시 확인해주세요.`
-        )
-      ) {
+      if (!confirm(`신청하실 곡의 제목은 <${singTitle}> 입니다. 추후 변경이 불가능하니 반드시 확인해주세요.`)) {
         alert("취소되었습니다");
       } else {
         console.log("이미지 확인 완료");
         console.log(sendImg);
-        dispatch(uploadImage(sendImg));
-        router.push("/creator/register/detailForm");
+        dispatch(uploadImage(sendImg))
+          .then((res) => {
+            console.log(res);
+            router.push("/creator/register/detailForm");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
       // s3에 dispatch가 성공하면? 보내지도록처리
     }
@@ -88,30 +107,23 @@ const index = () => {
           />
         </Preview>
 
-        <input
-          type="file"
-          name="image_URL"
-          id="selectImage"
-          accept="image/*"
-          onChange={handleImage}
-        />
+        <input type="file" name="image_URL" id="selectImage" accept="image/*" onChange={handleImage} />
         <Warning>
           <p>
-            ※ 파일명이 제목으로 등록됩니다 반드시{" "}
-            <b>파일명을 제목으로 설정 후</b>
+            ※ 파일명이 제목으로 등록됩니다 반드시 <b>파일명을 제목으로 설정 후</b>
             업로드 해주세요.
           </p>
           <p>
             ※ 등록한 이미지는 해당 곡의 앨범 아트와 NFT 이미지로 사용되며,
             <b>추후 수정이 절대 불가합니다</b>.
           </p>
-          <p>
-            ※ jpg/png 형식의 파일만 업로드 가능하며, 이미지 가로/세로 차이가 클
-            경우 이미지가 깨질 수 있습니다.
-          </p>
+          <p>※ jpg/png 형식의 파일만 업로드 가능하며, 이미지 가로/세로 차이가 클 경우 이미지가 깨질 수 있습니다.</p>
         </Warning>
-
-        <button onClick={uploadBtn}>제출 및 다음 단계로 이동</button>
+        {rejectCase == false ? (
+          <button onClick={uploadBtn}>제출 및 다음 단계로 이동</button>
+        ) : (
+          <button disabled={true}>파일을 업로드 해주세요</button>
+        )}
       </MainArea>
       <div></div>
     </MainContainer>

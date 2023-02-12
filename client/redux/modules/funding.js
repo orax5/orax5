@@ -1,11 +1,12 @@
 import axios from "axios";
 const NFT_COVER = "funding/NFT_COVER";
+const BASE_URL = "http://localhost:3001";
 
 // 이미지 전송해서 S3변환 주소 돌려받기
 export const uploadImage = (formData) => {
   return async (dispatch, getState) => {
     const imageURL = await axios({
-      url: "http://localhost:3001/uploadS3/image",
+      url: `${BASE_URL}/uploadS3/image`,
       method: "post",
       data: formData,
     });
