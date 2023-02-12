@@ -64,6 +64,11 @@ const index = () => {
             stokenCA: sToken.networks[chainId].address,
           };
           // 로그인 요청 보냄
+          console.log(typeOfUser);
+          console.log(inputs.email);
+          console.log(account);
+          console.log(inputs.password);
+          console.log(router);
           dispatch(userLogin(inputs.email, account, inputs.password, router));
         }
       } else {

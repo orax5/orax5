@@ -15,6 +15,7 @@ export class SignupService {
     const userwallet = signupform.user_wallet; // 회원가입창에서 지갑주소만 추출
     const enterPWD = signupform.user_pwd;
     const newsignupForm = { ...signupform };
+    // console.log(signupform);
 
     // 이미 존재하는 유저인지 확인
     const exist = this.isExistUser(userwallet);

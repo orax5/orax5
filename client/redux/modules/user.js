@@ -1,5 +1,5 @@
 import axios from "axios";
-
+const BASE_URL = "http://localhost:3001";
 const LOGIN = "user/LOGIN";
 const TICKET = "user/TICKET";
 
@@ -7,7 +7,7 @@ const TICKET = "user/TICKET";
 export const signUpUser = (email, walletAddress, nickname, password, typeOfUser, router) => {
   return async (dispatch, getState) => {
     const user = await axios({
-      url: "http://localhost:3001/user/signup",
+      url: `${BASE_URL}/user/signup`,
       method: "post",
       data: {
         user_email: email,
@@ -19,6 +19,7 @@ export const signUpUser = (email, walletAddress, nickname, password, typeOfUser,
     })
       .then((res) => {
         const data = res.data;
+        console.log(data);
         router.push("/login");
         alert(`${data.user_nickname}님 가입을 환영합니다!`);
       })
@@ -34,7 +35,7 @@ export const signUpUser = (email, walletAddress, nickname, password, typeOfUser,
 export const checkEmail = (email) => {
   return async (dispatch, getState) => {
     await axios({
-      url: "http://localhost:3001/creator/email-verify",
+      url: `${BASE_URL}/creator/email-verify`,
       method: "post",
       data: { user_email: email },
     })
@@ -50,7 +51,7 @@ export const checkEmail = (email) => {
 export const signUpCreator = (email, walletAddress, nickname, password, typeOfUser) => {
   return async (dispatch, getState) => {
     const creator = await axios({
-      url: "http://localhost:3001/creator/signup",
+      url: `${BASE_URL}/creator/signup`,
       method: "post",
       data: {
         user_email: email,
@@ -76,13 +77,14 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
 export const userLogin = (account, email, password, tokenData, router) => {
   return async (dispatch, getState) => {
     await axios({
-      url: "http://localhost:3001/user/login",
+      url: `${BASE_URL}/user/login`,
       method: "post",
       data: { user_wallet: account, user_pwd: password, user_email: email },
     })
       .then((res) => {
         const data = res.data;
         console.log(data);
+        s;
         dispatch({
           type: LOGIN,
           payload: { data, tokenData },
@@ -90,7 +92,7 @@ export const userLogin = (account, email, password, tokenData, router) => {
         router.push("/");
       })
       .catch((err) => {
-        console.log(err.response.status);
+        console.log(err);
         if (err.response.status == 400) {
           return alert("존재하지 않는 계정입니다");
         } else if (err.response.status == 401) {
@@ -105,7 +107,7 @@ export const userLogin = (account, email, password, tokenData, router) => {
 export const creatorLogin = (account, email, password, tokenData, router) => {
   return async (dispatch, getState) => {
     await axios({
-      url: "http://localhost:3001/cretor/login",
+      url: `${BASE_URL}/cretor/login`,
       method: "post",
       data: { user_wallet: account, user_pwd: password, user_email: email },
     })
