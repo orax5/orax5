@@ -1,40 +1,134 @@
 import Link from "next/Link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React,{ useState } from "react";
+import { useSelector } from "react-redux";
+import React,{ useState, useEffect } from "react";
 import styled from "styled-components";
-//  promise resolve 과정 없이도 변수에 할당할 수 있도록 해준다
-import Offers from "../components/Offers";
+import Offers2 from "../components/Offers2";
+
 
 const deatil = () => {
-  const router = useRouter();
-  // console.log(router.query.amount)        
+  const router = useRouter();    
   const amount = router.query.amount; // props로 전달받는 amount
 
   const [unsigned, setUnsigned] = useState(false);
   const [inputSaleAmount,  setInputSaleAmount] = useState(null);
+  const [price, setPrice] = useState(null)
+  
+  // 컨트랙트에서 리스트 숫자 가져올 때 담아준다.(비교하기 위해서)
+  const [saleTotalAmount, setSaleTotalAmount] = useState(0);
+  
+  // 판매 내역 리스트 담아줌
+  const [ saleListarray, setSaleListArray ] = useState([]);
+  // 유저 판매 미체결 내역 담아줌
+  const [userSaleList,setUserSaleList] = useState([]);
 
+  const Stoken = useSelector((state) => state.user.contracts.Stoken);
+  const userAccount = useSelector((state) => state.user.users.account);
+
+  // 최초 실행시 판매 내역 보여줌
+  useEffect(()=>{
+
+    ViewOneHandler();
+  },[]);
+ 
+  // onChage 값들 판매수량, 판매가격
   const getSaleAmountValue = (e) => {
     setInputSaleAmount(e.target.value);
   }
-
-  const unsignedToggleHandler = () => {
-    setUnsigned(!unsigned)
+  const getSalePriceValue = (e) => {
+    setPrice(e.target.value);
   }
 
+  // 미체결 내역 보는 거
+  const unsignedToggleHandler = async() => {
+    setUnsigned(!unsigned)
+  }
   
-
-  const SaleHandler = () => {
+  // 판매 등록
+  const SaleHandler = async() => {
     if(inputSaleAmount == 0 || inputSaleAmount== null){
       alert("0과 공백은 입력 불가능합니다.")
-    } else if(inputSaleAmount <= amount ){
-      alert("판매등록되었습니다.")
-    }  else {
-      alert("판매수량이 보유량보다 높습니다.")
+    }
+
+    await Stoken.salesToken(1, inputSaleAmount, parseInt(price));
+    await Stoken.on("SaleEvent", (account, tokenId, amount, price)  => {
+      console.log(account.toString());
+      console.log(tokenId.toString());
+      console.log(amount.toString());
+      console.log(price.toString());
+    });
+    setNumberList();
+  }
+  
+  // 판매 리스트 등록 컨트랙트가 다 끝나면 ViewOneHandler()함수 실행해서 리스트 랜더링 다시 해준다.
+  async function setNumberList(){
+    const saleListNumber = await Stoken.saleNumberList(1);
+    if(saleTotalAmount == parseInt(saleListNumber)){
+      console.log(saleListNumber + "등록중 기달기달");
+      setTimeout(() => {
+        setNumberList();
+      }, 5000);
+    } else{
+      ViewOneHandler();
+      console.log("등록 완료")
+    }
+  };
+
+  // 판매 취소 버튼 핸들러
+  const SaleCancleHandler = async() => {
+    await Stoken.cancelSalesToken(1);
+    Stoken.on("CancelEvent", (account, tokenId ) => {
+      console.log(account);
+      console.log(tokenId + "번 음원 판매 취소 됨.")
+    })
+    setDeleteList();
+  }
+
+  async function setDeleteList(){
+    const ViewOne = await Stoken.getSalesTokenListAll(1,parseInt(userSaleList[0].listId));
+    if(parseInt(ViewOne.amount) != 0){  
+      console.log("취소중 기달기달");
+      setTimeout(() => {
+        setDeleteList();
+      }, 5000);
+    } else{
+      ViewOneHandler();
+      console.log("취소 완료")
     }
   }
   
+  const ViewOneHandler = async() => {
 
+    // 거래 등록 내용 보기 (from 주소, 판매수량, 가격)
+    const saleListNumber = await Stoken.saleNumberList(1);
+    // useState에 현재 등록 리스트 수를 넣어준다. 비교할 때 사용하려고.
+    setSaleTotalAmount(parseInt(saleListNumber));
+
+    const arr = [];
+    const arr2 = [];
+    for(let i = 1; i <= saleListNumber; i++){
+        const ViewOne = await Stoken.getSalesTokenListAll(1,i);
+        if(ViewOne.amount != 0){
+          const saleListView = {
+            account : ViewOne.account,
+            amount : parseInt(ViewOne.amount),
+            price : parseInt(ViewOne.price),
+            listId : parseInt(ViewOne.listId)
+          };
+          if(ViewOne.account == userAccount){
+            arr2.push(saleListView);
+          }
+          arr.push(saleListView);
+        }
+      }
+      setSaleListArray(arr);
+      setUserSaleList(arr2);
+  }
+  useEffect(() => {
+    console.log(userSaleList);
+    console.log("??#@#@#@");
+  },[userSaleList]);
 
   return (
     <MainContainer>
@@ -79,7 +173,7 @@ const deatil = () => {
                 <tr>
                   <td>가격</td>
                   <td>
-                    <NumSelector type="number" />
+                    <NumSelector type="number" onChange={getSalePriceValue}/>
                   </td>
                 </tr>
               </tbody>
@@ -103,24 +197,28 @@ const deatil = () => {
                   <div style={{color:"black"}}>가격</div>
                   <CancleBtnn>취소</CancleBtnn>
                 </div>
-                <div style={{display:"flex", justifyContent: "space-around", alignItems: "center"}}>
-                  <div style={{minWidth:"2rem", textAlign:"center"}}>1</div>
-                  <div>100</div>
-                  <CancleBtn>취소</CancleBtn>
+                {userSaleList.map((data, idx) => (
+                  <div key={idx} style={{display:"flex", justifyContent: "space-around", alignItems: "center"}}>
+                  <div style={{minWidth:"2rem", textAlign:"center"}}>{data?.amount}</div>
+                  <div>{data?.price}</div>
+                  <CancleBtn onClick={SaleCancleHandler}>취소</CancleBtn>
                 </div>
+                ))}
               </AboutNft>
             </InfoBox>
           )}
           <InfoBox>
-            <div>음원 설명</div>
+            <div></div>
             <AboutNft>
               <div>음원 설명</div>
               <div>음원 설명음원 설명음원 설명</div>
             </AboutNft>
           </InfoBox>
           <InfoBox>
-            <div>거래 내역</div>
-            <Offers />
+            <div>Offer</div>
+            <Offers2
+              saleListarray = {saleListarray}
+            />
           </InfoBox>
         </InfoWrap>
       </div>

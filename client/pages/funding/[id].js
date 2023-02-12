@@ -1,7 +1,9 @@
 import Image from "next/image";
 import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import CountDown from "../components/CountDown";
+import { ethers } from "ethers";
 
 const deatil = () => {
   // endDate는 선택된 날짜로 불러와야함, 지금은 임의로 두고 작업
@@ -14,6 +16,28 @@ const deatil = () => {
   const TimeOverAlert = () => {
     alert("펀딩종료 후에는 펀딩에 참여하실 수 없습니다");
   };
+
+  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
+  const user = useSelector((state) => state.user.users.account);
+
+  // 유저가 펀딩하는 함수
+  const asd = async() => {
+    const aa = await Ftoken.userFundding(1,5, { value: ethers.utils.parseEther("5.0") });
+    await aa.wait();
+    console.log(aa);
+    Ftoken.on("userFunddingEvent", (account,tokenId,amount,price)  => {
+      console.log(account.toString());
+      console.log(tokenId.toString());
+      console.log(amount.toString());
+      console.log(price.toString());
+    })
+  }
+
+  // 지금까지 해당 음원 판매된 갯수
+  const qqq = async() => {
+    const aa = await Ftoken.priceCheck(1);
+    console.log(aa.toString());
+  }
 
   // 입력 수량 정확하게 막기 위해서 해당 DOM태그에 직접 처리
   // 이건 아예 데이터 넘길 때 처리하는게 좋을 수도
@@ -55,12 +79,12 @@ const deatil = () => {
               <tbody>
                 <tr>
                   <TableTitle>펀딩기간</TableTitle>
-                  <td>2023-01-20 ~ 2023-02-20</td>
+                  <td onClick={qqq}>2023-01-20 ~ 2023-02-20</td>
                 </tr>
                 <tr>
                   <TableTitle>남은시간</TableTitle>
                   {isTimeOver ? (
-                    <td>펀딩이 종료되었습니다</td>
+                    <td onClick={asd}>펀딩이 종료되었습니다</td>
                   ) : (
                     <Timer isTimeOver={isTimeOver}>
                       {date}일 {hours}시간 {minutes}분 {seconds}초
@@ -89,7 +113,7 @@ const deatil = () => {
             <FundingBtn>
               {/*약간 딜레이가 생겨서 나중에 다른 처리 방법도 고민해보기 */}
               {isTimeOver ? (
-                <button onClick={TimeOverAlert}>펀딩이 종료되었습니다</button>
+                <button onClick={asd}>펀딩이 종료되었습니다</button>
               ) : (
                 <button>펀딩하기</button>
               )}

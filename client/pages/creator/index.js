@@ -95,6 +95,7 @@ const index = () => {
   const adress = "0x123";
 
   const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
   const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
   const account = useSelector((state)=>state.user.users.account);
 
@@ -113,16 +114,44 @@ const index = () => {
   },[])
 
   
+  // 펀딩 신청
   const asd = async() =>{
-    console.log(Dtoken)
-    console.log(ftokenCA)
-    const aa = await Dtoken.mintFundding(account,ftokenCA,5,10,10,7);
+    const aa = await Dtoken.mintFundding(account,ftokenCA,1,10,10,2);
     console.log(aa);
+    Dtoken.on("seccessFundding", (account,tokenId,amount,totalPrice,getTime,result)  => {
+      console.log(account);
+      console.log(tokenId);
+      console.log(amount);
+      console.log(totalPrice);
+      console.log(getTime);
+      console.log(result);
+    })
   }
 
+  // nft 갯수 확인
   const qwe = async() => {
-    const bb = await Dtoken.balanceOf(account,5);
-    console.log(bb);
+    const bb = await Dtoken.balanceOf(account,1);
+    console.log(bb.toString());
+  }
+
+  // 펀딩 성공시 크리에이터가 돈 받는 함수
+  const bvbvbvb = async() => {
+    await Ftoken.isSuccessFundding(1);
+    Ftoken.on("isSuccessFunddingEvent",(account, tokenId, value) => {
+      console.log(account.toString());
+      console.log(tokenId.toString());
+      console.log(value.toString());
+    })
+  }
+
+  // 펀딩 실패시 유저가 환불하는 함수
+  const zxc = async() => {
+    await Ftoken.isfalsedFundding(account,1);
+    Ftoken.on("isfalsedFunddingEvnet",(account, tokenId, value) => {
+      console.log(account.toString());
+      console.log(tokenId.toString());
+      console.log(value.toString());
+    })
   }
 
   return (
@@ -170,11 +199,10 @@ const index = () => {
                   <tr key={idx}>
                     <td>{data.category}</td>
                     <td>{data.name}</td>
-                    <td>{data.content}</td>
-                    <td>{data.date}</td>
+                    <td onClick={zxc}>{data.content}</td>
+                    <td onClick={bvbvbvb}>{data.date}</td>
                     <td onClick={qwe}>
                       {data.scale}
-                      qwe
                       {"ETH"}
                     </td>
 

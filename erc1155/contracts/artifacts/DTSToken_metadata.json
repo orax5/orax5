@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.18+commit.87f61d96"
+		"version": "0.8.17+commit.8df45f5f"
 	},
 	"language": "Solidity",
 	"output": {
@@ -204,6 +204,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "Stoken",
+				"outputs": [
+					{
+						"internalType": "contract SaleToken",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -249,6 +262,24 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "result",
+						"type": "bool"
+					}
+				],
+				"name": "endVoting",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -329,6 +360,85 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "votingNum",
+						"type": "uint256"
+					}
+				],
+				"name": "getVoting",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "account",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "Amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "result",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct DtsToken.votingdata",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "getVotingCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "getVotingDate",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
 					}
@@ -389,7 +499,20 @@
 						"type": "address"
 					}
 				],
-				"name": "isChangedCA",
+				"name": "isFunddingCA",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "isFunddingFalsed",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -403,6 +526,65 @@
 					}
 				],
 				"name": "isFunddingSuccess",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "isSaleCA",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "saleCA",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					}
+				],
+				"name": "isSalesToken",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "governance",
+						"type": "bool"
+					}
+				],
+				"name": "isVoting",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -438,6 +620,11 @@
 						"internalType": "uint256",
 						"name": "getTime",
 						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "metadata",
+						"type": "string"
 					}
 				],
 				"name": "mintFundding",
@@ -548,19 +735,6 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "saleCA",
-						"type": "address"
-					}
-				],
-				"name": "saleApprovalTrue",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
 						"name": "operator",
 						"type": "address"
 					},
@@ -571,6 +745,24 @@
 					}
 				],
 				"name": "setApprovalForAll",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "date",
+						"type": "uint256"
+					}
+				],
+				"name": "startVoting",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -641,6 +833,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "tokenURI",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "newOwner",
 						"type": "address"
@@ -669,23 +880,81 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "voting",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "result",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "votingCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "votingDate",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			}
 		],
 		"devdoc": {
-			"events": {
-				"ApprovalForAll(address,address,bool)": {
-					"details": "Emitted when `account` grants or revokes permission to `operator` to transfer their tokens, according to `approved`."
-				},
-				"TransferBatch(address,address,address,uint256[],uint256[])": {
-					"details": "Equivalent to multiple {TransferSingle} events, where `operator`, `from` and `to` are the same for all transfers."
-				},
-				"TransferSingle(address,address,address,uint256,uint256)": {
-					"details": "Emitted when `value` tokens of token type `id` are transferred from `from` to `to` by `operator`."
-				},
-				"URI(string,uint256)": {
-					"details": "Emitted when the URI for token type `id` changes to `value`, if it is a non-programmatic URI. If an {URI} event was emitted for `id`, the standard https://eips.ethereum.org/EIPS/eip-1155#metadata-extensions[guarantees] that `value` will equal the value returned by {IERC1155MetadataURI-uri}."
-				}
-			},
 			"kind": "dev",
 			"methods": {
 				"balanceOfBatch(address[],uint256[])": {
@@ -731,7 +1000,7 @@
 		"compilationTarget": {
 			"DtsToken.sol": "DtsToken"
 		},
-		"evmVersion": "paris",
+		"evmVersion": "london",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -773,6 +1042,14 @@
 			"urls": [
 				"bzz-raw://0e28648f994abf1d6bc345644a361cc0b7efa544f8bc0c8ec26011fed85a91ec",
 				"dweb:/ipfs/QmVVE7AiRjKaQYYji7TkjmTeVzGpNmms5eoxqTCfvvpj6D"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol": {
+			"keccak256": "0x0d960db62b7c6984d4b67602bc3b5c63ba15db63657feedc6c3604eb334fb648",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d2c011e273a7a4ad251c317b6de69492a5f739dce3bf88ff09b1895fa233a759",
+				"dweb:/ipfs/QmZ43AmC9msVpA3ZABk352obsjtZLfqpMKYxExXP772NfR"
 			]
 		},
 		"@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol": {
@@ -824,19 +1101,27 @@
 			]
 		},
 		"DtsToken.sol": {
-			"keccak256": "0x91357011810099d7147719ecf51145c35b4893e65ab18d5ee100230d04ed5fe4",
+			"keccak256": "0x81f0c007d81ef033200528bad5f973cded0f53eff11f6b39346edb4b55568365",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b7bae7e2b101b901f66b1ba950582d97e10535c38a1a9c932908b0691fe8d1af",
-				"dweb:/ipfs/QmcfQG2h6ZhuEdi2f8MsmV7gsPap7Tkt5onVz168SFzUhL"
+				"bzz-raw://0e02e35339d1787caa3ba5d10a4c1fee136807c2aa874196d91828c945dc47fb",
+				"dweb:/ipfs/QmPqoRKH47tLYBajdutfbx1usDSB8EB97jQftL7ngiUiiB"
 			]
 		},
 		"FunddingToken.sol": {
-			"keccak256": "0x8861b0fd1f5c924a8f2d23c681daf2309c3dfe7d8f8d4da038cd1abb98cf7e22",
+			"keccak256": "0x40864c02010887e12f66b57eb737a53f9cab57e7bb0911eaaadc1d4d780ba3d3",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://92fdca428fdd1caa8314b1497ccfee6bee9ed9ab14bab068cf880b0ebaa64d7a",
-				"dweb:/ipfs/QmR6w6f7BbnEP4ZBoMBmFoxMb74zEBytCAQEhqN3ZZqGzA"
+				"bzz-raw://1d53409fc6bf08a91790a682cf7bf727b8ccc0bc14ffdb0886ca19f7a3414a9b",
+				"dweb:/ipfs/QmciQLtj6WWyLx7hyUibtDUumVEaSiFe8oMpuB3RExK14x"
+			]
+		},
+		"SaleToken.sol": {
+			"keccak256": "0x7d4fe211bce8f77d9658553499121b4ea39a91e829911a9764c17dacb68cb38d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4c39308c0f253aff4fae0a704435e3f6a3cda2d7e129b9759622f948a9252e3e",
+				"dweb:/ipfs/QmcA8grfZkvpaR2bDkS15Ced4R3P5aYwDgs4hfLN1wBrPn"
 			]
 		}
 	},
