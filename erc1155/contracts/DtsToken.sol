@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
-// import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/ERC1155.sol";
-// import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/ERC1155.sol";
+import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
+// import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
+// import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+// import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "./FunddingToken.sol";
 import "./SaleToken.sol";

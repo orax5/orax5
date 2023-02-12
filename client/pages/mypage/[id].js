@@ -24,6 +24,8 @@ const deatil = () => {
   const [userSaleList,setUserSaleList] = useState([]);
 
   const Stoken = useSelector((state) => state.user.contracts.Stoken);
+  const StokenCA = useSelector((state)=>state.user.contracts.StokenCA);
+  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
   const userAccount = useSelector((state) => state.user.users.account);
 
   // 최초 실행시 판매 내역 보여줌
@@ -51,7 +53,7 @@ const deatil = () => {
       alert("0과 공백은 입력 불가능합니다.")
     }
 
-    await Stoken.salesToken(1, inputSaleAmount, parseInt(price));
+    // await Dtoken.isSalesToken(StokenCA, 1, inputSaleAmount, price);
     await Stoken.on("SaleEvent", (account, tokenId, amount, price)  => {
       console.log(account.toString());
       console.log(tokenId.toString());
