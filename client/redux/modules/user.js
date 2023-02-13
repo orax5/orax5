@@ -88,16 +88,10 @@ export const login = (account, email, password, tokenData) => {
 // 스트리밍권
 export const ticket = (leftTicket, ttoday) => {
   return async (dispatch, getState) => {
-<<<<<<< HEAD
     const data = {leftTicket,ttoday}
     console.log(parseInt(leftTicket))
     console.log(parseInt(ttoday))
    dispatch({
-=======
-    const data = { leftTicket, ttoday };
-    console.log(leftTicket);
-    dispatch({
->>>>>>> main
       type: TICKET,
       payload: { data },
     });
@@ -123,6 +117,7 @@ const init = {
   users: {},
   contracts: {},
   tickets: {},
+  grade : [{visitor : 0}, {user:1},{creator:2}, {admin:3}]
 };
 
 // 리듀서
