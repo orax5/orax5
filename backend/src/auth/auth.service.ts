@@ -17,6 +17,7 @@ export class AuthService {
   // 최초 로그인
   // userWallet: string, enterPWD: string
   async validateUser(loginForm: CreatorLoginDto): Promise<any> {
+    console.log("밸리데이터 들어옴 :");
     try {
       // 동일한 지갑 소유주가 있는지 확인
       const user = await this.userService.findOne(loginForm.user_wallet).then((e) => {

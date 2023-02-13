@@ -122,9 +122,9 @@ const join = () => {
         checkedAddress == true &&
         active == true
       ) {
-        dispatch(signUpUser(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser, router))
-          .then((res) => console.log(res))
-          .catch((res) => console.log(res));
+        dispatch(
+          signUpUser(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser, router)
+        ).catch((res) => console.log(res));
       } else if (active == false) {
         alert("지갑을 연결해주세요");
       } else {

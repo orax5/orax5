@@ -1,6 +1,7 @@
 import axios from "axios";
 const BASE_URL = "http://localhost:3001";
 const LOGIN = "user/LOGIN";
+const CREATOR_LOGIN = "user/CREATOR_LOGIN";
 const TICKET = "user/TICKET";
 
 // 유저 회원가입
@@ -67,29 +68,30 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
         alert(`크리에이터 ${data.user_nickname}님 가입을 환영합니다!`);
       })
       .catch((res) => {
-        console.log(res.response.data.statuscode);
+        console.log(res);
         // router.push("/login/join");
       });
   };
 };
 
 // 유저 로그인
-export const userLogin = (account, email, password, tokenData, router) => {
+export const userLogin = (account, email, password, tokenData) => {
   return async (dispatch, getState) => {
     await axios({
       url: `${BASE_URL}/user/login`,
       method: "post",
       data: { user_wallet: account, user_pwd: password, user_email: email },
     })
-      .then((res) => {
-        const data = res.data;
-        console.log(data);
-        s;
-        dispatch({
-          type: LOGIN,
-          payload: { data, tokenData },
-        });
-        router.push("/");
+      .then(async (res) => {
+        if (res.status == 201) {
+          const data = await res.data;
+          console.log(res);
+          dispatch({
+            type: LOGIN,
+            payload: { data, tokenData },
+          });
+          // router.push("/#");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -107,7 +109,7 @@ export const userLogin = (account, email, password, tokenData, router) => {
 export const creatorLogin = (account, email, password, tokenData, router) => {
   return async (dispatch, getState) => {
     await axios({
-      url: `${BASE_URL}/cretor/login`,
+      url: `${BASE_URL}/creator/login`,
       method: "post",
       data: { user_wallet: account, user_pwd: password, user_email: email },
     })
@@ -115,18 +117,20 @@ export const creatorLogin = (account, email, password, tokenData, router) => {
         const data = res.data;
         console.log(data);
         dispatch({
-          type: LOGIN,
+          type: CREATOR_LOGIN,
           payload: { data, tokenData },
         });
-        router.push("/");
+        alert("오케오켕");
+        // router.push("/");
       })
       .catch((err) => {
-        console.log(err.response.status);
+        console.log(err);
         if (err.response.status == 400) {
           return alert("존재하지 않는 계정입니다");
         } else if (err.response.status == 401) {
           return alert("이메일 토큰 오류");
         } else {
+          console.log(err);
           return alert("뭔가 잘못됨;;");
         }
       });
@@ -172,6 +176,10 @@ export default function user(state = init, action) {
   switch (type) {
     case LOGIN:
       return { ...state, users: payload.data, contracts: payload.tokenData };
+
+    case CREATOR_LOGIN:
+      return { ...state, users: payload.data, contracts: payload.tokenData };
+
     case TICKET:
       return { ...state, tickets: payload.data };
     default:

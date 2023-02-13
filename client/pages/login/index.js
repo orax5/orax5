@@ -63,13 +63,12 @@ const index = () => {
             ftokenCA: fToken.networks[chainId].address,
             stokenCA: sToken.networks[chainId].address,
           };
-          // 로그인 요청 보냄
-          console.log(typeOfUser);
-          console.log(inputs.email);
-          console.log(account);
-          console.log(inputs.password);
-          console.log(router);
-          dispatch(userLogin(inputs.email, account, inputs.password, router));
+          // 로그인 요청 보냄, 잘들어옴
+          // console.log(inputs.email);
+          // console.log(account);
+          // console.log(inputs.password);
+          // console.log(router);
+          dispatch(userLogin(account, inputs.email, inputs.password, tokenData, router));
         }
       } else {
         alert("지갑을 연결해주세요");
@@ -90,7 +89,7 @@ const index = () => {
             stokenCA: sToken.networks[chainId].address,
           };
           // 로그인 요청 보냄
-          dispatch(creatorLogin(inputs.email, account, inputs.password, router));
+          dispatch(creatorLogin(inputs.email, account, inputs.password, tokenData, router));
         }
       } else {
         alert("지갑을 연결해주세요");

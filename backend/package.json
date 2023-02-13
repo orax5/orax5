@@ -5,6 +5,7 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "proxy": "http://localhost:3001",
   "scripts": {
     "build": " cross-env NODE_ENV=production webpack --config build/webpack.config.js ",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
