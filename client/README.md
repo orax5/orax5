@@ -70,7 +70,7 @@ npm run start 를 실행하는데 이것은 개발환경실행하는 것이 아�
 
 ## 컨트랙트 연결
 
-리믹스-로컬호스트 연결 : remixd -s . --remix-ide https://remix.ethereum.org12 
+리믹스-로컬호스트 연결 : remixd -s . --remix-ide https://remix.ethereum.org12
 <br>
 가나쉬 npx ganache-cli --chainId 7722 --networkId 7722
 <br>
@@ -83,5 +83,29 @@ npm run dev
 
 ### 백
 
+redis 설치 및 실행
+https://gerger.tistory.com/143 -> 이거만 해서 성공하는게 베스트
+
+안되면 우분투에서 돌리자
+1. 우분투 키고 제일 루트 cd ~/로 이동해서 내가 설치한 곳으로 감 C:\Redis-x64-3.2.100
+2. sudo su 명령어로 관리자모드(아마 계정없으면 만들으라하고 있으면 password치면됨)
+3. sudo apt install redis-server  -> redis설치
+4. redis-server -> 잘됐다면 그림이 나옴, 그러면 한번 ctrl+c 나와서 아래 명령어 입력
+5. sudo service redis-server status 
+  5-1. 잘되면 redis-server is running
+  5-2. 안되면  redis-server is not running 이런 오류가 뜬다, 그럼 redis-server 한 번 더 입력해보기 
+  5-3. 나머지는 구글링
+  5-4. 우분투 안되면 우분투 설치? 업데이트? apt-get update이런거 해주면 됨 
+https://stackoverflow.com/questions/8754304/redis-connection-to-127-0-0-16379-failed-connect-econnrefused
+<br />
+SQL 테이블 생성
+npx prisma migrate dev
+<br />
+SQL 테이블 리셋
+npx prisma migrate reset
+<br />
+실행 명령어
 npm run start:dev
-<br> > 이걸로 실행해야 .env에서 변수 호출할수있음
+<br />
+프리티어 설정 맞추기
+npx prettier -w src/**/**.service.ts

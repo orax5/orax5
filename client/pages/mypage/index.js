@@ -165,7 +165,7 @@ const index = () => {
       <div></div>
     </MainContainer>
   );
-}
+};
 
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};

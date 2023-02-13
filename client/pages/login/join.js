@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import {
-  checkEmail,
-  signUpCreator,
-  signUpUser,
-} from "../../redux/modules/user";
+import { checkEmail, signUpCreator, signUpUser } from "../../redux/modules/user";
 
 const join = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   // 오류 메세지 상태저장
   const [pwdMessage, setPwdMessage] = useState("");
@@ -52,31 +50,14 @@ const join = () => {
       if (isCheckEmail == false) {
         alert("이메일 인증을 진행해주세요");
       } else {
-        dispatch(
-          signUpCreator(
-            inputs.email,
-            inputs.walletAddress,
-            inputs.nickname,
-            inputs.password,
-            typeOfUser
-          )
-        );
+        dispatch(signUpCreator(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser));
       }
     }
-    dispatch(
-      signUpUser(
-        inputs.email,
-        inputs.walletAddress,
-        inputs.nickname,
-        inputs.password,
-        typeOfUser
-      )
-    );
+    dispatch(signUpUser(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser, router));
   };
 
   useEffect(() => {
-    let pattern =
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    let pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
     if (inputs.password !== inputs.rePassword) {
       setPwdMessage("떼잉~비밀번호가 똑같지 않아요!");
@@ -121,21 +102,10 @@ const join = () => {
             </header>
             <br />
             <div>
-              <input
-                type="radio"
-                value={1}
-                name="type"
-                onClick={viewUserHandler}
-              />
+              <input type="radio" value={1} name="type" onClick={viewUserHandler} />
               &nbsp;
               <label htmlFor="user">유저</label> &nbsp;
-              <input
-                type="radio"
-                value={2}
-                name="type"
-                onClick={viewCreatorHandler}
-              />{" "}
-              &nbsp;
+              <input type="radio" value={2} name="type" onClick={viewCreatorHandler} /> &nbsp;
               <label htmlFor="creator">크리에이터</label>
             </div>
             {isCheckType == false ? (
@@ -145,9 +115,7 @@ const join = () => {
                     type="email"
                     name="email"
                     placeholder="이메일"
-                    onChange={(e) =>
-                      setInputs({ ...inputs, email: e.target.value })
-                    }
+                    onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
                   />
                   <label htmlFor="email">이메일</label>
                   <span>{emailMessage}</span>
@@ -157,9 +125,7 @@ const join = () => {
                     type="walletAddress"
                     name="walletAddress"
                     placeholder="지갑주소"
-                    onChange={(e) =>
-                      setInputs({ ...inputs, walletAddress: e.target.value })
-                    }
+                    onChange={(e) => setInputs({ ...inputs, walletAddress: e.target.value })}
                   />
                   <label htmlFor="walletAddress">지갑주소</label>
                 </InputBox>
@@ -168,9 +134,7 @@ const join = () => {
                     type="text"
                     name="nickname"
                     placeholder="닉네임"
-                    onChange={(e) =>
-                      setInputs({ ...inputs, nickname: e.target.value })
-                    }
+                    onChange={(e) => setInputs({ ...inputs, nickname: e.target.value })}
                   />
                   <label htmlFor="nickname">닉네임</label>
                   <span>{nickMessage}</span>
@@ -181,9 +145,7 @@ const join = () => {
                     name="password"
                     placeholder="비밀번호"
                     autoComplete="off"
-                    onChange={(e) =>
-                      setInputs({ ...inputs, password: e.target.value })
-                    }
+                    onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
                   />
                   <label htmlFor="password">비밀번호</label>
                 </InputBox>
@@ -193,9 +155,7 @@ const join = () => {
                     name="rePassword"
                     placeholder="비밀번호확인"
                     autoComplete="off"
-                    onChange={(e) =>
-                      setInputs({ ...inputs, rePassword: e.target.value })
-                    }
+                    onChange={(e) => setInputs({ ...inputs, rePassword: e.target.value })}
                   />
                   <label htmlFor="rePassword">비밀번호확인</label>
                   <span>{pwdMessage}</span>
@@ -209,9 +169,7 @@ const join = () => {
                     type="email"
                     name="email"
                     placeholder="이메일"
-                    onChange={(e) =>
-                      setInputs({ ...inputs, email: e.target.value })
-                    }
+                    onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
                   />
                   <label htmlFor="email">이메일</label>
                   <span>{emailMessage}</span>
@@ -224,9 +182,7 @@ const join = () => {
                     type="walletAddress"
                     name="walletAddress"
                     placeholder="지갑주소"
-                    onChange={(e) =>
-                      setInputs({ ...inputs, walletAddress: e.target.value })
-                    }
+                    onChange={(e) => setInputs({ ...inputs, walletAddress: e.target.value })}
                   />
                   <label htmlFor="walletAddress">지갑주소</label>
                 </InputBox>
@@ -235,9 +191,7 @@ const join = () => {
                     type="text"
                     name="nickname"
                     placeholder="닉네임"
-                    onChange={(e) =>
-                      setInputs({ ...inputs, nickname: e.target.value })
-                    }
+                    onChange={(e) => setInputs({ ...inputs, nickname: e.target.value })}
                   />
                   <label htmlFor="nickname">닉네임</label>
                   <span>{nickMessage}</span>
@@ -248,9 +202,7 @@ const join = () => {
                     name="password"
                     placeholder="비밀번호"
                     autoComplete="off"
-                    onChange={(e) =>
-                      setInputs({ ...inputs, password: e.target.value })
-                    }
+                    onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
                   />
                   <label htmlFor="password">비밀번호</label>
                 </InputBox>
@@ -260,9 +212,7 @@ const join = () => {
                     name="rePassword"
                     placeholder="비밀번호확인"
                     autoComplete="off"
-                    onChange={(e) =>
-                      setInputs({ ...inputs, rePassword: e.target.value })
-                    }
+                    onChange={(e) => setInputs({ ...inputs, rePassword: e.target.value })}
                   />
                   <label htmlFor="rePassword">비밀번호확인</label>
                   <span>{pwdMessage}</span>
