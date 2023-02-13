@@ -6,6 +6,7 @@ import path from "path";
 import { PrismaService } from "../../prisma.service";
 
 export const multerOptionsFactory = (config: ConfigService): MulterOptions => {
+ 
   //s3 인스턴스 생성
   const s3 = new S3Client({
     region: config.get("AWS_REGION"),
@@ -28,6 +29,5 @@ export const multerOptionsFactory = (config: ConfigService): MulterOptions => {
         done(null, `${basename}`);
       },
     }),
-    limits: { fileSize: 10 * 1024 * 1024 }, // 최대 10MB까지 저장
   };
 };

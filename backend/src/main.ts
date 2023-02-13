@@ -3,6 +3,7 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { Logger } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { urlencoded, json } from "express";
 
 import dotenv = require("dotenv");
 import path = require("path");
@@ -20,6 +21,8 @@ if (process.env.NODE_ENV === "local") {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   dotenv.config({ path: path.join(__dirname, "./.env-local") });
+  app.use(json({ limit: "50mb" }));
+  app.use(urlencoded({ extended: false, limit: "50mb" }));
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

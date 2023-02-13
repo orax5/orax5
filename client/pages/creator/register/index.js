@@ -20,9 +20,6 @@ const index = () => {
     const file = e.target.files[0];
     const filename = file.name;
     const filesize = file.size;
-
-    console.log(filename);
-    console.log(filesize);
     if (!/\.(jpg|png)$/i.test(filename)) {
       alert(`확장자가 jpg, png인 파일만 업로드 가능합니다. 현재 파일 : ${file.name}`);
       setRejectCase(true);
@@ -43,8 +40,6 @@ const index = () => {
   };
 
   const uploadBtn = () => {
-    const formData = new FormData();
-    formData.append("uploadedImg", sendImg);
     if (sendImg == null) {
       alert("이미지를 등록해주세요");
     } else {
@@ -54,9 +49,19 @@ const index = () => {
       if (!confirm(`신청하실 곡의 제목은 <${singTitle}> 입니다. 추후 변경이 불가능하니 반드시 확인해주세요.`)) {
         alert("취소되었습니다");
       } else {
-        console.log("이미지 확인 완료");
-        console.log(sendImg);
-        dispatch(uploadImage(sendImg))
+        const formData = new FormData();
+        formData.append("uploadedImg", sendImg);
+        /// formData의 value값 찍어봄
+        // let keys = formData.values();
+        // for (const pair of keys) {
+        //   console.log(pair);
+        // }
+        let entries = formData.entries();
+        for (const pair of entries) {
+          console.log(pair[0] + ", " + pair[1]);
+        }
+
+        dispatch(uploadImage(formData))
           .then((res) => {
             console.log(res);
             router.push("/creator/register/detailForm");

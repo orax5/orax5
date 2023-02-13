@@ -9,18 +9,24 @@ export const uploadImage = (formData) => {
       url: `${BASE_URL}/uploadS3/image`,
       method: "post",
       data: formData,
-    });
-    const data = imageURL.data;
-    console.log(data);
-    dispatch({
-      type: NFT_COVER,
-      payload: data,
-    });
+    })
+      .then((res) => {
+        const data = res.data.location;
+        console.log(data);
+        dispatch({
+          type: NFT_COVER,
+          payload: data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
 const init = {
   imgURL: {},
+  grade: [{ user: 1 }, { creator: 2 }, { admin: 3 }],
 };
 
 function funding(state = init, action) {
