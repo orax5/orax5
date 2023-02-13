@@ -12,8 +12,13 @@ import dtsToken from "../../contracts/DtsToken.json";
 import fToken from "../../contracts/FunddingToken.json";
 import sToken from "../../contracts/SaleToken.json";
 
+import { useSession, signIn, signOut } from "next-auth/react"
+
 const index = () => {
   const dispatch = useDispatch();
+
+  const { data: session } = useSession()
+
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -85,6 +90,21 @@ const index = () => {
     dispatch(login(account, inputs.email, inputs.password, tokenData));
   };
 
+  if (session) {
+    return (
+      <>
+        Signed in as {session.user.email} <br />
+        <button onClick={() => signOut()}>Sign out</button>
+      </>
+    )
+  }
+  return (
+    <>
+      Not signed in <br />
+      <button onClick={() => signIn()}>Sign in</button>
+    </>
+  )
+  
   return (
     <MainContainer>
       <div></div>
