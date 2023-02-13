@@ -2,12 +2,73 @@ import Link from "next/Link";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 //  promise resolve 과정 없이도 변수에 할당할 수 있도록 해준다
 import dynamic from "next/dynamic";
 import Offers from "../components/Offers";
+import Offers3 from "../components/Offers3";
+import { useSelector } from "react-redux";
 
 const deatil = () => {
-   
+  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
+  const Stoken = useSelector((state) => state.user.contracts.Stoken);
+  const dtokenCA = useSelector((state) => state.user.contracts.dtokenCA);
+  const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
+  const stokenCA = useSelector((state) => state.user.contracts.stokenCA);
+  const account = useSelector((state) => state.user.users.account);
+
+  // 판매 내역 리스트 담아줌
+  const [ saleListarray, setSaleListArray ] = useState([]);
+  // 인풋값들
+  const [inputSaleAmount,  setInputSaleAmount] = useState(null);
+
+  // onChage 값들 판매수량, 판매가격
+  const getSaleAmountValue = (e) => {
+    setInputSaleAmount(e.target.value);
+  }
+
+  // 최초 실행시 판매 내역 보여줌
+  useEffect(()=>{
+
+    ViewOneHandler();
+  },[]);
+
+  async function setNumberList(data){
+      const ViewOne = await Stoken.getSalesTokenListAll(1,parseInt(data.listId));
+      if(parseInt(data.amount) == parseInt(ViewOne.amount)){
+        console.log("사는중 기달기달");
+        setTimeout(() => {
+          setNumberList(data);
+        }, 5000);
+      } else{
+        ViewOneHandler();
+        console.log("구매 완료")
+      }
+  };
+
+  const ViewOneHandler = async() => {
+
+    // 거래 등록 내용 보기 (from 주소, 판매수량, 가격)
+    const saleListNumber = await Stoken.saleNumberList(1);
+
+    const arr = [];
+    for(let i = 1; i <= saleListNumber; i++){
+        const ViewOne = await Stoken.getSalesTokenListAll(1,i);
+        if(ViewOne.amount != 0){
+          const saleListView = {
+            account : ViewOne.account,
+            amount : parseInt(ViewOne.amount),
+            price : parseInt(ViewOne.price),
+            listId : parseInt(ViewOne.listId)
+          };
+          arr.push(saleListView);
+        }
+      }
+      setSaleListArray(arr);
+
+  }
+
   return (
     <MainContainer>
       <div></div>
@@ -42,26 +103,23 @@ const deatil = () => {
                   <td>가수</td>
                   <td>프로필 확인하기</td>
                 </tr>
-                <tr>
-                  <td>판매기간</td>
-                  <td>~ 2023-02-20</td>
-                </tr>
+                {/* 이부분 마켓플레이스에서 판매기간삭제함 */}
                 <tr>
                   <td>수량</td>
                   <td>
-                    <NumSelector type="number" />
+                    <NumSelector type="number" onChange={getSaleAmountValue}/>
                   </td>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td>구매가격</td>
                   <td>
                     <NumSelector type="number" />
                   </td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
             <div>
-              <PageBtn>구매하기</PageBtn>
+              {/* <PageBtn onClick={buyNft}>구매하기</PageBtn> */}
               <Link href="/streaming">
                 <PageBtn>스트리밍 하러가기</PageBtn>
               </Link>
@@ -76,187 +134,13 @@ const deatil = () => {
               <div>음원 설명음원 설명음원 설명</div>
             </AboutNft>
           </InfoBox>
-          <InfoBox>   
-            <div style={{width:"100%", textAlign:"center"}}>
-              호가창
-            </div>
-            <div>
-              <AskingPriceUI> 
-                <li>판매 수량</li>
-                <li>가격</li>
-                <li>구매 수량</li>
-              </AskingPriceUI>
-              {/* 구매상태창 */}
-              <div className="Sell" style={{display:"flex"}}>
-                <PriceBox>
-                  <PriceRow>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                    <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                    <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                    <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                    <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                    <Amount_units>
-                      <strong style={{margin:"0 6px", color:"red"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units>
-                  </PriceRow>
-                </PriceBox>
-                <ExtraBox>
-                  <div>
-                    <span>상한가</span>
-                    <strong style={{color:"red"}}>23,100</strong>
-                  </div>
-                  <div>
-                    <span>하한가</span>
-                    <strong style={{color:"blue"}}>23,100</strong>
-                  </div>
-                  <div>
-                    <span>전일종가</span>
-                    <strong style={{color:"white"}}>23,100</strong>
-                  </div>
-                  <div>
-                    <span>최근1주일</span>
-                  </div>
-                  <div>
-                    <span>최고가</span>
-                    <strong style={{color:"red"}}>23,100</strong>
-                  </div>
-                  <div>
-                    <span>최저가</span>
-                    <strong style={{color:"blue"}}>23,100</strong>
-                  </div>
-                </ExtraBox>
-              </div>
-              {/* 판매상태창 */}
-              <div className="Buy" style={{display:"flex"}}>
-                <ExtraBox>
-                    <div>
-                      <span>상한가</span>
-                      <strong style={{color:"red"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>하한가</span>
-                      <strong style={{color:"blue"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>전일종가</span>
-                      <strong style={{color:"white"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>최근1주일</span>
-                    </div>
-                    <div>
-                      <span>최고가</span>
-                      <strong style={{color:"red"}}>23,100</strong>
-                    </div>
-                    <div>
-                      <span>최저가</span>
-                      <strong style={{color:"blue"}}>23,100</strong>
-                    </div>
-                </ExtraBox>
-                <PriceBox>
-                  <PriceRow>
-                    <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units_buy>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units_buy>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units_buy>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units_buy>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                  </PriceRow>
-                  <PriceRow>
-                    <Amount_units_buy>
-                      <strong style={{margin:"0 6px", color:"blue"}}>18,500</strong>
-                      <small style={{background: "transparent"}}>13.4%</small>
-                    </Amount_units_buy>
-                    <Cnt_units>
-                      <Cnt_txt>
-                        <span>1</span>
-                      </Cnt_txt>
-                    </Cnt_units>
-                  </PriceRow>
-                </PriceBox>
-              </div>
-            </div>
+          <InfoBox>
+            <div>Offer</div>
+            <Offers3
+              saleListarray = {saleListarray}
+              inputSaleAmount = {inputSaleAmount}
+              setNumberList = {setNumberList}
+            />
           </InfoBox>
           <InfoBox>
             <div>거래 내역</div>
@@ -384,73 +268,5 @@ const AboutNft = styled.div`
   }
 `;
 
-const AskingPriceUI = styled.ul`
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #eaeaea;
-  > li {
-    width: 10rem;
-    text-align:center;
-  }
-`
-const ExtraBox = styled.div`
-  flex: 0 0 10rem;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  color: #999;
-  font-size: 14px;
-  > div{
-    margin-bottom: 4px;
-    display: flex;
-    justify-content: space-between;
-  }
-`
-const PriceBox = styled.div`
-  flex: 2 0 0;
-  display: flex;
-  flex-direction: column;
-`
 
-const PriceRow = styled.div`
-  flex: 1 0 0;
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-bottom: 1px;
-`
-
-const Cnt_units = styled.div`
-  border-right: 1px solid #eaeaea;
-  flex: 0 0 10rem;
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  color: #3449ba;
-`
-
-const Cnt_txt = styled.div`
-  z-index: 1;
-  padding: 0 4px;
-  width: 100%;
-  text-align: center;
-`
-const Amount_units = styled.div`
-  flex: 1 0 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: blue;
-`
-
-const Amount_units_buy = styled.div`
-  flex: 1 0 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: red;
-`
 export default deatil;

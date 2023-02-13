@@ -242,6 +242,44 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "timeOwner",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "totalAmout",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "newOwner",
 						"type": "address"
 					}
@@ -396,19 +434,19 @@
 			]
 		},
 		"DtsToken.sol": {
-			"keccak256": "0x025ab37c3d40d47d74bd5ebe6fedf0c05d4b10e0420a4c325de6b42227789d4c",
+			"keccak256": "0x81f0c007d81ef033200528bad5f973cded0f53eff11f6b39346edb4b55568365",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5342b2cc62ba472bc8cc7e326634fdcfccf32b56ef8a497afa155f48ad38397b",
-				"dweb:/ipfs/QmW4Tqm2L1iehURFip59GViHHcwYKxjb9AAQms37NwNtpY"
+				"bzz-raw://0e02e35339d1787caa3ba5d10a4c1fee136807c2aa874196d91828c945dc47fb",
+				"dweb:/ipfs/QmPqoRKH47tLYBajdutfbx1usDSB8EB97jQftL7ngiUiiB"
 			]
 		},
 		"FunddingToken.sol": {
-			"keccak256": "0x70ed34a95d460f9a6607d0df1d0925517fbe3c78b6b4f07150abf21268020b23",
+			"keccak256": "0x40864c02010887e12f66b57eb737a53f9cab57e7bb0911eaaadc1d4d780ba3d3",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8de3ba74eb5f7e6cd09dcb3a5e7cb145b8c2a48423ee0a36cca247f60fbc058d",
-				"dweb:/ipfs/QmXCAcqxRWJ6cB1masNjrrEDycWgsQk9H3t55dqFCrEiNi"
+				"bzz-raw://1d53409fc6bf08a91790a682cf7bf727b8ccc0bc14ffdb0886ca19f7a3414a9b",
+				"dweb:/ipfs/QmciQLtj6WWyLx7hyUibtDUumVEaSiFe8oMpuB3RExK14x"
 			]
 		},
 		"SaleToken.sol": {

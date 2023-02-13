@@ -119,6 +119,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"name": "aaaa",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "tokenId",
 						"type": "uint256"
@@ -425,27 +444,27 @@
 			]
 		},
 		"DtsToken.sol": {
-			"keccak256": "0xe55825f15c914bec01b7c2776784e436c363177adeb16383b6d70e2fae52ed08",
+			"keccak256": "0x81f0c007d81ef033200528bad5f973cded0f53eff11f6b39346edb4b55568365",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5a8e4fb743802793200b2aca3e3748dfeba67e97893e8a16453ddab1f083c100",
-				"dweb:/ipfs/QmXunF93AuPJGNWKCtHw8vQfbTAzvjyCxCTAMtpjCAfT5k"
+				"bzz-raw://0e02e35339d1787caa3ba5d10a4c1fee136807c2aa874196d91828c945dc47fb",
+				"dweb:/ipfs/QmPqoRKH47tLYBajdutfbx1usDSB8EB97jQftL7ngiUiiB"
 			]
 		},
 		"FunddingToken.sol": {
-			"keccak256": "0xa46bd19195b0281bc38c5cc56189ce66ef8c5fa4570cf36a3628f329c3f03a5a",
+			"keccak256": "0x40864c02010887e12f66b57eb737a53f9cab57e7bb0911eaaadc1d4d780ba3d3",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e4271bd704100c1f94b61bcfd720d19b8aea64f2f38c80d950c79848e07a5dd3",
-				"dweb:/ipfs/QmfQWohKRrTNX6cs3qWXSf9Q4tfwWmoXiN3st9dZoskWwg"
+				"bzz-raw://1d53409fc6bf08a91790a682cf7bf727b8ccc0bc14ffdb0886ca19f7a3414a9b",
+				"dweb:/ipfs/QmciQLtj6WWyLx7hyUibtDUumVEaSiFe8oMpuB3RExK14x"
 			]
 		},
 		"SaleToken.sol": {
-			"keccak256": "0x9bfa1f15f2fb4a364923a5e4188dcac5932bac36af991dfd37efdd4b7ac02824",
+			"keccak256": "0x7d4fe211bce8f77d9658553499121b4ea39a91e829911a9764c17dacb68cb38d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a2b1709954a5d595fcdaa129a420173e6c1c1eb604fae159c3385d894acdd7f1",
-				"dweb:/ipfs/QmWC3mVvREYX178hHk4JVG4dvXqTmBA4kB5T6R5YyGx2gF"
+				"bzz-raw://4c39308c0f253aff4fae0a704435e3f6a3cda2d7e129b9759622f948a9252e3e",
+				"dweb:/ipfs/QmcA8grfZkvpaR2bDkS15Ced4R3P5aYwDgs4hfLN1wBrPn"
 			]
 		}
 	},

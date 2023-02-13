@@ -13,7 +13,7 @@ const deatil = () => {
 
   const [unsigned, setUnsigned] = useState(false);
   const [inputSaleAmount,  setInputSaleAmount] = useState(null);
-  const [price, setPrice] = useState(null)
+  const [price, setPrice] = useState(null);
   
   // 컨트랙트에서 리스트 숫자 가져올 때 담아준다.(비교하기 위해서)
   const [saleTotalAmount, setSaleTotalAmount] = useState(0);
@@ -24,7 +24,7 @@ const deatil = () => {
   const [userSaleList,setUserSaleList] = useState([]);
 
   const Stoken = useSelector((state) => state.user.contracts.Stoken);
-  const StokenCA = useSelector((state)=>state.user.contracts.StokenCA);
+  const StokenCA = useSelector((state)=>state.user.contracts.stokenCA);
   const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
   const userAccount = useSelector((state) => state.user.users.account);
 
@@ -52,8 +52,10 @@ const deatil = () => {
     if(inputSaleAmount == 0 || inputSaleAmount== null){
       alert("0과 공백은 입력 불가능합니다.")
     }
-
-    // await Dtoken.isSalesToken(StokenCA, 1, inputSaleAmount, price);
+    console.log(StokenCA);
+    console.log(inputSaleAmount);
+    console.log(price);
+    await Dtoken.isSalesToken(StokenCA, 1, inputSaleAmount, parseInt(price));
     await Stoken.on("SaleEvent", (account, tokenId, amount, price)  => {
       console.log(account.toString());
       console.log(tokenId.toString());
@@ -201,7 +203,7 @@ const deatil = () => {
                 </div>
                 {userSaleList.map((data, idx) => (
                   <div key={idx} style={{display:"flex", justifyContent: "space-around", alignItems: "center"}}>
-                  <div style={{minWidth:"2rem", textAlign:"center"}}>{data?.amount}</div>
+                  <div style={{minWidth:"2rem", textAlign:"center"}}>{data?.amount}eth</div>
                   <div>{data?.price}</div>
                   <CancleBtn onClick={SaleCancleHandler}>취소</CancleBtn>
                 </div>
