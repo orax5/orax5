@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 import styled from "styled-components";
 import Pagination from "../Pagination";
 
 const FundingNft = () => {
   const router = useRouter();
+  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
+  const account = useSelector((state)=>state.user.users.user_wallet);
 
   // 더미 데이터
   const Items = [
@@ -29,7 +32,6 @@ const FundingNft = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
-  
   useEffect(() => {
     setDatas(Items);
   }, []);
@@ -38,7 +40,16 @@ const FundingNft = () => {
     setIsFailed(!isFailed);
   };
 
-  const isRefund = () => {};
+  // 펀딩 실패시 유저가 환불하는 함수 
+  const isRefund = async() => {
+    await Ftoken.isfalsedFundding(account,1);
+    Ftoken.on("isfalsedFunddingEvnet",(account, tokenId, value) => {
+      console.log(account.toString());
+      console.log(tokenId.toString());
+      console.log(value.toString());
+    })
+  };
+
   return (
     <div>
       <MainItems>

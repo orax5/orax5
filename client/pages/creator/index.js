@@ -14,7 +14,8 @@ const index = () => {
       date: "23.01.12",
       targetPrice: "1000",
       amount: "100개",
-      state: "실패",
+      state: "반려",
+      dating: "14일",
     },
     {
       name: "나진스댄스",
@@ -22,7 +23,8 @@ const index = () => {
       scale: "0.456",
       date: "22.12.13",
       targetPrice: "1000",
-      state: "진행 중",
+      state: "펀딩진행중",
+      dating: "7일",
       amount: "100개",
     },
     {
@@ -31,14 +33,16 @@ const index = () => {
       scale: "0.789",
       date: "19.12.31",
       targetPrice: "1000",
-      state: "실패",
+      state: "펀딩실패",
+      dating: "7일",
       amount: "100개",
     },
     {
       name: "라진스발라드",
       category: "발라드",
       scale: "1.24",
-      state: "진행 중",
+      state: "펀딩진행중",
+      dating: "14일",
       date: "03.05.07",
       targetPrice: "1000",
       amount: "100개",
@@ -47,7 +51,8 @@ const index = () => {
       name: "마진스팝",
       category: "팝",
       scale: "2.24",
-      state: "진행 중",
+      state: "심사대기중",
+      dating: "7일",
       date: "18.04.02",
       targetPrice: "1000",
       amount: "100개",
@@ -56,7 +61,8 @@ const index = () => {
       name: "뉴진스락",
       category: "락",
       scale: "4.44",
-      state: "완료",
+      state: "펀딩성공",
+      dating: "14일",
       date: "21.05.07",
       targetPrice: "1000",
       amount: "100개",
@@ -65,7 +71,8 @@ const index = () => {
       name: "큐락비락",
       category: "락",
       scale: "1.44",
-      state: "진행 중",
+      state: "펀딩진행중",
+      dating: "7일",
       date: "21.12.07",
       targetPrice: "1000",
       amount: "100개",
@@ -74,7 +81,8 @@ const index = () => {
       name: "블락비댄스",
       category: "댄스",
       scale: "2.44",
-      state: "완료",
+      state: "펀딩시작",
+      dating: "7일",
       date: "21.01.07",
       targetPrice: "1000",
       amount: "100개",
@@ -83,7 +91,8 @@ const index = () => {
       name: "비락비발라드",
       category: "발라드",
       scale: "10.44",
-      state: "진행 중",
+      state: "펀딩진행중",
+      dating: "7일",
       date: "22.06.07",
       targetPrice: "1000",
       amount: "100개",
@@ -92,7 +101,8 @@ const index = () => {
       name: "블락비힙합",
       category: "힙합",
       scale: "0.44",
-      state: "실패",
+      state: "펀딩실패",
+      dating: "7일",
       date: "21.07.07",
       targetPrice: "1000",
       amount: "100개",
@@ -124,8 +134,8 @@ const index = () => {
   },[])
 
   
-  // 펀딩 신청
-  const asd = async() =>{
+  // 펀딩 성공 시 민팅 신청하는 트랜잭션
+  const FundingMinting = async() =>{
     const aa = await Dtoken.mintFundding(account,ftokenCA,1,10,10,2);
     console.log(aa);
     Dtoken.on("seccessFundding", (account,tokenId,amount,totalPrice,getTime,result)  => {
@@ -138,11 +148,6 @@ const index = () => {
     })
   }
 
-  // nft 갯수 확인 ? 해야함? 크리에이터가? 유저는 확인해서 myPageNFT 현황보여줘야하는데
-  const qwe = async() => {
-    const bb = await Dtoken.balanceOf(account,1);
-    console.log(bb.toString());
-  }
 
   // 펀딩 성공시 크리에이터가 돈 받는 함수
   const bvbvbvb = async() => {
@@ -154,15 +159,7 @@ const index = () => {
     })
   }
 
-  // 펀딩 실패시 유저가 환불하는 함수
-  const zxc = async() => {
-    await Ftoken.isfalsedFundding(account,1);
-    Ftoken.on("isfalsedFunddingEvnet",(account, tokenId, value) => {
-      console.log(account.toString());
-      console.log(tokenId.toString());
-      console.log(value.toString());
-    })
-  }
+ 
 
   return (
     <MainContainer>
@@ -200,7 +197,8 @@ const index = () => {
                   <th>음원명</th>
                   <th>총 발행량</th>
                   <th>목표금액</th>
-                  <th>기간</th>
+                  <th>시작일</th>
+                  <th>펀딩기간</th>
                   <th>상태</th>
                 </tr>
               </thead>
@@ -209,12 +207,15 @@ const index = () => {
                   <tr key={idx}>
                     <td>{data.category}</td>
                     <td>{data.name}</td>
-                    <td onClick={zxc}>{data.amount}</td>
+                    <td >{data.amount}</td>
                     <td onClick={bvbvbvb}>{data.targetPrice}{"ETH"}</td>
-                    <td onClick={qwe}>
+                    <td >
                       {data.date}                      
                     </td>
-                    <td onClick={asd}>{data.state}</td>
+                    <td >
+                      {data.dating}                      
+                    </td>
+                    <td onClick={FundingMinting}>{data.state}</td>
                   </tr>
                 ))}
               </tbody>
@@ -226,6 +227,7 @@ const index = () => {
     </MainContainer>
   );
 };
+
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
   place-items: flex-start;

@@ -140,9 +140,16 @@ export const creatorLogin = (account, email, password, tokenData, router) => {
 // 스트리밍권
 export const ticket = (leftTicket, ttoday) => {
   return async (dispatch, getState) => {
+<<<<<<< HEAD
+    const data = {leftTicket,ttoday}
+    console.log(parseInt(leftTicket))
+    console.log(parseInt(ttoday))
+   dispatch({
+=======
     const data = { leftTicket, ttoday };
     console.log(leftTicket);
     dispatch({
+>>>>>>> main
       type: TICKET,
       payload: { data },
     });

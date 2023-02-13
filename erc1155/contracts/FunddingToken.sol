@@ -20,7 +20,7 @@ contract FunddingToken is Ownable{
         Dtoken = DtsToken(DtsTokenCA);
         // 배포할 때 처음 한번 Dtoken에게 FunddingTokenCA를 전달해준다.
         // 펀딩 실패시 유저가 환불 받을 때 권한을 줘야하기 때문에 미리 한번 CA를 보내둔다.
-        Dtoken.isChangedCA(address(this));
+        Dtoken.isFunddingCA(address(this));
     }
 
     // 플랫폼 거래 수수료 상태 변수
@@ -29,10 +29,10 @@ contract FunddingToken is Ownable{
     uint256 private constant _decimalPoint = 100;
 
     // 해당 음원이 현재까지 팔린 양 확인하기 위한 매핑
-    mapping(uint256 => uint256) private _totalAmout;
+    mapping(uint256 => uint256) public totalAmout;
 
     // 스트리밍권을 등록하는 매핑
-    mapping (address => uint256) private _timeOwner;
+    mapping (address => uint256) public timeOwner;
 
     // 구독권 구매 이벤트 선언
     event subscriptionBuyEvent(address account, uint256 price);
@@ -44,6 +44,11 @@ contract FunddingToken is Ownable{
     event isfalsedFunddingEvnet(address account, uint256 tokenId, uint256 price);
 
 
+    constructor(address DtsTokenCA){
+        // 생성자에서 배포된 DtsToken CA를 받아서 Dtoken 상태변수에 저장한다.
+        Dtoken = DtsToken(DtsTokenCA);
+    }
+
     // 구독권 구매 함수
     function subscriptionBuy() public payable{
         // // 사는 사람이 본인이 맞는지
@@ -53,18 +58,18 @@ contract FunddingToken is Ownable{
         // 보낸 돈을 체크해준다. 1개월 3개월 6개월 중 하나여야지 통과
         require(msg.value == 0.5 ether || msg.value == 1 ether || msg.value == 2 ether);
         if(msg.value == 0.5 ether){
-            _timeOwner[msg.sender] = block.timestamp + (86400 * 30);
+            _timeOwner[account] = block.timestamp + (8640 * 30);
         } else if(msg.value == 1 ether){
-            _timeOwner[msg.sender] = block.timestamp + (86400 * 90);
+            _timeOwner[account] = block.timestamp + (8640 * 90);
         } else if(msg.value == 2 ether){
-            _timeOwner[msg.sender] = block.timestamp + (86400 * 180);
+            _timeOwner[account] = block.timestamp + (8640 * 180);
         }
         emit subscriptionBuyEvent(msg.sender, msg.value);
     }
 
     // 유저가 구독권을 가지고 있는지 확인하는 함수
-    function streamingView() public view returns(uint256) {
-        return _timeOwner[msg.sender];
+    function streamingView(address account) public view returns(uint256) {
+        return _timeOwner[account];
     }
 
     // // ㅜ 펀딩 실패시 유저가 환불 받기 전에 컨트랙트 오너가 실행 시켜줘야 한다. << 변경 전 꺼 컨트랙트 생성자 함수에 옮김 최초 배포시에 한번만 실행 할 수 있게 만듬.
@@ -90,22 +95,22 @@ contract FunddingToken is Ownable{
         // 해당 음원 크리에이터 nft 갯수를 체크한다. (구매하는 양이 보유양보다 많으면 안됨.)1번
         require(Dtoken.balanceOf(owner, tokenId) >=  amount, "can't buy things.");
         // 해당 음원 발행량이랑 지금까지 펀딩된 수랑 비교해서 오버되지 않게 체크한다.(구매하는 양이 발행량을 넘어가면 안됨.)2번
-        require(Dtoken.getTokenOwnerData(tokenId).NftAmount - _totalAmout[tokenId] >= amount,"be out of stock and unable to buy goods");
+        require(Dtoken.getTokenOwnerData(tokenId).NftAmount - totalAmout[tokenId] >= amount,"be out of stock and unable to buy goods");
         // 펀딩 신청을 할 때 saleCA에 권환을 넘겼는지 확인한다.
         require(Dtoken.isApprovedForAll(owner,address(this)), "be not approved");
         // 지금까지 펀딩한 현재 갯수을 모아 놓는다.
-        _totalAmout[tokenId] = _totalAmout[tokenId] + amount;
+        totalAmout[tokenId] = totalAmout[tokenId] + amount;
         Dtoken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
         // 유저 펀딩 구매 선공시 이벤트 발생
         emit userFunddingEvent(msg.sender, tokenId, amount, price);
         // 마지막 물량이 다 팔리면 Dtoken._tokenOwners[tokenId].isSuccess를 false에서 true로 바꾼다.
-        if(_totalAmout[tokenId] == Dtoken.getTokenOwnerData(tokenId).NftAmount){
+        if(totalAmout[tokenId] == Dtoken.getTokenOwnerData(tokenId).NftAmount){
             Dtoken.isFunddingSuccess(tokenId);
         }
-        else if (_totalAmout[tokenId] != Dtoken.getTokenOwnerData(tokenId).NftAmount){
-            Dtoken.isFunddingFalsed(tokenId);
+        // else if (totalAmout[tokenId] != Dtoken.getTokenOwnerData(tokenId).NftAmount){
+        //     Dtoken.isFunddingFalsed(tokenId);
             
-        }
+        // }
     }
 
     // 펀딩이 성공했을 때
@@ -113,7 +118,7 @@ contract FunddingToken is Ownable{
         // 펀딩 신청한 크리에이터 본인이 맞는지 확인
         require(msg.sender == Dtoken.getTokenOwnerData(tokenId).Creater, "Is that your wallet?");
         // 펀딩이 성공 했는지 확인
-        require(Dtoken.getTokenOwnerData(tokenId).TotalPrice == (Dtoken.getTokenOwnerData(tokenId).UnitPrice * _totalAmout[tokenId]), "Funding seccess ?");
+        require(Dtoken.getTokenOwnerData(tokenId).TotalPrice == (Dtoken.getTokenOwnerData(tokenId).UnitPrice * totalAmout[tokenId]), "Funding seccess ?");
         // 수수료 값 구하기
         uint256 Payment = SafeMath.div(Dtoken.getTokenOwnerData(tokenId).TotalPrice.mul(_Fee),_decimalPoint);
         // 크리에이터가 수수료 뺴고 펀딩 성공시 받아가는 금액
@@ -133,7 +138,7 @@ contract FunddingToken is Ownable{
         // 펀딩 시간이 지났는지 확인
         require(Dtoken.getTokenOwnerData(tokenId).EndTime < block.timestamp, "Time Over ?");
         // 펀딩이 실패 했는지 확인
-        require(Dtoken.getTokenOwnerData(tokenId).TotalPrice > (Dtoken.getTokenOwnerData(tokenId).UnitPrice * _totalAmout[tokenId]), "Funding failed ?");
+        require(Dtoken.getTokenOwnerData(tokenId).TotalPrice > (Dtoken.getTokenOwnerData(tokenId).UnitPrice * totalAmout[tokenId]), "Funding failed ?");
         // 유저의 총 펀딩 금액
         uint256 reFund = Dtoken.balanceOf(msg.sender, tokenId) * Dtoken.getTokenOwnerData(tokenId).UnitPrice;
         // CA에서 유저에게 금액 전달
@@ -145,7 +150,7 @@ contract FunddingToken is Ownable{
 
     // 현재 모금액 확인 함수
     function priceCheck(uint256 tokenId) public view returns(uint256){
-        return _totalAmout[tokenId];
+        return totalAmout[tokenId];
     }
 
     // 앞단에서는 이렇게 유저가 펀딩한 총 금액을 CA에 전송한다.
