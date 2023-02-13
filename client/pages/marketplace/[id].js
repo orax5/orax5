@@ -2,20 +2,73 @@ import Link from "next/Link";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 //  promise resolve 과정 없이도 변수에 할당할 수 있도록 해준다
 import dynamic from "next/dynamic";
 import Offers from "../components/Offers";
-import Offers2 from "../components/Offers2";
+import Offers3 from "../components/Offers3";
 import { useSelector } from "react-redux";
 
 const deatil = () => {
   const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
+  const Stoken = useSelector((state) => state.user.contracts.Stoken);
+  const dtokenCA = useSelector((state) => state.user.contracts.dtokenCA);
   const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
+  const stokenCA = useSelector((state) => state.user.contracts.stokenCA);
   const account = useSelector((state) => state.user.users.account);
 
-  const buyNft = () => {
-    console.log("살래욥");
+  // 판매 내역 리스트 담아줌
+  const [ saleListarray, setSaleListArray ] = useState([]);
+  // 인풋값들
+  const [inputSaleAmount,  setInputSaleAmount] = useState(null);
+
+  // onChage 값들 판매수량, 판매가격
+  const getSaleAmountValue = (e) => {
+    setInputSaleAmount(e.target.value);
+  }
+
+  // 최초 실행시 판매 내역 보여줌
+  useEffect(()=>{
+
+    ViewOneHandler();
+  },[]);
+
+  async function setNumberList(data){
+      const ViewOne = await Stoken.getSalesTokenListAll(1,parseInt(data.listId));
+      if(parseInt(data.amount) == parseInt(ViewOne.amount)){
+        console.log("사는중 기달기달");
+        setTimeout(() => {
+          setNumberList(data);
+        }, 5000);
+      } else{
+        ViewOneHandler();
+        console.log("구매 완료")
+      }
   };
+
+  const ViewOneHandler = async() => {
+
+    // 거래 등록 내용 보기 (from 주소, 판매수량, 가격)
+    const saleListNumber = await Stoken.saleNumberList(1);
+
+    const arr = [];
+    for(let i = 1; i <= saleListNumber; i++){
+        const ViewOne = await Stoken.getSalesTokenListAll(1,i);
+        if(ViewOne.amount != 0){
+          const saleListView = {
+            account : ViewOne.account,
+            amount : parseInt(ViewOne.amount),
+            price : parseInt(ViewOne.price),
+            listId : parseInt(ViewOne.listId)
+          };
+          arr.push(saleListView);
+        }
+      }
+      setSaleListArray(arr);
+
+  }
+
   return (
     <MainContainer>
       <div></div>
@@ -54,19 +107,19 @@ const deatil = () => {
                 <tr>
                   <td>수량</td>
                   <td>
-                    <NumSelector type="number" />
+                    <NumSelector type="number" onChange={getSaleAmountValue}/>
                   </td>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td>구매가격</td>
                   <td>
                     <NumSelector type="number" />
                   </td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
             <div>
-              <PageBtn onClick={buyNft}>구매하기</PageBtn>
+              {/* <PageBtn onClick={buyNft}>구매하기</PageBtn> */}
               <Link href="/streaming">
                 <PageBtn>스트리밍 하러가기</PageBtn>
               </Link>
@@ -83,11 +136,10 @@ const deatil = () => {
           </InfoBox>
           <InfoBox>
             <div>Offer</div>
-            <Offers2
-                // 이것도 전역으로 관리해야할삘인데 
-                // offerAmount={offerAmount} 
-                // offerPrice ={offerPrice} 
-                // offerAccount={offerAccount}
+            <Offers3
+              saleListarray = {saleListarray}
+              inputSaleAmount = {inputSaleAmount}
+              setNumberList = {setNumberList}
             />
           </InfoBox>
           <InfoBox>

@@ -149,7 +149,6 @@ const index = () => {
   }
 
 
-
   // 펀딩 성공시 크리에이터가 돈 받는 함수
   const bvbvbvb = async() => {
     await Ftoken.isSuccessFundding(1);

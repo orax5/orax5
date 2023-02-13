@@ -1,24 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Offers2 = ({offerAmount,offerPrice,offerAccount}) => {
-  const datas = [
-    {
-      tradeAmount: offerAmount,
-      from: offerAccount,
-      unitCost: offerPrice,
-    },
-    {
-      tradeAmount: offerAmount,
-      from: offerAccount,
-      unitCost: offerPrice,
-    },
-    {
-      tradeAmount: offerAmount,
-      from: offerAccount,
-      unitCost: offerPrice,
-    }
-  ];
+const Offers2 = ({saleListarray}) => {
 
   return (
     <Table style={{ display: "table", width: "100%" }}>
@@ -30,11 +13,11 @@ const Offers2 = ({offerAmount,offerPrice,offerAccount}) => {
         </tr>
       </thead>
       <tbody>
-        {datas.map((data, idx) => (
+        {saleListarray.map((data, idx) => (
           <tr key={idx}>
-            <td>{data.from}</td>
-            <td>{data.tradeAmount}{" 개"}</td>
-            <td>{data.unitCost}{" ETH"}</td>
+            <td>{data.account}</td>
+            <td>{data.amount}{" 개"}</td>
+            <td>{data.price}{" ETH"}</td>
           </tr>
         ))}
       </tbody>
