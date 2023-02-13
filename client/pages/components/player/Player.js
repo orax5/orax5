@@ -2,16 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import AudioPlayer from "react-h5-audio-player";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import db from "../../../public/db.json";
 const Player = () => {
+  const dispatch = useDispatch();
   const leftStreaming = useSelector((state) => state.user.tickets.leftTicket);
   const intLeftStreaming = parseInt(leftStreaming);
   const ttoday = useSelector((state) => state.user.tickets.ttoday);
   const leftDay = Math.floor(((intLeftStreaming - ttoday) * 1000) / 86400000);
-  console.log(intLeftStreaming);
-  console.log(ttoday);
-  console.log(isNaN(leftDay));
+  // console.log(intLeftStreaming);
+  // console.log(ttoday);
+  // console.log(isNaN(leftDay));
 
   const alamTest = () => {};
 
@@ -48,6 +49,12 @@ const Player = () => {
     setTrackIndex(targetId);
     // audioRef.current?.audio.current.play();
   };
+
+  const playS3Music = (id) => {
+    console.log(id); // 2/12 여기서는 map돌린게 아니라서 id 바로 못찾아옴 다른 방법으로 가져오기
+    dispatch(playSong(id));
+  };
+
   return (
     <>
       <PlayerArea>
@@ -60,7 +67,7 @@ const Player = () => {
             showSkipControls
             onClickPrevious={handleClickPrev}
             onClickNext={handleClickNext}
-            onPlay={(e) => console.log(e)}
+            onPlay={() => playS3Music(id)}
             hidePlayer={false}
             loop={true}
           />
