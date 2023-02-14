@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { urlencoded, json } from 'express';
-
+import cors from 'cors';
 import dotenv = require('dotenv');
 import path = require('path');
 dotenv.config();
@@ -28,7 +28,10 @@ async function bootstrap() {
       transform: true,
     }),
   ); // validation 전역설정
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:3001', 'http://localhost:3000'],
+    credentials: true,
+  });
   const PORT = process.env.PORT; // .env에서 불러온다!
   await app.listen(PORT);
   console.log(`PORT NUM : ${PORT}`);

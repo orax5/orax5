@@ -20,7 +20,7 @@ export class AuthService {
   // constructor(private userService: UserLoginService, private readonly jwtService: JwtService, private readonly config: ConfigService){}
   constructor(
     private userService: UserLoginService,
-    private readonly config: ConfigService,
+    private readonly config: ConfigService, // private readonly jwtService: JwtService, // @@ 해결하기
   ) {}
   // 최초 로그인
   // userWallet: string, enterPWD: string
@@ -56,8 +56,13 @@ export class AuthService {
     return jwt.sign(payload, this.config.get('JWT_SECRET'), {
       expiresIn: this.config.get('JWT_EXPIRATION_TIME'),
     });
-    // 로그인 토큰 발급
-    // return {access_token: this.jwtService.sign(payload)}
+
+    // 로그인 토큰 발급  @@ 해결하기
+    /** 
+    return {
+      JWT_SECRET: this.jwtService.sign(payload),
+      Authorization: `Bearer ${this.jwtService.sign(payload)}`,
+    };*/
   }
 
   // 토큰이 우리서버에서 발급한게 맞는지 확인

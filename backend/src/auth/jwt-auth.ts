@@ -35,6 +35,8 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   validateToken(token: string) {
     const SECRETKEY = this.config.get('JWT_SECRET');
 
+    //    const tempKey = this.config.get("Authorization");
+
     try {
       const verify = this.jwtService.verify(token, { secret: SECRETKEY });
       return verify;
