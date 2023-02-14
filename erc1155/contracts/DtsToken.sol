@@ -122,11 +122,7 @@ contract DtsToken is ERC1155, Ownable{
         data.NftAmount = _amount;
         data.TotalPrice = _totalPrice *(10 ** 18);
         data.UnitPrice = _unitPrice;
-<<<<<<< HEAD
-        data.EndTime = block.timestamp + (60 * _getTime);
-=======
         data.EndTime = block.timestamp + (86400 * _getTime);
->>>>>>> AnJu
         data.isSuccess = false;
         
         return data;
@@ -229,21 +225,13 @@ contract DtsToken is ERC1155, Ownable{
         ERC1155._burn(account, tokenId, amount);
     }
 
-<<<<<<< HEAD
-    // 컨트랙트 오너가 사용하면 FunddingTokenCA를 받아와 담아준다. (FunddingOwnerOnly 함수 제어자를 사용하기 위해서 씀.)
-    function isChangedCA(address account) external {
-        require(account == msg.sender,"????");
-=======
     // FunddingToken컨트랙트에서 생성자 함수를 사용해서 처음에 배포하면이 함수를 실행 시킨다.  (FunddingOwnerOnly 함수 제어자를 사용하기 위해서 씀.)
     function isFunddingCA(address account) external {
         require(account == msg.sender,"FunddingCA????");
->>>>>>> AnJu
         require(_funddingCA == address(0),"Run once only in the beginning");
         _funddingCA = account;
         // 생성자에서 배포된 FunddingToken CA를 받아서 Ftoken 상태변수에 저장한다.
         Ftoken = FunddingToken(account);
-<<<<<<< HEAD
-=======
     }
 
     // FunddingToken컨트랙트에서 생성자 함수를 사용해서 처음에 배포하면이 함수를 실행 시킨다. saleCA를 담아서 상호작용을 하기 위해서
@@ -251,7 +239,6 @@ contract DtsToken is ERC1155, Ownable{
         require(account == msg.sender,"SaleCA????");
         // 생성자에서 배포된 SaleToken CA를 받아서 Stoken 상태변수에 저장한다.
         Stoken = SaleToken(account);
->>>>>>> AnJu
     }
 
     // 실행시킨 주체가 SaleCA인지 확인하는 함수 제어자

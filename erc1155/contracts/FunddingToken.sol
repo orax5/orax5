@@ -54,22 +54,22 @@ contract FunddingToken is Ownable{
         // // 사는 사람이 본인이 맞는지
         // require(msg.sender == account, "Is it your wallet?");
         // 가지고 있는 구독권이 기간이 지났는지 확인 하는 함수 (처음 구매해도 기간이 0이기 때문에 살 수 있다.)
-        require(_timeOwner[msg.sender] < block.timestamp, "There is already a subscription.");
+        require(timeOwner[msg.sender] < block.timestamp, "There is already a subscription.");
         // 보낸 돈을 체크해준다. 1개월 3개월 6개월 중 하나여야지 통과
         require(msg.value == 0.5 ether || msg.value == 1 ether || msg.value == 2 ether);
         if(msg.value == 0.5 ether){
-            _timeOwner[account] = block.timestamp + (8640 * 30);
+            timeOwner[msg.sender] = block.timestamp + (8640 * 30);
         } else if(msg.value == 1 ether){
-            _timeOwner[account] = block.timestamp + (8640 * 90);
+            timeOwner[msg.sender] = block.timestamp + (8640 * 90);
         } else if(msg.value == 2 ether){
-            _timeOwner[account] = block.timestamp + (8640 * 180);
+            timeOwner[msg.sender] = block.timestamp + (8640 * 180);
         }
         emit subscriptionBuyEvent(msg.sender, msg.value);
     }
 
     // 유저가 구독권을 가지고 있는지 확인하는 함수
-    function streamingView(address account) public view returns(uint256) {
-        return _timeOwner[account];
+    function streamingView() public view returns(uint256) {
+        return timeOwner[msg.sender];
     }
 
     // // ㅜ 펀딩 실패시 유저가 환불 받기 전에 컨트랙트 오너가 실행 시켜줘야 한다. << 변경 전 꺼 컨트랙트 생성자 함수에 옮김 최초 배포시에 한번만 실행 할 수 있게 만듬.
