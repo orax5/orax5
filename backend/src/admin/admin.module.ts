@@ -1,10 +1,9 @@
-import { Module } from "@nestjs/common";
-import { MypageModule } from "./mypage/mypage.module";
-import { AddmusicModule } from "./addmusic/addmusic.module";
-import { RedisCacheModule } from "../cache/cache.module";
+import { Module } from '@nestjs/common';
+import { MypageModule } from './mypage/mypage.module';
+import { RedisCacheModule } from '../cache/cache.module';
 
 @Module({
-  imports: [MypageModule, AddmusicModule, RedisCacheModule],
+  imports: [MypageModule, RedisCacheModule],
   controllers: [],
   providers: [],
 })

@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import Mail from "nodemailer/lib/mailer";
-import * as nodemailer from "nodemailer";
-import { ConfigService } from "@nestjs/config";
+import { Injectable } from '@nestjs/common';
+import Mail from 'nodemailer/lib/mailer';
+import * as nodemailer from 'nodemailer';
+import { ConfigService } from '@nestjs/config';
 
 interface EmailOptions {
   to: string;
@@ -15,37 +15,41 @@ export class EmailService {
   constructor(private readonly config: ConfigService) {
     // nodemailer에서 제공하는 Transport 객체 생성
     this.transporter = nodemailer.createTransport({
-      service: "Gmail",
+      service: 'Gmail',
       auth: {
         // 계정 수정예정
-        user: this.config.get("MAILER"),
-        pass: this.config.get("MAILER_PASSWORD"),
+        user: this.config.get('MAILER'),
+        pass: this.config.get('MAILER_PASSWORD'),
       },
     });
   }
 
-  async sendCreatorJoinVerification(emailAddress: string, signupVerifyToken: string, option: string) {
+  async sendCreatorJoinVerification(
+    emailAddress: string,
+    signupVerifyToken: string,
+    option: string,
+  ) {
     // nodemailer 연결이 잘 됐는지 확인
-    console.log("메일전송 했다");
+    console.log('메일전송 했다');
 
     this.transporter.verify(function (error, success) {
       if (error) {
         console.log(error);
       } else {
-        console.log("Server is ready to take our messages");
+        console.log('Server is ready to take our messages');
       }
     });
 
-    const baseURL = "http://localhost:3001";
+    const baseURL = 'http://localhost:3001';
 
-    if (option == "signUP") {
+    if (option == 'signUP') {
       // 유저가 누를 버튼이 가질링크 구성, 이 링크로 다시 우리 서비스로 이메일 인증요청이 들어옴
       // /creator_signup/email_verify 이 주소로 다시 요청을보냄
-      const url = `${baseURL}/creator/email-verify?signupVerifyToken=${signupVerifyToken}`;
+      const url = `${baseURL}/creator/email-verify?signupVerifyToken=${signupVerifyToken}&email=${emailAddress}`;
 
       const mailOptions: EmailOptions = {
         to: emailAddress,
-        subject: "creator 가입인증 메일",
+        subject: 'creator 가입인증 메일',
         // 메일 본문 구성
         html: `
                 가입 확인 버튼을 누르시면 가입인증이 완료됩니다</br>
@@ -55,8 +59,7 @@ export class EmailService {
                 `,
       };
       return await this.transporter.sendMail(mailOptions); //transporter 객체로 메일전송
-      
-    } else if (option == "permit") {
+    } else if (option == 'permit') {
       // 여기에 permit 2로 바꿔주는 라우터로 연결해주면 될듯
       const url = `${baseURL}/creator/result?fundingTitle=${signupVerifyToken}`;
 
@@ -69,7 +72,7 @@ export class EmailService {
                 `,
       };
       return await this.transporter.sendMail(mailOptions); //transporter 객체로 메일전송
-    } else if (option == "reject") {
+    } else if (option == 'reject') {
       // 여기에 permit 2로 바꿔주는 라우터로 연결해주면 될듯
       const url = `${baseURL}/creator/result?fundingTitle=${signupVerifyToken}`;
 

@@ -1,9 +1,9 @@
-import { Controller, Get, Param, Headers, UseGuards } from "@nestjs/common";
-import { UserInfo } from "../user_dto/UserInfo";
-import { JwtAuthGuard } from "../../auth/jwt-auth";
-import { UserMypageService } from "./mypage.service";
+import { Controller, Get, Param, Headers, UseGuards } from '@nestjs/common';
+import { UserInfo } from '../user_dto/UserInfo';
+import { JwtAuthGuard } from '../../auth/jwt-auth';
+import { UserMypageService } from './mypage.service';
 
-@Controller("mypage")
+@Controller('/user/mypage')
 export class UserMypageController {
   constructor(private mypage: UserMypageService) {}
 
@@ -11,8 +11,11 @@ export class UserMypageController {
   // /mypage/Auth api가 호출될때 JwtAuthGuard의 canActive()를 먼저 실행하고 문제없으면
   // 해당 로직의 api가 실행된다
   // @UseGuards(JwtAuthGuard)
-  @Get("/:id")
-  async getUserMypage(@Headers() headers: any, @Param("id") userId: string): Promise<string> {
+  @Get('/:id')
+  async getUserMypage(
+    @Headers() headers: any,
+    @Param('id') userId: string,
+  ): Promise<string> {
     // 토큰확인?
     //const jwtString = headers.auth
     const userNum = parseInt(userId);

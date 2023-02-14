@@ -1,24 +1,23 @@
-import { ConfigService } from "@nestjs/config";
-import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer-options.interface";
-import multerS3 from "multer-s3";
-import { S3Client } from "@aws-sdk/client-s3";
-import path from "path";
-import { PrismaService } from "../../prisma.service";
+import { ConfigService } from '@nestjs/config';
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import multerS3 from 'multer-s3';
+import { S3Client } from '@aws-sdk/client-s3';
+import path from 'path';
 
 export const multerOptionsFactory = (config: ConfigService): MulterOptions => {
   //s3 인스턴스 생성
   const s3 = new S3Client({
-    region: config.get("AWS_REGION"),
+    region: config.get('AWS_REGION'),
     credentials: {
-      accessKeyId: config.get("AWS_ACCESS_KEY_ID"),
-      secretAccessKey: config.get("AWS_SECRET_ACCESS_KEY"),
+      accessKeyId: config.get('AWS_ACCESS_KEY_ID'),
+      secretAccessKey: config.get('AWS_SECRET_ACCESS_KEY'),
     },
   });
 
   return {
     storage: multerS3({
       s3,
-      bucket: config.get("AWS_S3_BUCKET_NAME"),
+      bucket: config.get('AWS_S3_BUCKET_NAME'),
       key(_req, file, done) {
         const ext = path.extname(file.originalname); // 파일의 확장자 추출
         const basename = path.basename(file.originalname, ext); // 파일이름
