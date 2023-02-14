@@ -1,55 +1,101 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CountDown from "../components/CountDown";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+
 const Detail = () => {
+  
+  const params = useRouter();
+
+  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  
+  
+  const [tokenId, setTokenId] = useState(0);
+  const [tokenTime, setTokenTime] = useState(0);
   const [isTimeOver, setIsTimeOver] = useState(false);
+  const [date, setdate] = useState(0);
+  const [hours, sethours] = useState(0);
+  const [minutes, setminutes] = useState(0);
+  const [seconds, setseconds] = useState(0);
+  const [time, settime] = useState(0);
+
+  useEffect(() => {
+    setTokenId(params.query.id);
+    endTime();
+  },[])
+
+  async function endTime(){
+    console.log(tokenId);
+    const time = await Dtoken.getVotingDate(parseInt(tokenId));
+    const tokenJsTime = parseInt(time)*1000;
+    settime(tokenJsTime);
+    if(tokenJsTime > Date.now()){
+      setTokenTime(tokenJsTime);
+      var day = ("0" + new Date(tokenJsTime).getDate()).slice(-2); //일 2자리 (01, 02 ... 31)
+      var hour = ("0" + new Date(tokenJsTime).getHours()).slice(-2); //시 2자리 (00, 01 ... 23)
+      var minute = ("0" + new Date(tokenJsTime).getMinutes()).slice(-2); //분 2자리 (00, 01 ... 59)
+      var second = ("0" + new Date(tokenJsTime).getSeconds()).slice(-2); //초 2자리 (00, 01 ... 59)
+      setdate(day);
+      sethours(hour);
+      setminutes(minute);
+      setseconds(second);
+    }else if(tokenJsTime < Date.now()){
+      setIsTimeOver(true);
+    }
+  }
+  
+  const agreement = async () => {
+    if(time > Date.now()){
+      const balance = await Dtoken.balanceOf(tokenId);
+      if(parseInt(balance) == 0){
+        alert("토큰 보유자가 아니에요");
+      } else{
+        await Dtoken.isVoting(tokenId, true);
+      }
+    } else {
+      alert(" 기간이 지났어요.");
+    }
+  }
+  const disagreement = async () => {
+    if(time > Date.now()){
+      const balance = await Dtoken.balanceOf(tokenId);
+      if(parseInt(balance) == 0){
+        alert("토큰 보유자가 아니에요");
+      } else{
+        await Dtoken.isVoting(tokenId, false);
+      }
+    } else {
+      alert(" 기간이 지났어요.");
+    }
+  }
+
 
   // 등록하는 곳에서 선택한 날짜로 불러와야함, 지금은 임의로 두고 작업
   const endDate = new Date("2023-01-30 15:20:10");
 
-  const [date, hours, minutes, seconds] = CountDown(endDate, setIsTimeOver);
 
-  // 댓글 더미데이터
-  const replies = [
-    { name: "김치만두", content: "앨범아트 바꾸지 말자" },
-    { name: "만두만두", content: "222" },
-    { name: "고기만두", content: "333" },
-  ];
   return (
     <MainContainer>
       <div></div>
       <div>
         <ContentWrap>
-          <h1>투표 제목</h1>
+          <h1>펀딩 기간 늘리기</h1>
           <div>
             {isTimeOver ? (
               <h2>투표기간이 종료되었습니다</h2>
             ) : (
               <Timer isTimeOver={isTimeOver}>
-                {date}일 {hours}시간 {minutes}분 {seconds}초
+              펀딩기한 :  {date}일 {hours}시간 {minutes}분 {seconds}초 까지
               </Timer>
             )}
           </div>
-          <div>앨범아트 변경하고 싶어요 </div>
+          <div></div>
           <div>
-            <Btn>찬성</Btn>
-            <Btn>반대</Btn>
+            <Btn onClick={agreement}>찬성</Btn>
+            <Btn onClick={disagreement}>반대</Btn>
           </div>
         </ContentWrap>
-        {/* 댓글 할지 안할지 몰라요 */}
-        <ReplyWrap>
-          <h1>댓글(3)</h1>
-          <WriteReply>
-            <input />
-            <button>등록</button>
-          </WriteReply>
-          {replies.map((reply, idx) => (
-            <ShowReply key={idx}>
-              <li>{reply.name}</li>
-              <li>↳ {reply.content}</li>
-            </ShowReply>
-          ))}
-        </ReplyWrap>
       </div>
       <div></div>
     </MainContainer>
