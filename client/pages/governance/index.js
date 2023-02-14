@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import RegisterVote from "../components/RegisterVote";
 import Pagination from "../components/Pagination";
+import { useSelector } from "react-redux";
 
 const index = () => {
   const router = useRouter();
@@ -26,97 +27,166 @@ const index = () => {
       content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
       status: "진행중",
     },
-    {
-      id: 1,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "진행중",
-    },
-    {
-      id: 1,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "진행중",
-    },
-    {
-      id: 1,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "진행중",
-    },
-    {
-      id: 1,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "진행중",
-    },
-    {
-      id: 1,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "진행중",
-    },
-    {
-      id: 2,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "종료",
-    },
-    {
-      id: 3,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "종료",
-    },
-    {
-      id: 4,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "진행중",
-    },
-    {
-      id: 5,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "진행중",
-    },
-    {
-      id: 5,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "진행중",
-    },
-    {
-      id: 5,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "종료",
-    },
+    // {
+    //   id: 1,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "진행중",
+    // },
+    // {
+    //   id: 1,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "진행중",
+    // },
+    // {
+    //   id: 1,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "진행중",
+    // },
+    // {
+    //   id: 1,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "진행중",
+    // },
+    // {
+    //   id: 1,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "진행중",
+    // },
+    // {
+    //   id: 2,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "종료",
+    // },
+    // {
+    //   id: 3,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "종료",
+    // },
+    // {
+    //   id: 4,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "진행중",
+    // },
+    // {
+    //   id: 5,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "진행중",
+    // },
+    // {
+    //   id: 5,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "진행중",
+    // },
+    // {
+    //   id: 5,
+    //   title: "투표 제목",
+    //   dueto: "2023-01-31",
+    //   ownedNft: "해당 nft",
+    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
+    //   status: "종료",
+    // },
   ];
 
+  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
+  const account = useSelector((state)=>state.user.users.user_wallet);
+
   const [modalOpen, setModalOpen] = useState(false);
+
+  const [votingList, setVotingList] = useState([]);
+
+  useEffect(() => {
+    viewVoting();
+  },[])
+
+  const submit = async(tokenId, date, changeDay) => {
+    console.log(tokenId, date, changeDay);
+    await Dtoken.startVoting(tokenId, date, changeDay);
+    // setList(tokenId);
+  }
+
+  
+  async function setList(tokenId) {
+    const tokenTime = await Dtoken.getVotingDate(tokenId);
+    if(parseInt(tokenTime) == 0){
+      setTimeout(() => {
+        const toggle = 1;
+        setList(toggle,tokenId);
+        console.log("거버넌스 등록중");
+      }, 5000);
+    } else{
+      viewVoting();
+    }
+  };
+
+  // 거버넌스 리스트 보여주는 함수
+  const viewVoting = async() => {
+    const listNumber = await Dtoken.idsView();
+    const arr = [];
+    let num = 1;
+    for(let i = 1; i <= listNumber.length; i++){
+      const tokenTime = await Dtoken.getVotingDate(i);
+      const now = Date.now();
+      const tokenJsTime = parseInt(tokenTime)*1000;
+      var year = new Date(tokenJsTime).getFullYear().toString().slice(-2); //년도 뒤에 두자리
+      var month = ("0" + (new Date(tokenJsTime).getMonth() + 1)).slice(-2); //월 2자리 (01, 02 ... 12)
+      var day = ("0" + new Date(tokenJsTime).getDate()).slice(-2); //일 2자리 (01, 02 ... 31)
+      if(0 < tokenJsTime && tokenJsTime > now){
+        const votingListView = {
+        id: num,
+        title: "펀딩 기간 늘리기",
+        dueto: `20${year}-${month}-${day}`,
+        ownedNft: i,
+        content: "",
+        status:  "진행중",
+      }
+      arr.push(votingListView);
+      }else if(0 < tokenJsTime && tokenJsTime < now){
+        const votingListView = {
+          id: num,
+          title: "펀딩 기간 늘리기",
+          dueto: `20${year}-${month}-${day}`,
+          ownedNft: i,
+          content: "",
+          status:  "종료",
+        }
+        arr.push(votingListView);
+      }
+    num++;
+  }
+    console.log(arr);
+    setVotingList(arr);
+  }
 
   const showModal = () => {
     setModalOpen(!modalOpen);
@@ -129,7 +199,7 @@ const index = () => {
           <h1>GOVERNANCE</h1>
           <RegisterBtn onClick={showModal}>등록하기</RegisterBtn>
         </HeadContainer>
-        {modalOpen && <RegisterVote setModalOpen={setModalOpen} />}
+        {modalOpen && <RegisterVote submit={submit} setModalOpen={setModalOpen} modalOpen={modalOpen}/>}
         <VoteListWrap>
           <table>
             <thead>
@@ -144,9 +214,9 @@ const index = () => {
               </tr>
             </thead>
             <tbody>
-              {datas.slice(offset, offset + limit).map((data, idx) => (
+              {votingList.slice(offset, offset + limit).map((data, idx) => (
                 <tr key={idx}>
-                  <td>{idx + 1}</td>
+                  <td>{data.id}</td>
                   <ItemImage>
                     <Image
                       src="/Img/NewJeansOMG.jpg"
@@ -158,7 +228,7 @@ const index = () => {
                   <ItemTitle
                     onClick={() => {
                       // 클릭 시 상세보기 페이지 이동
-                      router.push(`/governance/${data.id}`);
+                      router.push(`/governance/${data.ownedNft}`);
                     }}
                   >
                     {data.title}

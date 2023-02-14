@@ -136,15 +136,16 @@ const index = () => {
   
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
   const FundingMinting = async() =>{
-    const aa = await Dtoken.mintFundding(account,ftokenCA,1,10,10,2);
+    const metaData = "metadataUrl"
+    const aa = await Dtoken.mintFundding(account,ftokenCA,1,10,10,5,metaData);
     console.log(aa);
-    Dtoken.on("seccessFundding", (account,tokenId,amount,totalPrice,getTime,result)  => {
+    Dtoken.on("seccessFundding", (account,tokenId,amount,totalPrice,getTime,metaData)  => {
       console.log(account);
       console.log(tokenId);
       console.log(amount);
       console.log(totalPrice);
       console.log(getTime);
-      console.log(result);
+      console.log(metaData);
     })
   }
 

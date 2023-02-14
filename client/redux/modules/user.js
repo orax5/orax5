@@ -67,37 +67,31 @@ export const checkEmail = () => {
 // 로그인
 export const login = (account, email, password, tokenData) => {
   return async (dispatch, getState) => {
-    const loginInfo = await axios({
-      url: "http://localhost:3001/user/login",
+    const loginInfo = await ({
+      // url: "",
       method: "post",
       data: { user_wallet: account, user_pwd: password, user_email: email },
     })
-      .then(() => {
-        const data = loginInfo.data;
+      // .then(() => {
+        const data = loginInfo?.data;
         console.log(data);
         dispatch({
           type: LOGIN,
           payload: { data, tokenData },
         });
-      })
-      .catch((error) => console.log(error));
-    alert("로그인 에러!");
+      // })
+    //   .catch((error) => console.log(error));
+    // alert("로그인 에러!");
   };
 };
 
 // 스트리밍권
 export const ticket = (leftTicket, ttoday) => {
   return async (dispatch, getState) => {
-<<<<<<< HEAD
     const data = {leftTicket,ttoday}
     console.log(parseInt(leftTicket))
     console.log(parseInt(ttoday))
    dispatch({
-=======
-    const data = { leftTicket, ttoday };
-    console.log(leftTicket);
-    dispatch({
->>>>>>> main
       type: TICKET,
       payload: { data },
     });

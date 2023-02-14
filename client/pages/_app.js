@@ -10,7 +10,6 @@ import PropTypes from "prop-types";
 // App root의 provider로 제공하고 web3 객체를 인스턴스화 하는 getLibrary 함수를 정의하여 props로 전달
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
-import { SessionProvider } from "next-auth/react"
 // import { persistStore } from "redux-persist";
 // import { PersistGate } from "redux-persist/integration/react";
 function getLibrary(provider) {
@@ -30,9 +29,7 @@ const App = ({ Component, pageProps : { session, ...pageProps } }) =>{
         <Web3ReactProvider getLibrary={getLibrary}>
           <Nav />
           {/* <Provider store={store}> */}
-          <SessionProvider session={session}>
             <Component {...pageProps} />
-          </SessionProvider>
           {/* </Provider> */}
         </Web3ReactProvider>
       </ThemeProvider>
