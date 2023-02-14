@@ -1,20 +1,24 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../../prisma.service";
-import fs from "fs";
-import { ConfigService } from "@nestjs/config";
-import { HttpService } from "@nestjs/axios";
-import { Observable } from "rxjs";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../prisma.service';
+import fs from 'fs';
+import { ConfigService } from '@nestjs/config';
+import { HttpService } from '@nestjs/axios';
+import { Observable } from 'rxjs';
 
 // const fs = require('fs');
 // const path = require('path');
 // const filePath = path.join(__dirname, 'metaDataJson')
-const pinataSDK = require("@pinata/sdk");
-const FormData = require("nestjs-form-data");
-const axios = require("@nestjs/axios");
+const pinataSDK = require('@pinata/sdk');
+const FormData = require('nestjs-form-data');
+const axios = require('@nestjs/axios');
 
 @Injectable()
 export class OpenfundingService {
-  constructor(private prisma: PrismaService, private readonly config: ConfigService, private http: HttpService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly config: ConfigService,
+    private http: HttpService,
+  ) {}
 
   // 신청아이디 받아서 db에서 추출한다음 JSON으로 변환하기
   // 아이디만 받아서 db에서 꺼내자 //, openData: CreatorShinChungDto
@@ -31,7 +35,7 @@ export class OpenfundingService {
 
     this.getImageCID(imgURL);
 
-    console.log("@@@@@");
+    console.log('@@@@@');
     console.log(metaData);
     // JSON으로 변환한 메타데이터 파일로 저장하기
     this.saveMetaData(metaData, shinNo);
@@ -48,9 +52,9 @@ export class OpenfundingService {
       fs.writeFile(`${shinNo}`, metaData, (err) => {
         if (err) {
           console.log(err);
-          throw new Error("META 데이터 파일저장 실패");
+          throw new Error('META 데이터 파일저장 실패');
         } else {
-          console.log(" META 데이터 파일저장 성공! ");
+          console.log(' META 데이터 파일저장 성공! ');
         }
       });
     }
@@ -58,11 +62,11 @@ export class OpenfundingService {
 
   // 메타데이터 저장한 json 파일 확인/ 읽어오기
   private readMetaJson(shinNo: number) {
-    fs.readFile(`${shinNo}.json`, "utf-8", (err, data) => {
+    fs.readFile(`${shinNo}.json`, 'utf-8', (err, data) => {
       if (err) {
         console.error(err);
       } else {
-        console.log("잘 저장했다");
+        console.log('잘 저장했다');
         console.log(data);
       }
     });
@@ -73,11 +77,14 @@ export class OpenfundingService {
   // 피나타 api로 json 보내고 url 받아오기
   // npm install --save @pinata/sdk
   private postPinata(metaData: string) {
-    const PINATA_API_KEY = this.config.get("PINATA_API_KEY");
-    const PINATA_SCRETKET = this.config.get("PINATA_SECRET_KEY");
+    const PINATA_API_KEY = this.config.get('PINATA_API_KEY');
+    const PINATA_SCRETKET = this.config.get('PINATA_SECRET_KEY');
 
     // API키로 피나타 연결
-    const pinata = new pinataSDK({ pinataApiKey: PINATA_API_KEY, pinataSecretApiKey: PINATA_SCRETKET });
+    const pinata = new pinataSDK({
+      pinataApiKey: PINATA_API_KEY,
+      pinataSecretApiKey: PINATA_SCRETKET,
+    });
     // 피나타 연결됐는지 확인
     pinata
       .testAuthentication()
@@ -89,7 +96,7 @@ export class OpenfundingService {
       })
       .catch((err) => {
         console.log(err);
-        throw new Error(" 피나타 연결 실패");
+        throw new Error(' 피나타 연결 실패');
       });
   }
 
@@ -103,7 +110,7 @@ export class OpenfundingService {
 
   // 커버사진 IPFS로 올려서 주소 받기
   async getImageCID(imgURL: string) {
-    const PINATA_TOKEN = this.config.get("PINATA_JWT_TOKEN");
+    const PINATA_TOKEN = this.config.get('PINATA_JWT_TOKEN');
     //const axiosInstance = axios.create()
 
     const SRC = imgURL; // 이미지 url
@@ -113,20 +120,24 @@ export class OpenfundingService {
 
     // axiosRef == AxiosInstance
     const response = await this.http.axiosRef(SRC, {
-      method: "GET",
-      responseType: "stream",
+      method: 'GET',
+      responseType: 'stream',
     });
-    formData.append("file", response.data);
+    formData.append('file', response.data);
 
     try {
       // "Infinity"
-      const res = await this.http.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
-        maxBodyLength: 100,
-        headers: {
-          "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-          Authorization: PINATA_TOKEN,
+      const res = await this.http.post(
+        'https://api.pinata.cloud/pinning/pinFileToIPFS',
+        formData,
+        {
+          maxBodyLength: 100,
+          headers: {
+            'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+            Authorization: PINATA_TOKEN,
+          },
         },
-      });
+      );
       console.log(res);
     } catch (error) {
       console.log(error);

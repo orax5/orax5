@@ -1,3 +1,3 @@
-export interface UserInfo{
-    user_nickname: string;
+export interface UserInfo {
+  user_nickname: string;
 }
