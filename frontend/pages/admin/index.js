@@ -1,193 +1,168 @@
-import React, { useState } from "react";
-import AdminNav from "./../components/AdminNav";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Recognize from "./Recognize";
-// 아이콘
-import SwapVertIcon from "@mui/icons-material/SwapVert";
+import { FaEthereum } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 const index = () => {
-  // 검색필터
-  const [userInput, setUserInput] = useState("");
-  console.log(userInput);
-  // 입력값을 가져와서 소문자로변경
-  const getValue = (e) => {
-    setUserInput(e.target.value.toLowerCase());
+  const BASE_URL = "http://localhost:3001";
+
+  const dispatch = useDispatch();
+  const [listdata, setListData] = useState([]);
+  const [clipAccount, setClipAccount] = useState(false);
+  const [permitted, setPermitted] = useState(false);
+
+  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
+  const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
+  const account = useSelector((state) => state.user.contracts.account);
+
+  useEffect(() => {
+    axios({
+      url: `http://localhost:3001/admin/mypage`,
+      method: "get",
+    })
+      .then((res) => {
+        const shinList = res.data;
+        setListData(shinList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const isPermitted = (id) => {
+    axios({
+      url: `${BASE_URL}/admin/mypage/permit/${id}`,
+      method: "post",
+      data: { fundingID: id },
+    })
+      .then((res) => {
+        console.log(res);
+        setPermitted(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const [modalOpen, setModalOpen] = useState(false); // 클릭했을때 트루폴스 반복
-  // onClick 메서드
-  const showModalHandler = (id, amount) => {
-    setModalOpen(!modalOpen); // 클릭했을때 트루폴스 반복
+  const isRejected = (id) => {
+    axios({
+      url: `${BASE_URL}/admin/mypage/reject/${id}`,
+      method: "post",
+      data: { fundingID: id },
+    })
+      .then((res) => {
+        console.log(res);
+        setPermitted(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const datas = [
-    {
-      name: "사진스힙합",
-      category: "힙합",
-      scale: "0.123",
-      date: "23.01.12",
-      content: "힙합블라",
-    },
-    {
-      name: "나진스댄스",
-      category: "댄스",
-      scale: "0.456",
-      date: "22.12.13",
-      content: "댄스블라",
-    },
-    {
-      name: "다진스RnB",
-      category: "RnB",
-      scale: "0.789",
-      date: "19.12.31",
-      content: "알엔비블라",
-    },
-    {
-      name: "라진스발라드",
-      category: "발라드",
-      scale: "1.24",
-      date: "03.05.07",
-      content: "발라드블라",
-    },
-    {
-      name: "마진스팝",
-      category: "팝",
-      scale: "2.24",
-      date: "18.04.02",
-      content: "팝블라",
-    },
-    {
-      name: "뉴진스락",
-      category: "락",
-      scale: "4.44",
-      date: "21.05.07",
-      content: "락블라",
-    },
-    {
-      name: "큐락비락",
-      category: "락",
-      scale: "1.44",
-      date: "21.12.07",
-      content: "락블라",
-    },
-    {
-      name: "블락비댄스",
-      category: "댄스",
-      scale: "2.44",
-      date: "21.01.07",
-      content: "락블라",
-    },
-    {
-      name: "비락비발라드",
-      category: "발라드",
-      scale: "10.44",
-      date: "22.06.07",
-      content: "락블라",
-    },
-    {
-      name: "블락비힙합",
-      category: "힙합",
-      scale: "0.44",
-      date: "21.07.07",
-      content: "락블라",
-    },
-  ];
-
-  // 정렬
-  const [nameSort, setNameSort] = useState(datas);
-  // 정렬 핸들러
-  const sortNameHandler = () => {
-    const _nameSort = [...nameSort].sort((a, b) =>
-      a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
-    );
-    setNameSort(_nameSort);
+  const createMeta = (id) => {
+    axios({
+      url: `${BASE_URL}/admin/mypage/${id}`,
+      method: "get",
+      data: { fundingID: id },
+    })
+      .then((res) => {
+        console.log(res);
+        alert("메타데이터 생성되었습니다");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-  // 필터
-  const searched = nameSort.filter((data) =>
-    data.name.toLowerCase().includes(userInput)
-  );
-
   return (
     <MainContainer>
       <div></div>
-      <FlexWrap>
-        <AdminNav />
+      <ContentWrap>
         <ContainerBoard>
-          <h1 style={{ fontSize: "2em", marginBottom: "0.5rem" }}>
-            펀딩허락테이블
-          </h1>
-          <p style={{ marginBottom: "1rem" }}>신중하게 허락해라</p>
+          <TitleArea>
+            <h2>펀딩 승인 테이블</h2>
+          </TitleArea>
           <div>
-            <div style={{ padding: "1rem" }}>Data table Example</div>
-            <Row>
-              <div>
-                <label htmlFor="">
-                  {"Show "}
-                  <select name="" id="">
-                    <option value="">10</option>
-                    <option value="">25</option>
-                    <option value="">50</option>
-                    <option value="">100</option>
-                  </select>{" "}
-                  {"entries"}
-                </label>
-              </div>
-              <div>
-                <label htmlFor="">{"Search:"}</label>
-                <input type="text" placeholder="Search" onChange={getValue} />
-              </div>
-            </Row>
-          </div>
-          <div>
-            <Table style={{ display: "table", width: "100%" }}>
+            <div>
+              <CreatorAddress>
+                <FaEthereum />
+                &nbsp;
+                {account}
+              </CreatorAddress>
+            </div>
+            <Table>
               <thead>
                 <tr>
-                  <th
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <div>Name</div>
-                    <div>
-                      <button onClick={sortNameHandler}>
-                        <SwapVertIcon />
-                      </button>
-                    </div>
-                  </th>
-                  <th>Category</th>
-                  <th>Funding scale</th>
-                  <th>Start Date</th>
-                  <th>Content</th>
-                  {modalOpen && <Recognize />}
+                  <th>카테고리</th>
+                  <th>음원명</th>
+                  <th>총 발행량</th>
+                  <th>목표금액</th>
+                  <th>펀딩기간</th>
+                  <th>승인</th>
+                  <th>처리</th>
                 </tr>
               </thead>
               <tbody>
-                {searched.map((data, idx) => (
-                  <tr key={data.name} onClick={showModalHandler}>
-                    <td>{data.name}</td>
-                    <td>{data.category}</td>
+                {listdata.map((data, idx) => (
+                  <tr key={idx}>
+                    <td>{data.shin_category}</td>
+                    <td>{data.shin_title}</td>
+                    <td>{data.shin_amount}</td>
                     <td>
-                      {data.scale}
+                      {data.shin_nft_totalbalance}
                       {"ETH"}
                     </td>
-                    <td>{data.date}</td>
-                    <td>{data.content}</td>
+                    <td>{data.shin_period}</td>
+                    <td>
+                      {data.shin_ispermit == 1 && (
+                        <button
+                          onClick={(e) => {
+                            isPermitted(data.shin_no);
+                          }}
+                        >
+                          승인
+                        </button>
+                      )}
+                    </td>
+                    <td>
+                      {/* 이거 아이디 일치하는 값만 바뀌게 수정해줘야됨 지금은 모든 버튼이 다 변경됨 */}
+                      {permitted ? (
+                        <button
+                          onClick={(e) => {
+                            createMeta(data.shin_no);
+                          }}
+                        >
+                          메타데이터 생성
+                        </button>
+                      ) : (
+                        <button
+                          onClick={(e) => {
+                            isRejected(data.shin_no);
+                          }}
+                        >
+                          반려
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </Table>
           </div>
         </ContainerBoard>
-      </FlexWrap>
+      </ContentWrap>
       <div></div>
     </MainContainer>
   );
 };
+
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
   place-items: flex-start;
 `;
-
-const FlexWrap = styled.div`
-  width: 75rem;
+const ContentWrap = styled.div`
+  width: 100%;
   display: flex;
 `;
 const ContainerBoard = styled.div`
@@ -195,20 +170,18 @@ const ContainerBoard = styled.div`
   padding-right: 1.5rem;
   width: 100%;
 `;
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  > :nth-child(1) {
-    font-size: 1.5rem;
-  }
-  > :nth-child(2) {
-    font-size: 1.5rem;
+const TitleArea = styled.div`
+  ${(props) => props.theme.align.flexBetween};
+  font-size: 1.8rem;
+  @media ${(props) => props.theme.device.mobile} {
+    ${(props) => props.theme.align.flexCenterColumn};
+    align-items: start;
   }
 `;
-
 const Table = styled.table`
+  width: 100%;
   margin-top: 1rem;
-  text-align: left;
+  text-align: center;
   & thead {
     border-bottom: 2px solid #e3e6f0;
   }
@@ -221,4 +194,14 @@ const Table = styled.table`
     padding: 0.75rem;
   }
 `;
+const CreatorAddress = styled.div`
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+`;
+
+const FundingStartBtn = styled.button`
+  color: white;
+`;
+
 export default index;
