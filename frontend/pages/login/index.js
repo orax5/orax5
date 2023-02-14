@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Link from "next/Link";
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
-import { userLogin, creatorLogin } from "../../redux/modules/user";
+import { userLogin, creatorLogin, testUserLogin } from "../../redux/modules/user";
 // 지갑연결
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./../../lib/connectors";
@@ -13,19 +13,12 @@ import dtsToken from "../../contracts/DtsToken.json";
 import fToken from "../../contracts/FunddingToken.json";
 import sToken from "../../contracts/SaleToken.json";
 
-<<<<<<< HEAD:client/pages/login/index.js
-
-const index = () => {
-  const dispatch = useDispatch();
-
-=======
-import { useSession, signIn, signOut } from "next-auth/react";
+// import { useSession, signIn, signOut } from "next-auth/react";
 
 const index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [typeOfUser, setTypeOfUser] = useState(null);
->>>>>>> main:frontend/pages/login/index.js
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -72,19 +65,22 @@ const index = () => {
             dtokenCA: dtsToken.networks[chainId].address,
             ftokenCA: fToken.networks[chainId].address,
             stokenCA: sToken.networks[chainId].address,
+            account: account,
           };
           // 로그인 요청 보냄, 잘들어옴
           // console.log(inputs.email);
           // console.log(account);
           // console.log(inputs.password);
           // console.log(router);
-          dispatch(userLogin(account, inputs.email, inputs.password, tokenData, router));
+
+          //dispatch(userLogin(account, inputs.email, inputs.password, tokenData, router));
+          dispatch(testUserLogin(account, inputs.email, inputs.password, tokenData, router));
         }
       } else {
         alert("지갑을 연결해주세요");
       }
     } else {
-      // 2) 크리에이터 가입 시
+      // 2) 크리에이터 로그인 시
       if (active == true) {
         if ((inputs.email == "" && inputs.password == "") || inputs.password == "" || inputs.email == "") {
           alert("이메일과 비밀번호는 필수 입력사항입니다");
@@ -97,6 +93,7 @@ const index = () => {
             dtokenCA: dtsToken.networks[chainId].address,
             ftokenCA: fToken.networks[chainId].address,
             stokenCA: sToken.networks[chainId].address,
+            account: account,
           };
           // 로그인 요청 보냄
           dispatch(creatorLogin(account, inputs.email, inputs.password, tokenData, router));
@@ -107,10 +104,6 @@ const index = () => {
     }
   };
 
-<<<<<<< HEAD:client/pages/login/index.js
-  
-=======
->>>>>>> main:frontend/pages/login/index.js
   return (
     <MainContainer>
       <div></div>
