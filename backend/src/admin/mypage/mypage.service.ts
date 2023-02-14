@@ -1,13 +1,18 @@
-import { Injectable, HttpException } from "@nestjs/common";
-import { PrismaService } from "../../prisma.service";
-import { HttpService } from "@nestjs/axios";
-import { EmailService } from "../../email/email.service";
-import { NFTStorage, File, Blob } from "nft.storage";
-import mime from "mime";
+import { Injectable, HttpException } from '@nestjs/common';
+import { PrismaService } from '../../prisma.service';
+import { HttpService } from '@nestjs/axios';
+import { EmailService } from '../../email/email.service';
+import { NFTStorage, File, Blob } from 'nft.storage';
+import mime from 'mime';
+import axios from 'axios';
 
 @Injectable()
 export class MypageService {
-  constructor(private prisma: PrismaService, private readonly http: HttpService, private emailService: EmailService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly http: HttpService,
+    private emailService: EmailService,
+  ) {}
 
   client = new NFTStorage({
     token: process.env.NFT_Storage,
@@ -24,7 +29,7 @@ export class MypageService {
     if (result) {
       return result;
     } else {
-      throw new Error("목록조회 실패");
+      throw new Error('목록조회 실패');
     }
   }
 
@@ -64,7 +69,7 @@ export class MypageService {
       },
     });
 
-    console.log("@@@ fundingData : ", fundingData);
+    console.log('@@@ fundingData : ', fundingData);
 
     // 이미지 주소 ipfs일 필요가 없다고 한다^^
     const [temp] = fundingData; // 결과값이 배열이라 구조분해 할당으로 객체로 바꿔줌
@@ -88,36 +93,37 @@ export class MypageService {
     // 메타데이터
     const obj = {
       title: shin_title,
-      type: "object",
+      type: 'object',
       properties: {
         image: {
-          type: "string",
+          type: 'string',
           description: shin_description,
         },
         category: {
-          type: "string",
+          type: 'string',
           description: shin_category,
         },
         composer: {
-          type: "string",
+          type: 'string',
           description: com_name,
         },
         lyricist: {
-          type: "string",
+          type: 'string',
           description: lyric_name,
         },
         singer: {
-          type: "string",
+          type: 'string',
           description: sing_name,
         },
       },
     };
     // 메타데이터 업로드 하고 주소 받아옴
     const metadataURL = await this.uploadIPFS(obj);
-    console.log("@@@@ metadataURL : ", metadataURL);
+    console.log('@@@@ metadataURL : ', metadataURL);
     // metadataURL; // 이 주소 db에 저장하기
     // admin이 permit 하면 funding 테이블에도 저장하면서
     // 메타데이터 url도 저장해주기
+    // upsert 특정값이 a라면 지정한 값도 변경해준다
     await this.prisma.funding.upsert({
       where: {
         shin_no: fundingID,
@@ -132,33 +138,36 @@ export class MypageService {
     });
 
     const wallet = result.shin_creator_address; // 크리에이터의 지갑주소
-    console.log("@@ 뽑아낸 지갑주소 : ", wallet);
+    console.log('@@ 뽑아낸 지갑주소 : ', wallet);
     const title = result.shin_title;
 
     // 지갑주소로 이메일 찾기
-    const temptwo = await this.prisma.user.findUnique({
+    const temptwo = await this.prisma.user.findFirst({
       where: {
         user_wallet: wallet,
       },
     });
+
+    console.log('@@@ temptwo : ', temptwo);
+
     const email = temptwo.user_email;
-    console.log("@@@ temptwo : ", temptwo); //데이터 잘나온다.
+    console.log('@@@ temptwo : ', temptwo); //데이터 잘나온다.
 
     // 메일로 알려주기
-    await this.emailService.sendCreatorJoinVerification(email, title, "permit");
+    await this.emailService.sendCreatorJoinVerification(email, title, 'permit');
 
     if (result) {
       // 여기서 funding 테이블에도 저장함
       return result;
     } else {
-      throw new HttpException("승인처리 실패", 400);
+      throw new HttpException('승인처리 실패', 400);
     }
   }
 
   // admin이 승인거절 했을때 실행할 함수
   // 여기서 s3에 저장한 이미지 삭제하기
   async updateReject(fundingID: number) {
-    if (fundingID) console.log("아이디값 잘받아옴", fundingID);
+    if (fundingID) console.log('아이디값 잘받아옴', fundingID);
 
     const result = await this.prisma.shinchunghada.update({
       where: {
@@ -170,8 +179,8 @@ export class MypageService {
     });
 
     const wallet = result.shin_creator_address; // 지갑주소
-    console.log("@@ 뽑아낸 지갑주소 : ", wallet);
-    const title = result.shin_title;
+    console.log('@@ 뽑아낸 지갑주소 : ', wallet);
+    const title = result.shin_title; // 음악파일 이름 뽑음
 
     // 지갑주소로 이메일 찾기
     const temp = await this.prisma.user.findUnique({
@@ -180,16 +189,27 @@ export class MypageService {
       },
     });
     const email = temp.user_email;
-    console.log("@@@ temp : ", temp); //데이터 잘나온다
+    console.log('@@@ temp : ', temp); //데이터 잘나온다
 
     // 메일로 알려주기
-    await this.emailService.sendCreatorJoinVerification(email, title, "reject");
+    await this.emailService.sendCreatorJoinVerification(email, title, 'reject');
+
+    const instance = axios.create({
+      baseURL: 'http://localhost:3001/deleteS3/',
+    });
+
+    const response = await instance.delete(`${title}`);
+    if (response) {
+      console.log('삭제 성공, mypage');
+    } else {
+      console.log('삭제 실패, mypage ');
+    }
 
     if (result) {
-      console.log("승인 반려처리 성공");
+      console.log('승인 반려처리 성공');
       return result;
     } else {
-      throw new HttpException("승인 반려처리 실패", 400);
+      throw new HttpException('승인 반려처리 실패', 400);
     }
   }
 
@@ -197,11 +217,11 @@ export class MypageService {
   private async uploadIPFS(fundingDATA: object) {
     // Blob - nft.storage 에서 임포트해야함
     const metadata = new Blob([JSON.stringify(fundingDATA)], {
-      type: "application/json",
+      type: 'application/json',
     });
 
     const metadataCid = await this.client.storeBlob(metadata);
-    const meatadataUrl = "https://" + metadataCid + ".ipfs.nftstorage.link";
+    const meatadataUrl = 'https://' + metadataCid + '.ipfs.nftstorage.link';
     return meatadataUrl;
   }
 
@@ -234,11 +254,11 @@ export class MypageService {
     const [a] = result; // result 값이 배열로나와서 구조분해 할당으로 객체 형태로 뽑아내기
     const { shin_cover } = a; // 객체형태로 뽑아낸 shinData에서 이미지 주소만 뽑아오기
     const { composer } = a;
-    console.log("@@@ 이미지 주소: ", shin_cover);
+    console.log('@@@ 이미지 주소: ', shin_cover);
     const [{ com_name }] = composer;
 
-    console.log("@@@@ 이건요?? :", a);
-    console.log("@@@ com_name : ", com_name);
+    console.log('@@@@ 이건요?? :', a);
+    console.log('@@@ com_name : ', com_name);
 
     return result;
   }

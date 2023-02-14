@@ -1,5 +1,5 @@
-import { IsEmail, IsString, Matches } from "class-validator";
-import { Transform } from "class-transformer";
+import { IsEmail, IsString, Matches } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreatorLoginDto {
   @IsString()
