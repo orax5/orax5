@@ -147,7 +147,7 @@ export const userLogin = (account, email, password, tokenData, router) => {
             payload: { data, tokenData },
           });
           alert(`${data.user_nickname}님 환영합니다`);
-          router.push("/#");
+          router.push("/");
         }
       })
       .catch((err) => {
@@ -224,10 +224,9 @@ export const ticket = (leftTicket, ttoday) => {
 
 // 초기값
 const init = {
-  users: {},
+  users: {user_grade:0},
   contracts: {},
   tickets: {},
-  grade: [{ user: 1 }, { creator: 2 }, { admin: 3 }],
 };
 
 // 리듀서

@@ -13,19 +13,11 @@ import dtsToken from "../../contracts/DtsToken.json";
 import fToken from "../../contracts/FunddingToken.json";
 import sToken from "../../contracts/SaleToken.json";
 
-<<<<<<< HEAD:client/pages/login/index.js
-
-const index = () => {
-  const dispatch = useDispatch();
-
-=======
-import { useSession, signIn, signOut } from "next-auth/react";
 
 const index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [typeOfUser, setTypeOfUser] = useState(null);
->>>>>>> main:frontend/pages/login/index.js
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -107,10 +99,7 @@ const index = () => {
     }
   };
 
-<<<<<<< HEAD:client/pages/login/index.js
   
-=======
->>>>>>> main:frontend/pages/login/index.js
   return (
     <MainContainer>
       <div></div>
