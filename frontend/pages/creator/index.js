@@ -4,7 +4,6 @@ import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
-
 const index = () => {
   const datas = [
     {
@@ -112,11 +111,11 @@ const index = () => {
   const [clipAccount, setClipAccount] = useState(false);
   // 보여줄 페이지의 인덱스
   const [index, setIndex] = useState(0);
-  
+
   const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
   const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
-  const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
-  const account = useSelector((state)=>state.user.users.user_wallet);
+  const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
+  const account = useSelector((state) => state.user.users.user_wallet);
 
   // 클립보트 핸들러
   const copyClipBoardHandler = async (text) => {
@@ -129,37 +128,33 @@ const index = () => {
     } catch (e) {}
   };
 
-  useEffect(() => {
-    
-  },[])
+  useEffect(() => {}, []);
 
-  
+  const nickname = useSelector((state) => state.user.users.user_nickname);
+  console.log(nickname);
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
-  const FundingMinting = async() =>{
-    const aa = await Dtoken.mintFundding(account,ftokenCA,1,10,10,2);
+  const FundingMinting = async () => {
+    const aa = await Dtoken.mintFundding(account, ftokenCA, 1, 10, 10, 2);
     console.log(aa);
-    Dtoken.on("seccessFundding", (account,tokenId,amount,totalPrice,getTime,result)  => {
+    Dtoken.on("seccessFundding", (account, tokenId, amount, totalPrice, getTime, result) => {
       console.log(account);
       console.log(tokenId);
       console.log(amount);
       console.log(totalPrice);
       console.log(getTime);
       console.log(result);
-    })
-  }
-
+    });
+  };
 
   // 펀딩 성공시 크리에이터가 돈 받는 함수
-  const bvbvbvb = async() => {
+  const bvbvbvb = async () => {
     await Ftoken.isSuccessFundding(1);
-    Ftoken.on("isSuccessFunddingEvent",(account, tokenId, value) => {
+    Ftoken.on("isSuccessFunddingEvent", (account, tokenId, value) => {
       console.log(account.toString());
       console.log(tokenId.toString());
       console.log(value.toString());
-    })
-  }
-
- 
+    });
+  };
 
   return (
     <MainContainer>
@@ -167,11 +162,11 @@ const index = () => {
       <ContentWrap>
         <ContainerBoard>
           <TitleArea>
-            <h1>
+            <h2>
               환영합니다!
               <br />
-              크리에이터 OOO님
-            </h1>
+              {nickname} 님
+            </h2>
             <Link href="/creator/register">펀딩 신청</Link>
           </TitleArea>
           <div>
@@ -207,14 +202,13 @@ const index = () => {
                   <tr key={idx}>
                     <td>{data.category}</td>
                     <td>{data.name}</td>
-                    <td >{data.amount}</td>
-                    <td onClick={bvbvbvb}>{data.targetPrice}{"ETH"}</td>
-                    <td >
-                      {data.date}                      
+                    <td>{data.amount}</td>
+                    <td onClick={bvbvbvb}>
+                      {data.targetPrice}
+                      {"ETH"}
                     </td>
-                    <td >
-                      {data.dating}                      
-                    </td>
+                    <td>{data.date}</td>
+                    <td>{data.dating}</td>
                     <td onClick={FundingMinting}>{data.state}</td>
                   </tr>
                 ))}

@@ -5,7 +5,7 @@ import { User } from '@prisma/client';
 import { AuthService } from '../../auth/auth.service';
 import { LocalStrategy } from '../../auth/local.strategy';
 
-@Controller('/user')
+@Controller('user')
 export class SignupController {
   constructor(private readonly signupService: SignupService) {}
 

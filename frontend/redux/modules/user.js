@@ -19,11 +19,12 @@ export const signUpUser = (email, walletAddress, nickname, password, typeOfUser,
       },
     })
       .then((res) => {
-        const data = res.data;
-        console.log(data);
+        console.log(res); // 입력한 데이터 전체가 들어옴
+        alert("가입완료");
+        router.push("/login");
       })
       .catch((err) => {
-        console.log(err.response);
+        console.log(err);
         if (err.response.status == 500) {
           alert("이미 존재하는 이메일 혹은 지갑주소 입니다");
         }
@@ -137,15 +138,15 @@ export const userLogin = (account, email, password, tokenData, router) => {
       method: "post",
       data: { user_wallet: account, user_pwd: password, user_email: email },
     })
-      .then(async (res) => {
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
         if (res.status == 201) {
-          const data = await res.data;
-          console.log(res);
           dispatch({
             type: LOGIN,
             payload: { data, tokenData },
           });
-          alert("로그인 성공");
+          alert(`${data.user_nickname}님 환영합니다`);
           router.push("/#");
         }
       })
@@ -170,13 +171,13 @@ export const creatorLogin = (account, email, password, tokenData, router) => {
       data: { user_wallet: account, user_pwd: password, user_email: email },
     })
       .then((res) => {
+        const data = res.data;
         if (res.status == 201) {
-          //지금은 들어오는 데이터 없는데 닉네임이랑 grade 받을거임
           dispatch({
             type: CREATOR_LOGIN,
             payload: { data, tokenData },
           });
-          alert("오케오켕");
+          alert(`크리에이터 ${data.user_nickname}님 환영합니다`);
           router.push("/");
         }
       })
@@ -188,7 +189,7 @@ export const creatorLogin = (account, email, password, tokenData, router) => {
           return alert("이메일 토큰 오류");
         } else {
           console.log(err);
-          return alert("에러가 발생했습니다");
+          return alert("존재하지 않는 계정입니다");
         }
       });
   };
