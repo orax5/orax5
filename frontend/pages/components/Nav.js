@@ -1,14 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/Link";
 import logo from "../../public/Img/logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
+//
 import SideMenu from "./SideMenu";
+import SideMenuAll from "./SideMenuAll";
+import SideMenuUser from "./SideMenuUser";
+import SideMenuAdmin from "./SideMenuAdmin";
+import SideMenuCreator from "./SideMenuCreator";
+//
 import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
 import { injected } from "../../lib/connectors";
 
 const Nav = () => {
+  /* 여기는 useSelector 로 해당 grade를 받아와서 해당 값이 == 일치하면 true가 되니 그거게 맞는 SideMenu~~를 조건부로 출력하면 됨.
+  */
+  const visitor = useSelector((state) => state.user.grade[0].visitor);
+  const user = useSelector((state) => state.user.grade[1].user);
+  const creator = useSelector((state) => state.user.grade[2].creator);
+  const admin = useSelector((state) => state.user.grade[3].admin);
+
   const [ShowMenu, setShowMenu] = useState(false);
 
   const showMenuHandler = () => {
@@ -54,6 +68,14 @@ const Nav = () => {
           onClick={showMenuHandler}
         />
         <SideMenu setShowMenu={setShowMenu} ShowMenu={ShowMenu} />
+        {/* {visitor == 0 && <SideMenuAll setShowMenu={setShowMenu} ShowMenu={ShowMenu} />} */}
+        {/* {user == 1 && <SideMenuUser setShowMenu={setShowMenu} ShowMenu={ShowMenu} />
+        }
+        {creator == 2 && <SideMenuCreator setShowMenu={setShowMenu} ShowMenu={ShowMenu} />
+        }
+        {admin == 3 && <SideMenuAdmin setShowMenu={setShowMenu} ShowMenu={ShowMenu} />
+        } */}
+       
       </NavElement>
     </NavContainer>
   );

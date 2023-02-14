@@ -7,106 +7,101 @@ import { useSelector } from "react-redux";
 const index = () => {
   const datas = [
     {
-      name: "사진스힙합",
+      id : 1,name: "사진스힙합",
       category: "힙합",
       scale: "0.123",
-      date: "23.01.12",
       targetPrice: "1000",
       amount: "100개",
       state: "반려",
       dating: "14일",
     },
     {
-      name: "나진스댄스",
+      id : 2,name: "나진스댄스",
       category: "댄스",
       scale: "0.456",
-      date: "22.12.13",
       targetPrice: "1000",
       state: "펀딩진행중",
       dating: "7일",
       amount: "100개",
     },
     {
-      name: "다진스RnB",
+      id : 3,name: "다진스RnB",
       category: "RnB",
       scale: "0.789",
-      date: "19.12.31",
       targetPrice: "1000",
       state: "펀딩실패",
       dating: "7일",
       amount: "100개",
     },
     {
-      name: "라진스발라드",
+      id : 4,name: "라진스발라드",
       category: "발라드",
       scale: "1.24",
       state: "펀딩진행중",
       dating: "14일",
-      date: "03.05.07",
       targetPrice: "1000",
       amount: "100개",
     },
     {
-      name: "마진스팝",
+      id : 5,name: "마진스팝",
       category: "팝",
       scale: "2.24",
       state: "심사대기중",
       dating: "7일",
-      date: "18.04.02",
       targetPrice: "1000",
       amount: "100개",
     },
     {
+      id : 6,
       name: "뉴진스락",
       category: "락",
       scale: "4.44",
+      fundingState:3,
       state: "펀딩성공",
       dating: "14일",
-      date: "21.05.07",
       targetPrice: "1000",
       amount: "100개",
     },
     {
-      name: "큐락비락",
+      id : 7,name: "큐락비락",
       category: "락",
       scale: "1.44",
       state: "펀딩진행중",
       dating: "7일",
-      date: "21.12.07",
       targetPrice: "1000",
       amount: "100개",
     },
     {
-      name: "블락비댄스",
+      id : 8,name: "블락비댄스",
       category: "댄스",
       scale: "2.44",
+      admin: 2,
       state: "펀딩시작",
       dating: "7일",
-      date: "21.01.07",
       targetPrice: "1000",
       amount: "100개",
     },
     {
-      name: "비락비발라드",
+      id : 9,name: "비락비발라드",
       category: "발라드",
       scale: "10.44",
       state: "펀딩진행중",
       dating: "7일",
-      date: "22.06.07",
       targetPrice: "1000",
       amount: "100개",
     },
     {
-      name: "블락비힙합",
+      id : 10,name: "블락비힙합",
       category: "힙합",
       scale: "0.44",
       state: "펀딩실패",
       dating: "7일",
-      date: "21.07.07",
       targetPrice: "1000",
       amount: "100개",
     },
   ];
+
+  const fund = [{id : 1, state : 1},{id :3, state : 1},{id :4, state : 1},{id : 9, state : 1},]
 
   const [clipAccount, setClipAccount] = useState(false);
   // 보여줄 페이지의 인덱스
@@ -147,7 +142,7 @@ const index = () => {
   };
 
   // 펀딩 성공시 크리에이터가 돈 받는 함수
-  const bvbvbvb = async () => {
+  const getFundingMoney = async() => {
     await Ftoken.isSuccessFundding(1);
     Ftoken.on("isSuccessFunddingEvent", (account, tokenId, value) => {
       console.log(account.toString());
@@ -192,9 +187,9 @@ const index = () => {
                   <th>음원명</th>
                   <th>총 발행량</th>
                   <th>목표금액</th>
-                  <th>시작일</th>
                   <th>펀딩기간</th>
                   <th>상태</th>
+                  <th>현재상태</th>
                 </tr>
               </thead>
               <tbody>
@@ -203,13 +198,15 @@ const index = () => {
                     <td>{data.category}</td>
                     <td>{data.name}</td>
                     <td>{data.amount}</td>
-                    <td onClick={bvbvbvb}>
-                      {data.targetPrice}
-                      {"ETH"}
-                    </td>
-                    <td>{data.date}</td>
+                    <td>{data.targetPrice}{"ETH"}</td>
                     <td>{data.dating}</td>
-                    <td onClick={FundingMinting}>{data.state}</td>
+                    <td>
+                      {data.state} 
+                    </td>
+                    <td>
+                      {data.admin == 2 && <FundingStartBtn onClick={FundingMinting}>펀딩시작트랜잭션</FundingStartBtn>}
+                      {data.fundingState == 3 && <FundingStartBtn onClick={getFundingMoney}>펀딩성공돈받자</FundingStartBtn>}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -288,4 +285,11 @@ const CreatorAddress = styled.div`
   font-size: 1.5rem;
   margin-top: 1rem;
 `;
+
+const FundingStartBtn = styled.button`
+  color: white;
+  background:plum;
+`
+
+
 export default index;

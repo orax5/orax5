@@ -29,7 +29,13 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
         <Web3ReactProvider getLibrary={getLibrary}>
           <Nav />
           {/* <Provider store={store}> */}
+<<<<<<< HEAD:client/pages/_app.js
+         
+            <Component {...pageProps} />
+         
+=======
           <Component {...pageProps} />
+>>>>>>> main:frontend/pages/_app.js
           {/* </Provider> */}
         </Web3ReactProvider>
       </ThemeProvider>
