@@ -51,6 +51,7 @@ contract FunddingToken is Ownable{
         // require(msg.sender == account, "Is it your wallet?");
         // 가지고 있는 구독권이 기간이 지났는지 확인 하는 함수 (처음 구매해도 기간이 0이기 때문에 살 수 있다.)
         require(timeOwner[msg.sender] < block.timestamp, "There is already a subscription.");
+        require(timeOwner[msg.sender] < block.timestamp, "There is already a subscription.");
         // 보낸 돈을 체크해준다. 1개월 3개월 6개월 중 하나여야지 통과
         require(msg.value == 0.5 ether || msg.value == 1 ether || msg.value == 2 ether);
         if(msg.value == 0.5 ether){
@@ -75,7 +76,7 @@ contract FunddingToken is Ownable{
     // }
 
     // 유저가 펀딩 구매 하는 함수
-    function userFundding(uint256 tokenId, uint256 amount) public payable{
+     function userFundding(uint256 tokenId, uint256 amount) public payable{
         // 해당 음원 크리에이터를 불러온다.
         address owner = Dtoken.getTokenOwnerData(tokenId).Creater;
         // 총 얼마 구매 했는지 담아 놓는 변수

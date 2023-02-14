@@ -143,7 +143,7 @@ contract SaleToken{
         // 오너의 판매 정보 수정
         saleTokenList[tokenId][listId].amount = saleTokenList[tokenId][listId].amount - amount;
 
-        // Dtoken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
+        Dtoken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
         // 구매 함수 이벤트
         emit purchaseTokenEvnet(owner, msg.sender, tokenId, amount, msg.value);
     }
