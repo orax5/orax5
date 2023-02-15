@@ -8,7 +8,7 @@ import axios from "axios";
 const index = () => {
   const [listdata, setListData] = useState([]);
   const [clipAccount, setClipAccount] = useState(false);
-
+  const [shinNo, setShinNo] = useState(0);
   const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
   const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
   const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
@@ -26,6 +26,7 @@ const index = () => {
   };
 
   useEffect(() => {
+    // 크리에이터 마이페이지 접속하자마자 신청했던 목록 불러옴
     axios({
       url: `http://localhost:3001/creator/mypage/${account}`,
       method: "get",
@@ -34,28 +35,64 @@ const index = () => {
         const shinList = res.data;
         setListData(shinList);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((res) => {
+        console.log(res);
+        if (res.response.data == 500) {
+          setListData([]);
+        }
       });
   }, []);
 
   const nickname = useSelector((state) => state.user.users.user_nickname);
   console.log(nickname);
+
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
-  const FundingMinting = async() =>{
-    const metaData = "metadataUrl"
-    const aa = await Dtoken.mintFundding(account,ftokenCA,1,10,10,5,metaData);
+  const FundingMinting = async (id) => {
+    console.log(shinNo);
+    console.log(id);
+    const amount = listdata[shinNo].shin_amount;
+    const totalPrice = listdata[shinNo].shin_nft_totalbalance;
+    const getTime = listdata[shinNo].shin_period;
+    console.log(listdata);
+    console.log(amount);
+    console.log(totalPrice);
+    console.log(getTime);
+
+    const metaData = "metadataUrl";
+    const aa = await Dtoken.mintFundding(account, ftokenCA, 1, 10, 10, 5, metaData);
     console.log(aa);
-    Dtoken.on("seccessFundding", (account,tokenId,amount,totalPrice,getTime,metaData)  => {
+    Dtoken.on("seccessFundding", (account, tokenId, amount, totalPrice, getTime, metaData) => {
       console.log(account);
       console.log(tokenId);
       console.log(amount);
       console.log(totalPrice);
       console.log(getTime);
       console.log(metaData);
-    })
-  }
-
+    });
+    // .then((res) => {
+    //   console.log(res);
+    //   if (res.status == 201) {
+    //     // 피나타로 보내줌
+    //     axios({
+    //       url: `http://localhost:3001/openfunding/${id}`,
+    //       method: "post",
+    //     })
+    //       .then((res) => {
+    //         const shinList = res.data;
+    //         setListData(shinList);
+    //       })
+    //       .catch((res) => {
+    //         console.log(res);
+    //         if (res.response.data == 500) {
+    //           setListData([]);
+    //         }
+    //       });
+    //   }
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
+  };
 
   // 펀딩 성공시 크리에이터가 돈 받는 함수
   const getFundingMoney = async () => {
@@ -75,6 +112,7 @@ const index = () => {
           <TitleArea>
             <h2>
               환영합니다!
+              <br />
               {nickname} 님
             </h2>
             <Link href="/creator/register">펀딩 신청</Link>
@@ -121,10 +159,23 @@ const index = () => {
                     <td>{data.shin_ispermit == 1 ? "승인대기중" : ""}</td>
                     <td>
                       {data.shin_ispermit == 2 && (
-                        <FundingStartBtn onClick={FundingMinting}>펀딩시작트랜잭션</FundingStartBtn>
+                        <FundingStartBtn
+                          onClick={(e) => {
+                            FundingMinting(data.shin_no);
+                            setShinNo(data.shin_no);
+                          }}
+                        >
+                          펀딩 시작하기
+                        </FundingStartBtn>
                       )}
                       {data.shin_ispermit == 3 && (
-                        <FundingStartBtn onClick={getFundingMoney}>펀딩성공돈받자</FundingStartBtn>
+                        <FundingStartBtn
+                          onClick={(e) => {
+                            getFundingMoney(data.shin_no);
+                          }}
+                        >
+                          펀딩 모금액 받기
+                        </FundingStartBtn>
                       )}
                     </td>
                   </tr>
@@ -156,9 +207,8 @@ const ContainerBoard = styled.div`
 const TitleArea = styled.div`
   ${(props) => props.theme.align.flexBetween};
   font-size: 1.8rem;
-  @media ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet}, ${(props) => props.theme.device.mobile} {
     ${(props) => props.theme.align.flexCenterColumn};
-    align-items: start;
   }
   > :first-child {
     @media ${(props) => props.theme.device.tablet} {
@@ -175,6 +225,10 @@ const TitleArea = styled.div`
     border-radius: 0.5rem;
     font-size: 1.2rem;
     margin-top: 1rem;
+    @media ${(props) => props.theme.device.tablet} {
+      width: 10rem;
+      height: 3rem;
+    }
     &:hover {
       background-color: black;
       color: white;
@@ -193,8 +247,14 @@ const Table = styled.table`
   }
   & th {
     padding: 0.75rem;
-    font-size: larger;
     font-weight: 500;
+    font-size: 1.2rem;
+    @media ${(props) => props.theme.device.tablet} {
+      font-size: 1rem;
+    }
+    @media ${(props) => props.theme.device.mobile} {
+      font-size: 0.7rem;
+    }
   }
   & td {
     padding: 0.75rem;
@@ -207,8 +267,8 @@ const CreatorAddress = styled.div`
 `;
 
 const FundingStartBtn = styled.button`
-  color: white;
-  background: plum;
+  /* color: white;
+  background: plum; */
 `;
 
 export default index;

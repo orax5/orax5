@@ -141,14 +141,13 @@ const join = () => {
                 }
               })
               .catch((err) => {
-                console.log("에러가 발생했습니다", err);
+                console.log("크리에이터 가입 이메일 발송 실패", err);
               });
           })
           .catch((err) => {
             console.log(err);
-            alert("에러가 발생했습니다");
+            alert("크리에이터 가입 axios요청 실패");
           });
-
         //
       } else if (active == false) {
         alert("지갑을 연결해주세요");

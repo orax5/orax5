@@ -173,9 +173,9 @@ const ContainerBoard = styled.div`
 const TitleArea = styled.div`
   ${(props) => props.theme.align.flexBetween};
   font-size: 1.8rem;
-  @media ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet}, ${(props) => props.theme.device.mobile} {
     ${(props) => props.theme.align.flexCenterColumn};
-    align-items: start;
+    font-size: 1.5rem;
   }
 `;
 const Table = styled.table`
@@ -187,11 +187,22 @@ const Table = styled.table`
   }
   & th {
     padding: 0.75rem;
-    font-size: larger;
     font-weight: 500;
+    font-size: 1.2rem;
+    @media ${(props) => props.theme.device.tablet} {
+      font-size: 0.9rem;
+    }
+    @media ${(props) => props.theme.device.mobile} {
+      padding: 0.2rem 0;
+      font-size: 0.7rem;
+    }
   }
   & td {
     padding: 0.75rem;
+    @media ${(props) => props.theme.device.mobile} {
+      padding: 0.2rem 0;
+      font-size: 0.7rem;
+    }
   }
 `;
 const CreatorAddress = styled.div`

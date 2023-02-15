@@ -63,7 +63,6 @@ const index = () => {
 
         dispatch(uploadImage(formData))
           .then((res) => {
-            console.log(res);
             router.push("/creator/register/detailForm");
           })
           .catch((err) => {

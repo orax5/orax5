@@ -54,8 +54,16 @@ const detailForm = () => {
     const value = parseInt(e.target.value);
     const name = e.target.name;
     setIntInputs({ ...IntInputs, [name]: value });
-    console.log({ ...IntInputs });
+    // console.log({ ...IntInputs });
   };
+
+  // 숫자 음수 입력 방지
+  // const numRef = useRef();
+  // numRef.onkeydown = function (e) {
+  //   if (!((e.keyCode > 95 && e.keyCode < 106) || (e.keyCode > 47 && e.keyCode < 58) || e.keyCode == 8)) {
+  //     return false;
+  //   }
+  // };
 
   const data = { ...inputs, ...IntInputs, shinTitle, shinCategory, shinCreatorCA, shinCover };
   // console.log(data);
@@ -113,7 +121,7 @@ const detailForm = () => {
           <div>
             <div>
               <DetailContent>제목</DetailContent>
-              <InputBox readOnly name="title" value={shinTitle} />
+              <InputBox readOnly name="shinTitle" value={shinTitle} />
             </div>
             <div>
               <DetailContent>카테고리</DetailContent>
@@ -145,16 +153,19 @@ const detailForm = () => {
         <RegistserForm>
           <div>
             <DetailContent>발행량</DetailContent>
-            <InputBox onChange={intInputsHandler} name="shinAmount" />
+            <InputBox onChange={intInputsHandler} name="shinAmount" type="number" min="10" max="200" />
+            {"개"}
           </div>
 
           <div>
-            <DetailContent>펀딩 시작 날짜</DetailContent>
-            <InputBox onChange={intInputsHandler} name="shinPeriod" />
+            <DetailContent>펀딩 진행 기간</DetailContent>
+            <InputBox onChange={intInputsHandler} name="shinPeriod" type="number" min="1" max="100" />
+            {"일간"}
           </div>
           <div>
             <DetailContent>목표 금액</DetailContent>
-            <InputBox onChange={intInputsHandler} name="shinTotalBalance" />
+            <InputBox onChange={intInputsHandler} name="shinTotalBalance" type="number" min="1" />
+            {"ETH"}
           </div>
           <BtnBox>
             <SubmitBtn onClick={shinCancel}>취소하기</SubmitBtn>
