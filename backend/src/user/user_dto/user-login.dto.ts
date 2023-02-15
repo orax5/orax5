@@ -7,8 +7,4 @@ export class userLoginDto {
   @IsString()
   @Matches(/^[A-Za-z\d!@#$%^&*()]{8,30}$/) // 정규식적용
   user_pwd: string;
-
-  @IsString()
-  @IsEmail()
-  user_email: string;
 }

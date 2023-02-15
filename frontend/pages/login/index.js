@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Link from "next/Link";
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
-import { userLogin, creatorLogin, testUserLogin } from "../../redux/modules/user";
+import { userLogin, creatorLogin } from "../../redux/modules/user";
 // 지갑연결
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./../../lib/connectors";
@@ -21,7 +21,6 @@ const index = () => {
   const [typeOfUser, setTypeOfUser] = useState(null);
 
   const [inputs, setInputs] = useState({
-    email: "",
     password: "",
   });
 
@@ -53,8 +52,8 @@ const index = () => {
       // 1) 일반유저 로그인
       if (active == true) {
         // 공백 제외
-        if ((inputs.email == "" && inputs.password == "") || inputs.password == "" || inputs.email == "") {
-          alert("이메일과 비밀번호는 필수 입력사항입니다");
+        if (inputs.password == "") {
+          alert("비밀번호를 입력해주세요");
         } else {
           // 지갑연결 되어있고, 모든 칸이 공백이 아닐 때
           const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -68,13 +67,11 @@ const index = () => {
             account: account,
           };
           // 로그인 요청 보냄, 잘들어옴
-          // console.log(inputs.email);
           // console.log(account);
           // console.log(inputs.password);
           // console.log(router);
 
-          //dispatch(userLogin(account, inputs.email, inputs.password, tokenData, router));
-          dispatch(testUserLogin(account, inputs.email, inputs.password, tokenData, router));
+          dispatch(userLogin(account, inputs.password, tokenData, router));
         }
       } else {
         alert("지갑을 연결해주세요");
@@ -82,8 +79,8 @@ const index = () => {
     } else {
       // 2) 크리에이터 로그인 시
       if (active == true) {
-        if ((inputs.email == "" && inputs.password == "") || inputs.password == "" || inputs.email == "") {
-          alert("이메일과 비밀번호는 필수 입력사항입니다");
+        if (inputs.password == "") {
+          alert("비밀번호를 입력해주세요");
         } else {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const tokenData = {
@@ -96,7 +93,7 @@ const index = () => {
             account: account,
           };
           // 로그인 요청 보냄
-          dispatch(creatorLogin(account, inputs.email, inputs.password, tokenData, router));
+          dispatch(creatorLogin(account, inputs.password, tokenData, router));
         }
       } else {
         alert("지갑을 연결해주세요");
@@ -128,16 +125,6 @@ const index = () => {
             </AddressBox>
           )}
 
-          <InputBox>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="이메일"
-              onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
-            />
-            <label htmlFor="password">이메일</label>
-          </InputBox>
           <InputBox>
             <input
               id="password"

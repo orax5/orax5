@@ -89,46 +89,46 @@ export const checkEmail = (email, router) => {
   };
 };
 
-// 유저 로그인 테스트
-export const testUserLogin = (account, email, password, tokenData, router) => {
-  return async (dispatch, getState) => {
-    await axiosInstance({
-      url: `/user/login`,
-      method: "post",
-      data: { user_wallet: account, user_pwd: password, user_email: email },
-    })
-      .then((res) => {
-        console.log(res);
-        const data = res.data;
-        if (res.status == 201) {
-          dispatch({
-            type: LOGIN,
-            payload: { data, tokenData },
-          });
-          alert(`${data.user_nickname}님 환영합니다`);
-          router.push("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.response.status == 400) {
-          return alert("존재하지 않는 계정입니다");
-        } else if (err.response.status == 401) {
-          return alert("이메일 토큰 오류");
-        } else {
-          return alert("에러가 발생했습니다");
-        }
-      });
-  };
-};
+// // 유저 로그인 테스트
+// export const testUserLogin = (account, email, password, tokenData, router) => {
+//   return async (dispatch, getState) => {
+//     await axiosInstance({
+//       url: `/user/login`,
+//       method: "post",
+//       data: { user_wallet: account, user_pwd: password, user_email: email },
+//     })
+//       .then((res) => {
+//         console.log(res);
+//         const data = res.data;
+//         if (res.status == 201) {
+//           dispatch({
+//             type: LOGIN,
+//             payload: { data, tokenData },
+//           });
+//           alert(`${data.user_nickname}님 환영합니다`);
+//           router.push("/");
+//         }
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         if (err.response.status == 400) {
+//           return alert("존재하지 않는 계정입니다");
+//         } else if (err.response.status == 401) {
+//           return alert("이메일 토큰 오류");
+//         } else {
+//           return alert("에러가 발생했습니다");
+//         }
+//       });
+//   };
+// };
 
 // 유저 로그인
-export const userLogin = (account, email, password, tokenData, router) => {
+export const userLogin = (account, password, tokenData, router) => {
   return async (dispatch, getState) => {
     await axios({
       url: `${BASE_URL}/user/login`,
       method: "post",
-      data: { user_wallet: account, user_pwd: password, user_email: email },
+      data: { user_wallet: account, user_pwd: password },
     })
       .then((res) => {
         console.log(res);
@@ -155,12 +155,12 @@ export const userLogin = (account, email, password, tokenData, router) => {
   };
 };
 // 크리에이터 로그인
-export const creatorLogin = (account, email, password, tokenData, router) => {
+export const creatorLogin = (account, password, tokenData, router) => {
   return async (dispatch, getState) => {
     await axios({
       url: `${BASE_URL}/creator/login`,
       method: "post",
-      data: { user_wallet: account, user_pwd: password, user_email: email },
+      data: { user_wallet: account, user_pwd: password },
     })
       .then((res) => {
         const data = res.data;

@@ -25,13 +25,11 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   // 로그인 api이전에 먼저 실행되어 해당 유저의상태 검사
   async validate(
     userWallet: string,
-    userEmail: string,
     password: string,
   ): Promise<User> {
     const payload = {
       user_wallet: userWallet,
       user_pwd: password,
-      user_email: userEmail,
     };
     const user = await this.authService.validateUser(payload);
     if (!user) {

@@ -39,7 +39,6 @@ export class AuthService {
             // 토큰발급 함수 호출 || 여기서 비밀번호는 넘겨줄 필요없나
             return this.login({
               user_wallet: e.user_wallet,
-              user_email: e.user_email,
               user_pwd: e.user_pwd,
             });
           }
@@ -50,7 +49,7 @@ export class AuthService {
   }
 
   async login(user: userLoginDto) {
-    const payload = { userWallet: user.user_wallet, sub: user.user_email };
+    const payload = { userWallet: user.user_wallet };
     const enteredPWD = user.user_pwd;
     // 토큰 발급
     return jwt.sign(payload, this.config.get('JWT_SECRET'), {
@@ -74,8 +73,8 @@ export class AuthService {
         | string
       ) &
         User;
-      const { user_wallet, user_email } = payload;
-      return { user_wallet: user_wallet, user_email: user_email };
+      const { user_wallet } = payload;
+      return { user_wallet: user_wallet };
     } catch (error) {
       throw new UnauthorizedException();
     }

@@ -8,8 +8,4 @@ export class CreatorLoginDto {
 
   @IsString()
   user_wallet: string;
-
-  @IsString()
-  @IsEmail()
-  user_email: string;
 }
