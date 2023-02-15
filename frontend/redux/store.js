@@ -1,23 +1,24 @@
-import { createStore, applyMiddleware, compose } from "redux";
-import { composeWithDevTools } from "@redux-devtools/extension";
-import thunk from "redux-thunk";
+import { applyMiddleware, createStore, compose } from "redux";
 import { createWrapper } from "next-redux-wrapper";
-import rootReducer from "./modules";
-
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
+import { rootReducer, persistedReducer } from "./modules";
+import { persistStore, persistReducer } from "redux-persist";
 
 const isProduction = process.env.NODE_ENV === "production";
-
+const enhancer = isProduction ? compose(applyMiddleware(thunk)) : composeWithDevTools(applyMiddleware(thunk));
+const makeConfiguredStore = (reducer) => createStore(reducer, undefined, enhancer);
 
 const makeStore = () => {
-  const enhancer = isProduction
-    ? compose(applyMiddleware(thunk))
-    : composeWithDevTools(applyMiddleware(thunk));
-  const store = createStore(rootReducer, enhancer);
-  return store;
+  const isServer = typeof window === "undefined";
+  if (isServer) {
+    return makeConfiguredStore(rootReducer);
+  } else {
+    const store = makeConfiguredStore(persistedReducer);
+    let persistor = persistStore(store);
+    return { persistor, ...store };
+  }
 };
-
-
-const wrapper = createWrapper(makeStore, { debug: !isProduction });
-
-
-export default wrapper;
+export const wrapper = createWrapper(makeStore, {
+  debug: !isProduction,
+});
