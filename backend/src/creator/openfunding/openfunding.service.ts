@@ -94,10 +94,15 @@ export class OpenfundingService {
       where: {
         shin_no: shinNo,
       },
+      select: {
+        fund_state: true,
+        fund_pinurl: true,
+      },
     });
 
     // 여기서 ispermit 값이 변경하면 funding테이블에 fund_state 값 1로 생성
     const metaDataurl = data.fund_pinurl;
+    const fundstate = data.fund_state;
     // 앞단에 던져줄 데이터
     // 토큰아이디(fund_no), 발행량, 총금액, 메타데이터url, 기간
     const sendData = {
@@ -106,6 +111,7 @@ export class OpenfundingService {
       totalPrice: shin_amount,
       opendate: shin_period,
       metaData: metaDataurl,
+      fundingState: fundstate,
     };
 
     // 여기서 fund_state upsert로 변경해주기

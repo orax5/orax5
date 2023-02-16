@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 const index = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const btnRef = useRef();
+
   const [listdata, setListData] = useState([]);
   const [clipAccount, setClipAccount] = useState(false);
   const [shinNo, setShinNo] = useState(0);
+  const [idxNum, setIdxNum] = useState(0);
+  const [FundState, setFundState] = useState(0);
+  const [isOpened, setIsOpened] = useState(false);
+  const [tokenId, setTokenId] = useState(0);
   const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
   const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
   const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
   const account = useSelector((state) => state.user.contracts.account);
-
+  const nickname = useSelector((state) => state.user.users.user_nickname);
   // 클립보트 핸들러
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true);
@@ -43,24 +52,16 @@ const index = () => {
       });
   }, []);
 
-  const nickname = useSelector((state) => state.user.users.user_nickname);
-  console.log(nickname);
-
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
-  const FundingMinting = async (id) => {
-    console.log(shinNo);
-    console.log(id);
-    const amount = listdata[shinNo].shin_amount;
-    const totalPrice = listdata[shinNo].shin_nft_totalbalance;
-    const getTime = listdata[shinNo].shin_period;
-    console.log(listdata);
-    console.log(amount);
-    console.log(totalPrice);
-    console.log(getTime);
-
+  const FundingMinting = async (id, idxNum) => {
+    // 민팅 시 컨트랙트에 보낼 정보 idxNum을 이용해서 꺼낸다
+    const amount = listdata[idxNum].shin_amount;
+    const totalPrice = listdata[idxNum].shin_nft_totalbalance;
+    const getTime = listdata[idxNum].shin_period;
     const metaData = "metadataUrl";
-    const aa = await Dtoken.mintFundding(account, ftokenCA, 1, 10, 10, 5, metaData);
-    console.log(aa);
+    // 크리에이터가 <펀딩시작> 누르면 민팅이 일어난다
+    await Dtoken.mintFundding(account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData);
+
     Dtoken.on("seccessFundding", (account, tokenId, amount, totalPrice, getTime, metaData) => {
       console.log(account);
       console.log(tokenId);
@@ -69,34 +70,36 @@ const index = () => {
       console.log(getTime);
       console.log(metaData);
     });
-    // .then((res) => {
-    //   console.log(res);
-    //   if (res.status == 201) {
-    //     // 피나타로 보내줌
-    //     axios({
-    //       url: `http://localhost:3001/openfunding/${id}`,
-    //       method: "post",
-    //     })
-    //       .then((res) => {
-    //         const shinList = res.data;
-    //         setListData(shinList);
-    //       })
-    //       .catch((res) => {
-    //         console.log(res);
-    //         if (res.response.data == 500) {
-    //           setListData([]);
-    //         }
-    //       });
-    //   }
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
+    // 민팅 함수 실행이 끝난 후, 피나타에 올리는 요청을 보내는 함수를 실행한다
+    await axios({
+      url: `http://localhost:3001/openfunding/${id}`,
+      method: "post",
+      data: { shinId: id },
+    })
+      .then((res) => {
+        console.log(res);
+        setTokenId(res.data.tokenId);
+        const FundState = res.data.fundingState;
+        if (FundState == 2) {
+          console.log("펀딩 테이블에 2로 들어갔다");
+          setIsOpened(true);
+          btnRef.current.disabled = true;
+          btnRef.current.style = "display : none";
+          // router.reload(); // 새로고침
+        } else if (FundState == 1) {
+          console.log("펀딩 테이블에 1로 들어갔다");
+          setIsOpened(true);
+          // router.reload(); // 새로고침
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // 펀딩 성공시 크리에이터가 돈 받는 함수
-  const getFundingMoney = async () => {
-    await Ftoken.isSuccessFundding(1);
+  const getFundingMoney = async (tokenId) => {
+    await Ftoken.isSuccessFundding(tokenId);
     Ftoken.on("isSuccessFunddingEvent", (account, tokenId, value) => {
       console.log(account.toString());
       console.log(tokenId.toString());
@@ -156,26 +159,38 @@ const index = () => {
                       {"ETH"}
                     </td>
                     <td>{data.shin_period}</td>
-                    <td>{data.shin_ispermit == 1 ? "승인대기중" : ""}</td>
                     <td>
-                      {data.shin_ispermit == 2 && (
+                      {data.shin_ispermit == 1 ? "승인대기중" : ""}
+                      {data.shin_ispermit == 2 && FundState == 0 ? (
                         <FundingStartBtn
+                          ref={btnRef}
                           onClick={(e) => {
-                            FundingMinting(data.shin_no);
-                            setShinNo(data.shin_no);
+                            setIdxNum(idx);
+                            FundingMinting(data.shin_no, idx);
                           }}
                         >
                           펀딩 시작하기
                         </FundingStartBtn>
+                      ) : (
+                        ""
                       )}
-                      {data.shin_ispermit == 3 && (
+                      {data.shin_ispermit == 3 ? "승인 반려" : ""}
+                    </td>
+
+                    <td>
+                      {FundState == 1 && data.shin_ispermit == 2 ? "펀딩 진행 중" : ""}
+                      {FundState == 3 ? (
                         <FundingStartBtn
+                          ref={btnRef}
                           onClick={(e) => {
-                            getFundingMoney(data.shin_no);
+                            setIdxNum(idx);
+                            getFundingMoney(data.shin_no, idx);
                           }}
                         >
-                          펀딩 모금액 받기
+                          모금액 출금하기
                         </FundingStartBtn>
+                      ) : (
+                        ""
                       )}
                     </td>
                   </tr>
