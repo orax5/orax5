@@ -24,3 +24,4 @@ export const rootReducer = (state, action) => {
 };
 
 export const persistedReducer = persistReducer(persistConfig, rootReducer);
+// Hello World!
