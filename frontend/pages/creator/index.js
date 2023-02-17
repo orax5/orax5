@@ -2,13 +2,46 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import Link from "next/Link";
-import { FaEthereum } from "react-icons/fa";
-
+// import { FaEthereum } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import useContract from "../../hooks/useContract";
+import { useWallet } from "../../hooks/useWallet";
 
 const index = () => {
+  const tokenData = useContract();
+  const info = useWallet();
+
+  useEffect(() => {
+    console.log(tokenData);
+    console.log(info);
+  }, [tokenData]);
+
+  const account = info.account;
+  const chainId = info.chainId;
+
+  useEffect(() => {
+    // 크리에이터 마이페이지 접속하자마자 신청했던 목록 불러옴
+    if (!account) {
+      console.log("지갑을 연결하세요");
+    } else {
+      axios({
+        url: `http://localhost:3001/creator/mypage/${account}`,
+        method: "get",
+      })
+        .then((res) => {
+          const shinList = res.data;
+          console.log(shinList);
+          setListData(shinList);
+        })
+        .catch((res) => {
+          console.log(res);
+          if (res.response.data == 500) {
+            setListData([]);
+          }
+        });
+    }
+  }, []);
   const dispatch = useDispatch();
   const router = useRouter();
   const btnRef = useRef();
@@ -18,42 +51,6 @@ const index = () => {
   const [shinNo, setShinNo] = useState(0);
   const [idxNum, setIdxNum] = useState(0);
   const [FundState, setFundState] = useState(0);
-  const tokenData = useContract();
-
-  useEffect(() => {
-    console.log(tokenData);
-  }, [tokenData]);
-
-  // 클립보트 핸들러
-  const copyClipBoardHandler = async (text) => {
-    setClipAccount(true);
-    setTimeout(() => {
-      setClipAccount(false);
-    }, 2000);
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch (e) {}
-  };
-
-
-  // useEffect(() => {
-  //   // 크리에이터 마이페이지 접속하자마자 신청했던 목록 불러옴
-  //   axios({
-  //     url: `http://localhost:3001/creator/mypage/${account}`,
-  //     method: "get",
-  //   })
-  //     .then((res) => {
-  //       const shinList = res.data;
-  //       setListData(shinList);
-  //     })
-  //     .catch((res) => {
-  //       console.log(res);
-  //       if (res.response.data == 500) {
-  //         setListData([]);
-  //       }
-  //     });
-  // }, []);
-
 
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
   const FundingMinting = async (id, idxNum) => {
@@ -118,12 +115,12 @@ const index = () => {
             <h2>
               환영합니다!
               <br />
-              {nickname} 님
+              {/* {nickname} 님 */}
             </h2>
             <Link href="/creator/register">펀딩 신청</Link>
           </TitleArea>
           <div>
-            <div>
+            {/* <div>
               {" "}
               {clipAccount == true ? (
                 <CreatorAddress>
@@ -137,7 +134,7 @@ const index = () => {
                   {account}
                 </CreatorAddress>
               )}
-            </div>
+            </div> */}
             <Table>
               <thead>
                 <tr>
@@ -150,7 +147,7 @@ const index = () => {
                   <th>현재상태</th>
                 </tr>
               </thead>
-              <tbody>
+              {/* <tbody>
                 {listdata.map((data, idx) => (
                   <tr key={idx}>
                     <td>{data.shin_category}</td>
@@ -198,7 +195,7 @@ const index = () => {
                     </td>
                   </tr>
                 ))}
-              </tbody>
+              </tbody> */}
             </Table>
           </div>
         </ContainerBoard>

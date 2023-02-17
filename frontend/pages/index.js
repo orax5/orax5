@@ -8,21 +8,14 @@ import MainText from "./components/mainpage/MainText";
 import RoadMap from "./components/mainpage/RoadMap";
 import NftMarket from "./components/mainpage/NftMarket";
 import Footer from "./components/Footer";
-import { getContract } from "../redux/modules/contracts";
-import { useWeb3React } from "@web3-react/core";
+// import { useWeb3React } from "@web3-react/core";
 import useContract from "../hooks/useContract";
-import { injected } from ".././lib/connectors";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { account, chainId } = useWeb3React();
-  const contract = useContract();
-
+  const tokenData = useContract();
   useEffect(() => {
-    // account == null ? console.log("지갑 연결하세요") : dispatch(getContract(account, chainId));
-    // console.log(contract);
-
-  }, []);
+    console.log(tokenData);
+  }, [tokenData]);
 
   return (
     <>
