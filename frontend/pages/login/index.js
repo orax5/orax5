@@ -12,6 +12,7 @@ import { injected } from "./../../lib/connectors";
 import dtsToken from "../../contracts/DtsToken.json";
 import fToken from "../../contracts/FunddingToken.json";
 import sToken from "../../contracts/SaleToken.json";
+import useContract from "../../hooks/useContract";
 
 // import { useSession, signIn, signOut } from "next-auth/react";
 
@@ -20,6 +21,10 @@ const index = () => {
   const router = useRouter();
   const [typeOfUser, setTypeOfUser] = useState(null);
 
+  const contract = useContract();
+  useEffect(() => {
+    console.log(contract);
+  }, []);
   const [inputs, setInputs] = useState({
     password: "",
   });

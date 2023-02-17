@@ -63,7 +63,6 @@ export const shinFunding = (data, router) => {
   };
 };
 
-
 const init = {
   imgURL: {},
   shinchung: {},
@@ -84,7 +83,7 @@ function funding(state = init, action) {
       return { ...state, shinchung: payload.data };
 
     default:
-      return { ...state };
+      return state;
   }
 }
 export default funding;

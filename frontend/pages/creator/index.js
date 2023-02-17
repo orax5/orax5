@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+import useContract from "../../hooks/useContract";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -16,13 +17,12 @@ const index = () => {
   const [shinNo, setShinNo] = useState(0);
   const [idxNum, setIdxNum] = useState(0);
   const [FundState, setFundState] = useState(0);
-  const [isOpened, setIsOpened] = useState(false);
-  const [tokenId, setTokenId] = useState(0);
-  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
-  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
-  const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
-  const account = useSelector((state) => state.user.contracts.account);
-  const nickname = useSelector((state) => state.user.users.user_nickname);
+  const tokenData = useContract();
+
+  useEffect(() => {
+    console.log(tokenData);
+  }, [tokenData]);
+
   // 클립보트 핸들러
   const copyClipBoardHandler = async (text) => {
     setClipAccount(true);
@@ -34,23 +34,23 @@ const index = () => {
     } catch (e) {}
   };
 
-  useEffect(() => {
-    // 크리에이터 마이페이지 접속하자마자 신청했던 목록 불러옴
-    axios({
-      url: `http://localhost:3001/creator/mypage/${account}`,
-      method: "get",
-    })
-      .then((res) => {
-        const shinList = res.data;
-        setListData(shinList);
-      })
-      .catch((res) => {
-        console.log(res);
-        if (res.response.data == 500) {
-          setListData([]);
-        }
-      });
-  }, []);
+  // useEffect(() => {
+  //   // 크리에이터 마이페이지 접속하자마자 신청했던 목록 불러옴
+  //   axios({
+  //     url: `http://localhost:3001/creator/mypage/${account}`,
+  //     method: "get",
+  //   })
+  //     .then((res) => {
+  //       const shinList = res.data;
+  //       setListData(shinList);
+  //     })
+  //     .catch((res) => {
+  //       console.log(res);
+  //       if (res.response.data == 500) {
+  //         setListData([]);
+  //       }
+  //     });
+  // }, []);
 
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
   const FundingMinting = async (id, idxNum) => {
@@ -58,10 +58,10 @@ const index = () => {
     const amount = listdata[idxNum].shin_amount;
     const totalPrice = listdata[idxNum].shin_nft_totalbalance;
     const getTime = listdata[idxNum].shin_period;
+    const tokenId = listdata[idxNum].shin_no;
     const metaData = "metadataUrl";
     // 크리에이터가 <펀딩시작> 누르면 민팅이 일어난다
     await Dtoken.mintFundding(account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData);
-
     Dtoken.on("seccessFundding", (account, tokenId, amount, totalPrice, getTime, metaData) => {
       console.log(account);
       console.log(tokenId);
@@ -78,17 +78,16 @@ const index = () => {
     })
       .then((res) => {
         console.log(res);
-        setTokenId(res.data.tokenId);
         const FundState = res.data.fundingState;
         if (FundState == 2) {
           console.log("펀딩 테이블에 2로 들어갔다");
-          setIsOpened(true);
+          // setIsOpened(true);
           btnRef.current.disabled = true;
           btnRef.current.style = "display : none";
           // router.reload(); // 새로고침
         } else if (FundState == 1) {
           console.log("펀딩 테이블에 1로 들어갔다");
-          setIsOpened(true);
+          // setIsOpened(true);
           // router.reload(); // 새로고침
         }
       })
@@ -179,12 +178,13 @@ const index = () => {
 
                     <td>
                       {FundState == 1 && data.shin_ispermit == 2 ? "펀딩 진행 중" : ""}
+                      {FundState == 2 ? "실패했는디" : ""}
                       {FundState == 3 ? (
                         <FundingStartBtn
                           ref={btnRef}
                           onClick={(e) => {
                             setIdxNum(idx);
-                            getFundingMoney(data.shin_no, idx);
+                            getFundingMoney(data.shin_no);
                           }}
                         >
                           모금액 출금하기

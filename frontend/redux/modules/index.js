@@ -1,15 +1,18 @@
 import { combineReducers } from "redux";
+
 import user from "./user";
-import streaming from "./streaming";
+// import streaming from "./streaming";
 import funding from "./funding";
+import contracts from "./contracts";
+
 import { HYDRATE } from "next-redux-wrapper";
 import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage/session";
+import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "streaming", "funding"],
+  whitelist: ["user", "funding", "contracts"],
 };
 
 export const rootReducer = (state, action) => {
@@ -18,7 +21,7 @@ export const rootReducer = (state, action) => {
       return action.payload;
 
     default:
-      return combineReducers({ user, streaming, funding })(state, action);
+      return combineReducers({ user, funding, contracts })(state, action);
   }
 };
 
