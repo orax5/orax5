@@ -1,24 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
-const RegisterVote = () => {
+const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
+
+  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
+  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
+  const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
+  const account = useSelector((state)=>state.user.users.user_wallet);
+
+  // 토큰 id 담기
+  const [tokenInput, setTokenInput] = useState(0);
+  // 펀딩 기간 조정한 거 담기
+  const [changeDay, setChangeDay] = useState(0);
+  // 거버넌스 투표기간 담기
+  const [endDate, setEndDate] = useState(0);
+
+  // 거버넌스 투표 기간 보여주는 함수
   const pickedDateHandler = (e) => {
-    console.log(e.target.value);
+    const endTime = new Date(e.target.value).getTime();
+    const endDate = (endTime - new Date().getTime()) / 86400000;
+    const getDate = Math.ceil(endDate);
+    setEndDate(getDate);
+    console.log(getDate);
   };
+
+  // 안건 투표 기간 정하는 함수
+  const getTiem = (e) => {
+    setChangeDay(e.target.value);
+  };
+
+  // 어떤 음원 Id 거버넌스 할 건지 
+  const getTokenId = (e) => {
+    setTokenInput(e.target.value);
+  }
+
+  const Registration = async() => {
+    const DtokenBalance = await Dtoken.getTokenOwnerData(tokenInput);
+    const FtokenBalance = await Ftoken.priceCheck(tokenInput);
+
+    const average = parseInt(DtokenBalance.NftAmount) / 2;
+    // 초기 발행량과 현재 펀딩된 물량을 비교해서 절반을 넘겨야지 거버넌스 투표 신청이 된다.
+    if(average < FtokenBalance){
+      submit(parseInt(tokenInput), parseInt(endDate), parseInt(changeDay));
+    }else{
+      alert("펀딩 진행률 50퍼 넘었는지 확인하라능!");
+    }
+
+    // console.log(modalOpen); 
+    // setModalOpen(!modalOpen);
+  }
+
   return (
     <RegisterWrap>
       <ContentWrap>
         <label>소유한 NFT</label>
-        <select>
-          <option>유저가 가지고 있는 NFT</option>
-          <option>여기에 불러와서 보여줌</option>
-        </select>
+        <input type="number" onChange={getTokenId}/>
         <label>투표 기간</label>
         <input type="date" onChange={pickedDateHandler} />
-        <label>투표 제목</label>
-        <input />
-        <textarea placeholder="제안할 내용을 입력해주세요" />
-        <button>등록</button>
+        <label>투표 안건</label>
+        <select>
+          <option>펀딩 기간 늘리기</option>
+        </select>
+        <label>요청 기간</label>
+        <input type="number" onChange={getTiem} />
+        <button onClick={Registration}>등록</button>
       </ContentWrap>
     </RegisterWrap>
   );
@@ -26,7 +72,7 @@ const RegisterVote = () => {
 // 전체 div
 const RegisterWrap = styled.div`
   width: 35rem;
-  height: 35rem;
+  height: 40rem;
   font-size: 1.5rem;
   border: 1px solid white;
   border-radius: 1rem;

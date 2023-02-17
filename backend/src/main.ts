@@ -1,3 +1,4 @@
+
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
@@ -7,6 +8,7 @@ import { urlencoded, json } from "express";
 
 import dotenv = require("dotenv");
 import path = require("path");
+
 dotenv.config();
 // 여기서 .env 설정 전해주기
 
@@ -29,6 +31,7 @@ async function bootstrap() {
     })
   ); // validation 전역설정
   app.enableCors({
+
     credentials: true,
   });
   const PORT = process.env.PORT; // .env에서 불러온다!

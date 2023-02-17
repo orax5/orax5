@@ -4,6 +4,7 @@ pragma solidity ^0.8.17;
 import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/ERC1155.sol";
 import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
+
 // import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 // import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 // import "@openzeppelin/contracts/access/Ownable.sol";
@@ -87,8 +88,8 @@ contract DtsToken is ERC1155, Ownable{
     event seccessFundding(address account, uint256 tokenId, uint256 amount, uint256 totalPrice, uint256 getTime, string result);
 
     // 보유한 nft 확인
-    function balanceOf(address account, uint256 tokenId) public view override returns (uint) {
-        return ERC1155.balanceOf(account, tokenId);
+    function balanceOf(uint256 tokenId) public view returns (uint) {
+        return ERC1155.balanceOf(msg.sender, tokenId);
     }
 
     // 지금까지 펀딩신청 된 nft tokenId 저장한 거 보여주는 함수
@@ -144,7 +145,8 @@ contract DtsToken is ERC1155, Ownable{
         // 투표기간은 펀딩이 끝나기 하루전까지가 최대
         require(block.timestamp * date > tokenOwners[tokenId].EndTime - 86400,"The voting period is maximum until one day before.");
         // 거버넌스 투표 신청은 한번만 가능
-        require(votingDate[tokenId].time != 0, "There is already a vote.");
+        require(votingDate[tokenId].time == 0, "There is already a vote.");
+
         
         votingDate[tokenId].time = block.timestamp + (86400 * date);
         votingDate[tokenId].date = changeDay;

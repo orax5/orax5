@@ -25,8 +25,11 @@ const index = () => {
   // 유저타입state
   const [typeOfUser, setTypeOfUser] = useState(null);
 
+  const contract = useContract();
+  useEffect(() => {
+    console.log(contract);
+  }, []);
   const [inputs, setInputs] = useState({
-    // email: "",
     password: "",
   });
 
@@ -84,13 +87,11 @@ const index = () => {
             account: account,
           };
           // 로그인 요청 보냄, 잘들어옴
-          // console.log(inputs.email);
           // console.log(account);
           // console.log(inputs.password);
           // console.log(router);
-          //localStorage.setItem('loginData', stringify(tokenData.Dtoken))
-           dispatch(userLogin(account, inputs.password, tokenData, router));
-           //dispatch(testUserLogin(account, inputs.password, tokenData, router));
+          dispatch(userLogin(account, inputs.password, tokenData, router));
+
         }
       } else {
         alert("지갑을 연결해주세요");
@@ -99,7 +100,9 @@ const index = () => {
       // 2) 크리에이터 로그인 시
       if (active == true) {
         if (inputs.password == "") {
+
           alert(" 비밀번호는 필수 입력사항입니다");
+
         } else {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const tokenData = {
@@ -109,6 +112,7 @@ const index = () => {
             dtokenCA: dtsToken.networks[chainId].address,
             ftokenCA: fToken.networks[chainId].address,
             stokenCA: sToken.networks[chainId].address,
+            account: account,
           };
           // 로그인 요청 보냄
           dispatch(creatorLogin(account, inputs.password, tokenData, router));
@@ -119,7 +123,6 @@ const index = () => {
     }
   };
 
-  
   return (
     <MainContainer>
       <div></div>
@@ -144,6 +147,7 @@ const index = () => {
               <button onClick={onClickActivateHandler}>지갑 연결</button>
             </AddressBox>
           )}
+
           <InputBox>
             <input
               id="password"

@@ -1,11 +1,11 @@
 import Cookies from "js-cookie";
 import axios from "axios";
-import axiosInstance from "../../api/axiosInstance ";
+// import axiosInstance from "../../api/axiosInstance";
 const BASE_URL = "http://localhost:3001";
 const LOGIN = "user/LOGIN";
 const CREATOR_LOGIN = "user/CREATOR_LOGIN";
 const TICKET = "user/TICKET";
-
+import produce from "immer";
 // 유저 회원가입
 export const signUpUser = (email, walletAddress, nickname, password, typeOfUser, router) => {
   return async (dispatch, getState) => {
@@ -91,6 +91,7 @@ export const checkEmail = (email, router) => {
       });
   };
 };
+
 
 // 유저 로그인 테스트
 // export const testUserLogin = (account, email, password, tokenData, router) => {
@@ -207,8 +208,8 @@ export const creatorLogin = (account, password, tokenData, router) => {
 export const ticket = (leftTicket, ttoday) => {
   return async (dispatch, getState) => {
     const data = { leftTicket, ttoday };
-    console.log(parseInt(leftTicket));
-    console.log(parseInt(ttoday));
+    // console.log(parseInt(leftTicket));
+    // console.log(parseInt(ttoday));
     dispatch({
       type: TICKET,
       payload: { data },
@@ -234,8 +235,9 @@ export const ticket = (leftTicket, ttoday) => {
 const init = {
   users: { user_grade: 0 },
   contracts: {},
+  users: [],
+  userscontracts: [],
   tickets: {},
-  grade: [{ user: 1 }, { creator: 2 }, { admin: 3 }],
 };
 
 // 리듀서
@@ -254,3 +256,24 @@ export default function user(state = init, action) {
       return { ...state };
   }
 }
+
+// export default function user(state = init, action) {
+//   const { type, payload } = action;
+//   switch (type) {
+//     case LOGIN:
+//       return produce(state, (draft) => {
+//         draft.users.push(payload.data);
+//       });
+//     case CREATOR_LOGIN:
+//       return produce(state, (draft) => {
+//         draft.users.push(payload.data);
+//       });
+
+//     case TICKET:
+//       return produce(state, (draft) => {
+//         draft.users.push(payload.data);
+//       });
+//     default:
+//       return state;
+//   }
+// }

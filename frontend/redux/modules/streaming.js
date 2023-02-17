@@ -24,7 +24,6 @@ export const playSong = (id) => {
     await axios({
       url: `${BASE_URL}/downloadS3/${id}`,
       method: "get",
-      data: { id },
     })
       .then((res) => {
         const data = res;

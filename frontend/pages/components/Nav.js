@@ -22,7 +22,6 @@ import { injected } from "../../lib/connectors";
 const Nav = () => {
 
   /* 여기는 useSelector 로 해당 grade를 받아와서 해당 값이 == 일치하면 true가 되니 그거게 맞는 SideMenu~~를 조건부로 출력하면 됨.
-  */
 
   const visitor = useSelector((state) => state.user.users.user_grade);
   const user = useSelector((state) => state.user.users.user_grade);
@@ -98,6 +97,7 @@ const Nav = () => {
         {creator == 2 && <SideMenuCreator setShowMenu={setShowMenu} ShowMenu={ShowMenu} />
         }
         {admin == 3 && <SideMenuAdmin setShowMenu={setShowMenu} ShowMenu={ShowMenu} />
+
         }
        
       </NavElement>

@@ -111,8 +111,5 @@ export class OpenfundingService {
       }
         // 여기서 fund_state upsert로 변경해주기
 
-        // 앞단에 민팅 함수에 넣어줄 값 던져주기
-        // 해당 펀딩아이디로 신청하다 테이블에서 뽑아서 객체로 던져주기
-        return sendData;
-    }
+
 }

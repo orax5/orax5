@@ -72,8 +72,7 @@ const MenuWrap = styled.div`
   // 사이드 메뉴 전체 사이즈
   ${(props) => props.theme.gridLayout.sideMenuGrid}
   transition: all 0.25s ease-in-out;
-  transform: ${(props) =>
-    props.isActivate ? "translateX(0px)" : "translateX(800px)"};
+  transform: ${(props) => (props.isActivate ? "translateX(0px)" : "translateX(800px)")};
   width: 40rem;
   height: 100vh;
   z-index: 200;
@@ -86,8 +85,7 @@ const MenuWrap = styled.div`
   @media ${(props) => props.theme.device.pc} {
     width: 30rem;
   }
-  @media ${(props) => props.theme.device.tablet},
-    ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet}, ${(props) => props.theme.device.mobile} {
     width: 100vw;
   }
 `;

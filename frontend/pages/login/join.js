@@ -165,7 +165,6 @@ const join = () => {
             console.log(err);
             alert("크리에이터 가입 axios요청 실패");
           });
-
         //
       } else if (active == false) {
         alert("지갑을 연결해주세요");

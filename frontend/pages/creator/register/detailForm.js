@@ -1,96 +1,103 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import axios from "axios";
+import { shinFunding } from "../../../redux/modules/funding";
 
 const detailForm = () => {
   const router = useRouter();
-  // 리덕스 합치고 useSelector에서 가져올 예정
-  // const creatorCA = useSelector((state)=> state.user.users.acount)
-  const creatorCA = "0x123131231231313231312";
+  const dispatch = useDispatch();
 
-  // 이전 페이지에서 업로드하고 받아온 이미지/제목
-  const returnedUrl = useSelector((state) => state.funding.imgURL);
+  const [shinTitle, setShinTitle] = useState("");
+  const [shinCover, setShinCover] = useState("/Img/transparent.png");
+  const [shinCreatorCA, setShinCreatorCA] = useState("0x123456789");
+  const [shinCategory, setShinCategory] = useState("발라드");
 
-  const [uploadedImg, setUploadedImg] = useState("transparent.png");
-  const [uploadedTitle, setUploadedTitle] = useState("");
+  // 이전 페이지에서 미리 가져올 정보
+  // 1. 크리에이터 계정
+  const CA = useSelector((state) => state.user.contracts.account);
+  // 2. 이전 페이지에서 업로드하고 받아온 이미지, 제목
+  const cover = useSelector((state) => state.funding.imgURL);
 
+  // 미리 들어와있어야 하는 데이터, 무한 렌더링 방지
   useEffect(() => {
-    // const preUploadedImg = returnedUrl.name;
-    const preUploadedImg = "NewJeans1stEP.jpg";
-    const preUploadedTitle = preUploadedImg.substring(0, preUploadedImg.length - 4);
-    setUploadedImg(preUploadedImg);
-    setUploadedTitle(preUploadedTitle);
+    setShinCreatorCA(CA);
+    setShinCover(cover);
+    setShinTitle(cover.substring(shinCover.indexOf(".com/") + 5));
   });
 
   // 카테고리 숫자로 받음
-  const [category, setCategory] = useState(1);
   const selectCategory = (e) => {
-    const value = parseInt(e.target.value);
-    setCategory(value);
+    const value = e.target.value;
+    setShinCategory(value);
   };
 
-  // 펀딩 시작일은 오늘 이후부터 선택 가능하게 설정
-  const dateRef = useRef();
-  const [date, setDate] = useState();
-  const today = Date.now();
-  const timeOff = new Date().getTimezoneOffset() * 120000;
-  const limitDate = new Date(today - timeOff).toISOString().split("T")[0];
-  useEffect(() => {
-    setDate(dateRef.current.setAttribute("min", limitDate));
-  }, [date]);
-
-  // input 데이터 처리
+  // 펀딩 시작일은 오늘 이후부터 선택 가능하게 설정(삭제)
+  // --> 펀딩을 며칠 동안 할지 기간을 입력하는걸로 변경
   const [inputs, setInputs] = useState({
+    ShinDescription: "",
     composer: "",
     lyricist: "",
     singer: "",
-    description: "",
-    nftAmount: "",
-    totalBalance: "",
-    opendate: "",
   });
   const inputsHandler = (e) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
-  console.log(inputs);
-  // input데이터를 모은 배열에다가 카테고리, 크리에이터 CA, 이미지 주소 전달
-  // 새로운 객체를 만들어서 보낸다
-  // inputs.composer, inputs.lyricist, inputs.singer, inputs.descripton, inputs.nftAmount, inputs.totalBalance, inputs.opendate,
-  const data = { uploadedTitle, category, creatorCA, returnedUrl };
-  console.log(data);
-
-  // 백에 보내는 곳
-  const shinFunding = async (data) => {
-    try {
-      const imageRes = await axios({
-        url: "http://localhost:3001/creator/shinchung",
-        method: "post",
-        data: {
-          shin_title: data.uploadedTitle,
-          com_name: data.composer,
-          lyric_name: data.lyricist,
-          sing_name: data.singer,
-          shin_amount: data.nftAmount,
-          shin_nft_totalbalance: data.totalBalance,
-          shin_cover: data.albumArt,
-          shin_opendate: data.opendate,
-          shin_description: data.description,
-          shin_category: data.category,
-          shin_creator_address: data.creatorCA,
-          shin_cover: data.returnedUrl,
-        },
-      });
-      const imageURL = imageRes.data;
-      console.log(imageURL);
-      router.push("/creator");
-    } catch (e) {
-      console.error(e);
-    }
+  const [IntInputs, setIntInputs] = useState({
+    shinAmount: 0,
+    shinTotalBalance: 0,
+    shinPeriod: 0,
+    shinIsPermit: 1,
+  });
+  const intInputsHandler = (e) => {
+    const value = parseInt(e.target.value);
+    const name = e.target.name;
+    setIntInputs({ ...IntInputs, [name]: value });
+    // console.log({ ...IntInputs });
   };
+
+  // 숫자 음수 입력 방지
+  // const numRef = useRef();
+  // numRef.onkeydown = function (e) {
+  //   if (!((e.keyCode > 95 && e.keyCode < 106) || (e.keyCode > 47 && e.keyCode < 58) || e.keyCode == 8)) {
+  //     return false;
+  //   }
+  // };
+
+  const data = { ...inputs, ...IntInputs, shinTitle, shinCategory, shinCreatorCA, shinCover };
+  // console.log(data);
+
+  // // 백에 보내는 곳
+  // const shinFunding = (data) => {
+  //   axios({
+  //     url: "http://localhost:3001/creator/shinchung",
+  //     method: "post",
+  //     data: {
+  //       shin_title: data.shinTitle,
+  //       shin_amount: data.shinAmount,
+  //       shin_nft_totalbalance: data.shinTotalBalance,
+  //       shin_cover: data.shinCover,
+  //       shin_period: data.shinPeriod,
+  //       shin_description: data.ShinDescription,
+  //       shin_category: data.shinCategory,
+  //       shin_creator_address: data.shinCreatorCA,
+  //       shin_ispermit: 1,
+  //       com_name: data.composer,
+  //       lyric_name: data.lyricist,
+  //       sing_name: data.singer,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res);
+  //       const imageURL = res.data;
+  //       console.log(imageURL);
+  //       router.push("/creator");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   const shinCancel = () => {
     confirm("신청을 취소하시겠습니까?") ? router.push("/creator") : "";
@@ -110,47 +117,18 @@ const detailForm = () => {
           }}
         />
         <RegistserForm>
-          <Preview>
-            <Image
-              src={`/Img/${uploadedImg}`}
-              // src={`/Img/Butter.jpg`}
-              width={450}
-              height={450}
-              alt="uploadedImg"
-              style={{
-                position: "relative",
-                top: "1.4rem",
-                left: "4rem",
-              }}
-            />
-            <Image
-              src={"/cover.png"}
-              width={530}
-              height={487}
-              alt="uploadedImg"
-              style={{
-                position: "relative",
-                bottom: "30rem",
-              }}
-            />
-          </Preview>
+          {/* 이미지 미리보기 삭제 */}
           <div>
             <div>
               <DetailContent>제목</DetailContent>
-              <InputBox readOnly name="title" value={uploadedTitle} />
+              <InputBox readOnly name="shinTitle" value={shinTitle} />
             </div>
             <div>
               <DetailContent>카테고리</DetailContent>
-              <SelectOption onChange={inputsHandler} category={category} name="category">
-                <option onClick={selectCategory} value={1}>
-                  발라드
-                </option>
-                <option onClick={selectCategory} value={2}>
-                  트로트
-                </option>
-                <option onClick={selectCategory} value={3}>
-                  힙합
-                </option>
+              <SelectOption onChange={selectCategory} name="shinCategory">
+                <option value={"발라드"}>발라드</option>
+                <option value={"트로트"}>트로트</option>
+                <option value={"힙합"}>힙합</option>
               </SelectOption>
             </div>
             <div>
@@ -164,10 +142,10 @@ const detailForm = () => {
             <div>
               <DetailContent>가수</DetailContent>
               <InputBox onChange={inputsHandler} name="singer" />
-            </div>{" "}
+            </div>
             <div>
               <DetailContent>설명</DetailContent>
-              <InputBox onChange={inputsHandler} name="description" />
+              <InputBox onChange={inputsHandler} name="ShinDescription" />
             </div>
           </div>
         </RegistserForm>
@@ -175,20 +153,29 @@ const detailForm = () => {
         <RegistserForm>
           <div>
             <DetailContent>발행량</DetailContent>
-            <InputBox onChange={inputsHandler} name="nftAmount" />
+            <InputBox onChange={intInputsHandler} name="shinAmount" type="number" min="10" max="200" />
+            {"개"}
           </div>
 
           <div>
-            <DetailContent>펀딩 시작 날짜</DetailContent>
-            <InputBox type="date" onChange={inputsHandler} name="opendate" ref={dateRef} date={date} />
+            <DetailContent>펀딩 진행 기간</DetailContent>
+            <InputBox onChange={intInputsHandler} name="shinPeriod" type="number" min="1" max="100" />
+            {"일간"}
           </div>
           <div>
             <DetailContent>목표 금액</DetailContent>
-            <InputBox onChange={inputsHandler} name="totalBalance" />
+            <InputBox onChange={intInputsHandler} name="shinTotalBalance" type="number" min="1" />
+            {"ETH"}
           </div>
           <BtnBox>
             <SubmitBtn onClick={shinCancel}>취소하기</SubmitBtn>
-            <SubmitBtn onClick={shinFunding}>등록하기</SubmitBtn>
+            <SubmitBtn
+              onClick={() => {
+                dispatch(shinFunding(data, router));
+              }}
+            >
+              등록하기
+            </SubmitBtn>
           </BtnBox>
         </RegistserForm>
       </RegisterWrap>
@@ -197,6 +184,7 @@ const detailForm = () => {
     </MainContainer>
   );
 };
+
 const MainContainer = styled.div`
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
@@ -209,12 +197,7 @@ const RegisterWrap = styled.div`
   }
 `;
 const RegistserForm = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 2fr;
-  place-items: center;
-  @media ${(props) => props.theme.device.pc} {
-    ${(props) => props.theme.align.flexCenterColumn}
-  }
+  ${(props) => props.theme.align.flexCenterColumn}
 `;
 // 이미지 미리보기
 const Preview = styled.div`

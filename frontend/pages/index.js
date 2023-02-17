@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import PhotoSlide from "./components/mainpage/PhotoSlide";
 import MainAnimation from "./components/mainpage/MainAnimation";
 import styled from "styled-components";
@@ -6,9 +7,23 @@ import Developers from "./components/mainpage/Developers";
 import MainText from "./components/mainpage/MainText";
 import RoadMap from "./components/mainpage/RoadMap";
 import NftMarket from "./components/mainpage/NftMarket";
-import Footer from './components/Footer';
+import Footer from "./components/Footer";
+import { getContract } from "../redux/modules/contracts";
+import { useWeb3React } from "@web3-react/core";
+import useContract from "../hooks/useContract";
+import { injected } from ".././lib/connectors";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const { account, chainId } = useWeb3React();
+  const contract = useContract();
+
+  useEffect(() => {
+    // account == null ? console.log("지갑 연결하세요") : dispatch(getContract(account, chainId));
+    // console.log(contract);
+
+  }, []);
+
   return (
     <>
       <Box>
@@ -17,9 +32,9 @@ const Home = () => {
       </Box>
       <PhotoSlide />
       <RoadMap />
-      <NftMarket/>
+      <NftMarket />
       <Developers />
-      <Footer/>
+      <Footer />
     </>
   );
 };
