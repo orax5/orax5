@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 // import {parse, stringify, toJSON, fromJSON} from 'flatted';
-import jwt from 'jsonwebtoken';
-import { parseCookies } from 'nookies';
-import Cookies from 'js-cookie'
+import jwt from "jsonwebtoken";
+import { parseCookies } from "nookies";
+import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Link from "next/Link";
@@ -17,7 +17,7 @@ import dtsToken from "../../contracts/DtsToken.json";
 import fToken from "../../contracts/FunddingToken.json";
 import sToken from "../../contracts/SaleToken.json";
 import axiosInstance from "../../api/axiosInstance ";
-
+import useContract from "../../hooks/useContract";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -41,16 +41,14 @@ const index = () => {
     deactivate, // deactivate: dapp 월렛 해제 수행함수 help
   } = useWeb3React();
 
-  const isToken = () =>{
-    const token = Cookies.get('jwtToken')
-    console.log("@@@ 토큰 저장한거 불러옴 : ",token)
-    if(token == null || undefined){
-      throw new Error('토큰 없음')
+  const isToken = () => {
+    const token = Cookies.get("jwtToken");
+    console.log("@@@ 토큰 저장한거 불러옴 : ", token);
+    if (token == null || undefined) {
+      throw new Error("토큰 없음");
     }
-    return console.log(" 토큰 있음 ")
-  }
-
-  
+    return console.log(" 토큰 있음 ");
+  };
 
   // 지갑 연결
   const onClickActivateHandler = () => {
@@ -64,7 +62,7 @@ const index = () => {
     deactivate(); // connector._events.Web3ReactDeactivate() 이거랑 같은건데
   };
 
-  const signin = async(e) => {
+  const signin = async (e) => {
     e.preventDefault();
     if (typeOfUser == null) {
       alert("회원 유형을 선택하세요");
@@ -91,7 +89,6 @@ const index = () => {
           // console.log(inputs.password);
           // console.log(router);
           dispatch(userLogin(account, inputs.password, tokenData, router));
-
         }
       } else {
         alert("지갑을 연결해주세요");
@@ -100,9 +97,7 @@ const index = () => {
       // 2) 크리에이터 로그인 시
       if (active == true) {
         if (inputs.password == "") {
-
           alert(" 비밀번호는 필수 입력사항입니다");
-
         } else {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const tokenData = {
