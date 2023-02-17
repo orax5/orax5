@@ -1,11 +1,12 @@
 import Cookies from "js-cookie";
 import axios from "axios";
+import produce from "immer";
 // import axiosInstance from "../../api/axiosInstance";
 const BASE_URL = "http://localhost:3001";
 const LOGIN = "user/LOGIN";
 const CREATOR_LOGIN = "user/CREATOR_LOGIN";
 const TICKET = "user/TICKET";
-import produce from "immer";
+
 // 유저 회원가입
 export const signUpUser = (email, walletAddress, nickname, password, typeOfUser, router) => {
   return async (dispatch, getState) => {

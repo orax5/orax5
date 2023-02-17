@@ -21,17 +21,13 @@ import { injected } from "../../lib/connectors";
 
 const Nav = () => {
 
-  /* 여기는 useSelector 로 해당 grade를 받아와서 해당 값이 == 일치하면 true가 되니 그거게 맞는 SideMenu~~를 조건부로 출력하면 됨.
+  /* 여기는 useSelector 로 해당 grade를 받아와서 해당 값이 == 일치하면 true가 되니 그거게 맞는 SideMenu~~를 조건부로 출력하면 됨. */
 
   const visitor = useSelector((state) => state.user.users.user_grade);
   const user = useSelector((state) => state.user.users.user_grade);
   const creator = useSelector((state) => state.user.users.user_grade);
   const admin = useSelector((state) => state.user.users.user_grade);
-  //console.log(visitor)
-  // const user = useSelector((state) => state.user.users.);
-  // const creator = useSelector((state) => state.user.users.);
-  // const admin = useSelector((state) => state.user.users.);
-
+  
 
   // 쿠키에 저장된 토큰을 불러오는 함수 그러니까 나중에 쿠키에 토큰이 있는지 없는지 확하려면 그냥 useEffect에 
   // const token = Cookies.get('jwtToken');
@@ -92,14 +88,9 @@ const Nav = () => {
         />
         {/* <SideMenu setShowMenu={setShowMenu} ShowMenu={ShowMenu} /> */}
         {visitor == 0 && <SideMenuAll setShowMenu={setShowMenu} ShowMenu={ShowMenu} />}
-        {user == 1 && <SideMenuUser setShowMenu={setShowMenu} ShowMenu={ShowMenu} />
-        }
-        {creator == 2 && <SideMenuCreator setShowMenu={setShowMenu} ShowMenu={ShowMenu} />
-        }
-        {admin == 3 && <SideMenuAdmin setShowMenu={setShowMenu} ShowMenu={ShowMenu} />
-
-        }
-       
+        {user == 1 && <SideMenuUser setShowMenu={setShowMenu} ShowMenu={ShowMenu} />}
+        {creator == 2 && <SideMenuCreator setShowMenu={setShowMenu} ShowMenu={ShowMenu} />}
+        {admin == 3 && <SideMenuAdmin setShowMenu={setShowMenu} ShowMenu={ShowMenu} />}
       </NavElement>
     </NavContainer>
   );
