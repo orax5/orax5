@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+// import {parse, stringify, toJSON, fromJSON} from 'flatted';
+import jwt from 'jsonwebtoken';
+import { parseCookies } from 'nookies';
+import Cookies from 'js-cookie'
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Link from "next/Link";
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
-import { userLogin, creatorLogin } from "../../redux/modules/user";
+import { userLogin, creatorLogin, testUserLogin } from "../../redux/modules/user";
 // 지갑연결
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./../../lib/connectors";
@@ -12,15 +16,17 @@ import { injected } from "./../../lib/connectors";
 import dtsToken from "../../contracts/DtsToken.json";
 import fToken from "../../contracts/FunddingToken.json";
 import sToken from "../../contracts/SaleToken.json";
+import axiosInstance from "../../api/axiosInstance ";
 
 
 const index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  // 유저타입state
   const [typeOfUser, setTypeOfUser] = useState(null);
 
   const [inputs, setInputs] = useState({
-    email: "",
+    // email: "",
     password: "",
   });
 
@@ -31,6 +37,17 @@ const index = () => {
     activate, // activate: dapp 월렛 연결 기능 수행함수
     deactivate, // deactivate: dapp 월렛 해제 수행함수 help
   } = useWeb3React();
+
+  const isToken = () =>{
+    const token = Cookies.get('jwtToken')
+    console.log("@@@ 토큰 저장한거 불러옴 : ",token)
+    if(token == null || undefined){
+      throw new Error('토큰 없음')
+    }
+    return console.log(" 토큰 있음 ")
+  }
+
+  
 
   // 지갑 연결
   const onClickActivateHandler = () => {
@@ -44,7 +61,7 @@ const index = () => {
     deactivate(); // connector._events.Web3ReactDeactivate() 이거랑 같은건데
   };
 
-  const signin = (e) => {
+  const signin = async(e) => {
     e.preventDefault();
     if (typeOfUser == null) {
       alert("회원 유형을 선택하세요");
@@ -52,8 +69,8 @@ const index = () => {
       // 1) 일반유저 로그인
       if (active == true) {
         // 공백 제외
-        if ((inputs.email == "" && inputs.password == "") || inputs.password == "" || inputs.email == "") {
-          alert("이메일과 비밀번호는 필수 입력사항입니다");
+        if (inputs.password == "") {
+          alert("비밀번호는 필수 입력사항입니다");
         } else {
           // 지갑연결 되어있고, 모든 칸이 공백이 아닐 때
           const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -64,22 +81,25 @@ const index = () => {
             dtokenCA: dtsToken.networks[chainId].address,
             ftokenCA: fToken.networks[chainId].address,
             stokenCA: sToken.networks[chainId].address,
+            account: account,
           };
           // 로그인 요청 보냄, 잘들어옴
           // console.log(inputs.email);
           // console.log(account);
           // console.log(inputs.password);
           // console.log(router);
-          dispatch(userLogin(account, inputs.email, inputs.password, tokenData, router));
+          //localStorage.setItem('loginData', stringify(tokenData.Dtoken))
+           dispatch(userLogin(account, inputs.password, tokenData, router));
+           //dispatch(testUserLogin(account, inputs.password, tokenData, router));
         }
       } else {
         alert("지갑을 연결해주세요");
       }
     } else {
-      // 2) 크리에이터 가입 시
+      // 2) 크리에이터 로그인 시
       if (active == true) {
-        if ((inputs.email == "" && inputs.password == "") || inputs.password == "" || inputs.email == "") {
-          alert("이메일과 비밀번호는 필수 입력사항입니다");
+        if (inputs.password == "") {
+          alert(" 비밀번호는 필수 입력사항입니다");
         } else {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const tokenData = {
@@ -91,7 +111,7 @@ const index = () => {
             stokenCA: sToken.networks[chainId].address,
           };
           // 로그인 요청 보냄
-          dispatch(creatorLogin(account, inputs.email, inputs.password, tokenData, router));
+          dispatch(creatorLogin(account, inputs.password, tokenData, router));
         }
       } else {
         alert("지갑을 연결해주세요");
@@ -107,6 +127,7 @@ const index = () => {
         <div style={{ marginTop: "10rem" }}>
           <header>
             <h1>LOGIN</h1>
+            <button onClick={isToken}>확인</button>
           </header>
           <RadioBtnBox>
             <input type="radio" name="type" onClick={() => setTypeOfUser(1)} />
@@ -123,17 +144,6 @@ const index = () => {
               <button onClick={onClickActivateHandler}>지갑 연결</button>
             </AddressBox>
           )}
-
-          <InputBox>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="이메일"
-              onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
-            />
-            <label htmlFor="password">이메일</label>
-          </InputBox>
           <InputBox>
             <input
               id="password"

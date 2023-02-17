@@ -3,8 +3,11 @@ import styled from "styled-components";
 import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import Cookies  from "js-cookie";
 
 const index = () => {
+
   const datas = [
     {
       id : 1,name: "사진스힙합",
@@ -123,10 +126,14 @@ const index = () => {
     } catch (e) {}
   };
 
-  useEffect(() => {}, []);
+  
+
+  useEffect(() => {
+ 
+  }, []);
 
   const nickname = useSelector((state) => state.user.users.user_nickname);
-  console.log(nickname);
+  console.log("nickname", nickname);
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
   const FundingMinting = async () => {
     const aa = await Dtoken.mintFundding(account, ftokenCA, 1, 10, 10, 2);

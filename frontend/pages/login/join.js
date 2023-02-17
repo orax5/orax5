@@ -32,7 +32,7 @@ const join = () => {
   });
   const { active, account } = useWeb3React();
 
-  console.log(accountMessage)
+  // console.log(accountMessage)
 
   // radio 눌렀을때 User 가입폼 보여주기
   const viewUserHandler = (e) => {
@@ -49,13 +49,14 @@ const join = () => {
 
   useEffect(() => {
     let patternEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    let patternPw =  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // 최소 8 자, 하나 이상의 문자와 하나의 숫자 정규식
+    let patternPw =  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/; // 최소 8 자, 하나 이상의 문자와 하나의 숫자, 특수문자 포함 정규식
+    
 
     if (inputs.password !== inputs.rePassword) {
       setPwdMessage("비밀번호가 일치하지 않습니다");
       setCheckedPwd(false);
     } else if (patternPw.test(inputs.password) == false) {
-      setPwdMessage("최소 8 자, 하나 이상의 문자와 하나의 숫자가 필요합니다.")
+      setPwdMessage("최소 8 자, 하나 이상의 문자와 하나의 숫자, 특수문자가 필요합니다.")
       setCheckedPwd(false)
     } else if (inputs.password == "") {
       setPwdMessage("비밀번호를 입력하세요");
@@ -157,12 +158,12 @@ const join = () => {
                 }
               })
               .catch((err) => {
-                console.log("에러가 발생했습니다", err);
+                console.log("크리에이터 가입 이메일 발송 실패", err);
               });
           })
           .catch((err) => {
             console.log(err);
-            alert("에러가 발생했습니다");
+            alert("크리에이터 가입 axios요청 실패");
           });
 
         //
