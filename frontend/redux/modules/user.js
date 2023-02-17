@@ -236,7 +236,6 @@ export const ticket = (leftTicket, ttoday) => {
 const init = {
   users: { user_grade: 0 },
   contracts: {},
-  users: [],
   userscontracts: [],
   tickets: {},
 };
