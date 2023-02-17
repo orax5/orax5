@@ -14,7 +14,7 @@ datasource db {
 
 model User{
   user_no Int @default(autoincrement()) @id
-  user_email String @unique @db.Char(50)
+  user_email String @unique @db.Char(20)
   user_pwd String 
   user_nickname String @db.Char(12)
   user_grade Int @default(1)

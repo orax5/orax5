@@ -11,7 +11,9 @@ import { PrismaService } from 'src/prisma.service';
 
 
 @Module({ // JwtModule.register({ secret: jwtConstants.secret, signOptions: { expiresIn: '60s'} })
-  imports:[ EmailModule, PassportModule.register({
+  imports:[ 
+    EmailModule, 
+    PassportModule.register({
     session: false, // jwt 사용해서 token기반으로 관리할 예정이기 때문에 false
     defaultStrategy : 'jwt'
   }) , 

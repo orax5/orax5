@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
+
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import useContract from "../../hooks/useContract";
@@ -34,6 +35,7 @@ const index = () => {
     } catch (e) {}
   };
 
+
   // useEffect(() => {
   //   // 크리에이터 마이페이지 접속하자마자 신청했던 목록 불러옴
   //   axios({
@@ -51,6 +53,7 @@ const index = () => {
   //       }
   //     });
   // }, []);
+
 
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
   const FundingMinting = async (id, idxNum) => {

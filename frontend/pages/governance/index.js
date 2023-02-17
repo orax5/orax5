@@ -4,7 +4,9 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import RegisterVote from "../components/RegisterVote";
 import Pagination from "../components/Pagination";
-import { useSelector } from "react-redux";
+import axiosInstance from "../../api/axiosInstance ";
+import axios from "axios";
+
 
 const index = () => {
   const router = useRouter();
@@ -13,9 +15,22 @@ const index = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
+  const [accessToken, setAccessToken] = useState('');
+
+  // axiosInstance.get()
+  //const accessToken = localStorage.getItem('accessToken');
+
   useEffect(() => {
+    // 로컬스토리지값 가져오기
+    const valueFromLocalStorage = localStorage.getItem('accessToken');
+    if (valueFromLocalStorage) {
+      setAccessToken(valueFromLocalStorage);
+    }
     setPosts(datas);
   }, []);
+
+  console.log('@@accessToken', accessToken)
+
 
   // 더미데이터
   const datas = [
