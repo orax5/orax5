@@ -146,6 +146,7 @@ contract DtsToken is ERC1155, Ownable{
         require(block.timestamp * date > tokenOwners[tokenId].EndTime - 86400,"The voting period is maximum until one day before.");
         // 거버넌스 투표 신청은 한번만 가능
         require(votingDate[tokenId].time == 0, "There is already a vote.");
+
         
         votingDate[tokenId].time = block.timestamp + (86400 * date);
         votingDate[tokenId].date = changeDay;

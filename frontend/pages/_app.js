@@ -33,6 +33,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
             <Component {...pageProps} />
           </Web3ReactProvider>
         </PersistGate>
+
       </ThemeProvider>
     </>
   );

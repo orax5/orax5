@@ -4,9 +4,7 @@ import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 
 const SideMenuUser = ({ setShowMenu, ShowMenu }) => {
-  const [isLogin, setIsLogin] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-
+ 
   const toggleHandler = () => {
     setShowMenu(!ShowMenu);
   };
@@ -26,22 +24,6 @@ const SideMenuUser = ({ setShowMenu, ShowMenu }) => {
         />
       </div>
       <MenuList onClick={toggleHandler}>
-        {isLogin ? (
-          isAdmin ? (
-            <Link href="/admin">
-              <li>admin</li>
-            </Link>
-          ) : (
-            <Link href="/mypage">
-              <li>MYPAGE</li>
-            </Link>
-          )
-        ) : (
-          <Link href="/login">
-            <li>LOGIN/JOIN</li>
-          </Link>
-        )}
-        {/* MYPAGE, ADMIN는 작업 끝나면 접근 권한 제한할건데 지금 페이지 이동하라고 다 꺼내놓음 */}
         <Link href="/mypage">
           <li>MYPAGE</li>
         </Link>

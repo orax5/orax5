@@ -52,17 +52,6 @@ const index = () => {
   const [idxNum, setIdxNum] = useState(0);
   const [FundState, setFundState] = useState(0);
 
-  // // 클립보트 핸들러
-  // const copyClipBoardHandler = async (text) => {
-  //   setClipAccount(true);
-  //   setTimeout(() => {
-  //     setClipAccount(false);
-  //   }, 2000);
-  //   try {
-  //     await navigator.clipboard.writeText(text);
-  //   } catch (e) {}
-  // };
-
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
   const FundingMinting = async (id, idxNum) => {
     // 민팅 시 컨트랙트에 보낼 정보 idxNum을 이용해서 꺼낸다

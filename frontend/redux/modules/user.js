@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import axios from "axios";
 // import axiosInstance from "../../api/axiosInstance";
 const BASE_URL = "http://localhost:3001";
@@ -32,6 +33,7 @@ export const signUpUser = (email, walletAddress, nickname, password, typeOfUser,
       });
   };
 };
+
 // 크리에이터 회원가입
 export const signUpCreator = (email, walletAddress, nickname, password, typeOfUser) => {
   return async (dispatch, getState) => {
@@ -63,6 +65,7 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
       });
   };
 };
+
 // 크리에이터 이메일 인증
 export const checkEmail = (email, router) => {
   return async (dispatch, getState) => {
@@ -77,7 +80,7 @@ export const checkEmail = (email, router) => {
       // })
       .then(function result(res) {
         const tt = res.data;
-        console.log(tt);
+        console.log("@@@tt", tt);
         return tt;
       })
       .catch((err) => {
@@ -89,11 +92,12 @@ export const checkEmail = (email, router) => {
   };
 };
 
-// // 유저 로그인 테스트
+
+// 유저 로그인 테스트
 // export const testUserLogin = (account, email, password, tokenData, router) => {
 //   return async (dispatch, getState) => {
 //     await axiosInstance({
-//       url: `/user/login`,
+//       url: `user/authlogin2`,
 //       method: "post",
 //       data: { user_wallet: account, user_pwd: password, user_email: email },
 //     })
@@ -111,9 +115,9 @@ export const checkEmail = (email, router) => {
 //       })
 //       .catch((err) => {
 //         console.log(err);
-//         if (err.response.status == 400) {
+//         if (err.response?.status == 400) {
 //           return alert("존재하지 않는 계정입니다");
-//         } else if (err.response.status == 401) {
+//         } else if (err.response?.status == 401) {
 //           return alert("이메일 토큰 오류");
 //         } else {
 //           return alert("에러가 발생했습니다");
@@ -126,13 +130,19 @@ export const checkEmail = (email, router) => {
 export const userLogin = (account, password, tokenData, router) => {
   return async (dispatch, getState) => {
     await axios({
-      url: `${BASE_URL}/user/login`,
+      url: `${BASE_URL}/user/authlogin2`, // 토큰발급 로그인주소
       method: "post",
       data: { user_wallet: account, user_pwd: password },
-    })
-      .then((res) => {
-        console.log(res);
+    }).then((res) => {
+        console.log("@@@ res : ", res);
         const data = res.data;
+        console.log("@@@ data : ", data)
+        const token = data;
+        // 쿠키저장
+        Cookies.set('jwtToken', token);
+        // jwtToken 불러오기
+        const me = Cookies.get('jwtToken');
+        console.log("@@@ 블러낸 쿠키 :", me);
         if (res.status == 201) {
           dispatch({
             type: LOGIN,
@@ -158,12 +168,19 @@ export const userLogin = (account, password, tokenData, router) => {
 export const creatorLogin = (account, password, tokenData, router) => {
   return async (dispatch, getState) => {
     await axios({
-      url: `${BASE_URL}/creator/login`,
+      // url: `${BASE_URL}/creator/login`,
+      url: `${BASE_URL}/creator/authlogin2`,
       method: "post",
       data: { user_wallet: account, user_pwd: password },
     })
       .then((res) => {
+        console.log("@@@ res : ", res);
         const data = res.data;
+        console.log("@@@ data : ", data)
+        const token = data
+        Cookies.set('jwtToken', token);
+        const me = Cookies.get('jwtToken')
+        console.log("@@@ 블러낸 쿠키 :", me)
         if (res.status == 201) {
           dispatch({
             type: CREATOR_LOGIN,
@@ -216,6 +233,8 @@ export const ticket = (leftTicket, ttoday) => {
 
 // 초기값
 const init = {
+  users: { user_grade: 0 },
+  contracts: {},
   users: [],
   userscontracts: [],
   tickets: {},
