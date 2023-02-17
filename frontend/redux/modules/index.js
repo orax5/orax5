@@ -7,6 +7,7 @@ import { HYDRATE } from "next-redux-wrapper";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
+
 const persistConfig = {
   key: "root",
   storage,
@@ -16,8 +17,7 @@ const persistConfig = {
 export const rootReducer = (state, action) => {
   switch (action.type) {
     case HYDRATE:
-      return action.payload;
-
+      return { ...action.payload }
     default:
       return combineReducers({ user, funding })(state, action);
   }
