@@ -1,7 +1,8 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 import produce from "immer";
-// import axiosInstance from "../../api/axiosInstance";
+import { PURGE } from "redux-persist";
+
 const BASE_URL = "http://localhost:3001";
 const LOGIN = "user/LOGIN";
 const CREATOR_LOGIN = "user/CREATOR_LOGIN";
@@ -36,7 +37,7 @@ export const signUpUser = (email, walletAddress, nickname, password, typeOfUser,
 };
 
 // 크리에이터 회원가입
-export const signUpCreator = (email, walletAddress, nickname, password, typeOfUser) => {
+export const signUpCreator = (email, walletAddress, nickname, password, typeOfUser, router) => {
   return async (dispatch, getState) => {
     const creator = await axios({
       url: `${BASE_URL}/creator/signup`,
@@ -52,6 +53,7 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
       .then((res) => {
         if (res.status == 201) {
           console.log("데이터 잘 받음");
+          router.push("/login");
         }
       })
       .catch((err) => {
@@ -75,14 +77,9 @@ export const checkEmail = (email, router) => {
       method: "post",
       data: { user_email: email },
     })
-      // .then((res) => {
-      //   const data = res.data;
-      //   console.log(data); // 메일 전송되었으면 true
-      // })
       .then(function result(res) {
-        const tt = res.data;
-        console.log("@@@tt", tt);
-        return tt;
+        const data = res.data;
+        console.log(data);
       })
       .catch((err) => {
         console.log(err);
@@ -93,63 +90,28 @@ export const checkEmail = (email, router) => {
   };
 };
 
-
-// 유저 로그인 테스트
-// export const testUserLogin = (account, email, password, tokenData, router) => {
-//   return async (dispatch, getState) => {
-//     await axiosInstance({
-//       url: `user/authlogin2`,
-//       method: "post",
-//       data: { user_wallet: account, user_pwd: password, user_email: email },
-//     })
-//       .then((res) => {
-//         console.log(res);
-//         const data = res.data;
-//         if (res.status == 201) {
-//           dispatch({
-//             type: LOGIN,
-//             payload: { data, tokenData },
-//           });
-//           alert(`${data.user_nickname}님 환영합니다`);
-//           router.push("/");
-//         }
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         if (err.response?.status == 400) {
-//           return alert("존재하지 않는 계정입니다");
-//         } else if (err.response?.status == 401) {
-//           return alert("이메일 토큰 오류");
-//         } else {
-//           return alert("에러가 발생했습니다");
-//         }
-//       });
-//   };
-// };
-
 // 유저 로그인
 export const userLogin = (account, password, tokenData, router) => {
   return async (dispatch, getState) => {
     await axios({
-      url: `${BASE_URL}/user/authlogin2`, // 토큰발급 로그인주소
+      url: `${BASE_URL}/user/login`, // 토큰발급 로그인주소
       method: "post",
       data: { user_wallet: account, user_pwd: password },
-    }).then((res) => {
-        console.log("@@@ res : ", res);
+    })
+      .then((res) => {
+        console.log(res);
         const data = res.data;
-        console.log("@@@ data : ", data)
         const token = data;
         // 쿠키저장
-        Cookies.set('jwtToken', token);
+        Cookies.set("jwtToken", token);
         // jwtToken 불러오기
-        const me = Cookies.get('jwtToken');
-        console.log("@@@ 블러낸 쿠키 :", me);
+        const me = Cookies.get("jwtToken");
         if (res.status == 201) {
           dispatch({
             type: LOGIN,
             payload: { data, tokenData },
           });
-          alert(`${data.user_nickname}님 환영합니다`);
+          alert(`${data.data.user_nickname}님 환영합니다`);
           router.push("/");
         }
       })
@@ -170,24 +132,21 @@ export const creatorLogin = (account, password, tokenData, router) => {
   return async (dispatch, getState) => {
     await axios({
       // url: `${BASE_URL}/creator/login`,
-      url: `${BASE_URL}/creator/authlogin2`,
+      url: `${BASE_URL}/creator/login`,
       method: "post",
       data: { user_wallet: account, user_pwd: password },
     })
       .then((res) => {
-        console.log("@@@ res : ", res);
         const data = res.data;
-        console.log("@@@ data : ", data)
-        const token = data
-        Cookies.set('jwtToken', token);
-        const me = Cookies.get('jwtToken')
-        console.log("@@@ 블러낸 쿠키 :", me)
+        const token = data;
+        Cookies.set("jwtToken", token);
+        const me = Cookies.get("jwtToken");
         if (res.status == 201) {
           dispatch({
             type: CREATOR_LOGIN,
             payload: { data, tokenData },
           });
-          alert(`크리에이터 ${data.user_nickname}님 환영합니다`);
+          alert(`크리에이터 ${data.data.user_nickname}님 환영합니다`);
           router.push("/creator");
         }
       })
@@ -209,28 +168,12 @@ export const creatorLogin = (account, password, tokenData, router) => {
 export const ticket = (leftTicket, ttoday) => {
   return async (dispatch, getState) => {
     const data = { leftTicket, ttoday };
-    // console.log(parseInt(leftTicket));
-    // console.log(parseInt(ttoday));
     dispatch({
       type: TICKET,
       payload: { data },
     });
   };
 };
-
-// export const SaleReg = (offerAccount,offerAmount,offerPrice) => {
-//   return async (dispatch, getState) => {
-//     const SaleInfgo = {
-//       data: {offerAccount,offerAmount,offerPrice},
-//     };
-//     const data = SaleInfgo.data;
-//     console.log(data)
-//     dispatch({
-//       type: SALEREG,
-//       payload: data
-//     })
-//   }
-// }
 
 // 초기값
 const init = {
@@ -245,35 +188,22 @@ export default function user(state = init, action) {
   const { type, payload } = action;
   switch (type) {
     case LOGIN:
-      return { ...state, users: payload.data, contracts: payload.tokenData };
-
+      return produce(state, (draft) => {
+        draft.users.user_grade = payload.data.data.user_grade;
+      });
     case CREATOR_LOGIN:
-      return { ...state, users: payload.data, contracts: payload.tokenData };
+      return produce(state, (draft) => {
+        draft.users.user_grade = payload.data.data.user_grade;
+      });
 
     case TICKET:
-      return { ...state, tickets: payload.data };
+      return produce(state, (draft) => {
+        draft.users.push(payload.data);
+      });
+    case PURGE: {
+      return state;
+    }
     default:
-      return { ...state };
+      return state;
   }
 }
-
-// export default function user(state = init, action) {
-//   const { type, payload } = action;
-//   switch (type) {
-//     case LOGIN:
-//       return produce(state, (draft) => {
-//         draft.users.push(payload.data);
-//       });
-//     case CREATOR_LOGIN:
-//       return produce(state, (draft) => {
-//         draft.users.push(payload.data);
-//       });
-
-//     case TICKET:
-//       return produce(state, (draft) => {
-//         draft.users.push(payload.data);
-//       });
-//     default:
-//       return state;
-//   }
-// }

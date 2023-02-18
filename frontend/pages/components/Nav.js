@@ -17,10 +17,12 @@ import SideMenuCreator from "./SideMenuCreator";
 //
 import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
 import { injected } from "../../lib/connectors";
+import { useRouter } from "next/router";
+import { PURGE } from "redux-persist";
 
-const Nav = () => {
+const Nav = (persistor) => {
   /* 여기는 useSelector 로 해당 grade를 받아와서 해당 값이 == 일치하면 true가 되니 그거게 맞는 SideMenu~~를 조건부로 출력하면 됨. */
-
+  const router = useRouter();
   const visitor = useSelector((state) => state.user.users.user_grade);
   const user = useSelector((state) => state.user.users.user_grade);
   const creator = useSelector((state) => state.user.users.user_grade);
@@ -29,11 +31,19 @@ const Nav = () => {
   // 쿠키에 저장된 토큰을 불러오는 함수 그러니까 나중에 쿠키에 토큰이 있는지 없는지 확하려면 그냥 useEffect에
   // const token = Cookies.get('jwtToken');
   // if(token == null) return 이면 바로 끝 ㅇㅈ?
-  function getJwtToken() {
-    const token = Cookies.get("jwtToken");
-    console.log(token);
-    return token;
-  }
+  // function getJwtToken() {
+  //   const token = Cookies.get("jwtToken");
+  //   console.log(token);
+  //   return token;
+  // }
+  // 쿠키 지우기
+  const delCookie = () => {
+    Cookies.remove("jwtToken");
+    // console.log(persistor);
+    // persistor.purge();
+    router.reload();
+    alert("로그아웃 되었습니다");
+  };
   const [ShowMenu, setShowMenu] = useState(false);
 
   const showMenuHandler = () => {
@@ -58,7 +68,7 @@ const Nav = () => {
       <NavElement>
         <Link href="/">
           <Image src={logo} alt="로고이미지" width={120} height={65} />
-          <button onClick={getJwtToken}>클릭</button>
+          <button onClick={delCookie}>로그아웃</button>
         </Link>
       </NavElement>
       <NavElement></NavElement>
