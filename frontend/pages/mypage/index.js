@@ -51,7 +51,7 @@ const index = () => {
     setAccount(wallet.info.account);
     if(tokenData != null){
       checkTicket();
-  }
+    }
   }, [tokenData]);
 
   

@@ -2,14 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { ethers } from "ethers";
+import ajyContract from "../../hooks/ajyContract";
 
 const Offers3 = ({saleListarray, inputSaleAmount,setNumberList}) => {
-
-  const Stoken = useSelector((state) => state.user.contracts.Stoken);
+  const tokenData = ajyContract();
+ 
 
   const buyNft = async (data) => {
     const totalPrice = inputSaleAmount * data.price;
-    await Stoken.purchaseToken(
+    await tokenData.Stoken.purchaseToken(
       data.account, 1, parseInt(inputSaleAmount), parseInt(data.listId),
       { value: ethers.utils.parseEther(totalPrice.toString()) }
     );
