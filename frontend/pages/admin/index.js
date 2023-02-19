@@ -3,19 +3,23 @@ import styled from "styled-components";
 import { FaEthereum } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import useContract from "../../hooks/useContract";
+import { useWallet } from "../../hooks/useWallet";
+const BASE_URL = "http://localhost:3001";
 
 const index = () => {
-  const BASE_URL = "http://localhost:3001";
+  const tokenData = useContract();
+  const info = useWallet();
+
+  useEffect(() => {
+    console.log(tokenData);
+    setAccount(info.account);
+  }, [tokenData]);
 
   const dispatch = useDispatch();
   const [listdata, setListData] = useState([]);
-  const [clipAccount, setClipAccount] = useState(false);
+  const [account, setAccount] = useState("");
   const [permitted, setPermitted] = useState(false);
-
-  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
-  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
-  const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
-  const account = useSelector((state) => state.user.contracts.account);
 
   useEffect(() => {
     axios({
@@ -206,6 +210,7 @@ const Table = styled.table`
   }
 `;
 const CreatorAddress = styled.div`
+  color: red;
   cursor: pointer;
   font-size: 1.5rem;
   margin-top: 1rem;
