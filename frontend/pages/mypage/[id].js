@@ -5,17 +5,33 @@ import { useSelector } from "react-redux";
 import React,{ useState, useEffect } from "react";
 import styled from "styled-components";
 import Offers2 from "../components/Offers2";
-import  
-  import useContract from "../../hooks/useContract";
+import useContract from "../../hooks/useContract";
+import axios from "axios";
+import Cookies from 'js-cookie';
 
 const deatil = () => {
   const router = useRouter();    
   const amount = router.query.amount; // props로 전달받는 amount
   const tokenData = useContract()
   const [tokendata, setTokendata]= useState()
+  const token = Cookies.get('jwtToken');
+
   useEffect(() => {
-   setTokendata(tokenData)
-  }, [third])
+    axios({
+      url: `http://localhost:3001/user/mypage/:id`,
+      method: "get",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    })
+      .then((res) => {
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setTokendata(tokenData)
+  }, [])
   
   const [unsigned, setUnsigned] = useState(false);
   const [inputSaleAmount,  setInputSaleAmount] = useState(null);
@@ -36,7 +52,6 @@ const deatil = () => {
 
   // 최초 실행시 판매 내역 보여줌
   useEffect(()=>{
-
     ViewOneHandler();
   },[]);
  

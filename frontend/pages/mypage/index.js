@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Link from "next/Link";
 import { useDispatch } from "react-redux";
 import { ticket } from "../../redux/modules/user";
+import Cookies from 'js-cookie';
 // 마이페이지 컴포넌트
 import MyNft from "../components/mypage/MyNft";
 import TransactionDetails from "../components/mypage/TransactionDetails";
@@ -40,11 +41,21 @@ const index = () => {
     } catch (e) {}
   };
 
+
+  const token = Cookies.get('jwtToken');
+  // const tokenObject = JSON.parse(token);
+  // console.log(tokenObject)
+  console.log(token); // 예를 들어, 토큰 값이 객체의 "tokenValue" 속성에 저장되어 있다면 출력
+
+  
+
   // // nft 갯수 확인 ? 해야함? 크리에이터가? 유저는 확인해서 myPageNFT 현황보여줘야하는데 이거 여기서 쓰는거 아니고 다른데서 하는거라고0208에 집가면서 이야기함 useEffect 안에 들어야가야함
   // const myNftAmount = async () => {
   //   const bb = await Dtoken.balanceOf(account, 1);
   //   console.log(bb.toString());
   // };
+
+
 
   const menuArr = ["내 NFT", "펀딩한 NFT", "거래내역"];
   const clickHandler = (idx) => {
