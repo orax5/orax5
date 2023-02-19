@@ -103,10 +103,12 @@ export const userLogin = (account, password, router) => {
         console.log(res);
         const data = res.data;
         const token = data;
+        console.log("@@@@token",token.token)
         // 쿠키저장
-        Cookies.set("jwtToken", token);
+        Cookies.set("jwtToken", token.token);
         // jwtToken 불러오기
         const me = Cookies.get("jwtToken");
+        console.log("@@@쿠키get한거 그대로 콘솔찍은거",me)
         if (res.status == 201) {
           if (res.data.data.user_grade == 1) {
             dispatch({
@@ -147,11 +149,16 @@ export const creatorLogin = (account, password, router) => {
       method: "post",
       data: { user_wallet: account, user_pwd: password },
     })
-      .then((res) => {
-        const data = res.data;
-        const token = data;
-        Cookies.set("jwtToken", token);
-        const me = Cookies.get("jwtToken");
+    .then((res) => {
+      console.log(res);
+      const data = res.data;
+      const token = data;
+      console.log("@@@@token",token.token)
+      // 쿠키저장
+      Cookies.set("jwtToken", token.token);
+      // jwtToken 불러오기
+      const me = Cookies.get("jwtToken");
+      console.log("@@@쿠키get한거 그대로 콘솔찍은거",me)
         if (res.status == 201) {
           dispatch({
             type: CREATOR_LOGIN,
@@ -182,6 +189,9 @@ export const logout = () => {
     });
   };
 };
+
+
+
 // 스트리밍권
 export const ticket = (leftTicket, ttoday) => {
   return async (dispatch, getState) => {
