@@ -4,15 +4,14 @@ import Image from "next/image";
 import AudioPlayer from "react-h5-audio-player";
 import { useDispatch, useSelector } from "react-redux";
 import db from "../../../public/db.json";
+import ajyContract from "../../../hooks/ajyContract";
+import { ticket } from "../../../redux/modules/user";
+
+
 const Player = () => {
+  const tokenData = ajyContract();
   const dispatch = useDispatch();
-  const leftStreaming = useSelector((state) => state.user.tickets.leftTicket);
-  const intLeftStreaming = parseInt(leftStreaming);
-  const ttoday = useSelector((state) => state.user.tickets.ttoday);
-  const leftDay = Math.floor(((intLeftStreaming - ttoday) * 1000) / 86400000);
-  // console.log(intLeftStreaming);
-  // console.log(ttoday);
-  // console.log(isNaN(leftDay));
+  
 
   const musics = db.musics;
   // 이건 오른쪽 슬라이드에서 선택하면 재생목록에 추가되고 이걸 최종적으로
@@ -22,6 +21,8 @@ const Player = () => {
   // console.log(addedSings);
   const audioRef = useRef(null);
 
+   // 구독권 확인
+  const [result, setResult] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(0);
   const [trackIndex, setTrackIndex] = useState(0);
 
@@ -33,9 +34,26 @@ const Player = () => {
     setTrackIndex((currentTrack) => (currentTrack == 0 ? musics.length - 1 : currentTrack - 1));
   };
   // 재생목록 누르면 재생되는 함수
-  const playInmusicMusic = (id) => {
+  const playInmusicMusic = async(id) => {
+    const result = await tokenData.Ftoken.streamingView();
+    // 남은 스트리밍 시간
+    // 남은 스트리밍 시간 숫자로
+    // 밀리초로 나눔
+    const today = new Date().getTime() / 1000;
+    // 소수점 내린 최종 현재시간 초
+    const ttoday = Math.floor(today);
+    console.log( parseInt(result));
+    console.log("가공한후현재시간초:", ttoday);
+    // 남은날짜를 수정 하는데 현재시간이 0이면 음수찍혀서 종료
+    setResult(Math.floor(((parseInt(result) - ttoday) * 1000) / 86400000));
+    console.log("여기결과값", parseInt(result));
+    // JSX 조건 충족시키려고 만듬 0209
+    if (result == 0) {
+      setResult(false);
+    }
+    dispatch(ticket(result, ttoday));
     // 로그인안하거나 그냥 접근하면 selector가 NaN를 표기하는데 이 값이 나오면~
-    if (isNaN(leftDay) === true || 0 >= leftDay) {
+    if ( result == false || 0 >= ttoday) {
       alert("스트리밍권을 구매해주세요");
       return;
     }
@@ -50,8 +68,14 @@ const Player = () => {
 
   const playS3Music = (id) => {
     console.log(id); // 2/12 여기서는 map돌린게 아니라서 id 바로 못찾아옴 다른 방법으로 가져오기
-    dispatch(playSong(id));
+    //dispatch(playSong(id));
   };
+
+  useEffect(()=>{
+     if(tokenData != null){
+      playInmusicMusic(id);
+    }
+  },[])
 
   return (
     <>
@@ -65,7 +89,7 @@ const Player = () => {
             showSkipControls
             onClickPrevious={handleClickPrev}
             onClickNext={handleClickNext}
-            onPlay={() => playS3Music(id)}
+            // onPlay={() => playS3Music(id)}
             hidePlayer={false}
             loop={true}
           />

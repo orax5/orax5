@@ -5,14 +5,14 @@ import { useSelector } from "react-redux";
 import React,{ useState, useEffect } from "react";
 import styled from "styled-components";
 import Offers2 from "../components/Offers2";
-import useContract from "../../hooks/useContract";
+import ajyContract from "../../hooks/ajyContract";
 import axios from "axios";
 import Cookies from 'js-cookie';
 
 const deatil = () => {
+  const tokenData = ajyContract();
   const router = useRouter();    
   const amount = router.query.amount; // props로 전달받는 amount
-  const tokenData = useContract()
   const [tokendata, setTokendata]= useState()
   const token = Cookies.get('jwtToken');
 
@@ -45,14 +45,11 @@ const deatil = () => {
   // 유저 판매 미체결 내역 담아줌
   const [userSaleList,setUserSaleList] = useState([]);
 
-  const Stoken = tokendata.Stoken;
-  const StokenCA = tokendata.stokenCA;
-  const Dtoken = tokendata.Dtoken
-  const userAccount = tokendata.account
-
   // 최초 실행시 판매 내역 보여줌
   useEffect(()=>{
-    ViewOneHandler();
+    if(tokenData != null){
+      ViewOneHandler();
+    }
   },[]);
  
   // onChage 값들 판매수량, 판매가격
@@ -74,8 +71,8 @@ const deatil = () => {
       alert("0과 공백은 입력 불가능합니다.")
     }
 
-    await Dtoken.isSalesToken(StokenCA, 1, inputSaleAmount, parseInt(price));
-    await Stoken.on("SaleEvent", (account, tokenId, amount, price)  => {
+    await tokendata.Dtoken.isSalesToken(StokenCA, 1, inputSaleAmount, parseInt(price));
+    await tokendata.Stoken.on("SaleEvent", (account, tokenId, amount, price)  => {
       console.log(account.toString());
       console.log(tokenId.toString());
       console.log(amount.toString());
@@ -86,7 +83,7 @@ const deatil = () => {
   
   // 판매 리스트 등록 컨트랙트가 다 끝나면 ViewOneHandler()함수 실행해서 리스트 랜더링 다시 해준다.
   async function setNumberList(){
-    const saleListNumber = await Stoken.saleNumberList(1);
+    const saleListNumber = await tokendata.Stoken.saleNumberList(1);
     if(saleTotalAmount == parseInt(saleListNumber)){
       console.log(saleListNumber + "등록중 기달기달");
       setTimeout(() => {
@@ -100,8 +97,8 @@ const deatil = () => {
 
   // 판매 취소 버튼 핸들러
   const SaleCancleHandler = async() => {
-    await Stoken.cancelSalesToken(1);
-    Stoken.on("CancelEvent", (account, tokenId ) => {
+    await tokendata.Stoken.cancelSalesToken(1);
+    tokendata.Stoken.on("CancelEvent", (account, tokenId ) => {
       console.log(account);
       console.log(tokenId + "번 음원 판매 취소 됨.")
     })
@@ -109,29 +106,31 @@ const deatil = () => {
   }
 
   async function setDeleteList(){
-    const ViewOne = await Stoken.getSalesTokenListAll(1,parseInt(userSaleList[0].listId));
+    const ViewOne = await tokendata.Stoken.getSalesTokenListAll(1,parseInt(userSaleList[0].listId));
     if(parseInt(ViewOne.amount) != 0){  
       console.log("취소중 기달기달");
       setTimeout(() => {
         setDeleteList();
       }, 5000);
     } else{
-      ViewOneHandler();
-      console.log("취소 완료")
+      if(tokenData != null){
+        ViewOneHandler();
+        console.log("취소 완료")
+      }
+      
     }
   }
   
   const ViewOneHandler = async() => {
-
     // 거래 등록 내용 보기 (from 주소, 판매수량, 가격)
-    const saleListNumber = await Stoken.saleNumberList(1);
+    const saleListNumber = await tokendata.Stoken.saleNumberList(1);
     // useState에 현재 등록 리스트 수를 넣어준다. 비교할 때 사용하려고.
     setSaleTotalAmount(parseInt(saleListNumber));
 
     const arr = [];
     const arr2 = [];
     for(let i = 1; i <= saleListNumber; i++){
-        const ViewOne = await Stoken.getSalesTokenListAll(1,i);
+        const ViewOne = await tokendata.Stoken.getSalesTokenListAll(1,i);
         if(ViewOne.amount != 0){
           const saleListView = {
             account : ViewOne.account,
