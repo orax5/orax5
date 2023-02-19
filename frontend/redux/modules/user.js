@@ -4,8 +4,9 @@ import produce from "immer";
 import { PURGE } from "redux-persist";
 
 const BASE_URL = "http://localhost:3001";
-const LOGIN = "user/LOGIN";
+const USER_LOGIN = "user/USER_LOGIN";
 const CREATOR_LOGIN = "user/CREATOR_LOGIN";
+const ADMIN_LOGIN = "user/ADMIN_LOGIN";
 const TICKET = "user/TICKET";
 
 // 유저 회원가입
@@ -90,8 +91,8 @@ export const checkEmail = (email, router) => {
   };
 };
 
-// 유저 로그인
-export const userLogin = (account, password, tokenData, router) => {
+// 유저(+관리자) 로그인
+export const userLogin = (account, password, router) => {
   return async (dispatch, getState) => {
     await axios({
       url: `${BASE_URL}/user/login`, // 토큰발급 로그인주소
@@ -107,12 +108,22 @@ export const userLogin = (account, password, tokenData, router) => {
         // jwtToken 불러오기
         const me = Cookies.get("jwtToken");
         if (res.status == 201) {
-          dispatch({
-            type: LOGIN,
-            payload: { data, tokenData },
-          });
-          alert(`${data.data.user_nickname}님 환영합니다`);
-          router.push("/");
+          if (res.data.data.user_grade == 1) {
+            dispatch({
+              type: USER_LOGIN,
+              payload: { data },
+            });
+            alert(`${data.data.user_nickname}님 환영합니다`);
+            router.push("/");
+            // 관리자 로그인 감지
+          } else if (res.data.data.user_grade == 3) {
+            dispatch({
+              type: ADMIN_LOGIN,
+              payload: { data },
+            });
+            alert("관리자 계정으로 접속되었습니다");
+            router.push("/admin");
+          }
         }
       })
       .catch((err) => {
@@ -128,7 +139,7 @@ export const userLogin = (account, password, tokenData, router) => {
   };
 };
 // 크리에이터 로그인
-export const creatorLogin = (account, password, tokenData, router) => {
+export const creatorLogin = (account, password, router) => {
   return async (dispatch, getState) => {
     await axios({
       // url: `${BASE_URL}/creator/login`,
@@ -144,7 +155,7 @@ export const creatorLogin = (account, password, tokenData, router) => {
         if (res.status == 201) {
           dispatch({
             type: CREATOR_LOGIN,
-            payload: { data, tokenData },
+            payload: { data },
           });
           alert(`크리에이터 ${data.data.user_nickname}님 환영합니다`);
           router.push("/creator");
@@ -163,7 +174,14 @@ export const creatorLogin = (account, password, tokenData, router) => {
       });
   };
 };
-
+// 로그아웃
+export const logout = () => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: PURGE,
+    });
+  };
+};
 // 스트리밍권
 export const ticket = (leftTicket, ttoday) => {
   return async (dispatch, getState) => {
@@ -187,7 +205,7 @@ const init = {
 export default function user(state = init, action) {
   const { type, payload } = action;
   switch (type) {
-    case LOGIN:
+    case USER_LOGIN:
       return produce(state, (draft) => {
         draft.users.user_grade = payload.data.data.user_grade;
       });
@@ -195,13 +213,18 @@ export default function user(state = init, action) {
       return produce(state, (draft) => {
         draft.users.user_grade = payload.data.data.user_grade;
       });
-
+    case ADMIN_LOGIN:
+      return produce(state, (draft) => {
+        draft.users.user_grade = payload.data.data.user_grade;
+      });
     case TICKET:
       return produce(state, (draft) => {
         draft.users.push(payload.data);
       });
     case PURGE: {
-      return state;
+      return produce(state, (draft) => {
+        draft.users.user_grade;
+      });
     }
     default:
       return state;

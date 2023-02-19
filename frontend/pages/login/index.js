@@ -1,65 +1,32 @@
 import React, { useState, useEffect } from "react";
-// import {parse, stringify, toJSON, fromJSON} from 'flatted';
-import jwt from "jsonwebtoken";
-import { parseCookies } from "nookies";
-import Cookies from "js-cookie";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Link from "next/Link";
 import { useRouter } from "next/router";
-import { ethers } from "ethers";
-import { userLogin, creatorLogin, testUserLogin } from "../../redux/modules/user";
-// 지갑연결
+import { userLogin, creatorLogin } from "../../redux/modules/user";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./../../lib/connectors";
-//
-import dtsToken from "../../contracts/DtsToken.json";
-import fToken from "../../contracts/FunddingToken.json";
-import sToken from "../../contracts/SaleToken.json";
-import axiosInstance from "../../api/axiosInstance ";
-import useContract from "../../hooks/useContract";
 
 const index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  // 유저타입state
-  const [typeOfUser, setTypeOfUser] = useState(null);
 
-  const contract = useContract();
-  useEffect(() => {
-    console.log(contract);
-  }, []);
+  const [typeOfUser, setTypeOfUser] = useState(null);
   const [inputs, setInputs] = useState({
     password: "",
   });
 
   const {
-    chainId, // dapp에 연결된 account의 chainId
     account, // dapp에 연결된 account address
     active, // active: dapp 유저가 로그인 된 상태인지 체크
     activate, // activate: dapp 월렛 연결 기능 수행함수
-    deactivate, // deactivate: dapp 월렛 해제 수행함수 help
   } = useWeb3React();
-
-  const isToken = () => {
-    const token = Cookies.get("jwtToken");
-    console.log("@@@ 토큰 저장한거 불러옴 : ", token);
-    if (token == null || undefined) {
-      throw new Error("토큰 없음");
-    }
-    return console.log(" 토큰 있음 ");
-  };
 
   // 지갑 연결
   const onClickActivateHandler = () => {
     activate(injected, (error) => {
       if (isNoEthereumObject(error)) window.open("https://metamask.io/download.html");
     });
-  };
-
-  // 연결 해제
-  const onClickDeactivateHandler = () => {
-    deactivate(); // connector._events.Web3ReactDeactivate() 이거랑 같은건데
   };
 
   const signin = async (e) => {
@@ -70,47 +37,23 @@ const index = () => {
       // 1) 일반유저 로그인
       if (active == true) {
         // 공백 제외
+        console.log("일반유저 로그인으로 들어왔어요");
         if (inputs.password == "") {
           alert("비밀번호는 필수 입력사항입니다");
         } else {
-          // 지갑연결 되어있고, 모든 칸이 공백이 아닐 때
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
-          const tokenData = {
-            Dtoken: new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi, provider.getSigner()),
-            Ftoken: new ethers.Contract(fToken.networks[chainId].address, fToken.abi, provider.getSigner()),
-            Stoken: new ethers.Contract(sToken.networks[chainId].address, sToken.abi, provider.getSigner()),
-            dtokenCA: dtsToken.networks[chainId].address,
-            ftokenCA: fToken.networks[chainId].address,
-            stokenCA: sToken.networks[chainId].address,
-            account: account,
-          };
-          // 로그인 요청 보냄, 잘들어옴
-          // console.log(account);
-          // console.log(inputs.password);
-          // console.log(router);
-          dispatch(userLogin(account, inputs.password, tokenData, router));
+          dispatch(userLogin(account, inputs.password, router));
+          console.log("userLogin 디스패치 보냈음");
         }
       } else {
         alert("지갑을 연결해주세요");
       }
     } else {
-      // 2) 크리에이터 로그인 시
+      // 2) 크리에이터 로그인
       if (active == true) {
         if (inputs.password == "") {
           alert(" 비밀번호는 필수 입력사항입니다");
         } else {
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
-          const tokenData = {
-            Dtoken: new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi, provider.getSigner()),
-            Ftoken: new ethers.Contract(fToken.networks[chainId].address, fToken.abi, provider.getSigner()),
-            Stoken: new ethers.Contract(sToken.networks[chainId].address, sToken.abi, provider.getSigner()),
-            dtokenCA: dtsToken.networks[chainId].address,
-            ftokenCA: fToken.networks[chainId].address,
-            stokenCA: sToken.networks[chainId].address,
-            account: account,
-          };
-          // 로그인 요청 보냄
-          dispatch(creatorLogin(account, inputs.password, tokenData, router));
+          dispatch(creatorLogin(account, inputs.password, router));
         }
       } else {
         alert("지갑을 연결해주세요");
@@ -125,7 +68,6 @@ const index = () => {
         <div style={{ marginTop: "10rem" }}>
           <header>
             <h1>LOGIN</h1>
-            <button onClick={isToken}>확인</button>
           </header>
           <RadioBtnBox>
             <input type="radio" name="type" onClick={() => setTypeOfUser(1)} />
@@ -142,7 +84,6 @@ const index = () => {
               <button onClick={onClickActivateHandler}>지갑 연결</button>
             </AddressBox>
           )}
-
           <InputBox>
             <input
               id="password"

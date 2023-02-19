@@ -5,12 +5,18 @@ import { useSelector } from "react-redux";
 import React,{ useState, useEffect } from "react";
 import styled from "styled-components";
 import Offers2 from "../components/Offers2";
-
+import  
+  import useContract from "../../hooks/useContract";
 
 const deatil = () => {
   const router = useRouter();    
   const amount = router.query.amount; // props로 전달받는 amount
-
+  const tokenData = useContract()
+  const [tokendata, setTokendata]= useState()
+  useEffect(() => {
+   setTokendata(tokenData)
+  }, [third])
+  
   const [unsigned, setUnsigned] = useState(false);
   const [inputSaleAmount,  setInputSaleAmount] = useState(null);
   const [price, setPrice] = useState(null);
@@ -23,10 +29,10 @@ const deatil = () => {
   // 유저 판매 미체결 내역 담아줌
   const [userSaleList,setUserSaleList] = useState([]);
 
-  const Stoken = useSelector((state) => state.user.contracts.Stoken);
-  const StokenCA = useSelector((state)=>state.user.contracts.stokenCA);
-  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
-  const userAccount = useSelector((state) => state.user.users.account);
+  const Stoken = tokendata.Stoken;
+  const StokenCA = tokendata.stokenCA;
+  const Dtoken = tokendata.Dtoken
+  const userAccount = tokendata.account
 
   // 최초 실행시 판매 내역 보여줌
   useEffect(()=>{
