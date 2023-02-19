@@ -229,7 +229,7 @@ export default function user(state = init, action) {
       });
     case TICKET:
       return produce(state, (draft) => {
-        draft.users.push(payload.data);
+        draft.users.tickets = payload.data;
       });
     case PURGE: {
       return produce(state, (draft) => {
