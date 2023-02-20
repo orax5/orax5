@@ -2,10 +2,14 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { useWallet } from "../../../hooks/useWallet";
-// import { shinFunding } from "../../../redux/modules/funding";
+
+import { shinFunding } from "../../../redux/modules/funding";
 import axios from "axios";
+import Cookies from 'js-cookie';
+
 const detailForm = () => {
+  const token = Cookies.get('jwtToken');
+  console.log(token)
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -25,6 +29,7 @@ const detailForm = () => {
     setShinCreatorCA(wallets.info.account);
     setShinCover(cover);
     setShinTitle(cover.substring(shinCover.indexOf(".com/") + 5));
+
   });
 
   // 카테고리 숫자로 받음
@@ -59,10 +64,15 @@ const detailForm = () => {
 
   const data = { ...inputs, ...IntInputs, shinTitle, shinCategory, shinCreatorCA, shinCover };
 
-  const shinFunding = (data, router) => {
+
+  // 백에 보내는 곳
+  const shinFunding = (data) => {
     axios({
       url: "http://localhost:3001/creator/shinchung",
       method: "post",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      },
       data: {
         shin_title: data.shinTitle,
         shin_amount: data.shinAmount,

@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import ajyContract from "../../hooks/ajyContract";
 
 const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
+  const tokenData = ajyContract();
 
-  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
-  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
-  const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
-  const account = useSelector((state)=>state.user.users.user_wallet);
+  useEffect(()=>{
+    if(tokenData != null){
+      
+   }
+  },[tokenData])
 
   // 토큰 id 담기
   const [tokenInput, setTokenInput] = useState(0);
@@ -36,8 +39,8 @@ const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
   }
 
   const Registration = async() => {
-    const DtokenBalance = await Dtoken.getTokenOwnerData(tokenInput);
-    const FtokenBalance = await Ftoken.priceCheck(tokenInput);
+    const DtokenBalance = await tokenData.Dtoken.getTokenOwnerData(tokenInput);
+    const FtokenBalance = await tokenData.Ftoken.priceCheck(tokenInput);
 
     const average = parseInt(DtokenBalance.NftAmount) / 2;
     // 초기 발행량과 현재 펀딩된 물량을 비교해서 절반을 넘겨야지 거버넌스 투표 신청이 된다.
@@ -46,6 +49,7 @@ const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
     }else{
       alert("펀딩 진행률 50퍼 넘었는지 확인하라능!");
     }
+    submit(parseInt(tokenInput), parseInt(endDate), parseInt(changeDay));
 
     // console.log(modalOpen); 
     // setModalOpen(!modalOpen);
@@ -54,7 +58,7 @@ const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
   return (
     <RegisterWrap>
       <ContentWrap>
-        <label>소유한 NFT</label>
+        <label>신청할 NFT ID</label>
         <input type="number" onChange={getTokenId}/>
         <label>투표 기간</label>
         <input type="date" onChange={pickedDateHandler} />

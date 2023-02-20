@@ -88,7 +88,7 @@ contract DtsToken is ERC1155, Ownable{
     event seccessFundding(address account, uint256 tokenId, uint256 amount, uint256 totalPrice, uint256 getTime, string result);
 
     // 보유한 nft 확인
-    function balanceOf(uint256 tokenId) public view returns (uint) {
+    function tbalanceOf(uint256 tokenId) public view returns (uint) {
         return ERC1155.balanceOf(msg.sender, tokenId);
     }
 

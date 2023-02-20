@@ -3,29 +3,58 @@ import styled from "styled-components";
 import Link from "next/Link";
 import { useDispatch } from "react-redux";
 import { ticket } from "../../redux/modules/user";
+import Cookies from 'js-cookie';
+import ajyContract from "../../hooks/ajyContract";
 // 마이페이지 컴포넌트
 import MyNft from "../components/mypage/MyNft";
 import TransactionDetails from "../components/mypage/TransactionDetails";
 import FundingNft from "../components/mypage/FundingNft";
-// 구글아이콘
-import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 // 리액트 아이콘
 import { FaEthereum } from "react-icons/fa";
-import useContract from "../../hooks/useContract";
 import { useWallet } from "../../hooks/useWallet";
 
 const index = () => {
+  const tokenData = ajyContract();
   const dispatch = useDispatch();
-  const tokenData = useContract();
+  // const tokenData = useContract();
   const wallet = useWallet();
 
   const [account, setAccount] = useState(null);
-  const [Ftoken, setFtoken] = useState(null);
+
+
+  // 구독권 확인
+  const [result, setResult] = useState(false);
+
+
+  const checkTicket = async() => {
+    console.log(tokenData)
+    const result = await tokenData.Ftoken.streamingView();
+    // 남은 스트리밍 시간
+    // 남은 스트리밍 시간 숫자로
+    // 밀리초로 나눔
+    const today = new Date().getTime() / 1000;
+    // 소수점 내린 최종 현재시간 초
+    const ttoday = Math.floor(today);
+    console.log( parseInt(result));
+    console.log("가공한후현재시간초:", ttoday);
+    // 남은날짜를 수정 하는데 현재시간이 0이면 음수찍혀서 종료
+    setResult(Math.floor(((parseInt(result) - ttoday) * 1000) / 86400000));
+    console.log("여기결과값", parseInt(result));
+    // JSX 조건 충족시키려고 만듬 0209
+    if (result <= 0) {
+      setResult(false);
+    }
+    dispatch(ticket(result, ttoday));
+  }
 
   useEffect(() => {
     setAccount(wallet.info.account);
-    setFtoken(tokenData.Ftoken);
-  }, []);
+    if(tokenData != null){
+      checkTicket();
+    }
+  }, [tokenData]);
+
+  
 
   const [clipAccount, setClipAccount] = useState(false);
   const [index, setIndex] = useState(0);
@@ -40,11 +69,21 @@ const index = () => {
     } catch (e) {}
   };
 
+
+  const token = Cookies.get('jwtToken');
+  // const tokenObject = JSON.parse(token);
+  // console.log(tokenObject)
+  console.log(token); // 예를 들어, 토큰 값이 객체의 "tokenValue" 속성에 저장되어 있다면 출력
+
+  
+
   // // nft 갯수 확인 ? 해야함? 크리에이터가? 유저는 확인해서 myPageNFT 현황보여줘야하는데 이거 여기서 쓰는거 아니고 다른데서 하는거라고0208에 집가면서 이야기함 useEffect 안에 들어야가야함
   // const myNftAmount = async () => {
   //   const bb = await Dtoken.balanceOf(account, 1);
   //   console.log(bb.toString());
   // };
+
+
 
   const menuArr = ["내 NFT", "펀딩한 NFT", "거래내역"];
   const clickHandler = (idx) => {
@@ -56,33 +95,8 @@ const index = () => {
     2: <TransactionDetails />,
   };
 
-  // 구독권 확인
-  // const [result, setResult] = useState(false);
-  // useEffect(async () => {
-  //   console.log(Ftoken);
-  //   function checkTicket() {
-  //     const result = Ftoken.streamingView();
-  //     // 남은 스트리밍 시간
-  //     const leftTime = result.toString();
-  //     // 남은 스트리밍 시간 숫자로
-  //     const lleftTime = parseInt(leftTime);
-  //     // 밀리초로 나눔
-  //     const today = new Date().getTime() / 1000;
-  //     // 소수점 내린 최종 현재시간 초
-  //     const ttoday = Math.floor(today);
-  //     console.log("트랜잭션발생시간+30일초", lleftTime);
-  //     console.log("가공한후현재시간초:", ttoday);
-  //     // 남은날짜를 수정 하는데 현재시간이 0이면 음수찍혀서 종료
-  //     setResult(Math.floor(((lleftTime - ttoday) * 1000) / 86400000));
-  //     console.log("여기결과값", parseInt(result));
-  //     // JSX 조건 충족시키려고 만듬 0209
-  //     if (result <= 0) {
-  //       setResult(false);
-  //     }
-  //     dispatch(ticket(result, ttoday));
-  //   }
-  //   checkTicket();
-  // }, []);
+  
+
 
   return (
     <MainContainer>
@@ -112,7 +126,7 @@ const index = () => {
           </StateButton> */}
         </UserStateArea>
         <UserInfo>
-          {/* <div>{result ? "스트리밍 잔여기한 —̳͟͞͞💁🏻ᩚ " + result + " 일" : "스트리밍권구매하기"}</div> */}
+          <div>{result ? "스트리밍 잔여기한 —̳͟͞͞💁🏻ᩚ " + result + " 일" : "스트리밍권구매하기"}</div>
         </UserInfo>
         <StateBoard>
           <AssetsState>

@@ -11,13 +11,13 @@ const makeConfiguredStore = (reducer) => createStore(reducer, undefined, enhance
 
 const makeStore = () => {
   const isServer = typeof window === "undefined";
-  if (isServer) {
-    return makeConfiguredStore(rootReducer);
-  } else {
+  // if (isServer) {
+  //   return makeConfiguredStore(rootReducer);
+  // } else {
     const store = makeConfiguredStore(persistedReducer);
     let persistor = persistStore(store);
     return { persistor, ...store };
-  }
+  // }
 };
 export const wrapper = createWrapper(makeStore, {
   debug: !isProduction,

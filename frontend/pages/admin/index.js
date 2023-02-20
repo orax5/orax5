@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaEthereum } from "react-icons/fa";
 import axios from "axios";
+import Cookies from 'js-cookie';
 import { useRouter } from "next/router";
 import useContract from "../../hooks/useContract";
 import { useWallet } from "../../hooks/useWallet";
@@ -19,21 +20,47 @@ const index = () => {
   const [account, setAccount] = useState("");
   const [permitted, setPermitted] = useState(false);
 
+
   const [loading, setLoading] = useState(false);
   const [finish, setFinish] = useState(false);
   useEffect(() => {
     setAccount(info.account);
   }, [tokenData]);
 
+  const token = Cookies.get('jwtToken');
+  // const tokenObject = JSON.parse(token);
+  // console.log(tokenObject)
+  console.log(token); // 예를 들어, 토큰 값이 객체의 "tokenValue" 속성에 저장되어 있다면 출력
+
+
   useEffect(() => {
     axios({
       url: `http://localhost:3001/admin/mypage`,
       method: "get",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
     })
       .then((res) => {
         console.log(res);
         const shinList = res.data;
         setListData(shinList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  
+  useEffect(() => {
+    axios({
+      url: `http://localhost:3001/admin/mypage`,
+      method: "get",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    })
+      .then((res) => {
+        
       })
       .catch((err) => {
         console.log(err);

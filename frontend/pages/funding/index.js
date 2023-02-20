@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 import Link from "next/Link";
+import axios from "axios";  
 
 const index = () => {
   const router = useRouter();
@@ -15,21 +16,7 @@ const index = () => {
   const offset = (page - 1) * limit;
 
   useEffect(() => {
-    // 펀딩 오픈을 눌러서 들어오는 목록
-    axios({
-      // url: `http://localhost:3001/creator/mypage/${account}`,
-      method: "get",
-    })
-      .then((res) => {
-        const shinList = res.data;
-        setListData(shinList);
-      })
-      .catch((res) => {
-        console.log(res);
-        if (res.response.data == 500) {
-          setListData([]);
-        }
-      });
+    
   }, []);
 
   return (
