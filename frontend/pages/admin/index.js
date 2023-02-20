@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaEthereum } from "react-icons/fa";
 import axios from "axios";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import useContract from "../../hooks/useContract";
 import { useWallet } from "../../hooks/useWallet";
-import { useDispatch } from "react-redux";
-import { adminPermit } from "../../redux/modules/funding";
 import Loading from "../components/Loading";
 const BASE_URL = "http://localhost:3001";
 
@@ -15,34 +13,29 @@ const index = () => {
   const tokenData = useContract();
   const info = useWallet();
   const router = useRouter();
-  const dispatch = useDispatch();
+
   const [listdata, setListData] = useState([]);
   const [account, setAccount] = useState("");
   const [permitted, setPermitted] = useState(false);
 
-
   const [loading, setLoading] = useState(false);
   const [finish, setFinish] = useState(false);
+
   useEffect(() => {
     setAccount(info.account);
   }, [tokenData]);
 
-  const token = Cookies.get('jwtToken');
-  // const tokenObject = JSON.parse(token);
-  // console.log(tokenObject)
-  console.log(token); // 예를 들어, 토큰 값이 객체의 "tokenValue" 속성에 저장되어 있다면 출력
-
+  const token = Cookies.get("jwtToken");
 
   useEffect(() => {
     axios({
       url: `http://localhost:3001/admin/mypage`,
       method: "get",
-      headers:{
+      headers: {
         Authorization: `Bearer ${token}`,
-      }
+      },
     })
       .then((res) => {
-        console.log(res);
         const shinList = res.data;
         setListData(shinList);
       })
@@ -50,38 +43,44 @@ const index = () => {
         console.log(err);
       });
   }, []);
-  
+
   useEffect(() => {
     axios({
-      url: `http://localhost:3001/admin/mypage`,
+      url: `${BASE_URL}/admin/mypage`,
       method: "get",
-      headers:{
+      headers: {
         Authorization: `Bearer ${token}`,
-      }
-    })
-      .then((res) => {
-        
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      },
+    }).catch((err) => {
+      console.log(err);
+    });
   }, []);
 
-  const isPermitted = (id) => {
+  const isPermitted = (id, router) => {
     setLoading(true);
     setFinish(false);
     try {
-      dispatch(adminPermit(id)).then((res) => {
-        setFinish(true);
-        setLoading(false);
-        alert("승인완료!");
-      });
+      axios({
+        url: `${BASE_URL}/admin/mypage/permit/${id}`,
+        method: "post",
+        data: { fundingID: id },
+      })
+        .then((res) => {
+          console.log(res);
+          setFinish(true);
+          setLoading(false);
+          alert("승인완료!");
+          router.push("/admin");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const isRejected = (id) => {
+  const isRejected = (id, router) => {
     axios({
       url: `${BASE_URL}/admin/mypage/reject/${id}`,
       method: "post",
@@ -90,27 +89,13 @@ const index = () => {
       .then((res) => {
         console.log(res);
         setPermitted(false);
-        // router.reload();
+        router.reload();
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const createMeta = (id) => {
-    axios({
-      url: `${BASE_URL}/admin/mypage/${id}`,
-      method: "get",
-      data: { fundingID: id },
-    })
-      .then((res) => {
-        console.log(res);
-        alert("메타데이터 생성되었습니다");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   return (
     <MainContainer>
       <div></div>
