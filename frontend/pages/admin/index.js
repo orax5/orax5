@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaEthereum } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import { useRouter } from "next/router";
 import useContract from "../../hooks/useContract";
 import { useWallet } from "../../hooks/useWallet";
+import { useDispatch } from "react-redux";
+import { adminPermit } from "../../redux/modules/funding";
+import Loading from "../components/Loading";
 const BASE_URL = "http://localhost:3001";
 
 const index = () => {
   const tokenData = useContract();
   const info = useWallet();
-
-  useEffect(() => {
-    console.log(tokenData);
-    setAccount(info.account);
-  }, [tokenData]);
-
+  const router = useRouter();
   const dispatch = useDispatch();
   const [listdata, setListData] = useState([]);
   const [account, setAccount] = useState("");
   const [permitted, setPermitted] = useState(false);
 
+
+  const [loading, setLoading] = useState(false);
+  const [finish, setFinish] = useState(false);
+  useEffect(() => {
+    setAccount(info.account);
+  }, [tokenData]);
+
   const token = Cookies.get('jwtToken');
   // const tokenObject = JSON.parse(token);
   // console.log(tokenObject)
   console.log(token); // 예를 들어, 토큰 값이 객체의 "tokenValue" 속성에 저장되어 있다면 출력
+
 
   useEffect(() => {
     axios({
@@ -36,6 +42,7 @@ const index = () => {
       }
     })
       .then((res) => {
+        console.log(res);
         const shinList = res.data;
         setListData(shinList);
       })
@@ -61,18 +68,17 @@ const index = () => {
   }, []);
 
   const isPermitted = (id) => {
-    axios({
-      url: `${BASE_URL}/admin/mypage/permit/${id}`,
-      method: "post",
-      data: { fundingID: id },
-    })
-      .then((res) => {
-        console.log(res);
-        setPermitted(true);
-      })
-      .catch((err) => {
-        console.log(err);
+    setLoading(true);
+    setFinish(false);
+    try {
+      dispatch(adminPermit(id)).then((res) => {
+        setFinish(true);
+        setLoading(false);
+        alert("승인완료!");
       });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const isRejected = (id) => {
@@ -84,6 +90,7 @@ const index = () => {
       .then((res) => {
         console.log(res);
         setPermitted(false);
+        // router.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -112,73 +119,78 @@ const index = () => {
           <TitleArea>
             <h2>펀딩 승인 테이블</h2>
           </TitleArea>
-          <div>
+          {loading ? (
+            <Loading />
+          ) : (
             <div>
-              <CreatorAddress>
-                <FaEthereum />
-                &nbsp;
-                {account}
-              </CreatorAddress>
-            </div>
-            <Table>
-              <thead>
-                <tr>
-                  <th>카테고리</th>
-                  <th>음원명</th>
-                  <th>총 발행량</th>
-                  <th>목표금액</th>
-                  <th>펀딩기간</th>
-                  <th>승인</th>
-                  <th>처리</th>
-                </tr>
-              </thead>
-              <tbody>
-                {listdata.map((data, idx) => (
-                  <tr key={idx}>
-                    <td>{data.shin_category}</td>
-                    <td>{data.shin_title}</td>
-                    <td>{data.shin_amount}</td>
-                    <td>
-                      {data.shin_nft_totalbalance}
-                      {"ETH"}
-                    </td>
-                    <td>{data.shin_period}</td>
-                    <td>
-                      {data.shin_ispermit == 1 && (
-                        <button
-                          onClick={(e) => {
-                            isPermitted(data.shin_no);
-                          }}
-                        >
-                          승인
-                        </button>
-                      )}
-                    </td>
-                    <td>
-                      {/* 이거 아이디 일치하는 값만 바뀌게 수정해줘야됨 지금은 모든 버튼이 다 변경됨 */}
-                      {permitted ? (
-                        <button
-                          onClick={(e) => {
-                            createMeta(data.shin_no);
-                          }}
-                        >
-                          메타데이터 생성
-                        </button>
-                      ) : (
-                        <button
-                          onClick={(e) => {
-                            isRejected(data.shin_no);
-                          }}
-                        >
-                          반려
-                        </button>
-                      )}
-                    </td>
+              <div>
+                <CreatorAddress>
+                  <FaEthereum />
+                  &nbsp;
+                  {account}
+                </CreatorAddress>
+              </div>
+
+              <Table>
+                <thead>
+                  <tr>
+                    <th>카테고리</th>
+                    <th>음원명</th>
+                    <th>총 발행량</th>
+                    <th>목표금액</th>
+                    <th>펀딩기간</th>
+                    <th>승인</th>
+                    <th>처리</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
+                </thead>
+                <tbody>
+                  {listdata.map((data, idx) => (
+                    <tr key={idx}>
+                      <td>{data.shin_category}</td>
+                      <td>{data.shin_title}</td>
+                      <td>{data.shin_amount}</td>
+                      <td>
+                        {data.shin_nft_totalbalance}
+                        {"ETH"}
+                      </td>
+                      <td>{data.shin_period}</td>
+                      <td>
+                        {data.shin_ispermit == 1 && (
+                          <button
+                            onClick={(e) => {
+                              isPermitted(data.shin_no);
+                            }}
+                          >
+                            승인
+                          </button>
+                        )}
+                      </td>
+                      <td>
+                        {/* 이거 아이디 일치하는 값만 바뀌게 수정해줘야됨 지금은 모든 버튼이 다 변경됨 */}
+                        {permitted ? (
+                          <button
+                            onClick={(e) => {
+                              createMeta(data.shin_no);
+                            }}
+                          >
+                            메타데이터 생성
+                          </button>
+                        ) : (
+                          <button
+                            onClick={(e) => {
+                              isRejected(data.shin_no);
+                            }}
+                          >
+                            반려
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          )}
         </ContainerBoard>
       </ContentWrap>
       <div></div>
