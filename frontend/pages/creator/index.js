@@ -3,66 +3,59 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import Link from "next/Link";
 // import { FaEthereum } from "react-icons/fa";
-import { useDispatch } from "react-redux";
 import axios from "axios";
-import useContract from "../../hooks/useContract";
-import { useWallet } from "../../hooks/useWallet";
+import { useWeb3React } from "@web3-react/core";
+import ajyContract from "../../hooks/ajyContract";
+import { useSelector } from "react-redux";
 
 const index = () => {
-  const tokenData = useContract();
-  const info = useWallet();
+  const tokenData = ajyContract();
+  const { account } = useWeb3React();
 
   useEffect(() => {
-    console.log(tokenData);
-    console.log(info);
-  }, [tokenData]);
-
-  const account = info.account;
-  const chainId = info.chainId;
-
-  useEffect(() => {
-    // 크리에이터 마이페이지 접속하자마자 신청했던 목록 불러옴
-    if (!account) {
-      console.log("지갑을 연결하세요");
-    } else {
-      axios({
-        url: `http://localhost:3001/creator/mypage/${account}`,
-        method: "get",
+    axios({
+      url: `http://localhost:3001/creator/mypage/${account}`,
+      method: "get",
+    })
+      .then((res) => {
+        const shinList = res.data;
+        console.log(shinList);
+        setListData(shinList);
       })
-        .then((res) => {
-          const shinList = res.data;
-          console.log(shinList);
-          setListData(shinList);
-        })
-        .catch((res) => {
-          console.log(res);
-          if (res.response.data == 500) {
-            setListData([]);
-          }
-        });
-    }
+      .catch((res) => {
+        console.log(res);
+        if (res.response.data == 500) {
+          setListData([]);
+        }
+      });
   }, []);
-  const dispatch = useDispatch();
+
   const router = useRouter();
   const btnRef = useRef();
-
   const [listdata, setListData] = useState([]);
-  const [clipAccount, setClipAccount] = useState(false);
-  const [shinNo, setShinNo] = useState(0);
-  const [idxNum, setIdxNum] = useState(0);
   const [FundState, setFundState] = useState(0);
+  // 가져오는 방법을 좀 다시 생각해봐야할듯
+  const tokenId = useSelector((state) => state.funding.metadata.tokenId);
+  const metaData = useSelector((state) => state.funding.metadata.metaData);
 
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
   const FundingMinting = async (id, idxNum) => {
-    // 민팅 시 컨트랙트에 보낼 정보 idxNum을 이용해서 꺼낸다
+    // console.log(id);
+    // console.log(idxNum);
     const amount = listdata[idxNum].shin_amount;
     const totalPrice = listdata[idxNum].shin_nft_totalbalance;
     const getTime = listdata[idxNum].shin_period;
-    const tokenId = listdata[idxNum].shin_no;
-    const metaData = "metadataUrl";
-    // 크리에이터가 <펀딩시작> 누르면 민팅이 일어난다
-    await Dtoken.mintFundding(account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData);
-    Dtoken.on("seccessFundding", (account, tokenId, amount, totalPrice, getTime, metaData) => {
+
+    console.log(account);
+    console.log(amount);
+    console.log(totalPrice);
+    console.log(getTime);
+    console.log(tokenId);
+    console.log(metaData);
+
+    await tokenData.Dtoken.mintFundding(account, tokenData.ftokenCA, tokenId, amount, totalPrice, getTime, metaData);
+    console.log("민팅됨ㅅㄱ");
+    tokenData.Dtoken.on("seccessFundding", (account, tokenId, amount, totalPrice, getTime, metaData) => {
       console.log(account);
       console.log(tokenId);
       console.log(amount);
@@ -70,30 +63,6 @@ const index = () => {
       console.log(getTime);
       console.log(metaData);
     });
-    // 민팅 함수 실행이 끝난 후, 피나타에 올리는 요청을 보내는 함수를 실행한다
-    await axios({
-      url: `http://localhost:3001/openfunding/${id}`,
-      method: "post",
-      data: { shinId: id },
-    })
-      .then((res) => {
-        console.log(res);
-        const FundState = res.data.fundingState;
-        if (FundState == 2) {
-          console.log("펀딩 테이블에 2로 들어갔다");
-          // setIsOpened(true);
-          btnRef.current.disabled = true;
-          btnRef.current.style = "display : none";
-          // router.reload(); // 새로고침
-        } else if (FundState == 1) {
-          console.log("펀딩 테이블에 1로 들어갔다");
-          // setIsOpened(true);
-          // router.reload(); // 새로고침
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   // 펀딩 성공시 크리에이터가 돈 받는 함수
@@ -147,7 +116,7 @@ const index = () => {
                   <th>현재상태</th>
                 </tr>
               </thead>
-              {/* <tbody>
+              <tbody>
                 {listdata.map((data, idx) => (
                   <tr key={idx}>
                     <td>{data.shin_category}</td>
@@ -164,7 +133,7 @@ const index = () => {
                         <FundingStartBtn
                           ref={btnRef}
                           onClick={(e) => {
-                            setIdxNum(idx);
+                            console.log(idx);
                             FundingMinting(data.shin_no, idx);
                           }}
                         >
@@ -183,7 +152,6 @@ const index = () => {
                         <FundingStartBtn
                           ref={btnRef}
                           onClick={(e) => {
-                            setIdxNum(idx);
                             getFundingMoney(data.shin_no);
                           }}
                         >
@@ -195,7 +163,7 @@ const index = () => {
                     </td>
                   </tr>
                 ))}
-              </tbody> */}
+              </tbody>
             </Table>
           </div>
         </ContainerBoard>

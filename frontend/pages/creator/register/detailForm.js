@@ -2,26 +2,27 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { shinFunding } from "../../../redux/modules/funding";
-
+import { useWallet } from "../../../hooks/useWallet";
+// import { shinFunding } from "../../../redux/modules/funding";
+import axios from "axios";
 const detailForm = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const [shinTitle, setShinTitle] = useState("");
   const [shinCover, setShinCover] = useState("/Img/transparent.png");
-  const [shinCreatorCA, setShinCreatorCA] = useState("0x123456789");
+  const [shinCreatorCA, setShinCreatorCA] = useState("");
   const [shinCategory, setShinCategory] = useState("발라드");
 
   // 이전 페이지에서 미리 가져올 정보
   // 1. 크리에이터 계정
-  const CA = useSelector((state) => state.user.contracts.account);
+  const wallets = useWallet();
   // 2. 이전 페이지에서 업로드하고 받아온 이미지, 제목
   const cover = useSelector((state) => state.funding.imgURL);
 
   // 미리 들어와있어야 하는 데이터, 무한 렌더링 방지
   useEffect(() => {
-    setShinCreatorCA(CA);
+    setShinCreatorCA(wallets.info.account);
     setShinCover(cover);
     setShinTitle(cover.substring(shinCover.indexOf(".com/") + 5));
   });
@@ -54,50 +55,39 @@ const detailForm = () => {
     const value = parseInt(e.target.value);
     const name = e.target.name;
     setIntInputs({ ...IntInputs, [name]: value });
-    // console.log({ ...IntInputs });
   };
 
-  // 숫자 음수 입력 방지
-  // const numRef = useRef();
-  // numRef.onkeydown = function (e) {
-  //   if (!((e.keyCode > 95 && e.keyCode < 106) || (e.keyCode > 47 && e.keyCode < 58) || e.keyCode == 8)) {
-  //     return false;
-  //   }
-  // };
-
   const data = { ...inputs, ...IntInputs, shinTitle, shinCategory, shinCreatorCA, shinCover };
-  // console.log(data);
 
-  // // 백에 보내는 곳
-  // const shinFunding = (data) => {
-  //   axios({
-  //     url: "http://localhost:3001/creator/shinchung",
-  //     method: "post",
-  //     data: {
-  //       shin_title: data.shinTitle,
-  //       shin_amount: data.shinAmount,
-  //       shin_nft_totalbalance: data.shinTotalBalance,
-  //       shin_cover: data.shinCover,
-  //       shin_period: data.shinPeriod,
-  //       shin_description: data.ShinDescription,
-  //       shin_category: data.shinCategory,
-  //       shin_creator_address: data.shinCreatorCA,
-  //       shin_ispermit: 1,
-  //       com_name: data.composer,
-  //       lyric_name: data.lyricist,
-  //       sing_name: data.singer,
-  //     },
-  //   })
-  //     .then((res) => {
-  //       console.log(res);
-  //       const imageURL = res.data;
-  //       console.log(imageURL);
-  //       router.push("/creator");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const shinFunding = (data, router) => {
+    axios({
+      url: "http://localhost:3001/creator/shinchung",
+      method: "post",
+      data: {
+        shin_title: data.shinTitle,
+        shin_amount: data.shinAmount,
+        shin_nft_totalbalance: data.shinTotalBalance,
+        shin_cover: data.shinCover,
+        shin_period: data.shinPeriod,
+        shin_description: data.ShinDescription,
+        shin_category: data.shinCategory,
+        shin_creator_address: data.shinCreatorCA,
+        shin_ispermit: 1,
+        com_name: data.composer,
+        lyric_name: data.lyricist,
+        sing_name: data.singer,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        const imageURL = res.data;
+        console.log(imageURL);
+        router.push("/creator");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const shinCancel = () => {
     confirm("신청을 취소하시겠습니까?") ? router.push("/creator") : "";
@@ -171,9 +161,14 @@ const detailForm = () => {
             <SubmitBtn onClick={shinCancel}>취소하기</SubmitBtn>
             <SubmitBtn
               onClick={() => {
-                dispatch(shinFunding(data, router));
+                shinFunding(data, router);
               }}
             >
+              {/* <SubmitBtn
+              onClick={() => {
+                dispatch(shinFunding(data, router));
+              }}
+            > */}
               등록하기
             </SubmitBtn>
           </BtnBox>

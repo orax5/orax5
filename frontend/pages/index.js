@@ -8,15 +8,8 @@ import MainText from "./components/mainpage/MainText";
 import RoadMap from "./components/mainpage/RoadMap";
 import NftMarket from "./components/mainpage/NftMarket";
 import Footer from "./components/Footer";
-// import { useWeb3React } from "@web3-react/core";
-import useContract from "../hooks/useContract";
 
 const Home = () => {
-  const tokenData = useContract();
-  useEffect(() => {
-    console.log(tokenData);
-  }, [tokenData]);
-
   return (
     <>
       <Box>

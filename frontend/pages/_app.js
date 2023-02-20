@@ -27,7 +27,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <PersistGate persistor={persistor} loading={<div>loading...</div>}>
+        <PersistGate persistor={persistor} loading={null}>
           <Web3ReactProvider getLibrary={getLibrary}>
             <Nav />
             <Component {...pageProps} />
