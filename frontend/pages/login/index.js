@@ -29,35 +29,22 @@ const index = () => {
     });
   };
 
-  const signin = async (e) => {
+  const signin = (e) => {
     e.preventDefault();
-    if (typeOfUser == null) {
-      alert("회원 유형을 선택하세요");
-    } else if (typeOfUser == 1) {
-      // 1) 일반유저 로그인
-      if (active == true) {
-        // 공백 제외
-        console.log("일반유저 로그인으로 들어왔어요");
-        if (inputs.password == "") {
-          alert("비밀번호는 필수 입력사항입니다");
-        } else {
+    if (active == true) {
+      if (inputs.password !== "") {
+        if (typeOfUser == 1) {
           dispatch(userLogin(account, inputs.password, router));
-          console.log("userLogin 디스패치 보냈음");
+        } else if (typeOfUser == 2) {
+          dispatch(creatorLogin(account, inputs.password, router));
+        } else {
+          alert("회원 유형을 선택하세요");
         }
       } else {
-        alert("지갑을 연결해주세요");
+        alert(" 비밀번호는 필수 입력사항입니다");
       }
     } else {
-      // 2) 크리에이터 로그인
-      if (active == true) {
-        if (inputs.password == "") {
-          alert(" 비밀번호는 필수 입력사항입니다");
-        } else {
-          dispatch(creatorLogin(account, inputs.password, router));
-        }
-      } else {
-        alert("지갑을 연결해주세요");
-      }
+      alert("지갑을 연결해주세요");
     }
   };
 
