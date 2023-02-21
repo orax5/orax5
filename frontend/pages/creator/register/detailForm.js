@@ -2,14 +2,14 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-
 import { shinFunding } from "../../../redux/modules/funding";
 import axios from "axios";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
+import { useWallet } from "../../../hooks/useWallet";
+import ajyContract from "../../../hooks/ajyContract";
 
 const detailForm = () => {
-  const token = Cookies.get('jwtToken');
-  console.log(token)
+  const token = Cookies.get("jwtToken");
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -17,19 +17,22 @@ const detailForm = () => {
   const [shinCover, setShinCover] = useState("/Img/transparent.png");
   const [shinCreatorCA, setShinCreatorCA] = useState("");
   const [shinCategory, setShinCategory] = useState("발라드");
+  const [account, setAccount] = useState();
 
   // 이전 페이지에서 미리 가져올 정보
   // 1. 크리에이터 계정
-  const wallets = useWallet();
-  // 2. 이전 페이지에서 업로드하고 받아온 이미지, 제목
-  const cover = useSelector((state) => state.funding.imgURL);
-
-  // 미리 들어와있어야 하는 데이터, 무한 렌더링 방지
+  const wallet = useWallet();
+  const tokenData = ajyContract();
   useEffect(() => {
-    setShinCreatorCA(wallets.info.account);
+    setAccount(wallet.info.account);
+    if (tokenData != null) {
+      setShinCreatorCA(wallet.info.account);
+    }
+  }, [tokenData]);
+  // 2. 이전 페이지에서 업로드하고 받아온 이미지
+  const cover = useSelector((state) => state.funding.imgURL);
+  useEffect(() => {
     setShinCover(cover);
-    setShinTitle(cover.substring(shinCover.indexOf(".com/") + 5));
-
   });
 
   // 카테고리 숫자로 받음
@@ -41,6 +44,7 @@ const detailForm = () => {
   // 펀딩 시작일은 오늘 이후부터 선택 가능하게 설정(삭제)
   // --> 펀딩을 며칠 동안 할지 기간을 입력하는걸로 변경
   const [inputs, setInputs] = useState({
+    shinTitle: "",
     ShinDescription: "",
     composer: "",
     lyricist: "",
@@ -62,15 +66,14 @@ const detailForm = () => {
     setIntInputs({ ...IntInputs, [name]: value });
   };
 
-  const data = { ...inputs, ...IntInputs, shinTitle, shinCategory, shinCreatorCA, shinCover };
-
+  const data = { ...inputs, ...IntInputs, shinCategory, shinCreatorCA, shinCover };
 
   // 백에 보내는 곳
   const shinFunding = (data) => {
     axios({
       url: "http://localhost:3001/creator/shinchung",
       method: "post",
-      headers:{
+      headers: {
         Authorization: `Bearer ${token}`,
       },
       data: {
@@ -121,7 +124,7 @@ const detailForm = () => {
           <div>
             <div>
               <DetailContent>제목</DetailContent>
-              <InputBox readOnly name="shinTitle" value={shinTitle} />
+              <InputBox onChange={inputsHandler} name="shinTitle" />
             </div>
             <div>
               <DetailContent>카테고리</DetailContent>
@@ -153,19 +156,37 @@ const detailForm = () => {
         <RegistserForm>
           <div>
             <DetailContent>발행량</DetailContent>
-            <InputBox onChange={intInputsHandler} name="shinAmount" type="number" min="10" max="200" />
-            {"개"}
+            <InputBox
+              onChange={intInputsHandler}
+              name="shinAmount"
+              type="number"
+              min="10"
+              max="200"
+              placeholder="발행할 nft개수를 입력하세요"
+            />
           </div>
 
           <div>
             <DetailContent>펀딩 진행 기간</DetailContent>
-            <InputBox onChange={intInputsHandler} name="shinPeriod" type="number" min="1" max="100" />
-            {"일간"}
+            <InputBox
+              onChange={intInputsHandler}
+              name="shinPeriod"
+              type="number"
+              min="1"
+              max="100"
+              placeholder="(ex) 일주일인 경우 -> 숫자'7'만 입력"
+            />
           </div>
           <div>
             <DetailContent>목표 금액</DetailContent>
-            <InputBox onChange={intInputsHandler} name="shinTotalBalance" type="number" min="1" />
-            {"ETH"}
+            <InputBox
+              onChange={intInputsHandler}
+              name="shinTotalBalance"
+              type="number"
+              min="1"
+              max="100"
+              placeholder="목표금액의 단위는 ETH입니다"
+            />
           </div>
           <BtnBox>
             <SubmitBtn onClick={shinCancel}>취소하기</SubmitBtn>
@@ -174,11 +195,6 @@ const detailForm = () => {
                 shinFunding(data, router);
               }}
             >
-              {/* <SubmitBtn
-              onClick={() => {
-                dispatch(shinFunding(data, router));
-              }}
-            > */}
               등록하기
             </SubmitBtn>
           </BtnBox>
