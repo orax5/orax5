@@ -55,7 +55,12 @@ const Nav = () => {
       </NavElement>
       <NavElement></NavElement>
       <NavElement>
-        {account != null ? (
+        {account != null ? 
+        (
+          clipAccount == true ? 
+          <>
+           <AddressBox>Copied!</AddressBox>
+          </> :
           <AddressBox onClick={()=>copyClipBoardHandler(account)}>{account}</AddressBox>
         ) : (
           <AddressBox onClick={onClickActivateHandler}>지갑 연결</AddressBox>
