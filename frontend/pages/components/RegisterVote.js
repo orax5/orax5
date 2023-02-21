@@ -49,7 +49,7 @@ const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
     }else{
       alert("펀딩 진행률 50퍼 넘었는지 확인하라능!");
     }
-    submit(parseInt(tokenInput), parseInt(endDate), parseInt(changeDay));
+    // submit(parseInt(tokenInput), parseInt(endDate), parseInt(changeDay));
 
     // console.log(modalOpen); 
     // setModalOpen(!modalOpen);

@@ -2,11 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { ethers } from "ethers";
-import ajyContract from "../../hooks/ajyContract";
+import  ajyContract  from "../../hooks/ajyContract";
+
 
 const Offers3 = ({saleListarray, inputSaleAmount,setNumberList}) => {
-  const tokenData = ajyContract();
- 
+
+    // contract, 지갑 정보 가져오기
+    const tokenData = ajyContract();
 
   const buyNft = async (data) => {
     const totalPrice = inputSaleAmount * data.price;

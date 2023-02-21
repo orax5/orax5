@@ -2,6 +2,7 @@
 pragma solidity ^0.8.17;
 
 import "../node_modules/openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
+
 // import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import "./DtsToken.sol";
@@ -51,16 +52,16 @@ contract SaleToken{
 
     // 판매 등록 함수
     function salesToken(address account, uint256 tokenId ,uint256 amount, uint256 price) public isSaleError(account,tokenId){
-        // // 판매하려는 갯수가 본인이 가지고 있는 갯수를 넘지 않는지.
-        // require(Dtoken.balanceOf(account, tokenId) >= amount, "Please enter the exact quantity.");
-        // // 판매 가격이 0보다 큰 값인지 확인
-        // require(price > 0,"Please enter the correct price.");
-        // // 판매 물량이 0보다 큰 값인지 확인
-        // require(amount > 0,"Please enter the correct amount.");
-        // // 판매 권한이 있는지 확인한다.
-        // // require(Dtoken.isApprovedForAll(account,address(this)),"be not approved");
-        // // 펀딩이 성공된 음원인지 확인
-        // require(Dtoken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
+        // 판매하려는 갯수가 본인이 가지고 있는 갯수를 넘지 않는지.
+        require(Dtoken.balanceOf(account, tokenId) >= amount, "Please enter the exact quantity.");
+        // 판매 가격이 0보다 큰 값인지 확인
+        require(price > 0,"Please enter the correct price.");
+        // 판매 물량이 0보다 큰 값인지 확인
+        require(amount > 0,"Please enter the correct amount.");
+        // 판매 권한이 있는지 확인한다.
+        // require(Dtoken.isApprovedForAll(account,address(this)),"be not approved");
+        // 펀딩이 성공된 음원인지 확인
+        require(Dtoken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
 
         bool result = false;
         for(uint256 i = 1; i <= saleNumber[tokenId]; i++){
@@ -126,14 +127,14 @@ contract SaleToken{
 
     // 구매 함수
     function purchaseToken(address payable owner, uint256 tokenId, uint256 amount, uint256 listId) public payable {
-        // // 본인 nft를 못 사게 막는다.
-        // require(saleTokenList[tokenId][listId].account != msg.sender,"I can't buy myself.");
-        // // 사려고 하는 갯수가 0보다 크고 판매 등록된 수량을 넘기지 않는지.
-        // require(amount > 0 && amount <= saleTokenList[tokenId][listId].amount,"Check amount");
-        // // 보낸 돈이 사려고하는 가격과 일치하는지 확인한다.
-        // require((amount * saleTokenList[tokenId][listId].price) * (10 ** 18) == msg.value, "Check the money again.");
-        // // 판매 권한이 있는지 확인한다.
-        // require(Dtoken.isApprovedForAll(owner,address(this)),"be not approved");
+        // 본인 nft를 못 사게 막는다.
+        require(saleTokenList[tokenId][listId].account != msg.sender,"I can't buy myself.");
+        // 사려고 하는 갯수가 0보다 크고 판매 등록된 수량을 넘기지 않는지.
+        require(amount > 0 && amount <= saleTokenList[tokenId][listId].amount,"Check amount");
+        // 보낸 돈이 사려고하는 가격과 일치하는지 확인한다.
+        require((amount * saleTokenList[tokenId][listId].price) * (10 ** 18) == msg.value, "Check the money again.");
+        // 판매 권한이 있는지 확인한다.
+        require(Dtoken.isApprovedForAll(owner,address(this)),"be not approved");
         // 수수료 값 구하기 (10%임)
         uint256 Payment = SafeMath.div(msg.value.mul(10),100);
         // 판매자에게 수수료 빼고 판매 금액 전달.
@@ -142,7 +143,7 @@ contract SaleToken{
         // 오너의 판매 정보 수정
         saleTokenList[tokenId][listId].amount = saleTokenList[tokenId][listId].amount - amount;
 
-        // Dtoken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
+        Dtoken.safeTransferFrom(owner, msg.sender, tokenId, amount, "");
         // 구매 함수 이벤트
         emit purchaseTokenEvnet(owner, msg.sender, tokenId, amount, msg.value);
     }
