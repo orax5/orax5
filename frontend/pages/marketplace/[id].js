@@ -7,20 +7,16 @@ import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Offers from "../components/Offers";
 import Offers3 from "../components/Offers3";
-import { useSelector } from "react-redux";
-import ajyContract from "../../hooks/ajyContract";
-import { useWallet } from "../../hooks/useWallet";
+import { useRouter } from "next/router";
 
+import  ajyContract  from "../../hooks/ajyContract";
 
 const deatil = () => {
+
+  const params = useRouter();
+
+  // contract, 지갑 정보 가져오기
   const tokenData = ajyContract();
-  // 안써도 되나 월렛 카운트?
-  const wallet = useWallet();
-  const [account, setAccount] = useState(null);
-  // 여기까지
-
-  
-
 
   // 판매 내역 리스트 담아줌
   const [ saleListarray, setSaleListArray ] = useState([]);
@@ -33,15 +29,15 @@ const deatil = () => {
   }
 
   // 최초 실행시 판매 내역 보여줌
-  useEffect(()=>{
+  useEffect(() => {
+    console.log(tokenData);
     if(tokenData != null){
       ViewOneHandler();
     }
-    setAccount(wallet.info.account);
-  },[]);
+  }, [tokenData]);
 
   async function setNumberList(data){
-      const ViewOne = await tokenData.Stoken.getSalesTokenListAll(1,parseInt(data.listId));
+      const ViewOne = await tokenData.Stoken.getSalesTokenListAll(parseInt(params.query.id),parseInt(data.listId));
       if(parseInt(data.amount) == parseInt(ViewOne.amount)){
         console.log("사는중 기달기달");
         setTimeout(() => {
@@ -54,12 +50,13 @@ const deatil = () => {
   };
 
   const ViewOneHandler = async() => {
+
     // 거래 등록 내용 보기 (from 주소, 판매수량, 가격)
-    const saleListNumber = await tokenData.Stoken.saleNumberList(1);
+    const saleListNumber = await tokenData.Stoken.saleNumberList(parseInt(params.query.id));
 
     const arr = [];
     for(let i = 1; i <= saleListNumber; i++){
-        const ViewOne = await tokenData.Stoken.getSalesTokenListAll(1,i);
+        const ViewOne = await tokenData.Stoken.getSalesTokenListAll(parseInt(params.query.id),i);
         if(ViewOne.amount != 0){
           const saleListView = {
             account : ViewOne.account,

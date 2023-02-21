@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 import Link from "next/Link";
-import ajyContract  from "../../hooks/ajyContract";
+import  ajyContract  from "../../hooks/ajyContract";
 
 
 const index = () => {
@@ -16,8 +16,6 @@ const index = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
-  const [FundingCountValue, setFundingCountValue] = useState();
-  
   // contract, 지갑 정보 가져오기
   const tokenData = ajyContract();
   
@@ -40,6 +38,7 @@ const index = () => {
         return response.json();
       })
       .then(jsondata => {
+        console.log(jsondata.properties.image.description)
         const funddingData = { 
           tokenId : i,
           img : jsondata.properties.image.description,
@@ -89,11 +88,11 @@ const index = () => {
           </SelectorFrame>
         </FunctionNav>
         <ListWrap>
-          {datas.slice(offset, offset + limit).map((data, idx) => (
+          {datas.map((data, idx) => (
             <ItemCard key={idx}>
               <div>
                 <Image
-                  src={"https://divetospace.s3.ap-northeast-2.amazonaws.com/%EA%B9%83.png"}
+                  src= {data.img}
                   alt="funding_list_image"
                   width={250}
                   height={250}
@@ -103,7 +102,7 @@ const index = () => {
                   }}
                 />
               </div>
-              <ItemTitle>제목 : {idx}</ItemTitle>
+              <ItemTitle>제목 : {data.title}</ItemTitle>
               <div>{data.category}</div>
               <ItemPrice>펀딩 가격 : {data.unitPrice} eth</ItemPrice>
 

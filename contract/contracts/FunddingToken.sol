@@ -3,6 +3,7 @@ pragma solidity ^0.8.17;
 
 import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
 import "../node_modules/openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
+
 // import "@openzeppelin/contracts/access/Ownable.sol";
 // import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
@@ -46,8 +47,6 @@ contract FunddingToken is Ownable{
 
     // 구독권 구매 함수
     function subscriptionBuy() public payable{
-        // // 사는 사람이 본인이 맞는지
-        // require(msg.sender == account, "Is it your wallet?");
         // 가지고 있는 구독권이 기간이 지났는지 확인 하는 함수 (처음 구매해도 기간이 0이기 때문에 살 수 있다.)
         require(timeOwner[msg.sender] < block.timestamp, "There is already a subscription.");
         // 보낸 돈을 체크해준다. 1개월 3개월 6개월 중 하나여야지 통과
@@ -74,7 +73,7 @@ contract FunddingToken is Ownable{
     // }
 
     // 유저가 펀딩 구매 하는 함수
-    function userFundding(uint256 tokenId, uint256 amount) public payable{
+     function userFundding(uint256 tokenId, uint256 amount) public payable{
         // 해당 음원 크리에이터를 불러온다.
         address owner = Dtoken.getTokenOwnerData(tokenId).Creater;
         // 총 얼마 구매 했는지 담아 놓는 변수
@@ -102,10 +101,6 @@ contract FunddingToken is Ownable{
         if(totalAmout[tokenId] == Dtoken.getTokenOwnerData(tokenId).NftAmount){
             Dtoken.isFunddingSuccess(tokenId);
         }
-        // else if (totalAmout[tokenId] != Dtoken.getTokenOwnerData(tokenId).NftAmount){
-        //     Dtoken.isFunddingFalsed(tokenId);
-            
-        // }
     }
 
     // 펀딩이 성공했을 때
