@@ -15,18 +15,21 @@ const buyticket = () => {
       value: ethers.utils.parseEther("0.5"),
     });
     await buyTrigger.wait();
+    alert("1개월권 구매되었습니다.")
   };
   const buyThreeMonthTicket = async () => {
     const buyTrigger = await tokenData.Ftoken.subscriptionBuy({
       value: ethers.utils.parseEther("1.0"),
     });
     await buyTrigger.wait();
+    alert("3개월권 구매되었습니다.")
   };
   const buySixMonthTicket = async () => {
     const buyTrigger = await tokenData.Ftoken.subscriptionBuy({
       value: ethers.utils.parseEther("2.0"),
     });
     await buyTrigger.wait();
+    alert("6개월권 구매되었습니다.")
   };
 
   return (
