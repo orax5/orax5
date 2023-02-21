@@ -2,8 +2,9 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import produce from "immer";
 import { PURGE } from "redux-persist";
-
 const BASE_URL = "http://localhost:3001";
+
+// const BASE_URL = "http://3.38.20.36";
 const USER_LOGIN = "user/USER_LOGIN";
 const CREATOR_LOGIN = "user/CREATOR_LOGIN";
 const ADMIN_LOGIN = "user/ADMIN_LOGIN";
@@ -32,6 +33,8 @@ export const signUpUser = (email, walletAddress, nickname, password, typeOfUser,
         console.log(err);
         if (err.response.status == 500) {
           alert("이미 존재하는 이메일 혹은 지갑주소 입니다");
+        } else {
+          alert("에러가 발생했습니다!");
         }
       });
   };
@@ -86,7 +89,9 @@ export const checkEmail = (email, router) => {
       .catch((err) => {
         console.log(err);
         if ((response.data.statuscode = 500)) {
-          alert("이메일 인증 오류");
+          console.log(err);
+        } else {
+          console.log(err);
         }
       });
   };
@@ -104,12 +109,10 @@ export const userLogin = (account, password, router) => {
         console.log(res);
         const data = res.data;
         const token = data;
-        console.log("@@@@token",token.token)
         // 쿠키저장
         Cookies.set("jwtToken", token.token);
         // jwtToken 불러오기
         const me = Cookies.get("jwtToken");
-        console.log("@@@쿠키get한거 그대로 콘솔찍은거",me)
         if (res.status == 201) {
           if (res.data.data.user_grade == 1) {
             dispatch({
@@ -150,16 +153,13 @@ export const creatorLogin = (account, password, router) => {
       method: "post",
       data: { user_wallet: account, user_pwd: password },
     })
-    .then((res) => {
-      console.log(res);
-      const data = res.data;
-      const token = data;
-      console.log("@@@@token",token.token)
-      // 쿠키저장
-      Cookies.set("jwtToken", token.token);
-      // jwtToken 불러오기
-      const me = Cookies.get("jwtToken");
-      console.log("@@@쿠키get한거 그대로 콘솔찍은거",me)
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
+        const token = data;
+        Cookies.set("jwtToken", token.token);
+        // jwtToken 불러오기
+        const me = Cookies.get("jwtToken");
         if (res.status == 201) {
           dispatch({
             type: CREATOR_LOGIN,
@@ -190,8 +190,6 @@ export const logout = () => {
     });
   };
 };
-
-
 
 // 스트리밍권
 export const ticket = (leftTicket, ttoday) => {
