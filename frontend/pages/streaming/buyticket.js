@@ -7,20 +7,9 @@ import ajyContract from "../../hooks/ajyContract";
 const buyticket = () => {
   const tokenData = ajyContract();
 
-
   useEffect(()=>{
-    console.log(tokenData);
-    if(tokenData != null)
-    console.log("@@@Ftoken", tokenData.Ftoken)
-
   },[tokenData])
 
-
-
-
-
-
-  // console.log(ftokenCA);
   const buyOneMonthTicket = async () => {
     const buyTrigger = await tokenData.Ftoken.subscriptionBuy({
       value: ethers.utils.parseEther("0.5"),

@@ -11,6 +11,18 @@ import { ticket } from "../../../redux/modules/user";
 const Player = () => {
   const tokenData = ajyContract();
   const dispatch = useDispatch();
+
+  // 로컬스토리지 유저 그레이드 값 구하는거 
+  const myValue = JSON.parse(localStorage.getItem('persist:root'));
+  // console.log(myValue)
+  // console.log(myValue.user)
+  let userGrade;
+  if (myValue && myValue.hasOwnProperty('user')) {
+    const userObject = JSON.parse(myValue.user);
+    userGrade = userObject.users.user_grade;
+    console.log(userGrade)
+  }
+
   
 
   const musics = db.musics;
@@ -53,7 +65,7 @@ const Player = () => {
     }
     dispatch(ticket(result, ttoday));
     // 로그인안하거나 그냥 접근하면 selector가 NaN를 표기하는데 이 값이 나오면~
-    if ( result == false || 0 >= ttoday) {
+    if ( userGrade == 0 || result == false || 0 >= ttoday) {
       alert("스트리밍권을 구매해주세요");
       return;
     }
