@@ -1,42 +1,36 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Link from "next/Link";
 // import { FaEthereum } from "react-icons/fa";
 import axios from "axios";
 import ajyContract from "../../hooks/ajyContract";
-import { useWeb3React } from "@web3-react/core";
 import { openFunding } from "../../redux/modules/funding";
-
+import { useWallet } from "../../hooks/useWallet";
+import { useWeb3React } from "@web3-react/core";
 const index = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const btnRef = useRef();
   const dispatch = useDispatch();
+  const wallet = useWallet();
+  const tokenData = ajyContract();
 
   const [listdata, setListData] = useState([]);
   const tokenId = useSelector((state) => state.funding.funding.tokenId);
   const metaData = useSelector((state) => state.funding.funding.metaData);
   const balance = useSelector((state) => state.funding.funding.balance);
 
-  // 컨트랙트 실행 함수 가져오기
-  const tokenData = ajyContract();
-  const { account } = useWeb3React();
-  useEffect(() => {
-    if (tokenData != null) {
-      console.log(tokenData);
-    }
-  }, [tokenData]);
-
   // 들어오자마자 펀딩 신청한 목록 보여주기
-  useEffect(() => {
-    axios({
+  const { account } = useWeb3React();
+
+  const fff = async () => {
+    await axios({
       url: `http://localhost:3001/creator/mypage/${account}`,
       method: "get",
     })
       .then((res) => {
-        const shinList = res.data;
-        setListData(shinList);
+        setListData(res.data);
+        return;
       })
       .catch((res) => {
         if (res.response.data == 500) {
@@ -45,8 +39,15 @@ const index = () => {
           console.log(res);
         }
       });
-  }, []);
+  };
 
+  useEffect(() => {
+    const a = fff();
+  }, [tokenData]);
+
+  useEffect(() => {
+    // console.log(listdata);
+  }, [listdata]);
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
   const FundingMinting = (id, idxNum) => {
     const amount = listdata[idxNum].shin_amount;
@@ -57,8 +58,18 @@ const index = () => {
     contractMinting(account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData);
   };
   // 민팅하는 함수
-  const contractMinting = (account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData) => {
-    tokenData.Dtoken.mintFundding(account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData);
+  const contractMinting = async (account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData) => {
+    const getTokenData = await tokenData.Dtoken.getTokenOwnerData(tokenId);
+    if (getTokenData.NftAmount != 0) {
+      alert("이미 펀딩 완료");
+    }
+    tokenData.Dtoken.mintFundding(account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData)
+      .then((res) => {
+        alert("펀딩 오픈!");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     tokenData.Dtoken.on("seccessFundding", (account, tokenId, amount, totalPrice, getTime, metaData) => {
       console.log(account);
       console.log(tokenId);
@@ -67,12 +78,6 @@ const index = () => {
       console.log(getTime);
       console.log(metaData);
     });
-    try {
-      btnRef.current.style = "display : none";
-      alert("펀딩 오픈!");
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   // 펀딩 성공시 크리에이터가 돈 받는 함수
@@ -95,28 +100,30 @@ const index = () => {
   };
   const [result, setresult] = useState(false);
 
-  const checkAmount = async (yy) => {
-    // const checkAmt = await tokenData.Ftoken.priceCheck(tokenId);
-    // const nowAmt = parseInt(checkAmt);
-    console.log(yy);
-    const nowAmt = 20;
-    // 현재 펀딩된 수량 >= 목표수량
-    if (nowAmt > yy) {
-      setresult(true);
-      btnRef.current.value = "환불";
-      refundMoney(account, tokenId, 10);
-      alert("환불할게여ㅠ");
-
-      // 백에다 fund_state == 3으로 바뀌는 요청 보내고 응답값을 받아서 새로 목록을 랜더링한다
-    } else {
-      console.log("실패");
-      setresult(false);
-      btnRef.current.value = "출금";
-      getFundingMoney(account, tokenId, 10);
-      alert("출금할게요^0^");
-
-      // 백에다 fund_state == 2으로 바뀌는 요청 보내고 펀딩 실패를 보여준다
-    }
+  const checkAmount = async (id, goalAmount) => {
+    console.log(goalAmount);
+    await axios({
+      url: `http://localhost:3001/openfunding/${id}`,
+      method: "post",
+      data: { shinId: id },
+    }).then((res) => {
+      const fundingState = res.data.fundState;
+      const tokenId = res.data.tokenId;
+      console.log(tokenId);
+      // const checkAmt = tokenData.Ftoken.priceCheck(tokenId);
+      // 토큰 아이디로 해당 펀딩의 진행값 확인
+      // const nowAmt = parseInt(checkAmt);
+      // const nowAmt = 5;
+      // 현재 펀딩된 수량 >=목표수량
+      const getTokenData = tokenData.Dtoken.getTokenOwnerData(tokenId);
+      if (getTokenData.isSuccess == true) {
+        // if (nowAmt >= goalAmount) {
+        tokenData.Ftoken.isSuccessFundding(tokenId);
+      }
+      // } else {
+      //   alert("펀딩에 실패했습니다");
+      // }
+    });
   };
 
   return (
@@ -159,6 +166,40 @@ const index = () => {
               </thead>
               <tbody>
                 {listdata.map((data, idx) => (
+                  <tr>
+                    <td>{data.shin_no}</td>
+                    <td>{data.shin_category}</td>
+                    <td>{data.shin_title}</td>
+                    <td>{data.shin_amount}</td>
+                    <td>{data.shin_nft_totalbalance}</td>
+                    <td>{data.shin_period}</td>
+                    <td>
+                      {data.shin_ispermit == 1 ? "승인 대기" : ""}
+                      {data.shin_ispermit == 3 ? "승인 반려" : ""}
+                      {data.shin_ispermit == 2 ? (
+                        <FundingStartBtn
+                          onClick={() => {
+                            FundingMinting(data.shin_no, idx);
+                          }}
+                        >
+                          펀딩 오픈
+                        </FundingStartBtn>
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                    <td>
+                      <FundingStartBtn
+                        onClick={() => {
+                          checkAmount(data.shin_no, data.shin_amount);
+                        }}
+                      >
+                        결과 두근!
+                      </FundingStartBtn>
+                    </td>
+                  </tr>
+                ))}
+                {/* {listdata.map((data, idx) => (
                   <tr key={idx}>
                     <td>{data.shin_no}</td>
                     <td>{data.shin_category}</td>
@@ -172,6 +213,7 @@ const index = () => {
                     <td>
                       {data.shin_ispermit == 1 ? "승인대기중" : ""}
                       {data.shin_ispermit == 2 &&
+                        data.funding[0].fund_state == null &&
                       data.funding[0].fund_state !== 1 &&
                       data.funding[0].fund_state !== 2 &&
                       data.funding[0].fund_state !== 3 ? (
@@ -200,7 +242,7 @@ const index = () => {
                       ></FundingStartBtn>
                     </td>
                   </tr>
-                ))}
+                ))} */}
               </tbody>
             </Table>
           </div>
@@ -287,7 +329,7 @@ const CreatorAddress = styled.div`
   margin-top: 1rem;
 `;
 
-const FundingStartBtn = styled.input`
+const FundingStartBtn = styled.button`
   /* color: white;
   background: plum; */
 `;
