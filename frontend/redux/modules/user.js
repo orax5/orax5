@@ -53,6 +53,7 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
     })
       .then((res) => {
         if (res.status == 201) {
+          alert("로그인은 이메일 확인 후 가능합니다.")
           console.log("데이터 잘 받음");
           router.push("/login");
         }
