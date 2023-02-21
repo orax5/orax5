@@ -55,6 +55,8 @@ contract DtsToken is ERC1155, Ownable{
         uint256 time;
         // 성공시 늘릴 기간
         uint256 date;
+        // 거버넌스 통과 여부
+        bool result;
     }
     
     // 유저가 보유하고 있는 nft 확인 방법
@@ -88,7 +90,7 @@ contract DtsToken is ERC1155, Ownable{
     event seccessFundding(address account, uint256 tokenId, uint256 amount, uint256 totalPrice, uint256 getTime, string result);
 
     // 보유한 nft 확인
-    function balanceOf(uint256 tokenId) public view returns (uint) {
+    function tbalanceOf(uint256 tokenId) public view returns (uint) {
         return ERC1155.balanceOf(msg.sender, tokenId);
     }
 
@@ -143,7 +145,7 @@ contract DtsToken is ERC1155, Ownable{
         // nft를 보유하고 있는 사람만 신청 할 수 있다.
         require(ERC1155.balanceOf(msg.sender, tokenId) != 0, "no amount.");
         // 투표기간은 펀딩이 끝나기 하루전까지가 최대
-        require(block.timestamp * date > tokenOwners[tokenId].EndTime - 86400,"The voting period is maximum until one day before.");
+        require(block.timestamp + (86400 * date) < tokenOwners[tokenId].EndTime - 86400,"The voting period is maximum until one day before.");
         // 거버넌스 투표 신청은 한번만 가능
         require(votingDate[tokenId].time == 0, "There is already a vote.");
         
@@ -181,15 +183,16 @@ contract DtsToken is ERC1155, Ownable{
         require(ERC1155.balanceOf(msg.sender, tokenId) != 0, "no amount");
         // 펀딩이 이미 끝났는지
         require(tokenOwners[tokenId].isSuccess != true,"end Fundding?");
-
+ 
         if(result == true){
         tokenOwners[tokenId].EndTime = tokenOwners[tokenId].EndTime + (86400 * votingDate[tokenId].date);
+        votingDate[tokenId].result = true;
         }
     }
 
     // 거버넌스 투표 기간 조회 함수
-    function getVotingDate(uint256 tokenId)public view returns(uint256){
-        return votingDate[tokenId].time;
+    function getVotingDate(uint256 tokenId)public view returns(votingDay memory){
+        return votingDate[tokenId];
     }
     // 현재까지 몇명 투표 했는지 조회 함수
     function getVotingCount(uint256 tokenId) public view returns(uint256){

@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 import Link from "next/Link";
+import  ajyContract  from "../../hooks/ajyContract";
+
 
 const index = () => {
   const router = useRouter();
@@ -14,26 +16,57 @@ const index = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
+  // contract, 지갑 정보 가져오기
+  const tokenData = ajyContract();
+  
   useEffect(() => {
-    setDatas(Items);
-  }, []);
+    console.log(tokenData);
+    if(tokenData != null){
+      viewAll();
+    }
+  }, [tokenData]);
 
-  // 더미 데이터
-  const Items = [
-    { img: "1", id: 1, title: "test_title", price: "0.234ETH" },
-    { img: "2", id: 2, title: "test_title", price: "0.234ETH" },
-    { img: "3", id: 3, title: "test_title", price: "0.234ETH" },
-    { img: "4", id: 4, title: "test_title", price: "0.234ETH" },
-    { img: "5", id: 5, title: "test_title", price: "0.234ETH" },
-    { img: "6", id: 6, title: "test_title", price: "0.234ETH" },
-    { img: "7", id: 7, title: "test_title", price: "0.234ETH" },
-    { img: "8", id: 8, title: "test_title", price: "0.234ETH" },
-    { img: "9", id: 9, title: "test_title", price: "0.234ETH" },
-    { img: "10", id: 10, title: "test_title", price: "0.234ETH" },
-    { img: "11", id: 10, title: "test_title", price: "0.234ETH" },
-    { img: "12", id: 10, title: "test_title", price: "0.234ETH" },
-    { img: "13", id: 10, title: "test_title", price: "0.234ETH" },
-  ];
+  const viewAll = async() => {
+    const funddingCount = await tokenData.Dtoken.idsView();
+
+    const arr = [];
+    for(let i = 1; i <= funddingCount.length; i++){
+      const metaData = await tokenData.Dtoken.tokenURI(i);
+      const data = await tokenData.Dtoken.getTokenOwnerData(i);
+      fetch(metaData)
+      .then(response => {
+        return response.json();
+      })
+      .then(jsondata => {
+        console.log(jsondata.properties.image.description)
+        const funddingData = { 
+          tokenId : i,
+          img : jsondata.properties.image.description,
+          title : jsondata.title,
+          category : jsondata.properties.category.description,
+          unitPrice : (parseInt(data.UnitPrice) / (10 ** 18)),
+          going : data.isSuccess,
+          
+        }
+        arr.push(funddingData);
+        if(arr.length == funddingCount.length){
+          setDatas(arr);
+        }
+      });
+    }
+    console.log(arr);
+  }
+
+  // const metaData = "asdasd";
+
+  // const getimage = async() => {
+  //   console.log(metaData);
+  //   fetch(metaData)
+  //   .then(response => {
+  //     return response.json();
+  //   })
+  //   .then(jsondata => console.log(jsondata));
+  // }
 
   return (
     <MainContainer>
@@ -55,11 +88,11 @@ const index = () => {
           </SelectorFrame>
         </FunctionNav>
         <ListWrap>
-          {datas.slice(offset, offset + limit).map((data, idx) => (
+          {datas.map((data, idx) => (
             <ItemCard key={idx}>
               <div>
                 <Image
-                  src={`/Img/dummy/${data.img}.jpg`}
+                  src= {data.img}
                   alt="funding_list_image"
                   width={250}
                   height={250}
@@ -69,15 +102,15 @@ const index = () => {
                   }}
                 />
               </div>
-              <ItemTitle>{data.title}</ItemTitle>
-              <div>가요{"⠂"}R&B</div>
-              <ItemPrice>{data.price}</ItemPrice>
+              <ItemTitle>제목 : {data.title}</ItemTitle>
+              <div>{data.category}</div>
+              <ItemPrice>펀딩 가격 : {data.unitPrice} eth</ItemPrice>
 
               <BtnBox>
                 
                 <div
                   onClick={() => {
-                    router.push(`/funding/${data.id}`);
+                    router.push(`/funding/${data.tokenId}`);
                   }}
                 >
                   상세보기

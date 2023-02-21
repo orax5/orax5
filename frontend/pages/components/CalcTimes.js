@@ -1,4 +1,5 @@
 const CalcTimes = (countDown) => {
+  console.log(countDown + "#$#$#$")
   // 나누기 1000하면 -> 초 단위
   // * 60 -> 분 단위
   // * 60 * 60 -> 시간 단위

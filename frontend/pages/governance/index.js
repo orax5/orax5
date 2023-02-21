@@ -13,113 +13,18 @@ const index = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
-  useEffect(() => {
-    setPosts(datas);
-  }, []);
+  const user = useSelector((state) => state.users.contracts);
+  const Dtoken = useSelector((state) => state.users.contracts.Dtoken);
+  // const Ftoken = useSelector((state) => state.users.contracts.Ftoken);
+  // const ftokenCA = useSelector((state)=>state.users.contracts.ftokenCA);
+  const account = useSelector((state)=>state.users.contracts.account);
 
-  // 더미데이터
-  const datas = [
-    {
-      id: 1,
-      title: "투표 제목",
-      dueto: "2023-01-31",
-      ownedNft: "해당 nft",
-      content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-      status: "진행중",
-    },
-    // {
-    //   id: 1,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "진행중",
-    // },
-    // {
-    //   id: 1,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "진행중",
-    // },
-    // {
-    //   id: 1,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "진행중",
-    // },
-    // {
-    //   id: 1,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "진행중",
-    // },
-    // {
-    //   id: 1,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "진행중",
-    // },
-    // {
-    //   id: 2,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "종료",
-    // },
-    // {
-    //   id: 3,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "종료",
-    // },
-    // {
-    //   id: 4,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "진행중",
-    // },
-    // {
-    //   id: 5,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "진행중",
-    // },
-    // {
-    //   id: 5,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "진행중",
-    // },
-    // {
-    //   id: 5,
-    //   title: "투표 제목",
-    //   dueto: "2023-01-31",
-    //   ownedNft: "해당 nft",
-    //   content: "거버넌스 내용 이런거 이런거 바꾸자 등등",
-    //   status: "종료",
-    // },
-  ];
-
-  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
-  const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
-  const account = useSelector((state)=>state.user.users.user_wallet);
+  const asd = () => {
+    console.log("==============================");
+    console.log(user);
+    console.log(Dtoken);
+    console.log(account);
+  }
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -128,22 +33,23 @@ const index = () => {
   useEffect(() => {
     viewVoting();
   },[])
+  useEffect(() => {
+    console.log(user);
+  },[user])
 
   const submit = async(tokenId, date, changeDay) => {
     console.log(tokenId, date, changeDay);
     await Dtoken.startVoting(tokenId, date, changeDay);
-    // setList(tokenId);
+    setList(tokenId);
   }
-
   
   async function setList(tokenId) {
     const tokenTime = await Dtoken.getVotingDate(tokenId);
-    if(parseInt(tokenTime) == 0){
+    if(parseInt(tokenTime.time) == 0){
       setTimeout(() => {
-        const toggle = 1;
-        setList(toggle,tokenId);
         console.log("거버넌스 등록중");
-      }, 5000);
+        setList(tokenId);
+      }, 3000);
     } else{
       viewVoting();
     }
@@ -151,41 +57,85 @@ const index = () => {
 
   // 거버넌스 리스트 보여주는 함수
   const viewVoting = async() => {
+    console.log(account);
     const listNumber = await Dtoken.idsView();
     const arr = [];
     let num = 1;
-    for(let i = 1; i <= listNumber.length; i++){
-      const tokenTime = await Dtoken.getVotingDate(i);
-      const now = Date.now();
-      const tokenJsTime = parseInt(tokenTime)*1000;
-      var year = new Date(tokenJsTime).getFullYear().toString().slice(-2); //년도 뒤에 두자리
-      var month = ("0" + (new Date(tokenJsTime).getMonth() + 1)).slice(-2); //월 2자리 (01, 02 ... 12)
-      var day = ("0" + new Date(tokenJsTime).getDate()).slice(-2); //일 2자리 (01, 02 ... 31)
-      if(0 < tokenJsTime && tokenJsTime > now){
-        const votingListView = {
-        id: num,
-        title: "펀딩 기간 늘리기",
-        dueto: `20${year}-${month}-${day}`,
-        ownedNft: i,
-        content: "",
-        status:  "진행중",
-      }
-      arr.push(votingListView);
-      }else if(0 < tokenJsTime && tokenJsTime < now){
-        const votingListView = {
+    for(let i = 1; i <= listNumber.length+1; i++){
+      // 음원 초기정보 가져와서 펀딩 기간이 남아있는 펀딩만 리스트에 담아서 거버넌스 투표현황을 보여준다.
+      const end = await Dtoken.getTokenOwnerData(i);
+      const endTime = parseInt(end.EndTime);
+      if((endTime * 1000) > Date.now()){
+
+        const tokenTime = await Dtoken.getVotingDate(i);
+        
+        const now = Date.now();
+        const tokenJsTime = parseInt(tokenTime.time)*1000;
+        var year = new Date(tokenJsTime).getFullYear().toString().slice(-2); //년도 뒤에 두자리
+        var month = ("0" + (new Date(tokenJsTime).getMonth() + 1)).slice(-2); //월 2자리 (01, 02 ... 12)
+        var day = ("0" + new Date(tokenJsTime).getDate()).slice(-2); //일 2자리 (01, 02 ... 31)
+        if(0 < tokenJsTime && tokenJsTime > now){
+          const votingListView = {
           id: num,
           title: "펀딩 기간 늘리기",
           dueto: `20${year}-${month}-${day}`,
           ownedNft: i,
-          content: "",
-          status:  "종료",
+          content: parseInt(tokenTime.date),
+          status:  "진행중",
         }
         arr.push(votingListView);
+        }else if(0 < tokenJsTime && tokenJsTime < now){
+          const votingListView = {
+            id: num,
+            title: "펀딩 기간 늘리기",
+            dueto: `20${year}-${month}-${day}`,
+            ownedNft: i,
+            content: parseInt(tokenTime.date),
+            status:  "종료",
+          }
+          arr.push(votingListView);
+        }
+        num++;
       }
-    num++;
-  }
-    console.log(arr);
+    }
     setVotingList(arr);
+  }
+  
+  const endVoting = async(tokenId) => {
+    // 이미 투표 결과가 실행 됐는지 확인
+    const votingResult = await Dtoken.getVotingDate(parseInt(tokenId));
+    // 현재까지 투표수 가져오기
+    const votingNum = await Dtoken.getVotingCount(parseInt(tokenId));
+    const count = parseInt(votingNum);
+    // 현재까지 펀딩된 수 가져오기
+    const getBalance = await Dtoken.tbalanceOf(parseInt(tokenId));
+    const Balance = parseInt(getBalance);
+    if(Balance != 0){
+
+      let agree1 = 0;
+      let disagree1 = 0;
+
+      for(let i = 1; i <= count; i++){
+        const voting =  await Dtoken.getVoting(parseInt(tokenId),i);
+        if(voting.result == true){
+          agree1 = agree1+ parseInt(voting.Amount);
+        } else if(voting.result == false){
+          disagree1 = disagree1 + parseInt(voting.Amount);
+        }
+      }
+      if(agree1 > disagree1){
+        if(votingResult.result == false){
+          await Dtoken.endVoting(parseInt(tokenId), true);
+          alert("투표 가결");
+        } else{
+          alert("이미 가결 된 투표입니다.");
+        }
+      }else{
+        alert("투표 부결");
+      }
+    } else {
+      alert("해당 음원 nft를 보유하고 있지 않습니다.");
+    }
   }
 
   const showModal = () => {
@@ -204,9 +154,10 @@ const index = () => {
           <table>
             <thead>
               <tr>
-                <th>번호</th>
+                <th onClick={asd}>번호</th>
                 <ListImage>이미지</ListImage>
                 <th>제목</th>
+                <th>내용</th>
                 <th>해당 NFT</th>
                 <th>종료일</th>
                 {/* 종료일이 지나면 '상태 : 종료'로 변경 */}
@@ -233,9 +184,11 @@ const index = () => {
                   >
                     {data.title}
                   </ItemTitle>
+                  <td>{data.content}일 연장</td>
                   <td>{data.ownedNft}</td>
                   <td>{data.dueto}</td>
-                  <td>{data.status}</td>
+                  {data.status == "진행중" ? <td onClick={() => endVoting(data.ownedNft)}>{data.status}</td> : <td>{data.status}</td> }
+                  
                 </tr>
               ))}
             </tbody>

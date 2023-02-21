@@ -34,7 +34,6 @@ const Nav = () => {
   // 지갑 연결
   const onClickActivateHandler = () => {
     activate(injected, async (error) => {
-      // 에러 처리 코드 생략
     });
   };
   // 연결 해제

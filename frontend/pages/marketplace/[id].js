@@ -7,16 +7,16 @@ import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Offers from "../components/Offers";
 import Offers3 from "../components/Offers3";
-import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+
+import  ajyContract  from "../../hooks/ajyContract";
 
 const deatil = () => {
-  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
-  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
-  const Stoken = useSelector((state) => state.user.contracts.Stoken);
-  const dtokenCA = useSelector((state) => state.user.contracts.dtokenCA);
-  const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
-  const stokenCA = useSelector((state) => state.user.contracts.stokenCA);
-  const account = useSelector((state) => state.user.users.account);
+
+  const params = useRouter();
+
+  // contract, 지갑 정보 가져오기
+  const tokenData = ajyContract();
 
   // 판매 내역 리스트 담아줌
   const [ saleListarray, setSaleListArray ] = useState([]);
@@ -29,13 +29,15 @@ const deatil = () => {
   }
 
   // 최초 실행시 판매 내역 보여줌
-  useEffect(()=>{
-
-    ViewOneHandler();
-  },[]);
+  useEffect(() => {
+    console.log(tokenData);
+    if(tokenData != null){
+      ViewOneHandler();
+    }
+  }, [tokenData]);
 
   async function setNumberList(data){
-      const ViewOne = await Stoken.getSalesTokenListAll(1,parseInt(data.listId));
+      const ViewOne = await tokenData.Stoken.getSalesTokenListAll(parseInt(params.query.id),parseInt(data.listId));
       if(parseInt(data.amount) == parseInt(ViewOne.amount)){
         console.log("사는중 기달기달");
         setTimeout(() => {
@@ -50,11 +52,11 @@ const deatil = () => {
   const ViewOneHandler = async() => {
 
     // 거래 등록 내용 보기 (from 주소, 판매수량, 가격)
-    const saleListNumber = await Stoken.saleNumberList(1);
+    const saleListNumber = await tokenData.Stoken.saleNumberList(parseInt(params.query.id));
 
     const arr = [];
     for(let i = 1; i <= saleListNumber; i++){
-        const ViewOne = await Stoken.getSalesTokenListAll(1,i);
+        const ViewOne = await tokenData.Stoken.getSalesTokenListAll(parseInt(params.query.id),i);
         if(ViewOne.amount != 0){
           const saleListView = {
             account : ViewOne.account,

@@ -2,17 +2,21 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/Link";
 import { FaEthereum } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import ajyContract from "../../hooks/ajyContract";
+import { useWallet } from "../../hooks/useWallet";
 import axios from "axios";
 
 const index = () => {
   const [listdata, setListData] = useState([]);
   const [clipAccount, setClipAccount] = useState(false);
 
-  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
-  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
-  const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
-  const account = useSelector((state) => state.user.contracts.account);
+  const tokenData = ajyContract();
+  const {info , provider} = useWallet();
+
+  useEffect(() => { 
+    console.log(tokenData);
+    console.log(info);
+  },[tokenData])
 
   // 클립보트 핸들러
   const copyClipBoardHandler = async (text) => {
@@ -25,28 +29,28 @@ const index = () => {
     } catch (e) {}
   };
 
-  useEffect(() => {
-    axios({
-      url: `http://localhost:3001/creator/mypage/${account}`,
-      method: "get",
-    })
-      .then((res) => {
-        const shinList = res.data;
-        setListData(shinList);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios({
+  //     url: `http://localhost:3001/creator/mypage/${account}`,
+  //     method: "get",
+  //   })
+  //     .then((res) => {
+  //       const shinList = res.data;
+  //       setListData(shinList);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
-  const nickname = useSelector((state) => state.user.users.user_nickname);
-  console.log(nickname);
+  // const nickname = useSelector((state) => state.user.users.user_nickname);
+  // console.log(nickname);
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
   const FundingMinting = async() =>{
-    const metaData = "metadataUrl"
-    const aa = await Dtoken.mintFundding(account,ftokenCA,1,10,10,5,metaData);
+    const metaData = "https://bafkreifzwfuqkjsciaqb4vp4o5qqml6vqdaqpuycp7qej64jlzxk3by67y.ipfs.nftstorage.link";
+    const aa = await tokenData.Dtoken.mintFundding(info.account,tokenData.ftokenCA,2,10,10,5,metaData);
     console.log(aa);
-    Dtoken.on("seccessFundding", (account,tokenId,amount,totalPrice,getTime,metaData)  => {
+    tokenData.Dtoken.on("seccessFundding", (account,tokenId,amount,totalPrice,getTime,metaData)  => {
       console.log(account);
       console.log(tokenId);
       console.log(amount);
@@ -75,7 +79,7 @@ const index = () => {
           <TitleArea>
             <h2>
               환영합니다!
-              {nickname} 님
+              {/* {nickname} 님 */}
             </h2>
             <Link href="/creator/register">펀딩 신청</Link>
           </TitleArea>
@@ -91,7 +95,7 @@ const index = () => {
                 <CreatorAddress onClick={() => copyClipBoardHandler(account)}>
                   <FaEthereum />
                   &nbsp;
-                  {account}
+                  {/* {account} */}
                 </CreatorAddress>
               )}
             </div>
@@ -104,7 +108,7 @@ const index = () => {
                   <th>목표금액</th>
                   <th>펀딩기간</th>
                   <th>상태</th>
-                  <th>현재상태</th>
+                  <th onClick={FundingMinting}>현재상태</th>
                 </tr>
               </thead>
               <tbody>

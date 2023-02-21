@@ -4,10 +4,8 @@ import { useSelector } from "react-redux";
 
 const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
 
-  const Dtoken = useSelector((state) => state.user.contracts.Dtoken);
-  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
-  const ftokenCA = useSelector((state)=>state.user.contracts.ftokenCA);
-  const account = useSelector((state)=>state.user.users.user_wallet);
+  const Dtoken = useSelector((state) => state.users.contracts.Dtoken);
+  const Ftoken = useSelector((state) => state.users.contracts.Ftoken);
 
   // 토큰 id 담기
   const [tokenInput, setTokenInput] = useState(0);
@@ -46,6 +44,7 @@ const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
     }else{
       alert("펀딩 진행률 50퍼 넘었는지 확인하라능!");
     }
+    // submit(parseInt(tokenInput), parseInt(endDate), parseInt(changeDay));
 
     // console.log(modalOpen); 
     // setModalOpen(!modalOpen);
@@ -54,7 +53,7 @@ const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
   return (
     <RegisterWrap>
       <ContentWrap>
-        <label>소유한 NFT</label>
+        <label>신청할 NFT ID</label>
         <input type="number" onChange={getTokenId}/>
         <label>투표 기간</label>
         <input type="date" onChange={pickedDateHandler} />
