@@ -7,7 +7,35 @@ import Pagination from "../Pagination";
 
 const MyNft = () => {
   
+  const viewAll = async() => {
+    const funddingCount = await tokenData.Dtoken.idsView();
 
+    const arr = [];
+    for(let i = 1; i <= funddingCount.length; i++){
+      const metaData = await tokenData.Dtoken.tokenURI(i);
+      const data = await tokenData.Dtoken.getTokenOwnerData(i);
+      fetch(metaData)
+      .then(response => {
+        return response.json();
+      })
+      .then(jsondata => {
+        const funddingData = { 
+          tokenId : i,
+          img : jsondata.properties.image.description,
+          title : jsondata.title,
+          category : jsondata.properties.category.description,
+          unitPrice : (parseInt(data.UnitPrice) / (10 ** 18)),
+          going : data.isSuccess,
+          
+        }
+        arr.push(funddingData);
+        if(arr.length == funddingCount.length){
+          setDatas(arr);
+        }
+      });
+    }
+    console.log(arr);
+  }
   // 더미 데이터
   const Items = [
     { img: "1", id: 1, title: "test_title", price: "0.234ETH", amount: 2 },
@@ -34,6 +62,7 @@ const MyNft = () => {
   useEffect(() => {
     setDatas(Items);
   }, []);
+  
   return (
     <div>
       <MainItems>

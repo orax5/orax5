@@ -5,7 +5,8 @@ import styled from "styled-components";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 import Link from "next/Link";
-import axios from "axios";  
+import ajyContract  from "../../hooks/ajyContract";
+
 
 const index = () => {
   const router = useRouter();
@@ -15,9 +16,58 @@ const index = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
+  const [FundingCountValue, setFundingCountValue] = useState();
+  
+  // contract, 지갑 정보 가져오기
+  const tokenData = ajyContract();
+  
   useEffect(() => {
-    
-  }, []);
+    console.log(tokenData);
+    if(tokenData != null){
+      viewAll();
+    }
+  }, [tokenData]);
+
+  const viewAll = async() => {
+    const funddingCount = await tokenData.Dtoken.idsView();
+
+    const arr = [];
+    for(let i = 1; i <= funddingCount.length; i++){
+      const metaData = await tokenData.Dtoken.tokenURI(i);
+      const data = await tokenData.Dtoken.getTokenOwnerData(i);
+      fetch(metaData)
+      .then(response => {
+        return response.json();
+      })
+      .then(jsondata => {
+        const funddingData = { 
+          tokenId : i,
+          img : jsondata.properties.image.description,
+          title : jsondata.title,
+          category : jsondata.properties.category.description,
+          unitPrice : (parseInt(data.UnitPrice) / (10 ** 18)),
+          going : data.isSuccess,
+          
+        }
+        arr.push(funddingData);
+        if(arr.length == funddingCount.length){
+          setDatas(arr);
+        }
+      });
+    }
+    console.log(arr);
+  }
+
+  // const metaData = "asdasd";
+
+  // const getimage = async() => {
+  //   console.log(metaData);
+  //   fetch(metaData)
+  //   .then(response => {
+  //     return response.json();
+  //   })
+  //   .then(jsondata => console.log(jsondata));
+  // }
 
   return (
     <MainContainer>
@@ -43,7 +93,7 @@ const index = () => {
             <ItemCard key={idx}>
               <div>
                 <Image
-                  src={`/Img/dummy/${data.img}.jpg`}
+                  src={"https://divetospace.s3.ap-northeast-2.amazonaws.com/%EA%B9%83.png"}
                   alt="funding_list_image"
                   width={250}
                   height={250}
@@ -53,14 +103,15 @@ const index = () => {
                   }}
                 />
               </div>
-              <ItemTitle>{data.title}</ItemTitle>
-              <div>가요{"⠂"}R&B</div>
-              <ItemPrice>{data.price}</ItemPrice>
+              <ItemTitle>제목 : {idx}</ItemTitle>
+              <div>{data.category}</div>
+              <ItemPrice>펀딩 가격 : {data.unitPrice} eth</ItemPrice>
 
               <BtnBox>
+                
                 <div
                   onClick={() => {
-                    router.push(`/funding/${data.id}`);
+                    router.push(`/funding/${data.tokenId}`);
                   }}
                 >
                   상세보기
@@ -69,7 +120,12 @@ const index = () => {
             </ItemCard>
           ))}
         </ListWrap>
-        <Pagination total={datas.length} limit={limit} page={page} setPage={setPage} />
+        <Pagination
+          total={datas.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
       </MainItems>
       <MainItems></MainItems>
     </MainContainer>
@@ -123,7 +179,8 @@ const ItemCard = styled.div`
   height: inherit;
   border-radius: 1rem;
   box-shadow: 0px 0px 5px 2px rgba(148, 148, 148, 0.26);
-  @media ${(props) => props.theme.device.tablet}, ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet},
+    ${(props) => props.theme.device.mobile} {
     width: inherit;
   }
   > div:first-child {

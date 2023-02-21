@@ -20,6 +20,8 @@ const index = () => {
   // 구독권 확인
   const [result, setResult] = useState(false);
   const [account, setAccount] = useState(null);
+  // TOTAL ITEMS 칸 number 제공 
+  const [itemTotal, setItemTotal] = useState();
 
   const checkTicket = async() => {
     const result = await tokenData.Ftoken.streamingView(); // console.log("여기결과값", parseInt(result));
@@ -38,8 +40,10 @@ const index = () => {
 
   useEffect(() => {
     setAccount(wallet.info.account);
+   
     if(tokenData != null){
       checkTicket();
+      myNftAmount();
     }
   }, [tokenData]);
 
@@ -58,11 +62,21 @@ const index = () => {
 
   const token = Cookies.get('jwtToken'); // console.log(token); 예를 들어, 토큰 값이 객체의 "jwtToken" 속성에 저장되어 있다면 출력
 
-  // // nft 갯수 확인 ? 해야함? 크리에이터가? 유저는 확인해서 myPageNFT 현황보여줘야하는데 이거 여기서 쓰는거 아니고 다른데서 하는거라고0208에 집가면서 이야기함 useEffect 안에 들어야가야함
+  // nft 갯수 확인 ? 해야함? 크리에이터가? 유저는 확인해서 myPageNFT 현황보여줘야하는데 이거 여기서 쓰는거 아니고 다른데서 하는거라고0208에 집가면서 이야기함 useEffect 안에 들어야가야함
   // const myNftAmount = async () => {
-  //   const bb = await Dtoken.balanceOf(account, 1);
-  //   console.log(bb.toString());
+  //   const _myNftAmount = await tokenData.Dtoken.tbalanceOf(1);
+  //   const numNftAmount = parseInt(_myNftAmount);
+  //   console.log(numNftAmount)
+  //   setItemTotal(numNftAmount);
   // };
+
+  // 이게 총 몇 종류의 nft를 가지고 있는자 화긴해주는 contract 함수 
+  const myNftAmount = async () => {
+    const _myNftAmount = await tokenData.Dtoken.idsView()
+    const numNftAmount = _myNftAmount.length
+    console.log(numNftAmount)
+    setItemTotal(numNftAmount);
+  };
 
   const menuArr = ["내 NFT", "펀딩한 NFT"];
   const clickHandler = (idx) => {
@@ -78,6 +92,7 @@ const index = () => {
       <div></div>
       <div>
         <UserStateArea>
+          <button>test</button>
           {clipAccount == true ? (
             <>
               <StateButton>
@@ -108,7 +123,7 @@ const index = () => {
         <StateBoard>
           <AssetsState>
             <div>TOTAL ITEMS</div>
-            <div>0</div>
+            <div>{itemTotal}</div>
           </AssetsState>
           <AssetsState>
             <div>UNLISTED ITEMS</div>
