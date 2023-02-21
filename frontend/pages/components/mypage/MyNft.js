@@ -8,6 +8,27 @@ import ajyContract from "../../../hooks/ajyContract";
 
 const MyNft = () => {
   const tokenData = ajyContract();
+  
+  // 더미 데이터
+  const Items = [
+    { img: "1", id: 1, title: "test_title", price: "0.234ETH", amount: 2 },
+    { img: "2", id: 2, title: "test_title", price: "0.234ETH", amount: 4 },
+    { img: "3", id: 3, title: "test_title", price: "0.234ETH", amount: 11 },
+    { img: "4", id: 4, title: "test_title", price: "0.234ETH", amount: 49 },
+    { img: "5", id: 5, title: "test_title", price: "0.234ETH", amount: 32 },
+    { img: "6", id: 6, title: "test_title", price: "0.234ETH", amount: 77 },
+    { img: "7", id: 7, title: "test_title", price: "0.234ETH", amount: 84 },
+    { img: "8", id: 8, title: "test_title", price: "0.234ETH", amount: 9 },
+    { img: "9", id: 9, title: "test_title", price: "0.234ETH", amount: 33 },
+    { img: "10", id: 10, title: "test_title", price: "0.234ETH", amount: 33 },
+    { img: "11", id: 11, title: "test_title", price: "0.234ETH", amount: 14 },
+    { img: "12", id: 12, title: "test_title", price: "0.234ETH", amount: 33 },
+    { img: "13", id: 13, title: "test_title", price: "0.234ETH", amount: 6 },
+  ];
+  const [datas, setDatas] = useState([]);
+  const [limit, setLimit] = useState(8);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
   const viewAll = async() => {
     const funddingCount = await tokenData.Dtoken.idsView();
@@ -34,39 +55,20 @@ const MyNft = () => {
           setDatas(arr);
         }
       });
-      console.log("datas",datas)
     }
     console.log(arr);
   }
-  // 더미 데이터
-  const Items = [
-    { img: "1", id: 1, title: "test_title", price: "0.234ETH", amount: 2 },
-    { img: "2", id: 2, title: "test_title", price: "0.234ETH", amount: 4 },
-    { img: "3", id: 3, title: "test_title", price: "0.234ETH", amount: 11 },
-    { img: "4", id: 4, title: "test_title", price: "0.234ETH", amount: 49 },
-    { img: "5", id: 5, title: "test_title", price: "0.234ETH", amount: 32 },
-    { img: "6", id: 6, title: "test_title", price: "0.234ETH", amount: 77 },
-    { img: "7", id: 7, title: "test_title", price: "0.234ETH", amount: 84 },
-    { img: "8", id: 8, title: "test_title", price: "0.234ETH", amount: 9 },
-    { img: "9", id: 9, title: "test_title", price: "0.234ETH", amount: 33 },
-    { img: "10", id: 10, title: "test_title", price: "0.234ETH", amount: 33 },
-    { img: "11", id: 11, title: "test_title", price: "0.234ETH", amount: 14 },
-    { img: "12", id: 12, title: "test_title", price: "0.234ETH", amount: 33 },
-    { img: "13", id: 13, title: "test_title", price: "0.234ETH", amount: 6 },
-  ];
-  const [datas, setDatas] = useState([]);
-  const [limit, setLimit] = useState(8);
-  const [page, setPage] = useState(1);
-  const offset = (page - 1) * limit;
 
   const router = useRouter();
  
   useEffect(() => {
     setDatas(Items);
+    console.log("datas",datas)
     if(tokenData != null){
       viewAll()
+      console.log("나찾아봐랑") 
     }
-  }, []);
+  }, [tokenData]);
 
   return (
     <div>
