@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import ajyContract from "../../hooks/ajyContract";
 
 const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
+  const tokenData = ajyContract();
 
-  const Dtoken = useSelector((state) => state.users.contracts.Dtoken);
-  const Ftoken = useSelector((state) => state.users.contracts.Ftoken);
+  useEffect(()=>{
+    if(tokenData != null){
+      
+   }
+  },[tokenData])
 
   // 토큰 id 담기
   const [tokenInput, setTokenInput] = useState(0);
@@ -34,8 +39,8 @@ const RegisterVote = ({setModalOpen, modalOpen, submit}) => {
   }
 
   const Registration = async() => {
-    const DtokenBalance = await Dtoken.getTokenOwnerData(tokenInput);
-    const FtokenBalance = await Ftoken.priceCheck(tokenInput);
+    const DtokenBalance = await tokenData.Dtoken.getTokenOwnerData(tokenInput);
+    const FtokenBalance = await tokenData.Ftoken.priceCheck(tokenInput);
 
     const average = parseInt(DtokenBalance.NftAmount) / 2;
     // 초기 발행량과 현재 펀딩된 물량을 비교해서 절반을 넘겨야지 거버넌스 투표 신청이 된다.

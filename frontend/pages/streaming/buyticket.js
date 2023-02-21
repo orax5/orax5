@@ -1,31 +1,35 @@
 import { ethers } from "ethers";
-import React from "react";
+import React,{useEffect, useState} from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import ajyContract from "../../hooks/ajyContract";
 
 const buyticket = () => {
-  // const ftokenCA = useSelector((state) => state.user.contracts.ftokenCA);
-  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
-  const account = useSelector((state) => state.user.users.account);
+  const tokenData = ajyContract();
 
-  // console.log(ftokenCA);
+  useEffect(()=>{
+  },[tokenData])
+
   const buyOneMonthTicket = async () => {
-    const buyTrigger = await Ftoken.subscriptionBuy({
+    const buyTrigger = await tokenData.Ftoken.subscriptionBuy({
       value: ethers.utils.parseEther("0.5"),
     });
     await buyTrigger.wait();
+    alert("1개월권 구매되었습니다.")
   };
   const buyThreeMonthTicket = async () => {
-    const buyTrigger = await Ftoken.subscriptionBuy({
+    const buyTrigger = await tokenData.Ftoken.subscriptionBuy({
       value: ethers.utils.parseEther("1.0"),
     });
     await buyTrigger.wait();
+    alert("3개월권 구매되었습니다.")
   };
   const buySixMonthTicket = async () => {
-    const buyTrigger = await Ftoken.subscriptionBuy({
+    const buyTrigger = await tokenData.Ftoken.subscriptionBuy({
       value: ethers.utils.parseEther("2.0"),
     });
     await buyTrigger.wait();
+    alert("6개월권 구매되었습니다.")
   };
 
   return (

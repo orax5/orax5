@@ -2,15 +2,23 @@ import Link from "next/Link";
 import React, { useState } from "react";
 import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/modules/user";
 
 const SideMenuCreator = ({ setShowMenu, ShowMenu }) => {
-  const [isLogin, setIsLogin] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-
   const toggleHandler = () => {
     setShowMenu(!ShowMenu);
   };
-
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const logOut = () => {
+    Cookies.remove("jwtToken");
+    dispatch(logout());
+    router.reload();
+    alert("로그아웃 되었습니다");
+  };
   return (
     <MenuWrap isActivate={ShowMenu}>
       <div>
@@ -26,25 +34,10 @@ const SideMenuCreator = ({ setShowMenu, ShowMenu }) => {
         />
       </div>
       <MenuList onClick={toggleHandler}>
-        {isLogin ? (
-          isAdmin ? (
-            <Link href="/admin">
-              <li>admin</li>
-            </Link>
-          ) : (
-            <Link href="/mypage">
-              <li>MYPAGE</li>
-            </Link>
-          )
-        ) : (
-          <Link href="/login">
-            <li>LOGIN/JOIN</li>
-          </Link>
-        )}
-        {/* MYPAGE, ADMIN는 작업 끝나면 접근 권한 제한할건데 지금 페이지 이동하라고 다 꺼내놓음 */}
-        <Link href="/mypage">
-          <li>MYPAGE</li>
-        </Link>
+        <a href="/">
+          <li onClick={logOut}>LOGOUT</li>
+        </a>
+
         <Link href="/creator">
           <li>CREATOR</li>
         </Link>
@@ -57,8 +50,7 @@ const MenuWrap = styled.div`
   // 사이드 메뉴 전체 사이즈
   ${(props) => props.theme.gridLayout.sideMenuGrid}
   transition: all 0.25s ease-in-out;
-  transform: ${(props) =>
-    props.isActivate ? "translateX(0px)" : "translateX(800px)"};
+  transform: ${(props) => (props.isActivate ? "translateX(0px)" : "translateX(800px)")};
   width: 40rem;
   height: 100vh;
   z-index: 200;
@@ -71,14 +63,14 @@ const MenuWrap = styled.div`
   @media ${(props) => props.theme.device.pc} {
     width: 30rem;
   }
-  @media ${(props) => props.theme.device.tablet},
-    ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet}, ${(props) => props.theme.device.mobile} {
     width: 100vw;
   }
 `;
 const MenuList = styled.ul`
   ${(props) => props.theme.align.flexCenterColumn}
   & li {
+    cursor: pointer;
     font-size: 3rem;
     padding: 1rem;
     color: black;

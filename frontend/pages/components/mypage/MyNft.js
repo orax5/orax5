@@ -4,36 +4,62 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
 import Pagination from "../Pagination";
+import ajyContract from "../../../hooks/ajyContract";
+import { useWeb3React } from "@web3-react/core";
 
 const MyNft = () => {
-  
 
-  // 더미 데이터
-  const Items = [
-    { img: "1", id: 1, title: "test_title", price: "0.234ETH", amount: 2 },
-    { img: "2", id: 2, title: "test_title", price: "0.234ETH", amount: 4 },
-    { img: "3", id: 3, title: "test_title", price: "0.234ETH", amount: 11 },
-    { img: "4", id: 4, title: "test_title", price: "0.234ETH", amount: 49 },
-    { img: "5", id: 5, title: "test_title", price: "0.234ETH", amount: 32 },
-    { img: "6", id: 6, title: "test_title", price: "0.234ETH", amount: 77 },
-    { img: "7", id: 7, title: "test_title", price: "0.234ETH", amount: 84 },
-    { img: "8", id: 8, title: "test_title", price: "0.234ETH", amount: 9 },
-    { img: "9", id: 9, title: "test_title", price: "0.234ETH", amount: 33 },
-    { img: "10", id: 10, title: "test_title", price: "0.234ETH", amount: 33 },
-    { img: "11", id: 11, title: "test_title", price: "0.234ETH", amount: 14 },
-    { img: "12", id: 12, title: "test_title", price: "0.234ETH", amount: 33 },
-    { img: "13", id: 13, title: "test_title", price: "0.234ETH", amount: 6 },
-  ];
   const [datas, setDatas] = useState([]);
   const [limit, setLimit] = useState(8);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
+  const tokenData = ajyContract();
+  const { account } = useWeb3React();
+
   const router = useRouter();
  
   useEffect(() => {
-    setDatas(Items);
-  }, []);
+    if(tokenData != null){
+      viewAll();
+      console.log("나찾아봐랑");
+    }
+  }, [tokenData]);
+
+  const viewAll = async() => {
+    const funddingCount = await tokenData.Dtoken.idsView();
+    console.log(funddingCount.length);
+    const arr = [];
+    for(let i = 1; i <= funddingCount.length; i++){
+      const metaData = await tokenData.Dtoken.tokenURI(i);
+      const data = await tokenData.Dtoken.tbalanceOf(i);
+      const fuddingData = await tokenData.Dtoken.getTokenOwnerData(i);
+      if(parseInt(data) != 0){
+        fetch(metaData)
+        .then(response => {
+          return response.json();
+        })
+        .then(jsondata => {
+          const funddingData = { 
+            tokenId : i,
+            img : jsondata.properties.image.description,
+            title : jsondata.title,
+            category : jsondata.properties.category.description,
+            balance : parseInt(data),
+            going : fuddingData.isSuccess,
+          }
+          arr.push(funddingData);
+          if(funddingCount.length == i){
+            setDatas(arr);
+            console.log(arr);
+            console.log("asdasd");
+          }
+        });
+      }
+    }
+  }
+
+
   return (
     <div>
       <MainItems>
@@ -53,19 +79,21 @@ const MyNft = () => {
                 />
               </div>
               <ItemTitle>{data.title}</ItemTitle>
+              <div>{data.category}</div>
               <OwnedNumber>
                 {"보유량 "}
-                <span>{data.amount}</span>
+                <span>{data.balance}</span>
               </OwnedNumber>
               <BtnBox>
                 <div onClick={() => {router.push({
-                  pathname: `/mypage/${data.id}`,
-                  query:{amount: data.amount}
+                  pathname: `/mypage/${data.tokenId}`,
+                  query:{balance: data.balance,
+                        tokenId : data.tokenId}
                 })}}>
                 {/* <div onClick={() => {router.push(`/mypage/${data.id}`);}}> */}
                   판매하기
                 </div>
-                <div onClick={() => {router.push(`/marketplace/${data.id}`);}}>
+                <div onClick={() => {router.push(`/marketplace/${data.tokenId}`);}}>
                   상세보기
                 </div>
               </BtnBox>

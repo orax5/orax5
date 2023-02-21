@@ -32,6 +32,8 @@ const join = () => {
   });
   const { active, account } = useWeb3React();
 
+  // console.log(accountMessage)
+
   // radio 눌렀을때 User 가입폼 보여주기
   const viewUserHandler = (e) => {
     const value = parseInt(e.target.value);
@@ -46,10 +48,14 @@ const join = () => {
   };
 
   useEffect(() => {
-    let pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    let patternEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    let patternPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/; // 최소 8 자, 하나 이상의 문자와 하나의 숫자, 특수문자 포함 정규식
 
     if (inputs.password !== inputs.rePassword) {
       setPwdMessage("비밀번호가 일치하지 않습니다");
+      setCheckedPwd(false);
+    } else if (patternPw.test(inputs.password) == false) {
+      setPwdMessage("최소 8 자, 하나 이상의 문자와 하나의 숫자, 특수문자가 필요합니다.");
       setCheckedPwd(false);
     } else if (inputs.password == "") {
       setPwdMessage("비밀번호를 입력하세요");
@@ -76,7 +82,7 @@ const join = () => {
     if (inputs.email == "") {
       setEmailMessage("이메일을 입력해주세요");
       setCheckedMail(false);
-    } else if (pattern.test(inputs.email) == false) {
+    } else if (patternEmail.test(inputs.email) == false) {
       setEmailMessage("이메일형식이 올바르지 않습니다");
       setCheckedMail(false);
     } else {
@@ -94,7 +100,9 @@ const join = () => {
       setAccountMessage("사용가능한 지갑주소");
       setCheckedAddress(true);
     }
-  }, [inputs]);
+
+    // inputs값이 바뀌거나 account 중간에 바꾸면 상태메세지 안바뀌는거에 대한 useEffect
+  }, [inputs, account]);
 
   const SignUp = (event) => {
     event.preventDefault();
@@ -110,8 +118,19 @@ const join = () => {
         active == true
       ) {
         dispatch(signUpUser(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser, router));
+      } else if (checkedMail == "" || checkedMail == false) {
+        alert("올바른 이메일 값을 입력해주세요");
       } else if (active == false) {
         alert("지갑을 연결해주세요");
+      } else if (
+        accountMessage == "지갑주소를 입력해주세요" ||
+        accountMessage == "연결된 지갑주소와 일치하지 않습니다"
+      ) {
+        alert("지갑주소를 입력해주세요.");
+      } else if (checkedNick == "") {
+        alert("닉네임을 옳바르게 입력해주세요.");
+      } else if (checkedPwd == false) {
+        alert("비밀번호를 잘못설정했습니다.");
       } else {
         alert("올바른 정보를 입력해주세요");
       }
@@ -125,7 +144,9 @@ const join = () => {
         active == true &&
         isVerifiedEmail == true
       ) {
-        dispatch(signUpCreator(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser))
+        dispatch(
+          signUpCreator(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser, router)
+        )
           .then((res) => {
             // 회원가입 이메일 발송
             dispatch(checkEmail(inputs.email, router))
@@ -141,14 +162,13 @@ const join = () => {
                 }
               })
               .catch((err) => {
-                console.log("에러가 발생했습니다", err);
+                console.log("크리에이터 가입 이메일 발송 실패", err);
               });
           })
           .catch((err) => {
             console.log(err);
-            alert("에러가 발생했습니다");
+            alert("크리에이터 가입 axios요청 실패");
           });
-
         //
       } else if (active == false) {
         alert("지갑을 연결해주세요");

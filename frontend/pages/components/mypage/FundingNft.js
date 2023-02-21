@@ -4,11 +4,14 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import styled from "styled-components";
 import Pagination from "../Pagination";
+import ajyContract from "../../../hooks/ajyContract";
+import { useWallet } from "../../../hooks/useWallet";
 
 const FundingNft = () => {
+  const tokenData = ajyContract();
+  const wallet = useWallet();
   const router = useRouter();
-  const Ftoken = useSelector((state) => state.user.contracts.Ftoken);
-  const account = useSelector((state)=>state.user.users.user_wallet);
+  const [account, setAccount] = useState(null);
 
   // 더미 데이터
   const Items = [
@@ -33,6 +36,7 @@ const FundingNft = () => {
   const offset = (page - 1) * limit;
 
   useEffect(() => {
+    setAccount(wallet.info.account);
     setDatas(Items);
   }, []);
 
@@ -42,8 +46,8 @@ const FundingNft = () => {
 
   // 펀딩 실패시 유저가 환불하는 함수 
   const isRefund = async() => {
-    await Ftoken.isfalsedFundding(account,1);
-    Ftoken.on("isfalsedFunddingEvnet",(account, tokenId, value) => {
+    await tokenData.Ftoken.isfalsedFundding(account,1);
+    tokenData.Ftoken.on("isfalsedFunddingEvnet",(account, tokenId, value) => {
       console.log(account.toString());
       console.log(tokenId.toString());
       console.log(value.toString());

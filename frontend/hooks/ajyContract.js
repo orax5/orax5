@@ -1,24 +1,8 @@
 import { ethers } from "ethers";
 import { React, useState, useEffect } from "react";
-import { useWeb3React} from "@web3-react/core";
-import { injected } from "../lib/connectors";
 import dtsToken from "../contracts/DtsToken.json";
 import saleToken from "../contracts/SaleToken.json";
 import fundingToken from "../contracts/FunddingToken.json";
-
-// export const ajyContract = async() => {
-//     const { activate, deactivate } = useWeb3React();
-//     const provider = new ethers.providers.Web3Provider(window.ethereum);
-//     const { chainId } = provider.getNetwork();
-//     const  [account]  = provider.listAccounts();
-//     console.log(account,chainId + "왜 3번뜨냐?");
-
-//     if(account === undefined){
-//         activate(injected, async (error) => {
-//         });
-//     }
-//     return {chainId, account};
-// }
 
 const ajyContract = () => {
 

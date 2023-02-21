@@ -5,14 +5,11 @@ import Nav from "./components/Nav";
 import PropTypes from "prop-types";
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
-import { store, persistor } from "../redux/store";
-import { createWrapper } from "next-redux-wrapper";
-import { createStore, applyMiddleware } from "redux";
+import { wrapper } from "../redux/store";
+import { createStore } from "redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistedReducer } from "../redux/modules";
-import { Provider } from 'react-redux'
-import ReduxThunk from "redux-thunk";
 
 // 메타마스크 연결하려고 사용함 설치한 @web3-react/core에서 제공하는 Web3ReactProvider를
 // App root의 provider로 제공하고 web3 객체를 인스턴스화 하는 getLibrary 함수를 정의하여 props로 전달
@@ -24,14 +21,14 @@ function getLibrary(provider) {
 // props로 받은 Component는 서버에서 요청한 페이지
 // pageProps는 getInitialProps를 통해 내려받은 props(사전 렌더링)
 const App = ({ Component, pageProps: { session, ...pageProps } }) => {
-  // const store = createStore(persistedReducer, applyMiddleware(ReduxThunk));
-  // const persistor = persistStore(store);
+  const store = createStore(persistedReducer);
+  const persistor = persistStore(store);
   return (
     <>
       <Provider store = {store}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <PersistGate loading={null} persistor={persistor}>
+        <PersistGate persistor={persistor} loading={null}>
           <Web3ReactProvider getLibrary={getLibrary}>
             <Nav />
             <Component {...pageProps} />

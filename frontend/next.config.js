@@ -33,6 +33,31 @@ const nextConfig = {
       ];
     }
   },
+  async redirects() {
+    return [
+      {
+        source: '/creator', // 접근을 막을 페이지
+        destination: '/', // redirect 할 페이지
+        permanent: true, 
+      },
+      // {
+      //   source: '/admin',
+      //   destination: '/',
+      //   permanent: true,
+      // },
+      {
+        source: '/mypage',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/governance',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
+
 };
 
 module.exports = nextConfig;

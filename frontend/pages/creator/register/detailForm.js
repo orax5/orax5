@@ -3,27 +3,36 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { shinFunding } from "../../../redux/modules/funding";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useWallet } from "../../../hooks/useWallet";
+import ajyContract from "../../../hooks/ajyContract";
 
 const detailForm = () => {
+  const token = Cookies.get("jwtToken");
   const router = useRouter();
   const dispatch = useDispatch();
 
   const [shinTitle, setShinTitle] = useState("");
   const [shinCover, setShinCover] = useState("/Img/transparent.png");
-  const [shinCreatorCA, setShinCreatorCA] = useState("0x123456789");
+  const [shinCreatorCA, setShinCreatorCA] = useState("");
   const [shinCategory, setShinCategory] = useState("발라드");
+  const [account, setAccount] = useState();
 
   // 이전 페이지에서 미리 가져올 정보
   // 1. 크리에이터 계정
-  const CA = useSelector((state) => state.user.contracts.account);
-  // 2. 이전 페이지에서 업로드하고 받아온 이미지, 제목
-  const cover = useSelector((state) => state.funding.imgURL);
-
-  // 미리 들어와있어야 하는 데이터, 무한 렌더링 방지
+  const wallet = useWallet();
+  const tokenData = ajyContract();
   useEffect(() => {
-    setShinCreatorCA(CA);
+    setAccount(wallet.info.account);
+    if (tokenData != null) {
+      setShinCreatorCA(wallet.info.account);
+    }
+  }, [tokenData]);
+  // 2. 이전 페이지에서 업로드하고 받아온 이미지
+  const cover = useSelector((state) => state.funding.imgURL);
+  useEffect(() => {
     setShinCover(cover);
-    setShinTitle(cover.substring(shinCover.indexOf(".com/") + 5));
   });
 
   // 카테고리 숫자로 받음
@@ -35,6 +44,7 @@ const detailForm = () => {
   // 펀딩 시작일은 오늘 이후부터 선택 가능하게 설정(삭제)
   // --> 펀딩을 며칠 동안 할지 기간을 입력하는걸로 변경
   const [inputs, setInputs] = useState({
+    shinTitle: "",
     ShinDescription: "",
     composer: "",
     lyricist: "",
@@ -54,42 +64,43 @@ const detailForm = () => {
     const value = parseInt(e.target.value);
     const name = e.target.name;
     setIntInputs({ ...IntInputs, [name]: value });
-    console.log({ ...IntInputs });
   };
 
-  const data = { ...inputs, ...IntInputs, shinTitle, shinCategory, shinCreatorCA, shinCover };
-  // console.log(data);
+  const data = { ...inputs, ...IntInputs, shinCategory, shinCreatorCA, shinCover };
 
-  // // 백에 보내는 곳
-  // const shinFunding = (data) => {
-  //   axios({
-  //     url: "http://localhost:3001/creator/shinchung",
-  //     method: "post",
-  //     data: {
-  //       shin_title: data.shinTitle,
-  //       shin_amount: data.shinAmount,
-  //       shin_nft_totalbalance: data.shinTotalBalance,
-  //       shin_cover: data.shinCover,
-  //       shin_period: data.shinPeriod,
-  //       shin_description: data.ShinDescription,
-  //       shin_category: data.shinCategory,
-  //       shin_creator_address: data.shinCreatorCA,
-  //       shin_ispermit: 1,
-  //       com_name: data.composer,
-  //       lyric_name: data.lyricist,
-  //       sing_name: data.singer,
-  //     },
-  //   })
-  //     .then((res) => {
-  //       console.log(res);
-  //       const imageURL = res.data;
-  //       console.log(imageURL);
-  //       router.push("/creator");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  // 백에 보내는 곳
+  const shinFunding = (data) => {
+    axios({
+      url: "http://localhost:3001/creator/shinchung",
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        shin_title: data.shinTitle,
+        shin_amount: data.shinAmount,
+        shin_nft_totalbalance: data.shinTotalBalance,
+        shin_cover: data.shinCover,
+        shin_period: data.shinPeriod,
+        shin_description: data.ShinDescription,
+        shin_category: data.shinCategory,
+        shin_creator_address: data.shinCreatorCA,
+        shin_ispermit: 1,
+        com_name: data.composer,
+        lyric_name: data.lyricist,
+        sing_name: data.singer,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        const imageURL = res.data;
+        console.log(imageURL);
+        router.push("/creator");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const shinCancel = () => {
     confirm("신청을 취소하시겠습니까?") ? router.push("/creator") : "";
@@ -113,7 +124,7 @@ const detailForm = () => {
           <div>
             <div>
               <DetailContent>제목</DetailContent>
-              <InputBox readOnly name="title" value={shinTitle} />
+              <InputBox onChange={inputsHandler} name="shinTitle" />
             </div>
             <div>
               <DetailContent>카테고리</DetailContent>
@@ -145,22 +156,43 @@ const detailForm = () => {
         <RegistserForm>
           <div>
             <DetailContent>발행량</DetailContent>
-            <InputBox onChange={intInputsHandler} name="shinAmount" />
+            <InputBox
+              onChange={intInputsHandler}
+              name="shinAmount"
+              type="number"
+              min="10"
+              max="200"
+              placeholder="발행할 nft개수를 입력하세요"
+            />
           </div>
 
           <div>
-            <DetailContent>펀딩 시작 날짜</DetailContent>
-            <InputBox onChange={intInputsHandler} name="shinPeriod" />
+            <DetailContent>펀딩 진행 기간</DetailContent>
+            <InputBox
+              onChange={intInputsHandler}
+              name="shinPeriod"
+              type="number"
+              min="1"
+              max="100"
+              placeholder="(ex) 일주일인 경우 -> 숫자'7'만 입력"
+            />
           </div>
           <div>
             <DetailContent>목표 금액</DetailContent>
-            <InputBox onChange={intInputsHandler} name="shinTotalBalance" />
+            <InputBox
+              onChange={intInputsHandler}
+              name="shinTotalBalance"
+              type="number"
+              min="1"
+              max="100"
+              placeholder="목표금액의 단위는 ETH입니다"
+            />
           </div>
           <BtnBox>
             <SubmitBtn onClick={shinCancel}>취소하기</SubmitBtn>
             <SubmitBtn
               onClick={() => {
-                dispatch(shinFunding(data, router));
+                shinFunding(data, router);
               }}
             >
               등록하기

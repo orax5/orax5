@@ -5,46 +5,44 @@ import styled from "styled-components";
 import RegisterVote from "../components/RegisterVote";
 import Pagination from "../components/Pagination";
 import { useSelector } from "react-redux";
+import ajyContract from "../../hooks/ajyContract";
+import { useWallet } from "../../hooks/useWallet";
 
 const index = () => {
+  const tokenData = ajyContract();
+  const wallet = useWallet();
   const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
-
-  const user = useSelector((state) => state.users.contracts);
-  const Dtoken = useSelector((state) => state.users.contracts.Dtoken);
-  // const Ftoken = useSelector((state) => state.users.contracts.Ftoken);
-  // const ftokenCA = useSelector((state)=>state.users.contracts.ftokenCA);
-  const account = useSelector((state)=>state.users.contracts.account);
-
-  const asd = () => {
-    console.log("==============================");
-    console.log(user);
-    console.log(Dtoken);
-    console.log(account);
-  }
+  const [account, setAccount] = useState(null);
 
   const [modalOpen, setModalOpen] = useState(false);
 
   const [votingList, setVotingList] = useState([]);
 
   useEffect(() => {
-    viewVoting();
+    setAccount(wallet.info.account);
+    if(tokenData != null){
+      viewVoting();
+      submit();
+    }
   },[])
   useEffect(() => {
     console.log(user);
   },[user])
 
+
+
   const submit = async(tokenId, date, changeDay) => {
     console.log(tokenId, date, changeDay);
-    await Dtoken.startVoting(tokenId, date, changeDay);
+    await tokenData.Dtoken.startVoting(tokenId, date, changeDay);
     setList(tokenId);
   }
   
   async function setList(tokenId) {
-    const tokenTime = await Dtoken.getVotingDate(tokenId);
+    const tokenTime = await tokenData.Dtoken.getVotingDate(tokenId);
     if(parseInt(tokenTime.time) == 0){
       setTimeout(() => {
         console.log("거버넌스 등록중");
@@ -58,16 +56,16 @@ const index = () => {
   // 거버넌스 리스트 보여주는 함수
   const viewVoting = async() => {
     console.log(account);
-    const listNumber = await Dtoken.idsView();
+    const listNumber = await tokenData.Dtoken.idsView();
     const arr = [];
     let num = 1;
     for(let i = 1; i <= listNumber.length+1; i++){
       // 음원 초기정보 가져와서 펀딩 기간이 남아있는 펀딩만 리스트에 담아서 거버넌스 투표현황을 보여준다.
-      const end = await Dtoken.getTokenOwnerData(i);
+      const end = await tokenData.Dtoken.getTokenOwnerData(i);
       const endTime = parseInt(end.EndTime);
       if((endTime * 1000) > Date.now()){
 
-        const tokenTime = await Dtoken.getVotingDate(i);
+        const tokenTime = await tokenData.Dtoken.getVotingDate(i);
         
         const now = Date.now();
         const tokenJsTime = parseInt(tokenTime.time)*1000;
@@ -103,12 +101,12 @@ const index = () => {
   
   const endVoting = async(tokenId) => {
     // 이미 투표 결과가 실행 됐는지 확인
-    const votingResult = await Dtoken.getVotingDate(parseInt(tokenId));
+    const votingResult = await tokenData.Dtoken.getVotingDate(parseInt(tokenId));
     // 현재까지 투표수 가져오기
-    const votingNum = await Dtoken.getVotingCount(parseInt(tokenId));
+    const votingNum = await tokenData.Dtoken.getVotingCount(parseInt(tokenId));
     const count = parseInt(votingNum);
     // 현재까지 펀딩된 수 가져오기
-    const getBalance = await Dtoken.tbalanceOf(parseInt(tokenId));
+    const getBalance = await tokenData.Dtoken.tbalanceOf(parseInt(tokenId));
     const Balance = parseInt(getBalance);
     if(Balance != 0){
 

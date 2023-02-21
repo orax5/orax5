@@ -3,34 +3,23 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Link from "next/Link";
 import { useRouter } from "next/router";
-import { ethers } from "ethers";
-import { userLogin, creatorLogin, testUserLogin } from "../../redux/modules/users";
-// 지갑연결
+import { userLogin, creatorLogin } from "../../redux/modules/user";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./../../lib/connectors";
-//
-import dtsToken from "../../contracts/DtsToken.json";
-import fToken from "../../contracts/FunddingToken.json";
-import sToken from "../../contracts/SaleToken.json";
-
-// import { useSession, signIn, signOut } from "next-auth/react";
 
 const index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [typeOfUser, setTypeOfUser] = useState(null);
 
+  const [typeOfUser, setTypeOfUser] = useState(null);
   const [inputs, setInputs] = useState({
-    email: "",
     password: "",
   });
 
   const {
-    chainId, // dapp에 연결된 account의 chainId
     account, // dapp에 연결된 account address
     active, // active: dapp 유저가 로그인 된 상태인지 체크
     activate, // activate: dapp 월렛 연결 기능 수행함수
-    deactivate, // deactivate: dapp 월렛 해제 수행함수 help
   } = useWeb3React();
 
   // 지갑 연결
@@ -40,88 +29,23 @@ const index = () => {
     });
   };
 
-  // 연결 해제
-  const onClickDeactivateHandler = () => {
-    deactivate(); // connector._events.Web3ReactDeactivate() 이거랑 같은건데
-  };
-
   const signin = (e) => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-          const tokenData = {
-            Dtoken: new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi, provider.getSigner()),
-            Ftoken: new ethers.Contract(fToken.networks[chainId].address, fToken.abi, provider.getSigner()),
-            Stoken: new ethers.Contract(sToken.networks[chainId].address, sToken.abi, provider.getSigner()),
-            dtokenCA: dtsToken.networks[chainId].address,
-            ftokenCA: fToken.networks[chainId].address,
-            stokenCA: sToken.networks[chainId].address,
-            account: account,
-          };
-          // 로그인 요청 보냄, 잘들어옴
-          // console.log(inputs.email);
-          // console.log(account);
-          // console.log(inputs.password);
-          // console.log(router);
-
-          //dispatch(userLogin(account, inputs.email, inputs.password, tokenData, router));
-          console.log(tokenData);
-          console.log("로그인 실행 버튼");
-          dispatch(testUserLogin(account, inputs.email, inputs.password, tokenData, router));
-    // e.preventDefault();
-    // if (typeOfUser == null) {
-    //   alert("회원 유형을 선택하세요");
-    // } else if (typeOfUser == 1) {
-    //   // 1) 일반유저 로그인
-    //   if (active == true) {
-    //     // 공백 제외
-    //     if ((inputs.email == "" && inputs.password == "") || inputs.password == "" || inputs.email == "") {
-    //       alert("이메일과 비밀번호는 필수 입력사항입니다");
-    //     } else {
-    //       // 지갑연결 되어있고, 모든 칸이 공백이 아닐 때
-    //       const provider = new ethers.providers.Web3Provider(window.ethereum);
-    //       const tokenData = {
-    //         Dtoken: new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi, provider.getSigner()),
-    //         Ftoken: new ethers.Contract(fToken.networks[chainId].address, fToken.abi, provider.getSigner()),
-    //         Stoken: new ethers.Contract(sToken.networks[chainId].address, sToken.abi, provider.getSigner()),
-    //         dtokenCA: dtsToken.networks[chainId].address,
-    //         ftokenCA: fToken.networks[chainId].address,
-    //         stokenCA: sToken.networks[chainId].address,
-    //         account: account,
-    //       };
-    //       // 로그인 요청 보냄, 잘들어옴
-    //       // console.log(inputs.email);
-    //       // console.log(account);
-    //       // console.log(inputs.password);
-    //       // console.log(router);
-
-    //       //dispatch(userLogin(account, inputs.email, inputs.password, tokenData, router));
-    //       dispatch(testUserLogin(account, inputs.email, inputs.password, tokenData, router));
-    //     }
-    //   } else {
-    //     alert("지갑을 연결해주세요");
-    //   }
-    // } else {
-    //   // 2) 크리에이터 로그인 시
-    //   if (active == true) {
-    //     if ((inputs.email == "" && inputs.password == "") || inputs.password == "" || inputs.email == "") {
-    //       alert("이메일과 비밀번호는 필수 입력사항입니다");
-    //     } else {
-    //       const provider = new ethers.providers.Web3Provider(window.ethereum);
-    //       const tokenData = {
-    //         Dtoken: new ethers.Contract(dtsToken.networks[chainId].address, dtsToken.abi, provider.getSigner()),
-    //         Ftoken: new ethers.Contract(fToken.networks[chainId].address, fToken.abi, provider.getSigner()),
-    //         Stoken: new ethers.Contract(sToken.networks[chainId].address, sToken.abi, provider.getSigner()),
-    //         dtokenCA: dtsToken.networks[chainId].address,
-    //         ftokenCA: fToken.networks[chainId].address,
-    //         stokenCA: sToken.networks[chainId].address,
-    //         account: account,
-    //       };
-    //       // 로그인 요청 보냄
-    //       dispatch(creatorLogin(account, inputs.email, inputs.password, tokenData, router));
-    //     }
-    //   } else {
-    //     alert("지갑을 연결해주세요");
-    //   }
-    // }
+    e.preventDefault();
+    if (active == true) {
+      if (inputs.password !== "") {
+        if (typeOfUser == 1) {
+          dispatch(userLogin(account, inputs.password, router));
+        } else if (typeOfUser == 2) {
+          dispatch(creatorLogin(account, inputs.password, router));
+        } else {
+          alert("회원 유형을 선택하세요");
+        }
+      } else {
+        alert(" 비밀번호는 필수 입력사항입니다");
+      }
+    } else {
+      alert("지갑을 연결해주세요");
+    }
   };
 
   return (
@@ -147,17 +71,6 @@ const index = () => {
               <button onClick={onClickActivateHandler}>지갑 연결</button>
             </AddressBox>
           )}
-
-          <InputBox>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="이메일"
-              onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
-            />
-            <label htmlFor="password">이메일</label>
-          </InputBox>
           <InputBox>
             <input
               id="password"

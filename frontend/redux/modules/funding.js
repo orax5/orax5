@@ -1,12 +1,15 @@
 import axios from "axios";
-const NFT_COVER = "funding/NFT_COVER";
-const SHINCHUNG = "funding/SHINCHUNG";
+import produce from "immer";
+
 const BASE_URL = "http://localhost:3001";
+
+const NFT_COVER = "funding/NFT_COVER";
+const FUND_DATA = "funding/FUND_DATA";
 
 // 이미지 전송해서 S3변환 주소 돌려받기
 export const uploadImage = (formData) => {
   return async (dispatch, getState) => {
-    const imageURL = await axios({
+    await axios({
       url: `${BASE_URL}/uploadS3/image`,
       method: "post",
       data: formData,
@@ -26,65 +29,42 @@ export const uploadImage = (formData) => {
       });
   };
 };
-// 펀딩 신청
-export const shinFunding = (data, router) => {
+// 크리에이터가 펀딩 오픈하기
+export const openFunding = (id) => {
   return async (dispatch, getState) => {
     await axios({
-      url: "http://localhost:3001/creator/shinchung",
+      url: `http://localhost:3001/openfunding/${id}`,
       method: "post",
-      data: {
-        shin_title: data.shinTitle,
-        shin_amount: data.shinAmount,
-        shin_nft_totalbalance: data.shinTotalBalance,
-        shin_cover: data.shinCover,
-        shin_period: data.shinPeriod,
-        shin_description: data.ShinDescription,
-        shin_category: data.shinCategory,
-        shin_creator_address: data.shinCreatorCA,
-        shin_ispermit: 1,
-        com_name: data.composer,
-        lyric_name: data.lyricist,
-        sing_name: data.singer,
-      },
+      data: { shinId: id },
     })
       .then((res) => {
-        if (res.status == 201) {
-          const data = res.data;
-          dispatch({
-            type: SHINCHUNG,
-            payload: { data },
-          });
-          router.push("/creator");
-        }
+        const data = { balance : res.data.balance, tokenId: res.data.tokenId, metaData: res.data.metaData };
+        console.log(res.data);
+        dispatch({
+          type: FUND_DATA,
+          payload: { data },
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
 };
-
-
 const init = {
   imgURL: {},
-  shinchung: {},
+  funding: {},
 };
 
-function funding(state = init, action) {
+export default function funding(state = init, action) {
   const { type, payload } = action;
   switch (type) {
     case NFT_COVER:
       return { ...state, imgURL: payload.data };
-
-    // case SHINCHUNG:
-    //   const shin = { ...payload };
-    //   console.log(shin);
-    //   return { ...state, shinchung: [...state.shinchung, shin] };
-    case SHINCHUNG:
-      // return { ...state, shinchung: [...state.shinchung, shin] };
-      return { ...state, shinchung: payload.data };
+    case FUND_DATA:
+      console.log(payload);
+      return { ...state, funding: payload.data };
 
     default:
-      return { ...state };
+      return state;
   }
 }
-export default funding;
