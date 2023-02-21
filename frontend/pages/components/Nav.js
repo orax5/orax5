@@ -22,6 +22,18 @@ const Nav = () => {
   const admin = useSelector((state) => state.user.users.user_grade);
 
   const [ShowMenu, setShowMenu] = useState(false);
+  const [clipAccount, setClipAccount] = useState(false);
+
+  const copyClipBoardHandler = async (text) => {
+    setClipAccount(true); // 트루 값 먼저주고
+    setTimeout(() => {
+      setClipAccount(false);
+    }, 2000); // 2초뒤에 다시 폴스
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (e) {}
+  };
+
   const showMenuHandler = () => {
     setShowMenu(!ShowMenu);
   };
@@ -44,7 +56,7 @@ const Nav = () => {
       <NavElement></NavElement>
       <NavElement>
         {account != null ? (
-          <AddressBox>{account}</AddressBox>
+          <AddressBox onClick={()=>copyClipBoardHandler(account)}>{account}</AddressBox>
         ) : (
           <AddressBox onClick={onClickActivateHandler}>지갑 연결</AddressBox>
         )}
@@ -102,4 +114,4 @@ const AddressBox = styled.span`
   }
 `;
 export default Nav;
-// modify
+// modify test

@@ -4,12 +4,13 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
 import Pagination from "../Pagination";
+import ajyContract from "../../../hooks/ajyContract";
 
 const MyNft = () => {
-  
+  const tokenData = ajyContract();
+
   const viewAll = async() => {
     const funddingCount = await tokenData.Dtoken.idsView();
-
     const arr = [];
     for(let i = 1; i <= funddingCount.length; i++){
       const metaData = await tokenData.Dtoken.tokenURI(i);
@@ -33,6 +34,7 @@ const MyNft = () => {
           setDatas(arr);
         }
       });
+      console.log("datas",datas)
     }
     console.log(arr);
   }
@@ -61,8 +63,11 @@ const MyNft = () => {
  
   useEffect(() => {
     setDatas(Items);
+    if(tokenData != null){
+      viewAll()
+    }
   }, []);
-  
+
   return (
     <div>
       <MainItems>
