@@ -59,7 +59,7 @@ contract SaleToken{
         // 판매 물량이 0보다 큰 값인지 확인
         require(amount > 0,"Please enter the correct amount.");
         // 판매 권한이 있는지 확인한다.
-        // require(Dtoken.isApprovedForAll(account,address(this)),"be not approved");
+        require(Dtoken.isApprovedForAll(account,address(this)),"be not approved");
         // 펀딩이 성공된 음원인지 확인
         require(Dtoken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
 

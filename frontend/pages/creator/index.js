@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Link from "next/Link";
 // import { FaEthereum } from "react-icons/fa";
+import Cookies from "js-cookie";
 import axios from "axios";
 import ajyContract from "../../hooks/ajyContract";
 import { openFunding } from "../../redux/modules/funding";
@@ -14,6 +15,7 @@ const index = () => {
   const dispatch = useDispatch();
   const wallet = useWallet();
   const tokenData = ajyContract();
+  const token = Cookies.get("jwtToken");
 
   const [listdata, setListData] = useState([]);
   const tokenId = useSelector((state) => state.funding.funding.tokenId);
@@ -27,6 +29,9 @@ const index = () => {
     await axios({
       url: `http://localhost:3001/creator/mypage/${account}`,
       method: "get",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         setListData(res.data);
@@ -117,12 +122,10 @@ const index = () => {
       // 현재 펀딩된 수량 >=목표수량
       const getTokenData = tokenData.Dtoken.getTokenOwnerData(tokenId);
       if (getTokenData.isSuccess == true) {
-        // if (nowAmt >= goalAmount) {
         tokenData.Ftoken.isSuccessFundding(tokenId);
+      } else {
+        alert("펀딩에 실패했습니다");
       }
-      // } else {
-      //   alert("펀딩에 실패했습니다");
-      // }
     });
   };
 

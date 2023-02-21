@@ -1,10 +1,12 @@
 import axios from "axios";
 import produce from "immer";
+import Cookies from "js-cookie";
 
 const BASE_URL = "http://localhost:3001";
 
 const NFT_COVER = "funding/NFT_COVER";
 const FUND_DATA = "funding/FUND_DATA";
+const token = Cookies.get("jwtToken");
 
 // 이미지 전송해서 S3변환 주소 돌려받기
 export const uploadImage = (formData) => {
@@ -35,6 +37,9 @@ export const openFunding = (id) => {
     await axios({
       url: `http://localhost:3001/openfunding/${id}`,
       method: "post",
+      headers: {
+      Authorization: `Bearer ${token}`,
+      },
       data: { shinId: id },
     })
       .then((res) => {
