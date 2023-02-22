@@ -73,27 +73,27 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
 };
 
 // 크리에이터 이메일 인증
-export const checkEmail = (email, router) => {
-  return async (dispatch, getState) => {
-    await axios({
-      url: `${BASE_URL}/creator/email-verify`,
-      method: "post",
-      data: { user_email: email },
-    })
-      .then(function result(res) {
-        const data = res.data;
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-        if ((response.data.statuscode = 500)) {
-          console.log(err);
-        } else {
-          console.log(err);
-        }
-      });
-  };
-};
+// export const checkEmail = (email, router) => {
+//   return async (dispatch, getState) => {
+//     await axios({
+//       url: `${BASE_URL}/creator/email-verify`,
+//       method: "post",
+//       data: { user_email: email },
+//     })
+//       .then(function result(res) {
+//         const data = res.data;
+//         console.log(data);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         if ((response.data.statuscode = 500)) {
+//           console.log(err);
+//         } else {
+//           console.log(err);
+//         }
+//       });
+//   };
+// };
 
 // 유저(+관리자) 로그인
 export const userLogin = (account, password, router) => {
