@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import  ajyContract  from "../../hooks/ajyContract";
 
 
-const Offers3 = ({saleListarray, inputSaleAmount,setNumberList}) => {
+const Offers3 = ({saleListarray, inputSaleAmount,setNumberList, tokenId}) => {
 
     // contract, 지갑 정보 가져오기
     const tokenData = ajyContract();
@@ -13,7 +13,7 @@ const Offers3 = ({saleListarray, inputSaleAmount,setNumberList}) => {
   const buyNft = async (data) => {
     const totalPrice = inputSaleAmount * data.price;
     await tokenData.Stoken.purchaseToken(
-      data.account, 1, parseInt(inputSaleAmount), parseInt(data.listId),
+      data.account, tokenId, parseInt(inputSaleAmount), parseInt(data.listId),
       { value: ethers.utils.parseEther(totalPrice.toString()) }
     );
     setNumberList(data);

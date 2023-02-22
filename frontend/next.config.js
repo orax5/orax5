@@ -2,17 +2,17 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ["team1-divetospace.s3.ap-northeast-1.amazonaws.com"],
-    loader: "default",
+    domains: ['team1-divetospace.s3.ap-northeast-1.amazonaws.com'],
+    loader: 'default',
     // remotePatterns를 구성합니다.
     // '/imgs/**' 경로 아래에 있는 이미지를 로드합니다.
     // 프로토콜은 HTTPS를 사용합니다.
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "team1-divetospace.s3.ap-northeast-1.amazonaws.com",
-        pathname: "/imgs/**",
-        port: "",
+        protocol: 'https',
+        hostname: 'team1-divetospace.s3.ap-northeast-1.amazonaws.com',
+        pathname: '/imgs/**',
+        port: '',
       },
     ],
   },

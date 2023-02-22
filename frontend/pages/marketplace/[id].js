@@ -142,6 +142,7 @@ const deatil = () => {
               saleListarray = {saleListarray}
               inputSaleAmount = {inputSaleAmount}
               setNumberList = {setNumberList}
+              tokenId = {parseInt(params.query.id)}
             />
           </InfoBox>
           <InfoBox>
