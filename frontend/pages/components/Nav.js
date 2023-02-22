@@ -51,6 +51,7 @@ const Nav = () => {
       <NavElement>
         <Link href="/">
           <Image src={logo} alt="로고이미지" width={120} height={65} />
+          <button>배포잘됌?확인</button>
         </Link>
       </NavElement>
       <NavElement></NavElement>
