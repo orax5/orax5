@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Link from "next/Link";
+import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { ticket } from "../../redux/modules/user";
 import Cookies from 'js-cookie';

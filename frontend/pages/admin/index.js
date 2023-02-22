@@ -4,13 +4,13 @@ import { FaEthereum } from "react-icons/fa";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import useContract from "../../hooks/useContract";
+import ajyContract from "../../hooks/ajyContract";
 import { useWallet } from "../../hooks/useWallet";
 import Loading from "../components/Loading";
 const BASE_URL = "http://ec2-3-38-20-36.ap-northeast-2.compute.amazonaws.com:3001";
 
 const index = () => {
-  const tokenData = useContract();
+  const tokenData = ajyContract();
   const info = useWallet();
   const router = useRouter();
 

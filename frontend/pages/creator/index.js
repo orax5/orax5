@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import Link from "next/Link";
+import Link from "next/link";
 // import { FaEthereum } from "react-icons/fa";
 import Cookies from "js-cookie";
 import axios from "axios";
