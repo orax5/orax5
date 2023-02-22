@@ -73,6 +73,7 @@ const index = () => {
     tokenData.Dtoken.mintFundding(account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData)
       .then((res) => {
         alert("펀딩 오픈!");
+        fff();
       })
       .catch((err) => {
         console.log(err);

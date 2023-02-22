@@ -10,7 +10,7 @@ const ajyContract = () => {
   const fCA = "0x6b11cC61CA3fD01D18F61B3945fC6178e4Ad6F9a";
   const sCA = "0x03EFc8cD336BFc5fea70E1de19c22aE001685f9c";
   useEffect(() => {
-    console.log(dtsToken);
+    // console.log(dtsToken);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     (async () => {

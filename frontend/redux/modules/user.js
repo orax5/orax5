@@ -65,7 +65,7 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
           alert("이미 존재하는 정보입니다");
           return err;
         } else {
-          alert("알 수 없는 에러!");
+          console.log(err);
         }
         return err;
       });

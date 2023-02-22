@@ -27,8 +27,8 @@ const index = () => {
 
   const token = Cookies.get("jwtToken");
 
-  useEffect(() => {
-    axios({
+  const fff = async () => {
+    await axios({
       url: `${BASE_URL}/admin/mypage`,
       method: "get",
       headers: {
@@ -36,13 +36,27 @@ const index = () => {
       },
     })
       .then((res) => {
-        const shinList = res.data;
-        setListData(shinList);
+        console.log("res.data : ", res.data);
+        setListData(res.data);
+        return;
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((res) => {
+        if (res.response.data == 500) {
+          setListData([]);
+        } else {
+          console.log(res);
+        }
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    const a = fff();
+    console.log(a);
+  }, [tokenData]);
+
+  useEffect(() => {
+    console.log(listdata);
+  }, [listdata]);
 
   useEffect(() => {
     axios({
@@ -70,7 +84,7 @@ const index = () => {
           setFinish(true);
           setLoading(false);
           alert("승인완료!");
-          router.push("/admin");
+          fff();
         })
         .catch((err) => {
           console.log(err);
