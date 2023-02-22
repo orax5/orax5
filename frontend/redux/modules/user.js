@@ -2,9 +2,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import produce from "immer";
 import { PURGE } from "redux-persist";
-const BASE_URL = "http://localhost:3001";
-
-// const BASE_URL = "http://3.38.20.36";
+const BASE_URL = "http://ec2-3-38-20-36.ap-northeast-2.compute.amazonaws.com:3001";
 const USER_LOGIN = "user/USER_LOGIN";
 const CREATOR_LOGIN = "user/CREATOR_LOGIN";
 const ADMIN_LOGIN = "user/ADMIN_LOGIN";
@@ -56,7 +54,7 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
     })
       .then((res) => {
         if (res.status == 201) {
-          alert("로그인은 이메일 확인 후 가능합니다.")
+          alert("로그인은 이메일 확인 후 가능합니다.");
           console.log("데이터 잘 받음");
           router.push("/login");
         }

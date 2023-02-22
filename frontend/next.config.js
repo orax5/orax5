@@ -24,15 +24,15 @@ const nextConfig = {
     if (process.env.NODE_ENV !== "production") {
       return [
         {
-          source: process.env.SOURCE_PATH,
-          destination: process.env.DESTINATION_URL,
+          source: '/:path*',
+          destination: '/:path*',
         },
       ];
     } else {
       return [
         {
-          source: process.env.SOURCE_PATH,
-          destination: process.env.DESTINATION_URL,
+          source:'/:path*',
+          destination: '/:path*',
         },
       ];
     }
@@ -40,9 +40,9 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/creator', // 접근을 막을 페이지
-        destination: '/', // redirect 할 페이지
-        permanent: true, 
+        source: "/creator", // 접근을 막을 페이지
+        destination: "/", // redirect 할 페이지
+        permanent: true,
       },
       // {
       //   source: '/admin',
@@ -50,18 +50,17 @@ const nextConfig = {
       //   permanent: true,
       // },
       {
-        source: '/mypage',
-        destination: '/',
+        source: "/mypage",
+        destination: "/",
         permanent: true,
       },
       {
-        source: '/governance',
-        destination: '/',
+        source: "/governance",
+        destination: "/",
         permanent: true,
       },
     ];
   },
-
 };
 
 module.exports = nextConfig;

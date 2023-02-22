@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/Link";
+import Link from "next/link";
 import styled from "styled-components";
 import Image from "next/image";
 import { uploadImage } from "../../../redux/modules/funding";

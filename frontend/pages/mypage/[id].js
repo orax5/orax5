@@ -1,12 +1,10 @@
-import Link from "next/Link";
+import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
 import React,{ useState, useEffect } from "react";
 import styled from "styled-components";
 import Offers2 from "../components/Offers2";
 import ajyContract from "../../hooks/ajyContract";
-import axios from "axios";
 import Cookies from 'js-cookie';
 import { useWeb3React } from "@web3-react/core";
 
@@ -14,6 +12,7 @@ const deatil = () => {
   const tokenData = ajyContract();
   const router = useRouter();    
   const amount = router.query.balance; // props로 전달받는 amount
+
   const tokenId = router.query.tokenId; // props로 전달받는 tokenId
   const img = router.query.img; // props로 전달받는 tokenId
   const title = router.query.title; // props로 전달받는 tokenId
@@ -24,10 +23,12 @@ const deatil = () => {
 
 
   // const [tokenData, settokenData]= useState()/
+
   const token = Cookies.get('jwtToken');
 
   // 메타마스크 연결 부분
   const { account } = useWeb3React();
+
 
   const viewAll = async() => {
     const funddingCount = await tokenData.Dtoken.idsView();
@@ -76,6 +77,7 @@ const deatil = () => {
   //     });
   // }, [])
   
+
   const [unsigned, setUnsigned] = useState(false);
   const [inputSaleAmount,  setInputSaleAmount] = useState(null);
   const [price, setPrice] = useState(null);
@@ -193,10 +195,6 @@ const deatil = () => {
       setSaleListArray(arr);
       setUserSaleList(arr2);
   }
-  // useEffect(() => {
-  //   console.log(userSaleList);
-  //   console.log("??#@#@#@");
-  // },[userSaleList]);
 
   return (
     <MainContainer>

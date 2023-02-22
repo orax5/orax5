@@ -2,7 +2,7 @@ import axios from "axios";
 import produce from "immer";
 import Cookies from "js-cookie";
 
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = "http://ec2-3-38-20-36.ap-northeast-2.compute.amazonaws.com:3001";
 
 const NFT_COVER = "funding/NFT_COVER";
 const FUND_DATA = "funding/FUND_DATA";
@@ -35,7 +35,7 @@ export const uploadImage = (formData) => {
 export const openFunding = (id) => {
   return async (dispatch, getState) => {
     await axios({
-      url: `http://localhost:3001/openfunding/${id}`,
+      url: `${BASE_URL}/openfunding/${id}`,
       method: "post",
       headers: {
       Authorization: `Bearer ${token}`,
@@ -68,7 +68,6 @@ export default function funding(state = init, action) {
     case FUND_DATA:
       console.log(payload);
       return { ...state, funding: payload.data };
-
     default:
       return state;
   }

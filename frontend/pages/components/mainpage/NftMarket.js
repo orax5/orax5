@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Slider from "./slider";
-import Link from "next/Link";
+import Link from "next/link";
 
 const NftMarket = () => {
 

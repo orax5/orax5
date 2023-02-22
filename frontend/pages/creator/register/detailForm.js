@@ -7,6 +7,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useWallet } from "../../../hooks/useWallet";
 import ajyContract from "../../../hooks/ajyContract";
+const BASE_URL = "http://ec2-3-38-20-36.ap-northeast-2.compute.amazonaws.com:3001";
 
 const detailForm = () => {
   const token = Cookies.get("jwtToken");
@@ -71,7 +72,7 @@ const detailForm = () => {
   // 백에 보내는 곳
   const shinFunding = (data) => {
     axios({
-      url: "http://localhost:3001/creator/shinchung",
+      url: `${BASE_URL}/creator/shinchung`,
       method: "post",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -1,9 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 .env
-/contracts
-DtsToken.json
-FunddingToken.json
-SaleToken.json
+
 # dependencies
 /node_modules
 /.pnp

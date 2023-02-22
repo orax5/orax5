@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import dtsToken from "../contracts/DtsToken.json";
+// import dtsToken from "../contracts/DtsToken.json";
+import dtsToken from "../contracts/DTSToken.json"
 import saleToken from "../contracts/SaleToken.json";
 import fundingToken from "../contracts/FunddingToken.json";
 import { ethers } from "ethers";

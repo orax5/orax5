@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
-import Link from "next/Link";
 import  ajyContract  from "../../hooks/ajyContract";
 
 
