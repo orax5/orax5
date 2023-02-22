@@ -22,7 +22,6 @@ const MyNft = () => {
   useEffect(() => {
     if(tokenData != null){
       viewAll();
-      console.log("나찾아봐랑");
     }
   }, [tokenData]);
 
@@ -40,6 +39,7 @@ const MyNft = () => {
           return response.json();
         })
         .then(jsondata => {
+          console.log(jsondata)
           const funddingData = { 
             tokenId : i,
             img : jsondata.properties.image.description,
@@ -47,12 +47,13 @@ const MyNft = () => {
             category : jsondata.properties.category.description,
             balance : parseInt(data),
             going : fuddingData.isSuccess,
+            composer : jsondata.properties.composer.description,
+            lyricist : jsondata.properties.lyricist.description,
+            singer : jsondata.properties.singer.description
           }
           arr.push(funddingData);
           if(funddingCount.length == i){
             setDatas(arr);
-            console.log(arr);
-            console.log("asdasd");
           }
         });
       }
@@ -68,7 +69,7 @@ const MyNft = () => {
             <ItemCard key={idx}>
               <div>
                 <Image
-                  src="/Img/sample.jpg"
+                  src={data.img}
                   alt="nft_list_image"
                   width={250}
                   height={250}
@@ -79,7 +80,7 @@ const MyNft = () => {
                 />
               </div>
               <ItemTitle>{data.title}</ItemTitle>
-              <div>{data.category}</div>
+              <ItemGenre>{data.category}</ItemGenre>
               <OwnedNumber>
                 {"보유량 "}
                 <span>{data.balance}</span>
@@ -87,8 +88,16 @@ const MyNft = () => {
               <BtnBox>
                 <div onClick={() => {router.push({
                   pathname: `/mypage/${data.tokenId}`,
-                  query:{balance: data.balance,
-                        tokenId : data.tokenId}
+                  query:{
+                    balance: data.balance,
+                    tokenId : data.tokenId,
+                    img : data.img,
+                    title : data.title,
+                    category : data.category,
+                    composer : data.composer,
+                    lyricist : data.lyricist,
+                    singer : data.singer
+                  }
                 })}}>
                 {/* <div onClick={() => {router.push(`/mypage/${data.id}`);}}> */}
                   판매하기
@@ -160,6 +169,11 @@ const ItemCard = styled.div`
 const ItemTitle = styled.div`
   font-size: 2.5rem;
   font-weight: 800;
+  margin-left: 1rem;
+`;
+const ItemGenre = styled.div`
+  font-size: 1.3rem;
+  font-weight: 600;
   margin-left: 1rem;
 `;
 const OwnedNumber = styled.div`
