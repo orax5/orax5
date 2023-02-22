@@ -12,11 +12,71 @@ const deatil = () => {
   const tokenData = ajyContract();
   const router = useRouter();    
   const amount = router.query.balance; // props로 전달받는 amount
-  const tokenId = router.query.tokenId; // props로 전달받는 amount
+
+  const tokenId = router.query.tokenId; // props로 전달받는 tokenId
+  const img = router.query.img; // props로 전달받는 tokenId
+  const title = router.query.title; // props로 전달받는 tokenId
+  const category = router.query.category; // props로 전달받는 tokenId
+  const composer = router.query.composer; // props로 전달받는 tokenId
+  const lyricist = router.query.lyricist; // props로 전달받는 tokenId
+  const singer = router.query.singer; // props로 전달받는 tokenId
+
+
+  // const [tokenData, settokenData]= useState()/
+
   const token = Cookies.get('jwtToken');
 
   // 메타마스크 연결 부분
   const { account } = useWeb3React();
+
+
+  const viewAll = async() => {
+    const funddingCount = await tokenData.Dtoken.idsView();
+
+    const arr = [];
+    for(let i = 1; i <= funddingCount.length; i++){
+      const metaData = await tokenData.Dtoken.tokenURI(i);
+      const data = await tokenData.Dtoken.getTokenOwnerData(i);
+      fetch(metaData)
+      .then(response => {
+        return response.json();
+      })
+      .then(jsondata => {
+        console.log(jsondata.properties.image.description)
+        const funddingData = { 
+          tokenId : i,
+          img : jsondata.properties.image.description,
+          title : jsondata.title,
+          category : jsondata.properties.category.description,
+          unitPrice : (parseInt(data.UnitPrice) / (10 ** 18)),
+          going : data.isSuccess,
+          
+        }
+        arr.push(funddingData);
+        if(arr.length == funddingCount.length){
+          setDatas(arr);
+        }
+      });
+    }
+    console.log(arr);
+  }
+
+  // useEffect(() => {
+  //   axios({
+  //     url: `http://localhost:3001/user/mypage/:id`,
+  //     method: "get",
+  //     headers:{
+  //       Authorization: `Bearer ${token}`,
+  //     }
+  //   })
+  //     .then((res) => {
+        
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, [])
+  
 
   const [unsigned, setUnsigned] = useState(false);
   const [inputSaleAmount,  setInputSaleAmount] = useState(null);
@@ -143,7 +203,7 @@ const deatil = () => {
         <DetailWrap>
           <ImgWrap>
             <Image
-              src="/Img/sample.jpg"
+              src={img}
               alt="detail_page_image"
               width={500}
               height={500}
@@ -152,23 +212,23 @@ const deatil = () => {
           <DetailBox>
             <div>
               카테고리 &gt;&nbsp;
-              <span>가요</span>
+              <span>{category}</span>
             </div>
-            <div>test_title</div>
+            <div>{title}</div>
             <table>
               {/* 제목과 내용을 정렬하기 쉽게하려고 table사용 */}
               <tbody>
                 <tr>
                   <td>작곡가</td>
-                  <td>프로필 확인하기</td>
+                  <td>{composer}</td>
                 </tr>
                 <tr>
                   <td>작사가</td>
-                  <td>프로필 확인하기</td>
+                  <td>{lyricist}</td>
                 </tr>
                 <tr>
                   <td>가수</td>
-                  <td>프로필 확인하기</td>
+                  <td>{singer}</td>
                 </tr> 
                 <tr>
                   <td>수량 (보유:{amount})</td>
