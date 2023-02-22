@@ -24,15 +24,15 @@ const nextConfig = {
     if (process.env.NODE_ENV !== "production") {
       return [
         {
-          source: process.env.SOURCE_PATH,
-          destination: process.env.DESTINATION_URL,
+          source: '/:path*',
+          destination: '/:path*',
         },
       ];
     } else {
       return [
         {
-          source: process.env.SOURCE_PATH,
-          destination: process.env.DESTINATION_URL,
+          source:'/:path*',
+          destination: '/:path*',
         },
       ];
     }
