@@ -8,6 +8,8 @@ import ajyContract from "../../hooks/ajyContract";
 import { openFunding } from "../../redux/modules/funding";
 import { useWallet } from "../../hooks/useWallet";
 import { useWeb3React } from "@web3-react/core";
+const BASE_URL = "http://ec2-3-38-20-36.ap-northeast-2.compute.amazonaws.com:3001";
+
 const index = () => {
   // const router = useRouter();
   const btnRef = useRef();
@@ -25,7 +27,7 @@ const index = () => {
 
   const fff = async () => {
     await axios({
-      url: `http://localhost:3001/creator/mypage/${account}`,
+      url: `${BASE_URL}/creator/mypage/${account}`,
       method: "get",
     })
       .then((res) => {
@@ -103,7 +105,7 @@ const index = () => {
   const checkAmount = async (id, goalAmount) => {
     console.log(goalAmount);
     await axios({
-      url: `http://localhost:3001/openfunding/${id}`,
+      url: `${BASE_URL}/openfunding/${id}`,
       method: "post",
       data: { shinId: id },
     }).then((res) => {

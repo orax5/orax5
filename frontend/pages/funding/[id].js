@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { ethers } from "ethers";
 import  ajyContract  from "../../hooks/ajyContract";
-
 import { useRouter } from "next/router";
 
 const deatil = () => {
