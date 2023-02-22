@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
 import { React, useState, useEffect } from "react";
-import dtsToken from "../contracts/DtsToken.json";
-import saleToken from "../contracts/SaleToken.json";
-import fundingToken from "../contracts/FunddingToken.json";
+import dtsToken from "./DtsToken.json";
+import saleToken from "./SaleToken.json";
+import fundingToken from "./FunddingToken.json";
 
 const ajyContract = () => {
   const [tokenData, setTokenData] = useState(null);
