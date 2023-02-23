@@ -51,7 +51,6 @@ const MainContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 8fr 1fr;
   grid-template-rows: 1fr 8fr;
-  border-bottom: 1px solid white;
 `;
 // 페이지 타이틀
 const PageTitle = styled.div`

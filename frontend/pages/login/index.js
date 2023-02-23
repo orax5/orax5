@@ -55,7 +55,6 @@ const index = () => {
         <div style={{ marginTop: "10rem" }}>
           <header>
             <h1>LOGIN</h1>
-            <h1>업데이트 확인</h1>
           </header>
           <RadioBtnBox>
             <input type="radio" name="type" onClick={() => setTypeOfUser(1)} />

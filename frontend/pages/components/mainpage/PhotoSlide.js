@@ -27,12 +27,7 @@ const PhotoSlide = () => {
       <div></div>
       <div>
         <Firstbox isActivate={ShowImage}>
-          <Image
-            src={MainPhoto1}
-            alt={"first_image"}
-            width={550}
-            height={350}
-          />
+          <Image src={MainPhoto1} alt={"first_image"} width={550} height={350} />
           <div>
             <h1>
               음원 제작 펀딩에 <br />
@@ -48,12 +43,7 @@ const PhotoSlide = () => {
           </div>
         </Firstbox>
         <Secondbox isActivate={ShowImage}>
-          <Image
-            src={MainPhoto2}
-            alt={"second_image"}
-            width={550}
-            height={350}
-          />
+          <Image src={MainPhoto2} alt={"second_image"} width={550} height={350} />
           <div>
             <h1>
               스트리밍으로 <br />
@@ -77,8 +67,6 @@ const PhotoSlide = () => {
 const MainContainer = styled.div`
   width: 100vw;
   height: 100vh;
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
   ${(props) => props.theme.gridLayout.mainGrid};
 `;
 // 첫번재 슬라이드 박스
@@ -90,8 +78,7 @@ const Firstbox = styled.div`
   margin: 5rem 0;
   font-size: 1.5rem;
   transition: all 1s ease-in-out;
-  transform: ${(props) =>
-    props.isActivate ? "translateX(0px)" : "translateX(-2000px)"};
+  transform: ${(props) => (props.isActivate ? "translateX(0px)" : "translateX(-2000px)")};
   // 반응형에서는 세로 정렬함
   @media ${(props) => props.theme.device.pc},
     ${(props) => props.theme.device.tablet},
@@ -119,8 +106,7 @@ const Secondbox = styled.div`
   margin: 5rem 0;
   font-size: 1.5rem;
   transition: all 1s ease-in-out;
-  transform: ${(props) =>
-    props.isActivate ? "translateX(0px)" : "translateX(2000px)"};
+  transform: ${(props) => (props.isActivate ? "translateX(0px)" : "translateX(2000px)")};
 
   @media ${(props) => props.theme.device.pc},
     ${(props) => props.theme.device.tablet},

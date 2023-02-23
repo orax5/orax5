@@ -2,12 +2,11 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { shinFunding } from "../../../redux/modules/funding";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useWallet } from "../../../hooks/useWallet";
 import ajyContract from "../../../hooks/ajyContract";
-const BASE_URL = "http://ec2-3-38-20-36.ap-northeast-2.compute.amazonaws.com:3001";
+const BASE_URL = "http://ec2-3-34-107-237.ap-northeast-2.compute.amazonaws.com:3001";
 
 const detailForm = () => {
   const token = Cookies.get("jwtToken");

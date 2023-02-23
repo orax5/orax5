@@ -2,7 +2,7 @@ import axios from "axios";
 import produce from "immer";
 import Cookies from "js-cookie";
 
-const BASE_URL = "http://ec2-3-38-20-36.ap-northeast-2.compute.amazonaws.com:3001";
+const BASE_URL = "http://ec2-3-34-107-237.ap-northeast-2.compute.amazonaws.com:3001";
 
 const NFT_COVER = "funding/NFT_COVER";
 const FUND_DATA = "funding/FUND_DATA";
@@ -38,12 +38,12 @@ export const openFunding = (id) => {
       url: `${BASE_URL}/openfunding/${id}`,
       method: "post",
       headers: {
-      Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       data: { shinId: id },
     })
       .then((res) => {
-        const data = { balance : res.data.balance, tokenId: res.data.tokenId, metaData: res.data.metaData };
+        const data = { balance: res.data.balance, tokenId: res.data.tokenId, metaData: res.data.metaData };
         console.log(res.data);
         dispatch({
           type: FUND_DATA,
