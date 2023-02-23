@@ -45,10 +45,6 @@ const index = () => {
     } else {
       const imageName = sendImg.name;
       const singTitle = imageName.substring(0, imageName.length - 4);
-      // 제목 맞는지 한 번 더 확인
-      if (!confirm(`신청하실 곡의 제목은 <${singTitle}> 입니다. 추후 변경이 불가능하니 반드시 확인해주세요.`)) {
-        alert("취소되었습니다");
-      } else {
         const formData = new FormData();
         formData.append("uploadedImg", sendImg);
         /// formData의 value값 찍어봄
@@ -68,7 +64,7 @@ const index = () => {
           .catch((err) => {
             console.log(err);
           });
-      }
+      
       // s3에 dispatch가 성공하면? 보내지도록처리
     }
   };
