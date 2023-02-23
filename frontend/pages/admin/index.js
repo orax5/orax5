@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import ajyContract from "../../hooks/ajyContract";
 import { useWallet } from "../../hooks/useWallet";
 import Loading from "../components/Loading";
-const BASE_URL = "http://ec2-3-38-20-36.ap-northeast-2.compute.amazonaws.com:3001";
+const BASE_URL = "http://ec2-3-34-107-237.ap-northeast-2.compute.amazonaws.com:3001";
 
 const index = () => {
   const tokenData = ajyContract();
