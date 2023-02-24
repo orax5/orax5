@@ -27,16 +27,22 @@ const index = () => {
 
   const viewAll = async() => {
     const funddingCount = await tokenData.Dtoken.idsView();
-
+    console.log(funddingCount.length);
+    console.log("#$#$$#")
     const arr = [];
     for(let i = 1; i <= funddingCount.length; i++){
       const metaData = await tokenData.Dtoken.tokenURI(i);
       const data = await tokenData.Dtoken.getTokenOwnerData(i);
+      console.log(metaData)
+      console.log(data)
+      console.log("#$#$$#")
       fetch(metaData)
       .then(response => {
+        console.log("response@@", response)
         return response.json();
       })
       .then(jsondata => {
+        console.log("jsondata", jsondata)
         console.log(jsondata.properties.image.description)
         const funddingData = { 
           tokenId : i,

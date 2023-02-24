@@ -11,16 +11,9 @@ import { useWeb3React } from "@web3-react/core";
 const deatil = () => {
   const tokenData = ajyContract();
   const router = useRouter();    
-  const amount = router.query.balance; // props로 전달받는 amount
+  const amount1 = router.query.balance; // props로 전달받는 amount
 
   const tokenId = router.query.tokenId; // props로 전달받는 tokenId
-  const img = router.query.img; // props로 전달받는 tokenId
-  const title = router.query.title; // props로 전달받는 tokenId
-  const category = router.query.category; // props로 전달받는 tokenId
-  const composer = router.query.composer; // props로 전달받는 tokenId
-  const lyricist = router.query.lyricist; // props로 전달받는 tokenId
-  const singer = router.query.singer; // props로 전달받는 tokenId
-
 
   // const [tokenData, settokenData]= useState()/
 
@@ -28,38 +21,33 @@ const deatil = () => {
 
   // 메타마스크 연결 부분
   const { account } = useWeb3React();
-
+  const [datas,setDatas] = useState({});
 
   const viewAll = async() => {
-    const funddingCount = await tokenData.Dtoken.idsView();
 
-    const arr = [];
-    for(let i = 1; i <= funddingCount.length; i++){
-      const metaData = await tokenData.Dtoken.tokenURI(i);
-      const data = await tokenData.Dtoken.getTokenOwnerData(i);
+      const metaData = await tokenData.Dtoken.tokenURI(tokenId);
+      const data = await tokenData.Dtoken.getTokenOwnerData(tokenId);
       fetch(metaData)
       .then(response => {
         return response.json();
       })
       .then(jsondata => {
-        console.log(jsondata.properties.image.description)
+        console.log(jsondata.properties)
         const funddingData = { 
-          tokenId : i,
+          tokenId : tokenId,
           img : jsondata.properties.image.description,
           title : jsondata.title,
           category : jsondata.properties.category.description,
+          composer : jsondata.properties.composer.description,
+          lyricist : jsondata.properties.lyricist.description,
+          singer : jsondata.properties.singer.description,
           unitPrice : (parseInt(data.UnitPrice) / (10 ** 18)),
           going : data.isSuccess,
           
         }
-        arr.push(funddingData);
-        if(arr.length == funddingCount.length){
-          setDatas(arr);
-        }
+          setDatas(funddingData);
       });
     }
-    console.log(arr);
-  }
 
   // useEffect(() => {
   //   axios({
@@ -95,6 +83,7 @@ const deatil = () => {
     if(tokenData != null){
       console.log("123123");
       ViewOneHandler();
+      viewAll();
     }
   },[tokenData]);
  
@@ -115,6 +104,9 @@ const deatil = () => {
   const SaleHandler = async() => {
     if(inputSaleAmount == 0 || inputSaleAmount== null){
       alert("0과 공백은 입력 불가능합니다.")
+    }
+    if(datas.going == false){
+      alert("아직 펀딩 진행중입니다.");
     }
     console.log(tokenData.stokenCA);
     await tokenData.Dtoken.isSalesToken(tokenData.stokenCA, tokenId, inputSaleAmount, parseInt(price));
@@ -203,7 +195,7 @@ const deatil = () => {
         <DetailWrap>
           <ImgWrap>
             <Image
-              src={img}
+              src={datas.img}
               alt="detail_page_image"
               width={500}
               height={500}
@@ -212,26 +204,26 @@ const deatil = () => {
           <DetailBox>
             <div>
               카테고리 &gt;&nbsp;
-              <span>{category}</span>
+              <span>{datas.category}</span>
             </div>
-            <div>{title}</div>
+            <div>{datas.title}</div>
             <table>
               {/* 제목과 내용을 정렬하기 쉽게하려고 table사용 */}
               <tbody>
                 <tr>
                   <td>작곡가</td>
-                  <td>{composer}</td>
+                  <td>{datas.composer}</td>
                 </tr>
                 <tr>
                   <td>작사가</td>
-                  <td>{lyricist}</td>
+                  <td>{datas.lyricist}</td>
                 </tr>
                 <tr>
                   <td>가수</td>
-                  <td>{singer}</td>
+                  <td>{datas.singer}</td>
                 </tr> 
                 <tr>
-                  <td>수량 (보유:{amount})</td>
+                  <td>수량 (보유:{amount1})</td>
                   <td>
                     <NumSelector type="number" onChange={getSaleAmountValue}/>
                   </td>

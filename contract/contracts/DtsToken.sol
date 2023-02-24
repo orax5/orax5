@@ -224,9 +224,9 @@ contract DtsToken is ERC1155, Ownable{
     // saleToken 판매등록 함수를 Dtoken에서 사용함.(권한부여를 따로 주면 가스비가 중복으로 들기 때문에)
     // 유저는 판매하기전에 이 함수를 통해서 saleToken에게 판매 권한을 부여한다.
     function isSalesToken(address saleCA, uint256 tokenId, uint256 amount, uint256 price) public{
-        Stoken.salesToken(msg.sender, tokenId, amount, price);
-        // saleCA에게 권한 넘겨주기
         ERC1155.setApprovalForAll(saleCA, true);
+        // saleCA에게 권한 넘겨주기
+        Stoken.salesToken(msg.sender, tokenId, amount, price);
     }
 
     // saleToken에게 판매 권한 취소 함수

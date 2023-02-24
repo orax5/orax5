@@ -6,9 +6,9 @@ import fundingToken from "./FunddingToken.json";
 
 const ajyContract = () => {
   const [tokenData, setTokenData] = useState(null);
-  const dCA = "0xe8417547dae553834046b2f653c888cfb84f6fe0";
-  const fCA = "0x6b11cC61CA3fD01D18F61B3945fC6178e4Ad6F9a";
-  const sCA = "0x03EFc8cD336BFc5fea70E1de19c22aE001685f9c";
+  const dCA = "0x333EFcDE188Cd2Ae82A4DAC4852F6eCbBd16BE87";
+  const fCA = "0xa55076c0cE30079911884C68a4460DC927F58b4B";
+  const sCA = "0xfCbFeb749CA915155a79f56e0bb9aC834cf9C0DC";
   useEffect(() => {
     // console.log(dtsToken);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
