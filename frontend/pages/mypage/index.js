@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { ticket } from "../../redux/modules/user";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import ajyContract from "../../hooks/ajyContract";
 // 마이페이지 컴포넌트
 import MyNft from "../components/mypage/MyNft";
@@ -20,10 +20,10 @@ const index = () => {
   // 구독권 확인
   const [result, setResult] = useState(false);
   const [account, setAccount] = useState(null);
-  // TOTAL ITEMS 칸 number 제공 
+  // TOTAL ITEMS 칸 number 제공
   const [itemTotal, setItemTotal] = useState();
 
-  const checkTicket = async() => {
+  const checkTicket = async () => {
     const result = await tokenData.Ftoken.streamingView(); // console.log("여기결과값", parseInt(result));
     // 남은 스트리밍 시간 // 남은 스트리밍 시간 숫자로 // 밀리초로 나눔
     const today = new Date().getTime() / 1000;
@@ -36,12 +36,12 @@ const index = () => {
       setResult(false);
     }
     dispatch(ticket(result, ttoday));
-  }
+  };
 
   useEffect(() => {
     setAccount(wallet.info.account);
-   
-    if(tokenData != null){
+
+    if (tokenData != null) {
       checkTicket();
       myNftAmount();
     }
@@ -60,7 +60,7 @@ const index = () => {
     } catch (e) {}
   };
 
-  const token = Cookies.get('jwtToken'); // console.log(token); 예를 들어, 토큰 값이 객체의 "jwtToken" 속성에 저장되어 있다면 출력
+  const token = Cookies.get("jwtToken"); // console.log(token); 예를 들어, 토큰 값이 객체의 "jwtToken" 속성에 저장되어 있다면 출력
 
   // nft 갯수 확인 ? 해야함? 크리에이터가? 유저는 확인해서 myPageNFT 현황보여줘야하는데 이거 여기서 쓰는거 아니고 다른데서 하는거라고0208에 집가면서 이야기함 useEffect 안에 들어야가야함
   // const myNftAmount = async () => {
@@ -70,7 +70,7 @@ const index = () => {
   //   setItemTotal(numNftAmount);
   // };
 
-  // 이게 총 몇 종류의 nft를 가지고 있는자 화긴해주는 contract 함수 
+  // 이게 총 몇 종류의 nft를 가지고 있는자 화긴해주는 contract 함수
   const myNftAmount = async () => {
     // const _myNftAmount = await tokenData.Dtoken.idsView()
     // const numNftAmount = _myNftAmount.length
@@ -92,7 +92,6 @@ const index = () => {
       <div></div>
       <div>
         <UserStateArea>
-          <button>test</button>
           {clipAccount == true ? (
             <>
               <StateButton>

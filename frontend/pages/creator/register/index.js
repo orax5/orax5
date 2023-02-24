@@ -45,26 +45,26 @@ const index = () => {
     } else {
       const imageName = sendImg.name;
       const singTitle = imageName.substring(0, imageName.length - 4);
-        const formData = new FormData();
-        formData.append("uploadedImg", sendImg);
-        /// formData의 value값 찍어봄
-        // let keys = formData.values();
-        // for (const pair of keys) {
-        //   console.log(pair);
-        // }
-        let entries = formData.entries();
-        for (const pair of entries) {
-          console.log(pair[0] + ", " + pair[1]);
-        }
+      const formData = new FormData();
+      formData.append("uploadedImg", sendImg);
+      /// formData의 value값 찍어봄
+      // let keys = formData.values();
+      // for (const pair of keys) {
+      //   console.log(pair);
+      // }
+      let entries = formData.entries();
+      for (const pair of entries) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
 
-        dispatch(uploadImage(formData))
-          .then((res) => {
-            router.push("/creator/register/detailForm");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      
+      dispatch(uploadImage(formData))
+        .then((res) => {
+          router.push("/creator/register/detailForm");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       // s3에 dispatch가 성공하면? 보내지도록처리
     }
   };
@@ -109,10 +109,6 @@ const index = () => {
 
         <input type="file" name="image_URL" id="selectImage" accept="image/*" onChange={handleImage} />
         <Warning>
-          <p>
-            ※ 파일명이 제목으로 등록됩니다 반드시 <b>파일명을 제목으로 설정 후</b>
-            업로드 해주세요.
-          </p>
           <p>
             ※ 등록한 이미지는 해당 곡의 앨범 아트와 NFT 이미지로 사용되며,
             <b>추후 수정이 절대 불가합니다</b>.
