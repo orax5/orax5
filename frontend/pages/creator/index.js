@@ -23,6 +23,16 @@ const index = () => {
   const tokenId = useSelector((state) => state.funding.funding.tokenId);
   const metaData = useSelector((state) => state.funding.funding.metaData);
   const balance = useSelector((state) => state.funding.funding.balance);
+  useEffect(() => {
+  if(tokenData != null){
+      fff();
+    }
+  }, [tokenData]);
+
+  useEffect(() => {
+    // console.log(listdata);
+  }, [listdata]);
+
 
   // 들어오자마자 펀딩 신청한 목록 보여주기
   const { account } = useWeb3React();
@@ -48,24 +58,34 @@ const index = () => {
       });
   };
 
-  useEffect(() => {
-    const a = fff();
-  }, [tokenData]);
-
-  useEffect(() => {
-    // console.log(listdata);
-  }, [listdata]);
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
-  const FundingMinting = (id, idxNum) => {
+  const FundingMinting = async(id, idxNum) => {
     const amount = listdata[idxNum].shin_amount;
     const totalPrice = listdata[idxNum].shin_nft_totalbalance;
     const getTime = listdata[idxNum].shin_period;
     const ftokenCA = tokenData.ftokenCA;
-    dispatch(openFunding(id));
-    contractMinting(account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData);
+    await axios({
+      url: `${BASE_URL}/openfunding/${id}`,
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { shinId: id },
+    })
+      .then((res) => {
+        const data = { balance: res.data.balance, tokenId: res.data.tokenId, metaData: res.data.metaData };
+        console.log(res.data.tokenId);
+        console.log("#$#$$$#$#$");
+        contractMinting(account, ftokenCA, data.tokenId, amount, totalPrice, getTime, data.metaData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   // 민팅하는 함수
   const contractMinting = async (account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData) => {
+    console.log(metaData);
+    console.log("!@!@!@!@!@!@");
     const getTokenData = await tokenData.Dtoken.getTokenOwnerData(tokenId);
     if (getTokenData.NftAmount != 0) {
       alert("이미 펀딩 완료");

@@ -32,6 +32,7 @@ const MyNft = () => {
     for (let i = 1; i <= funddingCount.length; i++) {
       const metaData = await tokenData.Dtoken.tokenURI(i);
       const data = await tokenData.Dtoken.tbalanceOf(i);
+      console.log(data);
       const fuddingData = await tokenData.Dtoken.getTokenOwnerData(i);
       if (parseInt(data) != 0) {
         fetch(metaData)
@@ -46,7 +47,7 @@ const MyNft = () => {
               category: jsondata.properties.category.description,
               balance: parseInt(data),
               going: fuddingData.isSuccess,
-              endTime: parseInt(funddingData.EndTime) * 1000,
+              endTime: parseInt(fuddingData.EndTime) * 1000,
             };
             arr.push(funddingData);
             if (funddingCount.length == i) {
@@ -55,6 +56,14 @@ const MyNft = () => {
               console.log("asdasd");
             }
           });
+      } else{
+        if (funddingCount.length == i) {
+          if(data == 0){
+            setDatas(arr);
+            console.log(arr);
+            console.log("asdasd");
+          }
+        }
       }
     }
   };
@@ -85,7 +94,7 @@ const MyNft = () => {
             <ItemCard key={idx}>
               <div>
                 <Image
-                  src="/Img/96.jpg"
+                  src={data.img}
                   alt="nft_list_image"
                   width={250}
                   height={250}
@@ -95,7 +104,7 @@ const MyNft = () => {
                   }}
                 />
               </div>
-              <ItemTitle>{data.title}</ItemTitle>
+              <ItemTitle>{data.title} :#{data.tokenId}</ItemTitle>
               <div>{data.category}</div>
               <OwnedNumber>
                 {"보유량 "}

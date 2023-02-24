@@ -72,10 +72,10 @@ const index = () => {
 
   // 이게 총 몇 종류의 nft를 가지고 있는자 화긴해주는 contract 함수
   const myNftAmount = async () => {
-    const _myNftAmount = await tokenData.Dtoken.idsView();
-    const numNftAmount = _myNftAmount.length;
-    console.log(numNftAmount);
-    setItemTotal(numNftAmount);
+    // const _myNftAmount = await tokenData.Dtoken.idsView()
+    // const numNftAmount = _myNftAmount.length
+    // console.log(numNftAmount)
+    // setItemTotal(numNftAmount);
   };
 
   const menuArr = ["내 NFT", "펀딩한 NFT"];

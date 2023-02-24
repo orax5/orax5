@@ -88,9 +88,11 @@ const index = () => {
         })
         .catch((err) => {
           console.log(err);
+          console.log("#$#$");
         });
-    } catch (error) {
-      console.log(error);
+      } catch (error) {
+        console.log(error);
+        console.log("#$#$");
     }
   };
 
