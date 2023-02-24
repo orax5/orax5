@@ -1,8 +1,12 @@
 import React from "react";
-import Image from "next/image";
+import styled from "styled-components";
 
 const Loading = () => {
-  return <Image src="/loading.gif" alt="로고이미지" width={320} height={240} />;
+  return (
+    <div>
+      <h1>로딩중...</h1>
+    </div>
+  );
 };
 
 export default Loading;

@@ -4,13 +4,13 @@ import { FaEthereum } from "react-icons/fa";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import useContract from "../../hooks/useContract";
+import ajyContract from "../../hooks/ajyContract";
 import { useWallet } from "../../hooks/useWallet";
 import Loading from "../components/Loading";
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = "http://ec2-3-34-107-237.ap-northeast-2.compute.amazonaws.com:3001";
 
 const index = () => {
-  const tokenData = useContract();
+  const tokenData = ajyContract();
   const info = useWallet();
   const router = useRouter();
 
@@ -27,22 +27,36 @@ const index = () => {
 
   const token = Cookies.get("jwtToken");
 
-  useEffect(() => {
-    axios({
-      url: `http://localhost:3001/admin/mypage`,
+  const fff = async () => {
+    await axios({
+      url: `${BASE_URL}/admin/mypage`,
       method: "get",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
-        const shinList = res.data;
-        setListData(shinList);
+        console.log("res.data : ", res.data);
+        setListData(res.data);
+        return;
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((res) => {
+        if (res.response.data == 500) {
+          setListData([]);
+        } else {
+          console.log(res);
+        }
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    const a = fff();
+    console.log(a);
+  }, [tokenData]);
+
+  useEffect(() => {
+    console.log(listdata);
+  }, [listdata]);
 
   useEffect(() => {
     axios({
@@ -70,13 +84,15 @@ const index = () => {
           setFinish(true);
           setLoading(false);
           alert("승인완료!");
-          router.push("/admin");
+          fff();
         })
         .catch((err) => {
           console.log(err);
+          console.log("#$#$");
         });
-    } catch (error) {
-      console.log(error);
+      } catch (error) {
+        console.log(error);
+        console.log("#$#$");
     }
   };
 

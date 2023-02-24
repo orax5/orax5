@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Image from "next/image";
-import Link from "next/Link";
+import Link from "next/link";
 import logo from "../../public/Img/logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
 

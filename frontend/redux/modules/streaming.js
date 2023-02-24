@@ -1,6 +1,8 @@
+import axios from "axios";
+
 // 액션 타입
 const ADD_LIST = "streaming/ADD_LIST";
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = "http://ec2-3-34-107-237.ap-northeast-2.compute.amazonaws.com:3001";
 
 // 액션 함수
 export const addList = ({ id, artists, cover, title }) => {

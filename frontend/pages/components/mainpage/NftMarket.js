@@ -1,14 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import Slider from "./slider";
-import Link from "next/Link";
+import Link from "next/link";
 
 const NftMarket = () => {
-
   return (
     <MainContainer>
-      <TitleContainer>DTS <strong style={{color:"plum"}}>NFT</strong></TitleContainer>
-      <Slider/>
+      <TitleContainer>
+        DTS <strong style={{ color: "plum" }}>NFT</strong>
+      </TitleContainer>
+      <Slider />
       <div>
         <div>
           <TitleContainer2>
@@ -16,8 +17,12 @@ const NftMarket = () => {
           </TitleContainer2>
         </div>
         <BtnContainer>
-          <StartBtn><Link href= "/marketplace">Go Market</Link></StartBtn>
-          <StartBtn><Link href= "/login">Connect Wallet</Link></StartBtn>
+          <StartBtn>
+            <Link href="/marketplace">Go Market</Link>
+          </StartBtn>
+          <StartBtn>
+            <Link href="/login">Connect Wallet</Link>
+          </StartBtn>
         </BtnContainer>
       </div>
     </MainContainer>
@@ -27,7 +32,6 @@ const NftMarket = () => {
 const MainContainer = styled.div`
   width: 100vw;
   height: 100vh;
-  border-bottom: 1px solid white;
 `;
 const TitleContainer = styled.h1`
   text-align: center;
@@ -46,15 +50,21 @@ const TitleContainer2 = styled.h2`
 const BtnContainer = styled.div`
   margin-top: 2rem;
   text-align: center;
+  @media ${(props) => props.theme.device.mobile} {
+    ${(props) => props.theme.align.flexCenterColumn};
+  }
 `;
 const StartBtn = styled.button`
-  width: 20%;
+  width: 20rem;
   height: 5rem;
   font-size: 1.5rem;
   border-radius: 0.5rem;
   border: 1px solid white;
   padding: 0.7rem;
   margin-right: 1rem;
+  @media ${(props) => props.theme.device.mobile} {
+    width: 15rem;
+  }
   &:hover {
     color: black;
     background-color: plum;
@@ -62,6 +72,4 @@ const StartBtn = styled.button`
   }
 `;
 
-
-
-export default NftMarket
+export default NftMarket;

@@ -1,24 +1,38 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import Link from "next/Link";
+import Link from "next/link";
 // import { FaEthereum } from "react-icons/fa";
+import Cookies from "js-cookie";
 import axios from "axios";
 import ajyContract from "../../hooks/ajyContract";
 import { openFunding } from "../../redux/modules/funding";
 import { useWallet } from "../../hooks/useWallet";
 import { useWeb3React } from "@web3-react/core";
+const BASE_URL = "http://ec2-3-34-107-237.ap-northeast-2.compute.amazonaws.com:3001";
+
 const index = () => {
   // const router = useRouter();
   const btnRef = useRef();
   const dispatch = useDispatch();
   const wallet = useWallet();
   const tokenData = ajyContract();
+  const token = Cookies.get("jwtToken");
 
   const [listdata, setListData] = useState([]);
   const tokenId = useSelector((state) => state.funding.funding.tokenId);
   const metaData = useSelector((state) => state.funding.funding.metaData);
   const balance = useSelector((state) => state.funding.funding.balance);
+  useEffect(() => {
+  if(tokenData != null){
+      fff();
+    }
+  }, [tokenData]);
+
+  useEffect(() => {
+    // console.log(listdata);
+  }, [listdata]);
+
 
   // 들어오자마자 펀딩 신청한 목록 보여주기
   const { account } = useWeb3React();
@@ -50,8 +64,11 @@ const index = () => {
 
   const fff = async () => {
     await axios({
-      url: `http://localhost:3001/creator/mypage/${account}`,
+      url: `${BASE_URL}/creator/mypage/${account}`,
       method: "get",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         setListData(res.data);
@@ -66,24 +83,34 @@ const index = () => {
       });
   };
 
-  useEffect(() => {
-    const a = fff();
-  }, [tokenData]);
-
-  useEffect(() => {
-    // console.log(listdata);
-  }, [listdata]);
   // 펀딩 성공 시 민팅 신청하는 트랜잭션
-  const FundingMinting = (id, idxNum) => {
+  const FundingMinting = async(id, idxNum) => {
     const amount = listdata[idxNum].shin_amount;
     const totalPrice = listdata[idxNum].shin_nft_totalbalance;
     const getTime = listdata[idxNum].shin_period;
     const ftokenCA = tokenData.ftokenCA;
-    dispatch(openFunding(id));
-    contractMinting(account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData);
+    await axios({
+      url: `${BASE_URL}/openfunding/${id}`,
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { shinId: id },
+    })
+      .then((res) => {
+        const data = { balance: res.data.balance, tokenId: res.data.tokenId, metaData: res.data.metaData };
+        console.log(res.data.tokenId);
+        console.log("#$#$$$#$#$");
+        contractMinting(account, ftokenCA, data.tokenId, amount, totalPrice, getTime, data.metaData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   // 민팅하는 함수
   const contractMinting = async (account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData) => {
+    console.log(metaData);
+    console.log("!@!@!@!@!@!@");
     const getTokenData = await tokenData.Dtoken.getTokenOwnerData(tokenId);
     if (getTokenData.NftAmount != 0) {
       alert("이미 펀딩 완료");
@@ -91,6 +118,7 @@ const index = () => {
     tokenData.Dtoken.mintFundding(account, ftokenCA, tokenId, amount, totalPrice, getTime, metaData)
       .then((res) => {
         alert("펀딩 오픈!");
+        fff();
       })
       .catch((err) => {
         console.log(err);
@@ -128,7 +156,7 @@ const index = () => {
   const checkAmount = async (id, goalAmount) => {
     console.log(goalAmount);
     await axios({
-      url: `http://localhost:3001/openfunding/${id}`,
+      url: `${BASE_URL}/openfunding/${id}`,
       method: "post",
       data: { shinId: id },
     }).then((res) => {
@@ -142,12 +170,10 @@ const index = () => {
       // 현재 펀딩된 수량 >=목표수량
       const getTokenData = tokenData.Dtoken.getTokenOwnerData(tokenId);
       if (getTokenData.isSuccess == true) {
-        // if (nowAmt >= goalAmount) {
         tokenData.Ftoken.isSuccessFundding(tokenId);
+      } else {
+        alert("펀딩에 실패했습니다");
       }
-      // } else {
-      //   alert("펀딩에 실패했습니다");
-      // }
     });
   };
 

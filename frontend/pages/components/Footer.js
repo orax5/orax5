@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Link from "next/Link";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -10,7 +10,11 @@ const Footer = () => {
         <div>
           <Link href="/">이용약관</Link>
           <Link href="/">고객센터</Link>
-          <Link href="/">개인정보 처리방침</Link>
+          <Link href="/">
+            개인정보
+            <br />
+            처리방침
+          </Link>
         </div>
         <div>
           <Link href="/">NOTION</Link>

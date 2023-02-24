@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import Link from "next/Link";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { userLogin, creatorLogin } from "../../redux/modules/user";
 import { useWeb3React } from "@web3-react/core";

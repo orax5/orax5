@@ -4,9 +4,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
-import Link from "next/Link";
-import  ajyContract  from "../../hooks/ajyContract";
-
+import ajyContract from "../../hooks/ajyContract";
 
 const index = () => {
   const router = useRouter();
@@ -18,26 +16,32 @@ const index = () => {
 
   // contract, 지갑 정보 가져오기
   const tokenData = ajyContract();
-  
+
   useEffect(() => {
     console.log(tokenData);
-    if(tokenData != null){
+    if (tokenData != null) {
       viewAll();
     }
   }, [tokenData]);
 
-  const viewAll = async() => {
+  const viewAll = async () => {
     const funddingCount = await tokenData.Dtoken.idsView();
-
+    console.log(funddingCount.length);
+    console.log("#$#$$#")
     const arr = [];
-    for(let i = 1; i <= funddingCount.length; i++){
+    for (let i = 1; i <= funddingCount.length; i++) {
       const metaData = await tokenData.Dtoken.tokenURI(i);
       const data = await tokenData.Dtoken.getTokenOwnerData(i);
+      console.log(metaData)
+      console.log(data)
+      console.log("#$#$$#")
       fetch(metaData)
       .then(response => {
+        console.log("response@@", response)
         return response.json();
       })
       .then(jsondata => {
+        console.log("jsondata", jsondata)
         console.log(jsondata.properties.image.description)
         const funddingData = { 
           tokenId : i,
@@ -55,7 +59,7 @@ const index = () => {
       });
     }
     console.log(arr);
-  }
+  };
 
   // const metaData = "asdasd";
 
@@ -92,7 +96,7 @@ const index = () => {
             <ItemCard key={idx}>
               <div>
                 <Image
-                  src= {data.img}
+                  src={data.img}
                   alt="funding_list_image"
                   width={250}
                   height={250}
@@ -107,7 +111,6 @@ const index = () => {
               <ItemPrice>펀딩 가격 : {data.unitPrice} eth</ItemPrice>
 
               <BtnBox>
-                
                 <div
                   onClick={() => {
                     router.push(`/funding/${data.tokenId}`);
@@ -119,12 +122,7 @@ const index = () => {
             </ItemCard>
           ))}
         </ListWrap>
-        <Pagination
-          total={datas.length}
-          limit={limit}
-          page={page}
-          setPage={setPage}
-        />
+        <Pagination total={datas.length} limit={limit} page={page} setPage={setPage} />
       </MainItems>
       <MainItems></MainItems>
     </MainContainer>
@@ -178,8 +176,7 @@ const ItemCard = styled.div`
   height: inherit;
   border-radius: 1rem;
   box-shadow: 0px 0px 5px 2px rgba(148, 148, 148, 0.26);
-  @media ${(props) => props.theme.device.tablet},
-    ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet}, ${(props) => props.theme.device.mobile} {
     width: inherit;
   }
   > div:first-child {

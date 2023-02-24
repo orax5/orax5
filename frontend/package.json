@@ -1,4 +1,5 @@
 {
+  "proxy": "http://ec2-3-34-107-237.ap-northeast-2.compute.amazonaws.com:3001",
   "name": "client",
   "version": "0.1.0",
   "private": true,

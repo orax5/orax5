@@ -147,24 +147,24 @@ const join = () => {
         dispatch(
           signUpCreator(inputs.email, inputs.walletAddress, inputs.nickname, inputs.password, typeOfUser, router)
         )
-          .then((res) => {
-            // 회원가입 이메일 발송
-            dispatch(checkEmail(inputs.email, router))
-              .then((res) => {
-                console.log(res);
-                if (res == true) {
-                  setIsVerifiedEmail(true);
-                  alert("가입되었습니다");
-                  router.push("/login");
-                } else {
-                  alert("이메일 인증에 실패하였습니다");
-                  setIsVerifiedEmail(false);
-                }
-              })
-              .catch((err) => {
-                console.log("크리에이터 가입 이메일 발송 실패", err);
-              });
-          })
+          // .then((res) => {
+          //   // 회원가입 이메일 발송
+          //   dispatch(checkEmail(inputs.email, router))
+          //     .then((res) => {
+          //       console.log(res);
+          //       if (res == true) {
+          //         setIsVerifiedEmail(true);
+          //         alert("가입되었습니다");
+          //         router.push("/login");
+          //       } else {
+          //         alert("이메일 인증에 실패하였습니다");
+          //         setIsVerifiedEmail(false);
+          //       }
+          //     })
+          //     .catch((err) => {
+          //       console.log("크리에이터 가입 이메일 발송 실패", err);
+          //     });
+          // })
           .catch((err) => {
             console.log(err);
             alert("크리에이터 가입 axios요청 실패");

@@ -1,4 +1,4 @@
-import Link from "next/Link";
+import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
@@ -8,16 +8,14 @@ import dynamic from "next/dynamic";
 import Offers from "../components/Offers";
 import Offers3 from "../components/Offers3";
 import { useRouter } from "next/router";
-
 import  ajyContract  from "../../hooks/ajyContract";
 
 const deatil = () => {
-
+  const [datas, setDatas] = useState({});
   const params = useRouter();
-
   // contract, 지갑 정보 가져오기
   const tokenData = ajyContract();
-
+  
   // 판매 내역 리스트 담아줌
   const [ saleListarray, setSaleListArray ] = useState([]);
   // 인풋값들
@@ -33,6 +31,7 @@ const deatil = () => {
     console.log(tokenData);
     if(tokenData != null){
       ViewOneHandler();
+      viewAll()
     }
   }, [tokenData]);
 
@@ -50,10 +49,8 @@ const deatil = () => {
   };
 
   const ViewOneHandler = async() => {
-
     // 거래 등록 내용 보기 (from 주소, 판매수량, 가격)
     const saleListNumber = await tokenData.Stoken.saleNumberList(parseInt(params.query.id));
-
     const arr = [];
     for(let i = 1; i <= saleListNumber; i++){
         const ViewOne = await tokenData.Stoken.getSalesTokenListAll(parseInt(params.query.id),i);
@@ -68,17 +65,39 @@ const deatil = () => {
         }
       }
       setSaleListArray(arr);
+  }
 
+  const viewAll = async() => {
+    const metaData = await tokenData.Dtoken.tokenURI(parseInt(params.query.id));
+      fetch(metaData)
+      .then(response => {
+        return response.json();
+      })
+      .then(jsondata => {
+        console.log(jsondata)
+        const funddingData = { 
+          tokenId : parseInt(params.query.id),
+          img : jsondata.properties.image.description,
+          title : jsondata.title,
+          category : jsondata.properties.category.description,
+          composer : jsondata.properties.composer.description,
+          lyricist : jsondata.properties.lyricist.description,
+          singer : jsondata.properties.singer.description
+        }
+          setDatas(funddingData);
+          console.log(funddingData)
+      });
   }
 
   return (
     <MainContainer>
       <div></div>
       <div>
+
         <DetailWrap>
           <ImgWrap>
             <Image
-              src="/Img/sample.jpg"
+              src={datas.img}
               alt="detail_page_image"
               width={500}
               height={500}
@@ -87,23 +106,23 @@ const deatil = () => {
           <DetailBox>
             <div>
               카테고리 &gt;&nbsp;
-              <span>가요</span>
+              <span>{datas.category}</span>
             </div>
-            <div>test_title</div>
+            <div>{datas.title}</div>
             <table>
               {/* 제목과 내용을 정렬하기 쉽게하려고 table사용 */}
               <tbody>
                 <tr>
                   <td>작곡가</td>
-                  <td>프로필 확인하기</td>
+                  <td>&nbsp;{datas.composer}</td>
                 </tr>
                 <tr>
                   <td>작사가</td>
-                  <td>프로필 확인하기</td>
+                  <td>&nbsp;{datas.lyricist}</td>
                 </tr>
                 <tr>
                   <td>가수</td>
-                  <td>프로필 확인하기</td>
+                  <td>&nbsp;{datas.singer}</td>
                 </tr>
                 {/* 이부분 마켓플레이스에서 판매기간삭제함 */}
                 <tr>
@@ -112,16 +131,9 @@ const deatil = () => {
                     <NumSelector type="number" onChange={getSaleAmountValue}/>
                   </td>
                 </tr>
-                {/* <tr>
-                  <td>구매가격</td>
-                  <td>
-                    <NumSelector type="number" />
-                  </td>
-                </tr> */}
               </tbody>
             </table>
             <div>
-              {/* <PageBtn onClick={buyNft}>구매하기</PageBtn> */}
               <Link href="/streaming">
                 <PageBtn>스트리밍 하러가기</PageBtn>
               </Link>
@@ -130,18 +142,12 @@ const deatil = () => {
         </DetailWrap>
         <InfoWrap>
           <InfoBox>
-            <div>음원 설명</div>
-            <AboutNft>
-              <div>음원 설명</div>
-              <div>음원 설명음원 설명음원 설명</div>
-            </AboutNft>
-          </InfoBox>
-          <InfoBox>
             <div>Offer</div>
             <Offers3
               saleListarray = {saleListarray}
               inputSaleAmount = {inputSaleAmount}
               setNumberList = {setNumberList}
+              tokenId = {parseInt(params.query.id)}
             />
           </InfoBox>
           <InfoBox>

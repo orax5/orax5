@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import Link from "next/Link";
+import Link from "next/link";
 import Player from "../components/player/Player";
 import Slide from "../components/player/Slide";
 const index = () => {
@@ -15,7 +15,6 @@ const index = () => {
   const lockerHandler = () => {
     setSelectContent(false);
   };
-  
   return (
     <MainContainer>
       <div></div>
@@ -129,8 +128,7 @@ const TodayContentBox = styled.div`
 const SelectContent = styled.div`
   width: 100%;
   font-size: 1.5rem;
-  @media ${(props) => props.theme.device.pc},
-    ${(props) => props.theme.device.tablet} {
+  @media ${(props) => props.theme.device.pc}, ${(props) => props.theme.device.tablet} {
     margin-top: 1rem;
     font-size: 1.3rem;
   }
@@ -157,8 +155,7 @@ const ItemBox = styled.div`
   @media ${(props) => props.theme.device.pc} {
     padding-top: 1rem;
   }
-  @media ${(props) => props.theme.device.tablet},
-    ${(props) => props.theme.device.mobile} {
+  @media ${(props) => props.theme.device.tablet}, ${(props) => props.theme.device.mobile} {
     width: 100%;
   }
 `;

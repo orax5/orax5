@@ -2,9 +2,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import produce from "immer";
 import { PURGE } from "redux-persist";
-const BASE_URL = "http://localhost:3001";
-
-// const BASE_URL = "http://3.38.20.36";
+const BASE_URL = "http://ec2-3-34-107-237.ap-northeast-2.compute.amazonaws.com:3001";
 const USER_LOGIN = "user/USER_LOGIN";
 const CREATOR_LOGIN = "user/CREATOR_LOGIN";
 const ADMIN_LOGIN = "user/ADMIN_LOGIN";
@@ -56,7 +54,7 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
     })
       .then((res) => {
         if (res.status == 201) {
-          alert("로그인은 이메일 확인 후 가능합니다.")
+          alert("로그인은 이메일 확인 후 가능합니다.");
           console.log("데이터 잘 받음");
           router.push("/login");
         }
@@ -67,7 +65,7 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
           alert("이미 존재하는 정보입니다");
           return err;
         } else {
-          alert("알 수 없는 에러!");
+          console.log(err);
         }
         return err;
       });
@@ -75,27 +73,27 @@ export const signUpCreator = (email, walletAddress, nickname, password, typeOfUs
 };
 
 // 크리에이터 이메일 인증
-export const checkEmail = (email, router) => {
-  return async (dispatch, getState) => {
-    await axios({
-      url: `${BASE_URL}/creator/email-verify`,
-      method: "post",
-      data: { user_email: email },
-    })
-      .then(function result(res) {
-        const data = res.data;
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-        if ((response.data.statuscode = 500)) {
-          console.log(err);
-        } else {
-          console.log(err);
-        }
-      });
-  };
-};
+// export const checkEmail = (email, router) => {
+//   return async (dispatch, getState) => {
+//     await axios({
+//       url: `${BASE_URL}/creator/email-verify`,
+//       method: "post",
+//       data: { user_email: email },
+//     })
+//       .then(function result(res) {
+//         const data = res.data;
+//         console.log(data);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         if ((response.data.statuscode = 500)) {
+//           console.log(err);
+//         } else {
+//           console.log(err);
+//         }
+//       });
+//   };
+// };
 
 // 유저(+관리자) 로그인
 export const userLogin = (account, password, router) => {

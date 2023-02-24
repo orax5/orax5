@@ -6,14 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import db from "../../../public/db.json";
 import ajyContract from "../../../hooks/ajyContract";
 import { ticket } from "../../../redux/modules/user";
-
-
 const Player = () => {
   const tokenData = ajyContract();
   const dispatch = useDispatch();
 
-  // 로컬스토리지 유저 그레이드 값 구하는거 
-  const myValue = JSON.parse(localStorage.getItem('persist:root'));
+  // 로컬스토리지 유저 그레이드 값 구하는거
+  const myValue = JSON.parse(localStorage.getItem("persist:root"));
   // console.log(myValue)
   // console.log(myValue.user)
   let userGrade;
@@ -22,8 +20,6 @@ const Player = () => {
     userGrade = userObject.users.user_grade;
     console.log(userGrade)
   }
-
-  
 
   const musics = db.musics;
   // 이건 오른쪽 슬라이드에서 선택하면 재생목록에 추가되고 이걸 최종적으로
@@ -48,13 +44,12 @@ const Player = () => {
   // 재생목록 누르면 재생되는 함수
   const playInmusicMusic = async(id) => {
     const result = await tokenData.Ftoken.streamingView();
-    // 남은 스트리밍 시간
     // 남은 스트리밍 시간 숫자로
     // 밀리초로 나눔
     const today = new Date().getTime() / 1000;
     // 소수점 내린 최종 현재시간 초
     const ttoday = Math.floor(today);
-    console.log( parseInt(result));
+    console.log(parseInt(result));
     console.log("가공한후현재시간초:", ttoday);
     // 남은날짜를 수정 하는데 현재시간이 0이면 음수찍혀서 종료
     setResult(Math.floor(((parseInt(result) - ttoday) * 1000) / 86400000));
@@ -65,7 +60,7 @@ const Player = () => {
     }
     dispatch(ticket(result, ttoday));
     // 로그인안하거나 그냥 접근하면 selector가 NaN를 표기하는데 이 값이 나오면~
-    if ( userGrade == 0 || result == false || 0 >= ttoday) {
+    if (userGrade == 0 || result == false || 0 >= ttoday) {
       alert("스트리밍권을 구매해주세요");
       return;
     }
@@ -75,19 +70,13 @@ const Player = () => {
     // console.log(findId[0]);
     const targetId = findId[0].id - 1;
     setTrackIndex(targetId);
-    // audioRef.current?.audio.current.play();
   };
 
-  const playS3Music = (id) => {
-    console.log(id); // 2/12 여기서는 map돌린게 아니라서 id 바로 못찾아옴 다른 방법으로 가져오기
-    //dispatch(playSong(id));
-  };
-
-  useEffect(()=>{
-     if(tokenData != null){
+  useEffect(() => {
+    if (tokenData != null) {
       playInmusicMusic(id);
     }
-  },[])
+  }, []);
 
   return (
     <>
@@ -97,11 +86,11 @@ const Player = () => {
           <AudioPlayer
             header={`${musics[trackIndex].title + " - " + musics[trackIndex].artists}`}
             volume="0.5"
-            src={musics[trackIndex].src} // 여기서 바로 링크 전달안하고 제목.mp3 이런 파일을 플레이버튼 클릭 시에 넘겨준다 그래서 null 일때와 데이터가 들어왔을 때로 구분해서 음악이 플레이되게 하기로 함
+            src={musics[trackIndex].src} 
             showSkipControls
             onClickPrevious={handleClickPrev}
             onClickNext={handleClickNext}
-            // onPlay={() => playS3Music(id)}
+            onPlay={(e) => console.log(e)}
             hidePlayer={false}
             loop={true}
           />

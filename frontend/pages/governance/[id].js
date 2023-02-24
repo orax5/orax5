@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import ajyContract from "../../hooks/ajyContract";
 
 const Detail = () => {
-  
   const params = useRouter();
 
   const tokenData = ajyContract();
@@ -25,31 +24,31 @@ const Detail = () => {
   // 거버넌스 마감 시간
   const [governanceTime, setTime] = useState(0);
   // 현재 투표된 수
-  const [count,setCount] = useState(0);
+  const [count, setCount] = useState(0);
   // 찬성
-  const [agree,setAgree] = useState(0);
+  const [agree, setAgree] = useState(0);
   // 반대
-  const [disagree,setDisagree] = useState(0);
+  const [disagree, setDisagree] = useState(0);
   // 총 발행량
-  const [totalBalance,setTotalBalance] = useState(0);
+  const [totalBalance, setTotalBalance] = useState(0);
   // 현재 발행량
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    if(tokenData != null){
+    if (tokenData != null) {
       setTokenId(params.query.id);
       endTime();
       votingCountView(parseInt(params.query.id));
     }
-  },[tokenData])
+  }, [tokenData]);
 
   // 마감 시간 보여주는 함수
-  async function endTime(){
+  async function endTime() {
     console.log(params.query.id);
     const time = await tokenData.Dtoken.getVotingDate(parseInt(params.query.id));
-    const tokenJsTime = parseInt(time.time)*1000;
+    const tokenJsTime = parseInt(time.time) * 1000;
     setTime(tokenJsTime);
-    if(tokenJsTime > Date.now()){
+    if (tokenJsTime > Date.now()) {
       setTokenTime(tokenJsTime);
       var day = ("0" + new Date(tokenJsTime).getDate()).slice(-2); //일 2자리 (01, 02 ... 31)
       var hour = ("0" + new Date(tokenJsTime).getHours()).slice(-2); //시 2자리 (00, 01 ... 23)
@@ -59,43 +58,43 @@ const Detail = () => {
       sethours(hour);
       setminutes(minute);
       setseconds(second);
-    }else if(tokenJsTime < Date.now()){
+    } else if (tokenJsTime < Date.now()) {
       setIsTimeOver(true);
     }
   }
-  
+
   // 찬성
   const agreement = async () => {
-    if(governanceTime > Date.now()){
+    if (governanceTime > Date.now()) {
       const balance = await tokenData.Dtoken.tbalanceOf(parseInt(tokenId));
-      if(parseInt(balance) == 0){
+      if (parseInt(balance) == 0) {
         alert("토큰 보유자가 아니에요");
-      } else{
+      } else {
         await tokenData.Dtoken.isVoting(parseInt(tokenId), true);
-        votingCountView(tokenId,1);
+        votingCountView(tokenId, 1);
       }
     } else {
       alert(" 기간이 지났어요.");
     }
-  }
+  };
 
   // 반대
   const disagreement = async () => {
-    if(governanceTime > Date.now()){
+    if (governanceTime > Date.now()) {
       const balance = await tokenData.Dtoken.tbalanceOf(parseInt(tokenId));
-      if(parseInt(balance) == 0){
+      if (parseInt(balance) == 0) {
         alert("토큰 보유자가 아니에요");
-      } else{
+      } else {
         await tokenData.Dtoken.isVoting(parseInt(tokenId), false);
-        votingCountView(tokenId,2);
+        votingCountView(tokenId, 2);
       }
     } else {
       alert(" 기간이 지났어요.");
     }
-  }
+  };
 
   // 현재 투표들 전체 보여주는 함수
-  async function votingCountView(tokenId, go){
+  async function votingCountView(tokenId, go) {
     // 현재까지 투표수 가져오기
     const votingNum = await tokenData.Dtoken.getVotingCount(tokenId);
     // 충 발행량 가져오기
@@ -108,27 +107,27 @@ const Detail = () => {
     let agree1 = 0;
     let disagree1 = 0;
 
-    for(let i = 1; i <= parseInt(votingNum); i++){
-      const voting =  await tokenData.Dtoken.getVoting(tokenId,i);
-      if(voting.result == true){
-        agree1 = agree1+ parseInt(voting.Amount);
-      } else if(voting.result == false){
+    for (let i = 1; i <= parseInt(votingNum); i++) {
+      const voting = await tokenData.Dtoken.getVoting(tokenId, i);
+      if (voting.result == true) {
+        agree1 = agree1 + parseInt(voting.Amount);
+      } else if (voting.result == false) {
         disagree1 = disagree1 + parseInt(voting.Amount);
       }
     }
 
-    if(go == 1){
-      if(agree1 == agree){
+    if (go == 1) {
+      if (agree1 == agree) {
         setTimeout(() => {
           console.log("찬성 투표 하는중");
-          votingCountView(tokenId,1);
+          votingCountView(tokenId, 1);
         }, 3000);
       }
     }
-    if(go == 2){
-      if(disagree1 == disagree){
+    if (go == 2) {
+      if (disagree1 == disagree) {
         setTimeout(() => {
-          votingCountView(tokenId,2);
+          votingCountView(tokenId, 2);
           console.log("반대 투표 하는중");
         }, 3000);
       }
@@ -136,7 +135,6 @@ const Detail = () => {
     setAgree(agree1);
     setDisagree(disagree1);
   }
-
 
   return (
     <MainContainer>
@@ -149,7 +147,7 @@ const Detail = () => {
               <h2>투표기간이 종료되었습니다</h2>
             ) : (
               <Timer isTimeOver={isTimeOver}>
-              투표기한 :  {date}일 {hours}시간 {minutes}분 {seconds}초 까지
+                투표기한 : {date}일 {hours}시간 {minutes}분 {seconds}초 까지
               </Timer>
             )}
           </div>
