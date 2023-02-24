@@ -15,13 +15,7 @@ const index = () => {
   const lockerHandler = () => {
     setSelectContent(false);
   };
-
-
   
-  
-  
-
-
   return (
     <MainContainer>
       <div></div>

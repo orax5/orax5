@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/ERC1155.sol";
-import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
+// import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
+// import "../node_modules/openzeppelin-solidity/contracts/token/ERC1155/ERC1155.sol";
+// import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
 
-// import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
-// import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-// import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "./FunddingToken.sol";
 import "./SaleToken.sol";
@@ -19,9 +19,6 @@ contract DtsToken is ERC1155, Ownable{
     constructor() ERC1155(""){
     
     }
-
-    // // json metadata URI;
-    // string public metadataURI;
 
     // 처음 펀딩 정보를 담는 구조체 
     struct tokenOwnerData{
@@ -224,9 +221,10 @@ contract DtsToken is ERC1155, Ownable{
     // saleToken 판매등록 함수를 Dtoken에서 사용함.(권한부여를 따로 주면 가스비가 중복으로 들기 때문에)
     // 유저는 판매하기전에 이 함수를 통해서 saleToken에게 판매 권한을 부여한다.
     function isSalesToken(address saleCA, uint256 tokenId, uint256 amount, uint256 price) public{
-        Stoken.salesToken(msg.sender, tokenId, amount, price);
         // saleCA에게 권한 넘겨주기
         ERC1155.setApprovalForAll(saleCA, true);
+        
+        Stoken.salesToken(msg.sender, tokenId, amount, price);
     }
 
     // saleToken에게 판매 권한 취소 함수
@@ -255,7 +253,7 @@ contract DtsToken is ERC1155, Ownable{
         Stoken = SaleToken(account);
     }
 
-    // 실행시킨 주체가 SaleCA인지 확인하는 함수 제어자
+    // 실행시킨 주체가 _funddingCA인지 확인하는 함수 제어자
     modifier FunddingOwnerOnly() {
         require(msg.sender == _funddingCA);
         _;

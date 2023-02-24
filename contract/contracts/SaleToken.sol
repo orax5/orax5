@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../node_modules/openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
+// import "../node_modules/openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
 
-// import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import "./DtsToken.sol";
 
@@ -18,7 +18,7 @@ contract SaleToken{
         // 생성자에서 배포된 DtsToken CA를 받아서 Dtoken 상태변수에 저장한다.
         Dtoken = DtsToken(DtsTokenCA);
         // 배포할 때 처음 한번 Dtoken에게 FunddingTokenCA를 전달해준다.
-        // DtsToken에서도 SaleToken이랑 상호작용을 하기 위해서
+        // DtsToken에서도 SaleToken이랑 0.. 상호작용을 하기 위해서
         Dtoken.isSaleCA(address(this));
     }
 
@@ -59,7 +59,7 @@ contract SaleToken{
         // 판매 물량이 0보다 큰 값인지 확인
         require(amount > 0,"Please enter the correct amount.");
         // 판매 권한이 있는지 확인한다.
-        // require(Dtoken.isApprovedForAll(account,address(this)),"be not approved");
+        require(Dtoken.isApprovedForAll(account,address(this)),"be not approved");
         // 펀딩이 성공된 음원인지 확인
         require(Dtoken.getTokenOwnerData(tokenId).isSuccess == true,"is Success?");
 

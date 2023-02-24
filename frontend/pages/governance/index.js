@@ -28,12 +28,11 @@ const index = () => {
       viewVoting();
       submit();
     }
-  },[])
-  useEffect(() => {
-    console.log(user);
-  },[user])
-
-
+  },[tokenData]);
+  
+  // useEffect(() => {
+  //   console.log(user);
+  // },[user])
 
   const submit = async(tokenId, date, changeDay) => {
     console.log(tokenId, date, changeDay);

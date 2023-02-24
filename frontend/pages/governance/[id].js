@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CountDown from "../components/CountDown";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import ajyContract from "../../hooks/ajyContract";
 
 const Detail = () => {
   
   const params = useRouter();
 
-  const Dtoken = useSelector((state) => state.users.contracts.Dtoken);
-  const Ftoken = useSelector((state) => state.users.contracts.Ftoken);
-  const account = useSelector((state) => state.users.contracts.account);
-  
+  const tokenData = ajyContract();
+
   // 토큰 ID
   const [tokenId, setTokenId] = useState(0);
   // 거버넌스 투표 기간
@@ -38,15 +36,17 @@ const Detail = () => {
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    setTokenId(params.query.id);
-    endTime();
-    votingCountView(parseInt(params.query.id));
-  },[])
+    if(tokenData != null){
+      setTokenId(params.query.id);
+      endTime();
+      votingCountView(parseInt(params.query.id));
+    }
+  },[tokenData])
 
   // 마감 시간 보여주는 함수
   async function endTime(){
     console.log(params.query.id);
-    const time = await Dtoken.getVotingDate(parseInt(params.query.id));
+    const time = await tokenData.Dtoken.getVotingDate(parseInt(params.query.id));
     const tokenJsTime = parseInt(time.time)*1000;
     setTime(tokenJsTime);
     if(tokenJsTime > Date.now()){
@@ -67,11 +67,11 @@ const Detail = () => {
   // 찬성
   const agreement = async () => {
     if(governanceTime > Date.now()){
-      const balance = await Dtoken.tbalanceOf(parseInt(tokenId));
+      const balance = await tokenData.Dtoken.tbalanceOf(parseInt(tokenId));
       if(parseInt(balance) == 0){
         alert("토큰 보유자가 아니에요");
       } else{
-        await Dtoken.isVoting(parseInt(tokenId), true);
+        await tokenData.Dtoken.isVoting(parseInt(tokenId), true);
         votingCountView(tokenId,1);
       }
     } else {
@@ -82,11 +82,11 @@ const Detail = () => {
   // 반대
   const disagreement = async () => {
     if(governanceTime > Date.now()){
-      const balance = await Dtoken.tbalanceOf(parseInt(tokenId));
+      const balance = await tokenData.Dtoken.tbalanceOf(parseInt(tokenId));
       if(parseInt(balance) == 0){
         alert("토큰 보유자가 아니에요");
       } else{
-        await Dtoken.isVoting(parseInt(tokenId), false);
+        await tokenData.Dtoken.isVoting(parseInt(tokenId), false);
         votingCountView(tokenId,2);
       }
     } else {
@@ -97,20 +97,19 @@ const Detail = () => {
   // 현재 투표들 전체 보여주는 함수
   async function votingCountView(tokenId, go){
     // 현재까지 투표수 가져오기
-    const votingNum = await Dtoken.getVotingCount(tokenId);
-    setCount(parseInt(votingNum));
+    const votingNum = await tokenData.Dtoken.getVotingCount(tokenId);
     // 충 발행량 가져오기
-    const totalBalance = await Dtoken.getTokenOwnerData(tokenId);
+    const totalBalance = await tokenData.Dtoken.getTokenOwnerData(tokenId);
     setTotalBalance(parseInt(totalBalance.NftAmount));
     // 현재까지 펀딩된 수 가져오기
-    const presentBalance = await Ftoken.priceCheck(tokenId);
+    const presentBalance = await tokenData.Ftoken.priceCheck(tokenId);
     setBalance(parseInt(presentBalance));
 
     let agree1 = 0;
     let disagree1 = 0;
 
     for(let i = 1; i <= parseInt(votingNum); i++){
-      const voting =  await Dtoken.getVoting(tokenId,i);
+      const voting =  await tokenData.Dtoken.getVoting(tokenId,i);
       if(voting.result == true){
         agree1 = agree1+ parseInt(voting.Amount);
       } else if(voting.result == false){

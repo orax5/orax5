@@ -47,6 +47,7 @@ const MyNft = () => {
             category : jsondata.properties.category.description,
             balance : parseInt(data),
             going : fuddingData.isSuccess,
+            endTime : parseInt(funddingData.EndTime) * 1000
           }
           arr.push(funddingData);
           if(funddingCount.length == i){
@@ -58,6 +59,25 @@ const MyNft = () => {
       }
     }
   }
+
+  // 펀딩 실패시 유저가 환불하는 함수 
+  const isRefund = async(tokenId,going,endTime) => {
+
+    if(endTime < Date.now()){
+      if(going == false){
+        await tokenData.Ftoken.isfalsedFundding(account,tokenId);
+        tokenData.Ftoken.on("isfalsedFunddingEvnet",(account, tokenId, value) => {
+          console.log(account.toString());
+          console.log(tokenId.toString());
+          console.log(value.toString());
+        })
+      }else{
+        alert("펀딩에 성공한 건 환불이 안됩니다.");
+      }
+    }else if(endTime > Date.now()){
+      alert("아직 펀딩 진행중");
+    }
+  };
 
 
   return (
@@ -95,6 +115,9 @@ const MyNft = () => {
                 </div>
                 <div onClick={() => {router.push(`/marketplace/${data.tokenId}`);}}>
                   상세보기
+                </div>
+                <div onClick={() => {isRefund(data.tokenId, data.going, data.endTime)}}>
+                  환불받기
                 </div>
               </BtnBox>
             </ItemCard>
