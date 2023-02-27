@@ -71,31 +71,64 @@ Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
 
 ## 프로젝트 상세
 
-## 프론트
+### 파일 실행
+- (개발모드에서 실행)
+- Front : 현재 레퍼지토리 다운 후 
+```
+npm run dev
+```
+- Back : 백엔드 레퍼지토리 다운 후 
+```
+npm run start:dev
+```
+### 프론트
 
 1. redux-persist
 - redux store에 저장한 유저 정보(user_grade)가 새로고침 시 초기화 됨
 - redux-presist를 이용하여 로컬 스토리지에 user_grade(회원정보) 저장
 - 로컬스토리지를 비워주도록 하여 로그아웃 구현
-
-2. ethers.js 
+2. ethers.js 라이브러리 사용 <br />
 - Contract, Provider, Signer 인스턴스를 이용해 쉽게 컨트랙트와 상호작용 가능
 - 직관적이고 단순하여 사용 편리
 - 가볍고 빠름(~88kb compressed; 284kb uncompressed)
+<br />
+<br />
 
 ### 컨트랙트
 
-1. 컨트랙트 파일을 기능별로 분리하여 개발 진행
+1. 컨트랙트 파일을 기능별로 분리하여 개발 
 - 메인 컨트랙트/ fundding 컨트랙트 /sale컨트랙트로 분류 
 - 3개의 컨트랙트 파일을 상호작용 시켜 개발
+<br />
  
-2. 사용 체인 : Ethereum
+2. Ethereum 체인 사용
 - 가장 널리알려진 체인이며 익숙하게 사용할 수 있는 라이브러리를 제공하기 때문에 선택
+<br />
+<br />
 
 ### 백엔드
 
 1. 관계형 데이터 베이스 구현
 <img width="730" alt="db" src="https://user-images.githubusercontent.com/107897885/221484266-1b2e9a2a-a945-41a9-a626-33bbf4aa1fc6.png">
+<br />
 
 2. MVC 패턴에 맞추어 개발
 - 가독성과 유지보수를 위해 MVC패턴으로 개발을 진행
+
+## 홈페이지 화면
+#### 메인 화면
+- 캔버스를 활용하여 애니메이션 구현
+- (해당 애니메이션 출처 : https://codepen.io/1mincoding/pen/VwYRMrW?editors=1010)
+<img width="1281" alt="image" src="https://user-images.githubusercontent.com/107897885/221486018-1c64de51-4e7b-4326-a079-f7ae4b4bc2ac.png">
+
+#### 사이드 바 
+- 유저/크리에이터/관리자 유형에 따라 다른 내용의 사이드바 보여줌
+<img width="1281" alt="image" src="https://user-images.githubusercontent.com/107897885/221486113-4bfd5655-8b4c-43dc-a025-8c977641a201.png">
+
+#### 스트리밍
+- 구독권을 구매해야만 스트리밍 가능
+- react-h5-audio-player 라이브러리를 이용하여 구현
+- S3에 업로드 한 음원 파일의 링크를 이용해 재생
+<img width="1281" alt="image" src="https://user-images.githubusercontent.com/107897885/221486453-6e46ac18-0445-4d0e-bd29-880bff6851a7.png">
+
+
