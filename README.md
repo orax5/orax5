@@ -2,7 +2,9 @@
 [1팀] DTS : Dive To Space
 </br>
 </br>
-ERC1155 를 기반으로 음원 NFT를 지분화하여 펀딩을 진행할 수 있는 중개 사이트
+- ERC1155 를 기반으로 음원 NFT를 지분화하여 펀딩을 진행할 수 있는 중개 사이트
+- 발표자료 ▶ [코드베르그1팀_발표자료 (2).pdf](https://github.com/orax5/orax5/files/10836464/1._.2.pdf)
+
 </br>
 </br>
 
@@ -22,7 +24,7 @@ ERC1155 를 기반으로 음원 NFT를 지분화하여 펀딩을 진행할 수 �
  <img width="580" alt="image" src="https://user-images.githubusercontent.com/92054372/221343584-58bda8d1-17ed-4cdf-843e-25c0bd480ed8.png">
 
 ## 📌일정 및 이슈관리 
-### Notion
+### Team Notion
 Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
 
 </br>
@@ -70,25 +72,30 @@ Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
 ## 프로젝트 상세
 
 ## 프론트
-  1. redux-persist  
-    * redux store에 저장한 유저 정보(user_grade)가 새로고침 시 초기화 됨
-    * redux-presist를 이용하여 로컬 스토리지에 user_grade(회원정보) 저장
-    * 로컬스토리지를 비워주도록 하여 로그아웃 구현
 
+1. redux-persist
+- redux store에 저장한 유저 정보(user_grade)가 새로고침 시 초기화 됨
+- redux-presist를 이용하여 로컬 스토리지에 user_grade(회원정보) 저장
+- 로컬스토리지를 비워주도록 하여 로그아웃 구현
 
-  2. ethers.js
-    * Contract, Provider, Signer 인스턴스를 이용해 쉽게 컨트랙트와 상호작용 가능 
-    * 직관적이고 단순하여 사용 편리
-    * 가볍고 빠름(~88kb compressed; 284kb uncompressed)
-    </br>
-     <img alt="image" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fgo.gitcoin.co%2Fblog%2Fgrantees-ethersjs%2F&psig=AOvVaw0PkecTYyuQZN6_mKhng68N&ust=1677560469342000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCMjwhvH1tP0CFQAAAAAdAAAAABAD">
- 
+2. ethers.js 
+- Contract, Provider, Signer 인스턴스를 이용해 쉽게 컨트랙트와 상호작용 가능
+- 직관적이고 단순하여 사용 편리
+- 가볍고 빠름(~88kb compressed; 284kb uncompressed)
+
 ### 컨트랙트
-사용 체인 및 선택이유
-* 사용 체인 :  Ethereum
-* 선택이유 : 가장 널리알려진 체인이며 익숙하게 사용할 수 있는 라이브러리를 제공하기 때문에 선택
 
+1. 컨트랙트 파일을 기능별로 분리하여 개발 진행
+- 메인 컨트랙트/ fundding 컨트랙트 /sale컨트랙트로 분류 
+- 3개의 컨트랙트 파일을 상호작용 시켜 개발
+ 
+2. 사용 체인 : Ethereum
+- 가장 널리알려진 체인이며 익숙하게 사용할 수 있는 라이브러리를 제공하기 때문에 선택
 
 ### 백엔드
 
+1. 관계형 데이터 베이스 구현
+<img width="730" alt="db" src="https://user-images.githubusercontent.com/107897885/221484266-1b2e9a2a-a945-41a9-a626-33bbf4aa1fc6.png">
 
+2. MVC 패턴에 맞추어 개발
+- 가독성과 유지보수를 위해 MVC패턴으로 개발을 진행
