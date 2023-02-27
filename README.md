@@ -12,16 +12,18 @@ ERC1155 를 기반으로 음원 NFT를 지분화하여 펀딩을 진행할 수 �
 </br>
 </br>
 
-## 📌개발일정 
-<h3>벤더 미팅</h3> : 매주 수요일 19시
-<h3>1일 2회 팀 미팅 진행</h3>
-
+## 📌개발일정
+### 벤더 미팅 : 매주 수요일 19시
+### 팀 미팅 : 1일 2회 팀 미팅 진행
   + 오전 : 작업할당 및 보고   
-
   + 오후 : 작업 트레킹 및 이슈 공유   
-  <img width="580" alt="image" src="https://user-images.githubusercontent.com/92054372/221343584-58bda8d1-17ed-4cdf-843e-25c0bd480ed8.png">
-<h3>팀 노션</h3>
-Notion Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
+ </br>
+ <회의록 및 작업관리 내역>
+ <img width="580" alt="image" src="https://user-images.githubusercontent.com/92054372/221343584-58bda8d1-17ed-4cdf-843e-25c0bd480ed8.png">
+
+## 📌일정 및 이슈관리 
+### Notion
+Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
 
 </br>
 </br>
@@ -38,7 +40,6 @@ Notion Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb8
 </br>
 
 ## 📌개발환경
-<img width="659" alt="image" src="https://user-images.githubusercontent.com/92054372/221346453-69429f87-16d3-4966-9785-27c804653807.png">
 | 영역 | 사용한 기술 |
 | --- | --- |
 | 화면구성 | Next.js, Redux, StyledComponents |
@@ -49,6 +50,8 @@ Notion Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb8
 | 컨트랙트 배포 | goerli |
 | 테스트 | remix, ganache, truffle |
 | 프로젝트 관리 | gtihub, notion |  
+</br>
+<img width="659" alt="image" src="https://user-images.githubusercontent.com/92054372/221346453-69429f87-16d3-4966-9785-27c804653807.png">
 
 </br>
 </br>
@@ -64,26 +67,28 @@ Notion Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb8
 </br>
 </br>
 
-## 1. 사용 체인 및 선택이유
-****
+## 프로젝트 상세
 
+## 프론트
+  1. redux-persist  
+    * redux store에 저장한 유저 정보(user_grade)가 새로고침 시 초기화 됨
+    * redux-presist를 이용하여 로컬 스토리지에 user_grade(회원정보) 저장
+    * 로컬스토리지를 비워주도록 하여 로그아웃 구현
+
+
+  2. ethers.js
+    * Contract, Provider, Signer 인스턴스를 이용해 쉽게 컨트랙트와 상호작용 가능 
+    * 직관적이고 단순하여 사용 편리
+    * 가볍고 빠름(~88kb compressed; 284kb uncompressed)
+    </br>
+     <img alt="image" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fgo.gitcoin.co%2Fblog%2Fgrantees-ethersjs%2F&psig=AOvVaw0PkecTYyuQZN6_mKhng68N&ust=1677560469342000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCMjwhvH1tP0CFQAAAAAdAAAAABAD">
+ 
+### 컨트랙트
+사용 체인 및 선택이유
 * 사용 체인 :  Ethereum
 * 선택이유 : 가장 널리알려진 체인이며 익숙하게 사용할 수 있는 라이브러리를 제공하기 때문에 선택
-* 합의 알고리즘 : 
-
-</br>
 
 
+### 백엔드
 
 
-* 프론트
-    
-* 컨트랙트
-
-* 백엔드
-
-
-## 1. 지갑
-web3.js 가 아닌 ether 라이브러리 사용
-
-## 📌 일정관리
