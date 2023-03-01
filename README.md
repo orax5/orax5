@@ -72,15 +72,15 @@ Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
 ## 프로젝트 상세
 
 ### 파일 실행
-- (개발모드에서 실행)
 - Front : 현재 레퍼지토리 다운 후 
 ```
-npm run dev
+npm run start
 ```
 - Back : 백엔드 레퍼지토리 다운 후 
 ```
-npm run start:dev
+npm run start
 ```
+
 ### 프론트
 
 1. redux-persist
@@ -91,6 +91,30 @@ npm run start:dev
 - Contract, Provider, Signer 인스턴스를 이용해 쉽게 컨트랙트와 상호작용 가능
 - 직관적이고 단순하여 사용 편리
 - 가볍고 빠름(~88kb compressed; 284kb uncompressed)
+<br />
+<br />
+
+#### 프론트 이슈
+1. Prop `className` did not match
+-  babel-plugin-styled-components : 식별자 생성 과정을 정규화해준다
+```
+npm i babel-plugin-styled-component
+```
+.babelrc 파일에 
+```
+"plugins": [
+  [
+  "babel-plugin-styled-components",
+    {
+      "ssr": true, // SSR을 위한 설정
+      "displayName": true, // 클래스명에 컴포넌트 이름을 붙임
+      "pure": true // dead code elimination (사용되지 않는 속성 제거)
+    }
+]
+```
+
+2. (콘솔창) Please add the "priority" property if this image is above the fold.
+- 이미지 속성에 priority={true} 추가
 <br />
 <br />
 
@@ -132,3 +156,6 @@ npm run start:dev
 <img width="1281" alt="image" src="https://user-images.githubusercontent.com/107897885/221486453-6e46ac18-0445-4d0e-bd29-880bff6851a7.png">
 
 
+## 기타 
+- 메인 우주 애니메이션 
+출처: https://codepen.io/1mincoding/pen/VwYRMrW?editors=1010
