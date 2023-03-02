@@ -86,7 +86,7 @@ Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
 
 
 
-img width="659" alt="image" src="https://user-images.githubusercontent.com/92054372/221346453-69429f87-16d3-4966-9785-27c804653807.png">
+<img width="659" alt="image" src="https://user-images.githubusercontent.com/92054372/221346453-69429f87-16d3-4966-9785-27c804653807.png">
 
 
 <br />
@@ -95,12 +95,18 @@ img width="659" alt="image" src="https://user-images.githubusercontent.com/92054
 
 
 ## 📌주요 기능
+
+
+
+
 | 항목 | 상세 |
 | --- | --- |
 | 펀딩 | 크리에이터 펀딩 신청 / 유저 펀딩 참여 |
 | 마켓플레이스 | NFT 구매 및 판매 |
 | 거버넌스 | 소유한 NFT에 대한 거버넌스 투표에 참여 |
 | 스트리밍 | 펀딩된 NFT 음원 스트리밍 / 구독권 구매 |
+
+
 
 
 <br />
