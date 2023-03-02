@@ -1,21 +1,24 @@
 # FinalProject(기업협업)
 [1팀] DTS : Dive To Space
-</br>
-</br>
+
+
+<br />
+<br />
+
+
 - ERC1155 를 기반으로 음원 NFT를 지분화하여 펀딩을 진행할 수 있는 중개 사이트
 - 발표자료 ▶ [코드베르그1팀_발표자료 (2).pdf](https://github.com/orax5/orax5/files/10836464/1._.2.pdf)
 
 
-</br>
-</br>
-
+<br />
+<br />
 
 ## 📌개발기간
 2023-01-02~ 2023-02-24(약 7주)
 
 
-</br>
-</br>
+<br />
+<br />
 
 
 ## 📌개발일정
@@ -25,15 +28,16 @@
   + 오후 : 작업 트레킹 및 이슈 공유   
   
   
- </br>
+<br />
+<br />
  
  
  - 회의록 및 작업관리 내역
  <img width="580" alt="image" src="https://user-images.githubusercontent.com/92054372/221343584-58bda8d1-17ed-4cdf-843e-25c0bd480ed8.png">
 
 
-</br>
-</br>
+<br />
+<br />
 
 
 ## 📌일정 및 이슈관리 
@@ -42,8 +46,8 @@ Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
 
 
 
-</br>
-</br>
+<br />
+<br />
 
 
 
@@ -58,8 +62,8 @@ Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
 |최하진| 백엔드 |[![깃](https://user-images.githubusercontent.com/92054372/219853674-c8128e76-92bd-4f83-bb1f-8c0fa4188594.png)](https://github.com/pepperflavor) |
 
 
-</br>
-</br>
+<br />
+<br />
 
 
 ## 📌개발환경
@@ -77,14 +81,17 @@ Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
 | 프로젝트 관리 | gtihub, notion |  
 
 
-</br>
+<br />
+<br />
 
 
-<img width="659" alt="image" src="https://user-images.githubusercontent.com/92054372/221346453-69429f87-16d3-4966-9785-27c804653807.png">
+
+img width="659" alt="image" src="https://user-images.githubusercontent.com/92054372/221346453-69429f87-16d3-4966-9785-27c804653807.png">
 
 
-</br>
-</br>
+<br />
+<br />
+
 
 
 ## 📌주요 기능
@@ -96,8 +103,9 @@ Link ▶ https://good-scabiosa-c2f.notion.site/6a6350c3ed774e63b7edfc5bb89479fe
 | 스트리밍 | 펀딩된 NFT 음원 스트리밍 / 구독권 구매 |
 
 
-</br>
-</br>
+<br />
+<br />
+
 
 
 ## 프로젝트 상세
@@ -127,6 +135,8 @@ npm run start
 
 
 <br />
+<br />
+
 
 
 - Contract, Provider, Signer 인스턴스를 이용해 쉽게 컨트랙트와 상호작용 가능
