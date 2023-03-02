@@ -5,14 +5,18 @@
 - ERC1155 를 기반으로 음원 NFT를 지분화하여 펀딩을 진행할 수 있는 중개 사이트
 - 발표자료 ▶ [코드베르그1팀_발표자료 (2).pdf](https://github.com/orax5/orax5/files/10836464/1._.2.pdf)
 
+
 </br>
 </br>
+
 
 ## 📌개발기간
 2023-01-02~ 2023-02-24(약 7주)
 
+
 </br>
 </br>
+
 
 ## 📌개발일정
 ### 벤더 미팅 : 매주 수요일 19시
@@ -24,12 +28,13 @@
  </br>
  
  
- <회의록 및 작업관리 내역>
- </br>
+ - 회의록 및 작업관리 내역
  <img width="580" alt="image" src="https://user-images.githubusercontent.com/92054372/221343584-58bda8d1-17ed-4cdf-843e-25c0bd480ed8.png">
+
 
 </br>
 </br>
+
 
 ## 📌일정 및 이슈관리 
 ### Team Notion
